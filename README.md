@@ -1,4 +1,5 @@
 # GeMovie
+a React Native movie app
 
 ## How to run
 >**Note**: Make sure you have installed the [`environment`](https://reactnative.dev/docs/set-up-your-environment).
