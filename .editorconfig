@@ -10,3 +10,6 @@ insert_final_newline = true
 
 [*.{jsx,tsx,json}]
 indent_size = 2
+
+[*.bat]
+end_of_line = crlf
