@@ -4,6 +4,7 @@ module.exports = {
     rules: {
         indent: ['error', 4],
         'linebreak-style': ['error', 'unix'],
+        'jsx-quotes': ['error', 'prefer-single'],
         '@typescript-eslint/no-unused-vars': ['warn'],
         curly: 'error',
     },
