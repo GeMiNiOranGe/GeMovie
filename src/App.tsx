@@ -1,25 +1,27 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+
+import HomeStack from '@navigation/HomeStack';
+
+const Tab = createBottomTabNavigator();
 
 class App extends React.Component {
   render(): React.JSX.Element {
     return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>Hello world</Text>
-      </SafeAreaView>
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+          <Tab.Screen
+            name='HomeStack'
+            component={HomeStack}
+            options={{
+              title: 'Home',
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 48,
-  },
-});
 
 export default App;
