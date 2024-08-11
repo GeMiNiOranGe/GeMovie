@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
-import HomeStack from '@navigation/HomeStack';
+import { HomeStack, SearchStack } from '@navigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +16,14 @@ class App extends React.Component {
             component={HomeStack}
             options={{
               title: 'Home',
+            }}
+          />
+
+          <Tab.Screen
+            name='SearchStack'
+            component={SearchStack}
+            options={{
+              title: 'Search',
             }}
           />
         </Tab.Navigator>

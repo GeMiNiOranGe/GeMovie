@@ -1,19 +1,19 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { HomeScreen } from '@screens';
+import { SearchScreen } from '@screens';
 
 const Stack = createNativeStackNavigator();
 
-class HomeStack extends React.Component {
+class SearchStack extends React.Component {
   render(): React.JSX.Element {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          name='HomeScreen'
-          component={HomeScreen}
+          name='SearchScreen'
+          component={SearchScreen}
           options={{
-            title: 'Home',
+            title: 'Search',
           }}
         />
       </Stack.Navigator>
@@ -21,4 +21,4 @@ class HomeStack extends React.Component {
   }
 }
 
-export default HomeStack;
+export default SearchStack;

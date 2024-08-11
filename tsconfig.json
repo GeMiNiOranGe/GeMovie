@@ -3,11 +3,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@navigation/*": [
-        "src/navigation/*",
+      "@navigation": [
+        "src/navigation",
       ],
-      "@screens/*": [
-        "src/screens/*",
+      "@screens": [
+        "src/screens",
       ],
     },
   },
