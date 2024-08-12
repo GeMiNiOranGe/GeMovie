@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { SearchScreen } from '@screens';
+import { SearchScreen, MovieDetailScreen } from '@screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +14,14 @@ class SearchStack extends React.Component {
           component={SearchScreen}
           options={{
             title: 'Search',
+          }}
+        />
+
+        <Stack.Screen
+          name='MovieDetailScreen'
+          component={MovieDetailScreen}
+          options={{
+            title: 'Detail',
           }}
         />
       </Stack.Navigator>

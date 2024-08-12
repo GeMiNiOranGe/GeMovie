@@ -18,6 +18,7 @@ module.exports = {
                 alias: {
                     '@navigation': './src/navigation',
                     '@screens': './src/screens',
+                    '@shared/types': './src/shared/types',
                 },
             },
         ],

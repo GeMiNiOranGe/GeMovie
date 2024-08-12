@@ -10,10 +10,6 @@ const styles = StyleSheet.create({
         fontSize: 32,
         color: 'black',
     },
-    btnText: {
-        fontSize: 16,
-        color: 'black',
-    },
 });
 
 export default styles;

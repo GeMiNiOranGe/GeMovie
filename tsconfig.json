@@ -9,6 +9,9 @@
       "@screens": [
         "src/screens",
       ],
+      "@shared/types": [
+        "src/shared/types",
+      ],
     },
   },
 }
