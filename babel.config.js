@@ -16,6 +16,7 @@ module.exports = {
                 ],
                 root: ['./'],
                 alias: {
+                    '@config': './src/config',
                     '@navigation': './src/navigation',
                     '@screens': './src/screens',
                     '@shared/types': './src/shared/types',

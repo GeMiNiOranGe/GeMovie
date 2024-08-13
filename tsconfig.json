@@ -3,6 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@config": [
+        "src/config",
+      ],
       "@navigation": [
         "src/navigation",
       ],
