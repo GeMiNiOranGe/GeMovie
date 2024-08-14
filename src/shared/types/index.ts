@@ -1,7 +1,4 @@
-import { ParamListBase } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
-export type SearchScreenProps = NativeStackScreenProps<
-    ParamListBase,
-    'SearchScreen'
->;
+export * from './screenProps';
+export * from './screenState';
+export * from './movie';
+export * from './other';

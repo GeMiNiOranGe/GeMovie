@@ -12,6 +12,9 @@
       "@screens": [
         "src/screens",
       ],
+      "@services/*": [
+        "src/services/*",
+      ],
       "@shared/types": [
         "src/shared/types",
       ],
