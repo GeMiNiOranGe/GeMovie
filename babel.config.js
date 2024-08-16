@@ -21,7 +21,7 @@ module.exports = {
                     '@navigation': './src/navigation',
                     '@screens': './src/screens',
                     '@services': './src/services',
-                    '@shared/types': './src/shared/types',
+                    '@shared': './src/shared',
                 },
             },
         ],

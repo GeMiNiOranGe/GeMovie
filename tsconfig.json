@@ -18,8 +18,8 @@
       "@services/*": [
         "src/services/*",
       ],
-      "@shared/types": [
-        "src/shared/types",
+      "@shared/*": [
+        "src/shared/*",
       ],
     },
   },

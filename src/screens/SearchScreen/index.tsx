@@ -22,7 +22,7 @@ class SearchScreen extends React.Component<
   }
 
   componentDidMount(): void {
-    MovieDataFetcher.searchAsync('Home')
+    MovieDataFetcher.searchAsync('Marvel')
       .then((data: SearchPage) => this.setState({ movies: data.results }))
       .catch((err: TypeError) => Alert.alert('No connection', err.message));
   }
