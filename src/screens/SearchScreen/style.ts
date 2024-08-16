@@ -1,11 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+    container: {},
     text: {
         fontSize: 32,
         color: 'black',
@@ -13,6 +9,12 @@ const styles = StyleSheet.create({
     btnText: {
         fontSize: 16,
         color: 'black',
+    },
+    list: {
+        paddingTop: 10,
+    },
+    contentList: {
+        paddingBottom: 10,
     },
 });
 

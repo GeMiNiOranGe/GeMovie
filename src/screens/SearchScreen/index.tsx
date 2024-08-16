@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import { Alert, FlatList, SafeAreaView } from 'react-native';
 
 import type {
   SearchPage,
@@ -13,6 +7,7 @@ import type {
   SearchScreenState,
 } from '@shared/types';
 import MovieDataFetcher from '@services/MovieDataFetcher';
+import { HorizontalImageCard } from '@components';
 import styles from './style';
 
 class SearchScreen extends React.Component<
@@ -27,28 +22,28 @@ class SearchScreen extends React.Component<
   }
 
   componentDidMount(): void {
-    MovieDataFetcher.searchAsync('House').then((data: SearchPage) =>
-      this.setState({ movies: data.results }),
-    );
+    MovieDataFetcher.searchAsync('Home')
+      .then((data: SearchPage) => this.setState({ movies: data.results }))
+      .catch((err: TypeError) => Alert.alert('No connection', err.message));
   }
 
   render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
+          style={styles.list}
+          contentContainerStyle={styles.contentList}
           data={this.state.movies}
-          renderItem={({ item }) => (
-            <TouchableHighlight
-              underlayColor={'pink'}
-              onPress={() =>
-                this.props.navigation.navigate('MovieDetailScreen')
-              }
-            >
-              <View>
-                <Text style={styles.btnText}>Title: {item.title}</Text>
-                <Text style={styles.btnText}>Id: {item.id}</Text>
-              </View>
-            </TouchableHighlight>
+          renderItem={({ item, index }) => (
+            <HorizontalImageCard
+              item={item}
+              index={index}
+              onPress={(): void => {
+                this.props.navigation.navigate('MovieDetailScreen', {
+                  index,
+                });
+              }}
+            />
           )}
         />
       </SafeAreaView>
