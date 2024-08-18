@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        flex: 1,
+    },
     text: {
         fontSize: 32,
         color: 'black',
@@ -15,6 +17,11 @@ const styles = StyleSheet.create({
     },
     contentList: {
         paddingBottom: 10,
+    },
+    searchField: {
+        color: 'black',
+        borderColor: 'black',
+        borderWidth: 2,
     },
 });
 
