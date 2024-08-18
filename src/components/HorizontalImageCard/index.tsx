@@ -12,8 +12,6 @@ class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
   }
 
   render(): React.JSX.Element {
-    console.log(this.props.item.title);
-
     return (
       <TouchableHighlight
         style={styles.button}
