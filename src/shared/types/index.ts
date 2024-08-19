@@ -1,4 +1,4 @@
-export * from './ScreenProps';
-export * from './ScreenState';
+export * from './PropsTypes';
+export * from './StateTypes';
 export * from './Movie';
 export * from './Other';
