@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, FlatList, SafeAreaView, TextInput } from 'react-native';
+import { Alert, FlatList, SafeAreaView } from 'react-native';
 
 import type {
   SearchPage,
@@ -23,6 +23,18 @@ class SearchScreen extends React.Component<
     };
 
     this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
+
+    this.props.navigation.setOptions({
+      headerLargeTitle: true,
+      headerSearchBarOptions: {
+        placeholder: 'Search for a movie',
+        onChangeText: e => this.handleSearchContentChange(e.nativeEvent.text),
+        headerIconColor: 'black',
+        hintTextColor: 'gray',
+        textColor: 'black',
+        barTintColor: 'lightgray',
+      },
+    });
   }
 
   fetchMovies(searchContent: string): void {
@@ -47,13 +59,6 @@ class SearchScreen extends React.Component<
   render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
-        <TextInput
-          style={styles.searchField}
-          placeholder='Search'
-          placeholderTextColor='black'
-          onChangeText={this.handleSearchContentChange}
-          value={this.state.searchContent}
-        />
         <FlatList
           style={styles.list}
           contentContainerStyle={styles.contentList}

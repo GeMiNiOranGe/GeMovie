@@ -18,11 +18,6 @@ const styles = StyleSheet.create({
     contentList: {
         paddingBottom: 10,
     },
-    searchField: {
-        color: 'black',
-        borderColor: 'black',
-        borderWidth: 2,
-    },
 });
 
 export default styles;
