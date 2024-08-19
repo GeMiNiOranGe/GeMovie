@@ -20,3 +20,10 @@ export type ImageSizeType = {
     original: string;
     h632: string;
 };
+
+export type SpacingType = {
+    small: number;
+    medium: number;
+    large: number;
+    extraLarge: number;
+};

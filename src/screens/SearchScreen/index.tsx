@@ -25,7 +25,6 @@ class SearchScreen extends React.Component<
     this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
 
     this.props.navigation.setOptions({
-      headerLargeTitle: true,
       headerSearchBarOptions: {
         placeholder: 'Search for a movie',
         onChangeText: e => this.handleSearchContentChange(e.nativeEvent.text),

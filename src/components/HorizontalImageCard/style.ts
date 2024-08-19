@@ -1,9 +1,10 @@
+import { spacing } from '@shared/constants';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     button: {
-        marginBottom: 10,
-        marginHorizontal: 10,
+        marginBottom: 12,
+        marginHorizontal: spacing.large,
     },
     card: {
         flex: 1,
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     },
     ratingView: {
         backgroundColor: '#ff4273',
-        borderRadius: 50,
+        borderRadius: 1000,
         width: 40,
         height: 40,
         justifyContent: 'center',
