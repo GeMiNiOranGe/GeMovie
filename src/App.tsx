@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { BottomTabNavigator } from '@navigation';
+import { MainBottomTab } from '@navigation';
 
 class App extends React.Component {
   render(): React.JSX.Element {
     return (
       <NavigationContainer>
-        <BottomTabNavigator />
+        <MainBottomTab />
       </NavigationContainer>
     );
   }

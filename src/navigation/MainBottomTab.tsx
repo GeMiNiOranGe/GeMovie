@@ -5,7 +5,7 @@ import { HomeStack, SearchStack } from '@navigation';
 
 const BottomTab = createBottomTabNavigator();
 
-class BottomTabNavigator extends React.Component {
+class MainBottomTab extends React.Component {
   render(): React.JSX.Element {
     return (
       <BottomTab.Navigator screenOptions={{ headerShown: false }}>
@@ -29,4 +29,4 @@ class BottomTabNavigator extends React.Component {
   }
 }
 
-export default BottomTabNavigator;
+export default MainBottomTab;
