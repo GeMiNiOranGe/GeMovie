@@ -7,7 +7,7 @@ export type SearchPage = {
     totalResults: number;
 };
 
-export type ImageSizeType = {
+export type ImageSize = {
     w45: string;
     w92: string;
     w154: string;
@@ -21,7 +21,7 @@ export type ImageSizeType = {
     h632: string;
 };
 
-export type SpacingType = {
+export type Spacing = {
     small: number;
     medium: number;
     large: number;

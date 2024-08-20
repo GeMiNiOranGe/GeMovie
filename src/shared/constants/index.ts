@@ -1,6 +1,6 @@
-import type { ImageSizeType, SpacingType } from '@shared/types';
+import type { ImageSize, Spacing } from '@shared/types';
 
-export const IMAGE_SIZE: ImageSizeType = {
+export const IMAGE_SIZE: ImageSize = {
     w45: 'w45',
     w92: 'w92',
     w154: 'w154',
@@ -14,7 +14,7 @@ export const IMAGE_SIZE: ImageSizeType = {
     h632: 'h632',
 };
 
-export const spacing: SpacingType = {
+export const spacing: Spacing = {
     small: 8,
     medium: 12,
     large: 16,
