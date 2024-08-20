@@ -8,6 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "start:reset-cache": "react-native start --reset-cache",
+    "start:debug": "react-native start --experimental-debugger",
     "test": "jest"
   },
   "dependencies": {

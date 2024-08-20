@@ -27,7 +27,10 @@ class SearchScreen extends React.Component<
     this.props.navigation.setOptions({
       headerSearchBarOptions: {
         placeholder: 'Search for a movie',
-        onChangeText: e => this.handleSearchContentChange(e.nativeEvent.text),
+        onChangeText: e => {
+          e.persist();
+          this.handleSearchContentChange(e.nativeEvent.text);
+        },
         headerIconColor: 'black',
         hintTextColor: 'gray',
         textColor: 'black',
