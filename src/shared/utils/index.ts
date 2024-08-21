@@ -1,6 +1,6 @@
-import { Movie } from '@shared/types';
+import { MovieItem } from '@shared/types';
 
-export function toMovie(val: any): Movie {
+export function toMovieItem(val: any): MovieItem {
     return {
         adult: val.adult,
         backdropPath: val.backdrop_path,

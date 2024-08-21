@@ -8,7 +8,7 @@ import type {
 } from '@shared/types';
 import MovieDataFetcher from '@services/MovieDataFetcher';
 import { HorizontalImageCard } from '@components';
-import { toMovie } from '@shared/utils';
+import { toMovieItem } from '@shared/utils';
 import styles from './style';
 
 class SearchScreen extends React.Component<
@@ -45,7 +45,7 @@ class SearchScreen extends React.Component<
     MovieDataFetcher.searchAsync(searchContent)
       .then((data: SearchPage) =>
         this.setState({
-          movies: data.results.map(element => toMovie(element)),
+          movies: data.results.map(element => toMovieItem(element)),
         }),
       )
       .catch((err: TypeError) => Alert.alert('No connection', err.message));

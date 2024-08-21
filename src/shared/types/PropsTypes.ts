@@ -1,6 +1,6 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Movie } from './Movie';
+import { MovieItem } from './Movie';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -17,6 +17,6 @@ export type RootScreenProps<
 
 export type HorizontalImageCardProps = {
     index: number;
-    item: Movie;
+    item: MovieItem;
     onPress: (event: number) => void;
 };

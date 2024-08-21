@@ -1,4 +1,4 @@
-export type Movie = {
+export type MovieItem = {
     adult: boolean;
     backdropPath: string;
     genreIds: number[];
