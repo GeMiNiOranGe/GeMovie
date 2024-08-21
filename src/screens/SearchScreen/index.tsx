@@ -2,8 +2,8 @@ import React from 'react';
 import { Alert, FlatList, SafeAreaView } from 'react-native';
 
 import type {
+  RootScreenProps,
   SearchPage,
-  SearchScreenProps,
   SearchScreenState,
 } from '@shared/types';
 import MovieDataFetcher from '@services/MovieDataFetcher';
@@ -12,10 +12,10 @@ import { toMovie } from '@shared/utils';
 import styles from './style';
 
 class SearchScreen extends React.Component<
-  SearchScreenProps,
+  RootScreenProps<'SearchScreen'>,
   SearchScreenState
 > {
-  constructor(props: SearchScreenProps) {
+  constructor(props: RootScreenProps<'SearchScreen'>) {
     super(props);
     this.state = {
       movies: [],
@@ -23,7 +23,9 @@ class SearchScreen extends React.Component<
     };
 
     this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
+  }
 
+  componentDidMount(): void {
     this.props.navigation.setOptions({
       headerSearchBarOptions: {
         placeholder: 'Search for a movie',
@@ -72,6 +74,7 @@ class SearchScreen extends React.Component<
               onPress={(): void => {
                 this.props.navigation.navigate('MovieDetailScreen', {
                   index,
+                  movieId: item.id,
                 });
               }}
             />
