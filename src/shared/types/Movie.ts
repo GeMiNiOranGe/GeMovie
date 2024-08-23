@@ -8,7 +8,7 @@ export type MovieItem = {
     overview: string;
     popularity: number;
     posterPath: string;
-    releaseDate: string;
+    releaseDate: Date;
     title: string;
     video: boolean;
     voteAverage: number;
@@ -17,19 +17,19 @@ export type MovieItem = {
 
 export type Movie = {
     adult: boolean;
-    backdropPath: string;
-    belongsToCollection: BelongsToCollectionItem;
+    backdropPath: string | undefined;
+    belongsToCollection: BelongsToCollectionItem | undefined;
     budget: number;
     genres: GenreItem[];
     homepage: string;
     id: number;
-    imdbId: string;
+    imdbId: string | undefined;
     originCountry: string[];
     originalLanguage: string;
     originalTitle: string;
     overview: string;
     popularity: number;
-    posterPath: string;
+    posterPath: string | undefined;
     productionCompanies: ProductionCompanyItem[];
     productionCountries: ProductionCountryItem[];
     releaseDate: Date;

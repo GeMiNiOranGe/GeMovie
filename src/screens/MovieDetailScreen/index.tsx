@@ -31,8 +31,9 @@ class MovieDetailScreen extends React.Component<
         <Text style={styles.text}>Title: {this.state.movie?.title}</Text>
         <Text style={styles.text}>Movie id: {this.state.movie?.id}</Text>
         <Text style={styles.text}>
-          Date: {getFormattedDate(this.state.movie?.releaseDate)}
+          Release: {getFormattedDate(this.state.movie?.releaseDate)}
         </Text>
+        <Text style={styles.text}>Poster: {this.state.movie?.posterPath}</Text>
         <Text style={styles.text}>index: {this.props.route.params.index}</Text>
       </SafeAreaView>
     );

@@ -1,6 +1,6 @@
 import type { ImageSize, Spacing } from '@shared/types';
 
-export const IMAGE_SIZE: ImageSize = {
+export const imageSize: ImageSize = {
     w45: 'w45',
     w92: 'w92',
     w154: 'w154',

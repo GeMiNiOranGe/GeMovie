@@ -5,8 +5,18 @@ import type {
     MovieItem,
     ProductionCompanyItem,
     ProductionCountryItem,
+    SearchPage,
     SpokenLanguageItem,
 } from '@shared/types';
+
+export function toSearchPage(val: any): SearchPage {
+    return {
+        page: val.page,
+        results: val.results,
+        totalPages: val.total_pages,
+        totalResults: val.total_results,
+    };
+}
 
 export function toMovieItem(val: any): MovieItem {
     return {
@@ -19,7 +29,7 @@ export function toMovieItem(val: any): MovieItem {
         overview: val.overview,
         popularity: val.popularity,
         posterPath: val.poster_path,
-        releaseDate: val.release_date,
+        releaseDate: new Date(val.release_date),
         title: val.title,
         video: val.video,
         voteAverage: val.vote_average,
@@ -30,25 +40,31 @@ export function toMovieItem(val: any): MovieItem {
 export function toMovie(val: any): Movie {
     return {
         adult: val.adult,
-        backdropPath: val.backdrop_path,
-        belongsToCollection: val.belongs_to_collection,
+        backdropPath: val.backdrop_path ?? undefined,
+        belongsToCollection: toBelongsToCollection(val.belongs_to_collection),
         budget: val.budget,
         genres: val.genres,
         homepage: val.homepage,
         id: val.id,
-        imdbId: val.imdb_id,
+        imdbId: val.imdb_id ?? undefined,
         originCountry: val.origin_country,
         originalLanguage: val.original_language,
         originalTitle: val.original_title,
         overview: val.overview,
         popularity: val.popularity,
-        posterPath: val.poster_path,
-        productionCompanies: val.production_companies,
-        productionCountries: val.production_countries,
+        posterPath: val.poster_path ?? undefined,
+        productionCompanies: Array.from(val.production_companies).map(element =>
+            toProductionCompanyItem(element),
+        ),
+        productionCountries: Array.from(val.production_countries).map(element =>
+            toProductionCountryItem(element),
+        ),
         releaseDate: new Date(val.release_date),
         revenue: val.revenue,
         runtime: val.runtime,
-        spokenLanguages: val.spoken_languages,
+        spokenLanguages: Array.from(val.spoken_languages).map(element =>
+            toSpokenLanguageItem(element),
+        ),
         status: val.status,
         tagline: val.tagline,
         title: val.title,
@@ -58,7 +74,13 @@ export function toMovie(val: any): Movie {
     };
 }
 
-export function toBelongsToCollectionItem(val: any): BelongsToCollectionItem {
+export function toBelongsToCollection(
+    val: any,
+): BelongsToCollectionItem | undefined {
+    if (!val) {
+        return undefined;
+    }
+
     return {
         id: val.id,
         name: val.name,

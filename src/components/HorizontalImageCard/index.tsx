@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, TouchableHighlight, Image } from 'react-native';
 
 import { HorizontalImageCardProps } from '@shared/types';
-import { IMAGE_SIZE } from '@shared/constants';
+import { imageSize } from '@shared/constants';
 import { TMDB_BASE_IMAGE_URL } from '@config';
+import { getFormattedDate } from '@shared/utils';
 import styles from './style';
 
 class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
@@ -25,7 +26,7 @@ class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
             <Image
               style={[styles.cardImage, styles.absolute]}
               source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${IMAGE_SIZE.w154}/${this.props.item.posterPath}`,
+                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w154}/${this.props.item.posterPath}`,
               }}
             />
 
@@ -50,10 +51,7 @@ class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
             </Text>
 
             <Text style={styles.information} numberOfLines={1}>
-              Release:{' '}
-              {this.props.item.releaseDate === ''
-                ? 'unknown'
-                : this.props.item.releaseDate}
+              Release: {getFormattedDate(this.props.item.releaseDate)}
             </Text>
 
             {!this.props.item.overview ? null : (
