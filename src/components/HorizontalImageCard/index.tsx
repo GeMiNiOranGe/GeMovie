@@ -26,7 +26,7 @@ class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
             <Image
               style={[styles.cardImage, styles.absolute]}
               source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w154}/${this.props.item.posterPath}`,
+                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w154}${this.props.item.posterPath}`,
               }}
             />
 

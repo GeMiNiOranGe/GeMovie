@@ -1,6 +1,9 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
+import { TMDB_BASE_IMAGE_URL } from '@config';
+import { imageSize } from '@shared/constants';
 import { MovieDetailScreenState, RootScreenProps } from '@shared/types';
 import MovieDataFetcher from '@services/MovieDataFetcher';
 import { getFormattedDate } from '@shared/utils';
@@ -28,13 +31,61 @@ class MovieDetailScreen extends React.Component<
   render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>Title: {this.state.movie?.title}</Text>
-        <Text style={styles.text}>Movie id: {this.state.movie?.id}</Text>
-        <Text style={styles.text}>
-          Release: {getFormattedDate(this.state.movie?.releaseDate)}
-        </Text>
-        <Text style={styles.text}>Poster: {this.state.movie?.posterPath}</Text>
-        <Text style={styles.text}>index: {this.props.route.params.index}</Text>
+        <Image
+          style={styles.backdropImage}
+          blurRadius={4}
+          source={{
+            uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w1280}${this.state.movie?.backdropPath}`,
+          }}
+        />
+
+        <ScrollView style={styles.absolute}>
+          <View style={styles.posterSection}>
+            <LinearGradient
+              style={styles.linearGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              colors={['transparent', 'pink']}
+            />
+
+            <View style={[styles.absolute, styles.center]}>
+              <Image
+                style={styles.posterImage}
+                source={{
+                  uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w185}${this.state.movie?.posterPath}`,
+                }}
+              />
+            </View>
+          </View>
+
+          <View style={styles.content}>
+            <View style={styles.titleSection}>
+              <Text style={styles.title}>{this.state.movie?.title}</Text>
+              <Text style={styles.title}>
+                {this.state.movie?.voteAverage} ({this.state.movie?.voteCount})
+              </Text>
+            </View>
+
+            <View style={styles.introductionSection}>
+              <Text style={styles.text}>
+                Length: {this.state.movie?.runtime} minutes
+              </Text>
+              <Text style={styles.text}>
+                Release date: {getFormattedDate(this.state.movie?.releaseDate)}
+              </Text>
+              <Text style={styles.text}>
+                Revenue: {this.state.movie?.budget}
+              </Text>
+              <Text style={styles.text}>
+                Revenue: {this.state.movie?.revenue}
+              </Text>
+              <Text style={styles.text}>
+                Homepage: {this.state.movie?.homepage}
+              </Text>
+              <Text style={styles.text}>{this.state.movie?.overview}</Text>
+            </View>
+          </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
