@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
-import { calculateAspectRatio } from '@shared/utils';
+import { calculateImageDimensions } from '@shared/utils';
 
 const styles = StyleSheet.create({
     button: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     },
     cardImage: {
         borderRadius: 4,
-        ...calculateAspectRatio(116),
+        ...calculateImageDimensions(116, 2, 3),
     },
     cardImageView: {
         elevation: 5,

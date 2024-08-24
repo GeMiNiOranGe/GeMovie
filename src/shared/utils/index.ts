@@ -1,6 +1,7 @@
 import type {
     BelongsToCollection,
     GenreElement,
+    ImageDimensions,
     Movie,
     MovieElement,
     ProductionCompanyElement,
@@ -126,12 +127,13 @@ export function getFormattedDate(date?: Date): string | undefined {
         : date?.toDateString();
 }
 
-export function calculateAspectRatio(pixel: number): {
-    width: number;
-    height: number;
-} {
+export function calculateImageDimensions(
+    pixel: number,
+    horizontalRatio: number,
+    verticalRatio: number,
+): ImageDimensions {
     return {
         width: pixel,
-        height: (pixel / 2) * 3,
+        height: (pixel / horizontalRatio) * verticalRatio,
     };
 }

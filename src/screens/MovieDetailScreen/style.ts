@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { calculateAspectRatio } from '@shared/utils';
+import { calculateImageDimensions } from '@shared/utils';
 
 const styles = StyleSheet.create({
     container: {
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     },
     posterImage: {
         borderRadius: 12,
-        ...calculateAspectRatio(185),
+        ...calculateImageDimensions(185, 2, 3),
     },
     posterSection: {},
     title: {

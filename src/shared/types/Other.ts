@@ -21,6 +21,11 @@ export type ImageSize = {
     h632: string;
 };
 
+export type ImageDimensions = {
+    width: number;
+    height: number;
+};
+
 export type Spacing = {
     small: number;
     medium: number;
