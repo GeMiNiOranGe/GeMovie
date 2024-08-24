@@ -52,7 +52,7 @@ class MovieDetailScreen extends React.Component<
               <Image
                 style={styles.posterImage}
                 source={{
-                  uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w185}${this.state.movie?.posterPath}`,
+                  uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${this.state.movie?.posterPath}`,
                 }}
               />
             </View>
@@ -74,7 +74,7 @@ class MovieDetailScreen extends React.Component<
                 Release date: {getFormattedDate(this.state.movie?.releaseDate)}
               </Text>
               <Text style={styles.text}>
-                Revenue: {this.state.movie?.budget}
+                Budget: {this.state.movie?.budget}
               </Text>
               <Text style={styles.text}>
                 Revenue: {this.state.movie?.revenue}

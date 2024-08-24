@@ -125,3 +125,13 @@ export function getFormattedDate(date?: Date): string | undefined {
         ? 'unknown'
         : date?.toDateString();
 }
+
+export function calculateAspectRatio(pixel: number): {
+    width: number;
+    height: number;
+} {
+    return {
+        width: pixel,
+        height: (pixel / 2) * 3,
+    };
+}

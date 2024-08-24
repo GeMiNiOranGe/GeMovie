@@ -1,5 +1,7 @@
-import { spacing } from '@shared/constants';
 import { StyleSheet } from 'react-native';
+
+import { spacing } from '@shared/constants';
+import { calculateAspectRatio } from '@shared/utils';
 
 const styles = StyleSheet.create({
     button: {
@@ -13,17 +15,15 @@ const styles = StyleSheet.create({
         paddingBottom: 12,
     },
     cardImage: {
-        width: 144,
-        height: 216,
         borderRadius: 4,
+        ...calculateAspectRatio(116),
     },
     cardImageView: {
         elevation: 5,
     },
     cardContent: {
         top: 12,
-        paddingTop: 8,
-        paddingHorizontal: 8,
+        padding: 8,
         flexShrink: 1,
     },
     cardBackground: {

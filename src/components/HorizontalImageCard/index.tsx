@@ -26,7 +26,7 @@ class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
             <Image
               style={[styles.cardImage, styles.absolute]}
               source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w154}${this.props.item.posterPath}`,
+                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w185}${this.props.item.posterPath}`,
               }}
             />
 
@@ -47,17 +47,19 @@ class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
             </Text>
 
             <Text style={styles.information} numberOfLines={1}>
-              Original: {this.props.item.originalTitle}
+              {this.props.item.originalTitle}
             </Text>
 
             <Text style={styles.information} numberOfLines={1}>
-              Release: {getFormattedDate(this.props.item.releaseDate)}
+              {getFormattedDate(this.props.item.releaseDate)}
+              {' - '}
+              {this.props.item.originalLanguage.toUpperCase()}
             </Text>
 
             {!this.props.item.overview ? null : (
               <Text
                 style={[styles.information, styles.overview]}
-                numberOfLines={3}
+                numberOfLines={2}
               >
                 {this.props.item.overview}
               </Text>

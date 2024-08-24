@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { calculateAspectRatio } from '@shared/utils';
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -13,13 +15,13 @@ const styles = StyleSheet.create({
     },
     posterImage: {
         borderRadius: 12,
-        width: 185,
-        height: 278,
+        ...calculateAspectRatio(185),
     },
     posterSection: {},
     title: {
         fontSize: 24,
         color: 'black',
+        textAlign: 'center',
     },
     titleSection: {
         alignItems: 'center',
@@ -29,7 +31,6 @@ const styles = StyleSheet.create({
         marginBottom: 24,
     },
     content: {
-        flex: 1,
         backgroundColor: 'pink',
     },
     absolute: {
