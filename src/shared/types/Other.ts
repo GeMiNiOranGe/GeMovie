@@ -1,8 +1,8 @@
-import { MovieItem } from './Movie';
+import { MovieElement } from './Movie';
 
 export type SearchPage = {
     page: number;
-    results: MovieItem[];
+    results: MovieElement[];
     totalPages: number;
     totalResults: number;
 };

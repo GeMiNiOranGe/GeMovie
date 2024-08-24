@@ -1,7 +1,7 @@
-import { Movie, MovieItem } from './Movie';
+import { Movie, MovieElement } from './Movie';
 
 export type SearchScreenState = {
-    movies: MovieItem[];
+    movies: MovieElement[];
     searchContent: string;
 };
 

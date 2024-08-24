@@ -1,4 +1,4 @@
-export type MovieItem = {
+export type MovieElement = {
     adult: boolean;
     backdropPath: string;
     genreIds: number[];
@@ -18,9 +18,9 @@ export type MovieItem = {
 export type Movie = {
     adult: boolean;
     backdropPath: string | undefined;
-    belongsToCollection: BelongsToCollectionItem | undefined;
+    belongsToCollection: BelongsToCollection | undefined;
     budget: number;
-    genres: GenreItem[];
+    genres: GenreElement[];
     homepage: string;
     id: number;
     imdbId: string | undefined;
@@ -30,12 +30,12 @@ export type Movie = {
     overview: string;
     popularity: number;
     posterPath: string | undefined;
-    productionCompanies: ProductionCompanyItem[];
-    productionCountries: ProductionCountryItem[];
+    productionCompanies: ProductionCompanyElement[];
+    productionCountries: ProductionCountryElement[];
     releaseDate: Date;
     revenue: number;
     runtime: number;
-    spokenLanguages: SpokenLanguageItem[];
+    spokenLanguages: SpokenLanguageElement[];
     status: string;
     tagline: string;
     title: string;
@@ -44,31 +44,31 @@ export type Movie = {
     voteCount: number;
 };
 
-export type BelongsToCollectionItem = {
+export type BelongsToCollection = {
     id: number;
     name: string;
     posterPath: string;
     backdropPath: string;
 };
 
-export type GenreItem = {
+export type GenreElement = {
     id: number;
     name: string;
 };
 
-export type ProductionCompanyItem = {
+export type ProductionCompanyElement = {
     id: number;
     logoPath: string;
     name: string;
     originCountry: string;
 };
 
-export type ProductionCountryItem = {
+export type ProductionCountryElement = {
     iso_3166_1: string;
     name: string;
 };
 
-export type SpokenLanguageItem = {
+export type SpokenLanguageElement = {
     englishName: string;
     iso_639_1: string;
     name: string;

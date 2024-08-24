@@ -1,12 +1,12 @@
 import type {
-    BelongsToCollectionItem,
-    GenreItem,
+    BelongsToCollection,
+    GenreElement,
     Movie,
-    MovieItem,
-    ProductionCompanyItem,
-    ProductionCountryItem,
+    MovieElement,
+    ProductionCompanyElement,
+    ProductionCountryElement,
     SearchPage,
-    SpokenLanguageItem,
+    SpokenLanguageElement,
 } from '@shared/types';
 
 export function toSearchPage(val: any): SearchPage {
@@ -18,7 +18,7 @@ export function toSearchPage(val: any): SearchPage {
     };
 }
 
-export function toMovieItem(val: any): MovieItem {
+export function toMovieElement(val: any): MovieElement {
     return {
         adult: val.adult,
         backdropPath: val.backdrop_path,
@@ -54,16 +54,16 @@ export function toMovie(val: any): Movie {
         popularity: val.popularity,
         posterPath: val.poster_path ?? undefined,
         productionCompanies: Array.from(val.production_companies).map(element =>
-            toProductionCompanyItem(element),
+            toProductionCompanyElement(element),
         ),
         productionCountries: Array.from(val.production_countries).map(element =>
-            toProductionCountryItem(element),
+            toProductionCountryElement(element),
         ),
         releaseDate: new Date(val.release_date),
         revenue: val.revenue,
         runtime: val.runtime,
         spokenLanguages: Array.from(val.spoken_languages).map(element =>
-            toSpokenLanguageItem(element),
+            toSpokenLanguageElement(element),
         ),
         status: val.status,
         tagline: val.tagline,
@@ -76,7 +76,7 @@ export function toMovie(val: any): Movie {
 
 export function toBelongsToCollection(
     val: any,
-): BelongsToCollectionItem | undefined {
+): BelongsToCollection | undefined {
     if (!val) {
         return undefined;
     }
@@ -89,14 +89,14 @@ export function toBelongsToCollection(
     };
 }
 
-export function toGenreItem(val: any): GenreItem {
+export function toGenreElement(val: any): GenreElement {
     return {
         id: val.id,
         name: val.name,
     };
 }
 
-export function toProductionCompanyItem(val: any): ProductionCompanyItem {
+export function toProductionCompanyElement(val: any): ProductionCompanyElement {
     return {
         id: val.id,
         logoPath: val.logo_path,
@@ -105,14 +105,14 @@ export function toProductionCompanyItem(val: any): ProductionCompanyItem {
     };
 }
 
-export function toProductionCountryItem(val: any): ProductionCountryItem {
+export function toProductionCountryElement(val: any): ProductionCountryElement {
     return {
         iso_3166_1: val.iso_3166_1,
         name: val.name,
     };
 }
 
-export function toSpokenLanguageItem(val: any): SpokenLanguageItem {
+export function toSpokenLanguageElement(val: any): SpokenLanguageElement {
     return {
         englishName: val.english_name,
         iso_639_1: val.iso_639_1,
