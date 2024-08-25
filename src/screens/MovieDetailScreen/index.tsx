@@ -13,14 +13,14 @@ class MovieDetailScreen extends React.Component<
   RootScreenProps<'MovieDetailScreen'>,
   MovieDetailScreenState
 > {
-  constructor(props: RootScreenProps<'MovieDetailScreen'>) {
+  public constructor(props: RootScreenProps<'MovieDetailScreen'>) {
     super(props);
     this.state = {
       movie: undefined,
     };
   }
 
-  componentDidMount(): void {
+  public override componentDidMount(): void {
     const { movieId } = this.props.route.params;
 
     MovieDataFetcher.getDetailAsync(movieId).then(data =>
@@ -28,7 +28,7 @@ class MovieDetailScreen extends React.Component<
     );
   }
 
-  render(): React.JSX.Element {
+  public override render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
         <Image

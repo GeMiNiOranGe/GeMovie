@@ -7,7 +7,7 @@ import { SearchScreen, MovieDetailScreen } from '@screens';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 class SearchStack extends React.Component {
-  render(): React.JSX.Element {
+  public override render(): React.JSX.Element {
     return (
       <Stack.Navigator>
         <Stack.Screen

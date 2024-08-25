@@ -6,7 +6,7 @@ import { HomeStack, SearchStack } from '@navigation';
 const BottomTab = createBottomTabNavigator();
 
 class MainBottomTab extends React.Component {
-  render(): React.JSX.Element {
+  public override render(): React.JSX.Element {
     return (
       <BottomTab.Navigator screenOptions={{ headerShown: false }}>
         <BottomTab.Screen

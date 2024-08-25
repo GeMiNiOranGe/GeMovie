@@ -6,7 +6,7 @@ import { HomeScreen } from '@screens';
 const Stack = createNativeStackNavigator();
 
 class HomeStack extends React.Component {
-  render(): React.JSX.Element {
+  public override render(): React.JSX.Element {
     return (
       <Stack.Navigator>
         <Stack.Screen

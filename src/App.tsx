@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { MainBottomTab } from '@navigation';
 
 class App extends React.Component {
-  render(): React.JSX.Element {
+  public override render(): React.JSX.Element {
     return (
       <NavigationContainer>
         <MainBottomTab />

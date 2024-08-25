@@ -15,7 +15,7 @@ class SearchScreen extends React.Component<
   RootScreenProps<'SearchScreen'>,
   SearchScreenState
 > {
-  constructor(props: RootScreenProps<'SearchScreen'>) {
+  public constructor(props: RootScreenProps<'SearchScreen'>) {
     super(props);
     this.state = {
       movies: [],
@@ -25,7 +25,7 @@ class SearchScreen extends React.Component<
     this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
   }
 
-  componentDidMount(): void {
+  public override componentDidMount(): void {
     this.props.navigation.setOptions({
       headerSearchBarOptions: {
         placeholder: 'Search for a movie',
@@ -41,7 +41,7 @@ class SearchScreen extends React.Component<
     });
   }
 
-  fetchMovies(searchContent: string): void {
+  private fetchMovies(searchContent: string): void {
     MovieDataFetcher.searchAsync(searchContent)
       .then((data: SearchPage) =>
         this.setState({
@@ -51,7 +51,7 @@ class SearchScreen extends React.Component<
       .catch((err: TypeError) => Alert.alert('No connection', err.message));
   }
 
-  handleSearchContentChange(searchContent: string): void {
+  private handleSearchContentChange(searchContent: string): void {
     this.setState({ searchContent });
     if (searchContent) {
       this.fetchMovies(searchContent);
@@ -60,7 +60,7 @@ class SearchScreen extends React.Component<
     }
   }
 
-  render(): React.JSX.Element {
+  public override render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
         <FlatList

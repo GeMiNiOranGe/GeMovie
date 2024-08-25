@@ -3,7 +3,7 @@ import type { Movie, SearchPage } from '@shared/types';
 import { toMovie, toSearchPage } from '@shared/utils';
 
 export default class MovieDataFetcher {
-    static async searchAsync(text: string): Promise<SearchPage> {
+    public static async searchAsync(text: string): Promise<SearchPage> {
         const params = new URLSearchParams({
             api_key: `${TMDB_API_KEY}`,
             query: text,
@@ -16,7 +16,7 @@ export default class MovieDataFetcher {
         return toSearchPage(json);
     }
 
-    static async getDetailAsync(id: number): Promise<Movie> {
+    public static async getDetailAsync(id: number): Promise<Movie> {
         const url = `${TMDB_BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}`;
 
         const response: Response = await fetch(url);

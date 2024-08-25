@@ -22,5 +22,6 @@
         "src/shared/*",
       ],
     },
+    "noImplicitOverride": true,
   },
 }

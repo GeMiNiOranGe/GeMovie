@@ -8,11 +8,11 @@ import { getFormattedDate } from '@shared/utils';
 import styles from './style';
 
 class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
-  constructor(props: HorizontalImageCardProps) {
+  public constructor(props: HorizontalImageCardProps) {
     super(props);
   }
 
-  render(): React.JSX.Element {
+  public override render(): React.JSX.Element {
     return (
       <TouchableHighlight
         style={styles.button}
