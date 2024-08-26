@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
+import { spacing } from '@shared/constants';
 
 const styles = StyleSheet.create({
     container: {
@@ -49,6 +50,9 @@ const styles = StyleSheet.create({
     center: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    scrollLabel: {
+        paddingHorizontal: spacing.large,
     },
 });
 

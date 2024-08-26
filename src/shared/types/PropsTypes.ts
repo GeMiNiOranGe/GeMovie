@@ -20,3 +20,8 @@ export type HorizontalImageCardProps = {
     item: MovieElement;
     onPress: (event: number) => void;
 };
+
+export type LabelProps = {
+    name: string;
+    value?: string;
+};

@@ -7,6 +7,7 @@ import { imageSize } from '@shared/constants';
 import { MovieDetailScreenState, RootScreenProps } from '@shared/types';
 import MovieDataFetcher from '@services/MovieDataFetcher';
 import { getFormattedDate } from '@shared/utils';
+import { Label } from '@components';
 import styles from './style';
 
 class MovieDetailScreen extends React.Component<
@@ -66,19 +67,34 @@ class MovieDetailScreen extends React.Component<
               </Text>
             </View>
 
+            <ScrollView
+              contentContainerStyle={styles.scrollLabel}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            >
+              <Label
+                name='Release date'
+                value={getFormattedDate(this.state.movie?.releaseDate)}
+              />
+              <Label
+                name='Length'
+                value={`${this.state.movie?.runtime} minutes`}
+              />
+              <Label
+                name='Adult'
+                value={this.state.movie?.adult ? 'Yes' : 'No'}
+              />
+              <Label
+                name='Budget'
+                value={`${this.state.movie?.budget.toLocaleString()} USD`}
+              />
+              <Label
+                name='Revenue'
+                value={`${this.state.movie?.revenue.toLocaleString()} USD`}
+              />
+            </ScrollView>
+
             <View style={styles.introductionSection}>
-              <Text style={styles.text}>
-                Length: {this.state.movie?.runtime} minutes
-              </Text>
-              <Text style={styles.text}>
-                Release date: {getFormattedDate(this.state.movie?.releaseDate)}
-              </Text>
-              <Text style={styles.text}>
-                Budget: {this.state.movie?.budget}
-              </Text>
-              <Text style={styles.text}>
-                Revenue: {this.state.movie?.revenue}
-              </Text>
               <Text style={styles.text}>
                 Homepage: {this.state.movie?.homepage}
               </Text>
