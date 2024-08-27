@@ -8,3 +8,7 @@ export type SearchScreenState = {
 export type MovieDetailScreenState = {
     movie?: Movie;
 };
+
+export type ExpandableTextState = {
+    isExpand: boolean;
+};

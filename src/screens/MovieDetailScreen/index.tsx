@@ -7,7 +7,7 @@ import { imageSize } from '@shared/constants';
 import { MovieDetailScreenState, RootScreenProps } from '@shared/types';
 import MovieDataFetcher from '@services/MovieDataFetcher';
 import { getFormattedDate } from '@shared/utils';
-import { Label } from '@components';
+import { ExpandableText, Label } from '@components';
 import styles from './style';
 
 class MovieDetailScreen extends React.Component<
@@ -95,10 +95,14 @@ class MovieDetailScreen extends React.Component<
             </ScrollView>
 
             <View style={styles.introductionSection}>
+              <Text style={styles.text}>Introduction</Text>
+              <ExpandableText
+                text={`${this.state.movie?.overview}`}
+                numberOfLines={3}
+              />
               <Text style={styles.text}>
                 Homepage: {this.state.movie?.homepage}
               </Text>
-              <Text style={styles.text}>{this.state.movie?.overview}</Text>
             </View>
           </View>
         </ScrollView>

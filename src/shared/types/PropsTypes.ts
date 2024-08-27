@@ -25,3 +25,8 @@ export type LabelProps = {
     name: string;
     value?: string;
 };
+
+export type ExpandableTextProps = {
+    text: string;
+    numberOfLines: number;
+};
