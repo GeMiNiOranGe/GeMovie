@@ -5,6 +5,7 @@ import { MovieElement } from './Movie';
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
     SearchScreen: undefined;
+    SearchSuggestionScreen: undefined;
     MovieDetailScreen: {
         index: number;
         movieId: number;

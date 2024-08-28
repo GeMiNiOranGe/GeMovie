@@ -1,12 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-import { spacing } from '@shared/constants';
 import { calculateImageDimensions } from '@shared/utils';
 
 const styles = StyleSheet.create({
     button: {
         marginBottom: 12,
-        marginHorizontal: spacing.large,
     },
     card: {
         flex: 1,
