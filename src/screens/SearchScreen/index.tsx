@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, FlatList, SafeAreaView } from 'react-native';
+import { Alert, FlatList, SafeAreaView, Text } from 'react-native';
 
 import type {
   RootScreenProps,
@@ -20,6 +20,7 @@ class SearchScreen extends React.Component<
     this.state = {
       movies: [],
       searchContent: '',
+      isSearchBarOpen: false,
     };
 
     this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
@@ -33,10 +34,16 @@ class SearchScreen extends React.Component<
           e.persist();
           this.handleSearchContentChange(e.nativeEvent.text);
         },
+        textColor: 'black',
+        shouldShowHintSearchIcon: false,
         headerIconColor: 'black',
         hintTextColor: 'gray',
-        textColor: 'black',
-        barTintColor: 'lightgray',
+        onOpen: () => {
+          this.setState({ isSearchBarOpen: true });
+        },
+        onClose: () => {
+          this.setState({ isSearchBarOpen: false });
+        },
       },
     });
   }
@@ -60,27 +67,41 @@ class SearchScreen extends React.Component<
     }
   }
 
+  private renderSuggesttionFragment(): React.JSX.Element {
+    return (
+      <SafeAreaView style={[styles.container, styles.center]}>
+        <Text style={styles.text}>Search suggestion</Text>
+      </SafeAreaView>
+    );
+  }
+
   public override render(): React.JSX.Element {
     return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          style={styles.list}
-          contentContainerStyle={styles.contentList}
-          data={this.state.movies}
-          renderItem={({ item, index }) => (
-            <HorizontalImageCard
-              item={item}
-              index={index}
-              onPress={(): void => {
-                this.props.navigation.navigate('MovieDetailScreen', {
-                  index,
-                  movieId: item.id,
-                });
-              }}
+      <>
+        {this.state.isSearchBarOpen ? (
+          <SafeAreaView style={styles.container}>
+            <FlatList
+              style={styles.list}
+              contentContainerStyle={styles.contentList}
+              data={this.state.movies}
+              renderItem={({ item, index }) => (
+                <HorizontalImageCard
+                  item={item}
+                  index={index}
+                  onPress={(): void => {
+                    this.props.navigation.navigate('MovieDetailScreen', {
+                      index,
+                      movieId: item.id,
+                    });
+                  }}
+                />
+              )}
             />
-          )}
-        />
-      </SafeAreaView>
+          </SafeAreaView>
+        ) : (
+          this.renderSuggesttionFragment()
+        )}
+      </>
     );
   }
 }

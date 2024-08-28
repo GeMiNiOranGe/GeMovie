@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
     contentList: {
         paddingBottom: 10,
     },
+    center: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default styles;
