@@ -1,3 +1,5 @@
+import { CompanyElement } from './Company';
+
 export type MovieElement = {
     adult: boolean;
     backdropPath: string;
@@ -30,7 +32,7 @@ export type Movie = {
     overview: string;
     popularity: number;
     posterPath: string | undefined;
-    productionCompanies: ProductionCompanyElement[];
+    productionCompanies: CompanyElement[];
     productionCountries: ProductionCountryElement[];
     releaseDate: Date;
     revenue: number;
@@ -54,13 +56,6 @@ export type BelongsToCollection = {
 export type GenreElement = {
     id: number;
     name: string;
-};
-
-export type ProductionCompanyElement = {
-    id: number;
-    logoPath: string;
-    name: string;
-    originCountry: string;
 };
 
 export type ProductionCountryElement = {

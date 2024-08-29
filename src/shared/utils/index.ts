@@ -4,7 +4,7 @@ import type {
     ImageDimensions,
     Movie,
     MovieElement,
-    ProductionCompanyElement,
+    CompanyElement,
     ProductionCountryElement,
     SearchPage,
     SpokenLanguageElement,
@@ -55,7 +55,7 @@ export function toMovie(val: any): Movie {
         popularity: val.popularity,
         posterPath: val.poster_path ?? undefined,
         productionCompanies: Array.from(val.production_companies).map(element =>
-            toProductionCompanyElement(element),
+            toCompanyElement(element),
         ),
         productionCountries: Array.from(val.production_countries).map(element =>
             toProductionCountryElement(element),
@@ -97,10 +97,10 @@ export function toGenreElement(val: any): GenreElement {
     };
 }
 
-export function toProductionCompanyElement(val: any): ProductionCompanyElement {
+export function toCompanyElement(val: any): CompanyElement {
     return {
         id: val.id,
-        logoPath: val.logo_path,
+        logoPath: val.logo_path ?? undefined,
         name: val.name,
         originCountry: val.origin_country,
     };

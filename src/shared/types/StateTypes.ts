@@ -1,7 +1,11 @@
+import { CompanyElement } from './Company';
 import { Movie, MovieElement } from './Movie';
 
 export type SearchScreenState = {
-    movies: MovieElement[];
+    results: {
+        movies?: MovieElement[];
+        companies?: CompanyElement[];
+    };
     searchContent: string;
     isSearchBarOpen: boolean;
 };
