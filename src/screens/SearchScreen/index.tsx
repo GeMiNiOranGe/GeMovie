@@ -77,11 +77,15 @@ class SearchScreen extends React.Component<
       .catch((err: TypeError) => Alert.alert('No connection', err.message));
   }
 
-  private handleSearchContentChange(searchContent: string): void {
+  private async handleSearchContentChange(
+    searchContent: string,
+  ): Promise<void> {
     this.setState({ searchContent });
     if (searchContent) {
-      this.fetchMovies(searchContent);
-      this.fetchCompanies(searchContent);
+      await Promise.all([
+        this.fetchMovies(searchContent),
+        this.fetchCompanies(searchContent),
+      ]);
     } else {
       this.setState({
         results: {
@@ -91,7 +95,6 @@ class SearchScreen extends React.Component<
       });
     }
   }
-
   private renderSuggesttionFragment(): React.JSX.Element {
     return (
       <SafeAreaView style={[styles.container, styles.center]}>
