@@ -2,7 +2,11 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import type { RootStackParamList } from '@shared/types';
-import { SearchScreen, MovieDetailScreen } from '@screens';
+import {
+  SearchScreen,
+  MovieDetailScreen,
+  SearchSuggestionScreen,
+} from '@screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -15,6 +19,14 @@ class SearchStack extends React.Component {
           component={SearchScreen}
           options={{
             title: 'Search',
+          }}
+        />
+
+        <Stack.Screen
+          name='SearchSuggestionScreen'
+          component={SearchSuggestionScreen}
+          options={{
+            title: 'Suggestion',
           }}
         />
 
