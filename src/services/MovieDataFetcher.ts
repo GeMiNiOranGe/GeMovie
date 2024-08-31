@@ -1,9 +1,11 @@
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
-import type { Movie, SearchPage } from '@shared/types';
+import type { Movie, MovieElement, SearchPage } from '@shared/types';
 import { toMovie, toSearchPage } from '@shared/utils';
 
 export default class MovieDataFetcher {
-    public static async searchAsync(text: string): Promise<SearchPage> {
+    public static async searchAsync(
+        text: string,
+    ): Promise<SearchPage<MovieElement>> {
         const params = new URLSearchParams({
             api_key: `${TMDB_API_KEY}`,
             query: text,

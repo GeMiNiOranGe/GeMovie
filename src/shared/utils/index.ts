@@ -10,7 +10,7 @@ import type {
     SpokenLanguageElement,
 } from '@shared/types';
 
-export function toSearchPage(val: any): SearchPage {
+export function toSearchPage<T>(val: any): SearchPage<T> {
     return {
         page: val.page,
         results: val.results,

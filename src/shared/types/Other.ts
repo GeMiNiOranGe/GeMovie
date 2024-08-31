@@ -1,8 +1,6 @@
-import { MovieElement } from './Movie';
-
-export type SearchPage = {
+export type SearchPage<T> = {
     page: number;
-    results: MovieElement[];
+    results: T[];
     totalPages: number;
     totalResults: number;
 };

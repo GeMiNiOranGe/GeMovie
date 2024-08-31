@@ -3,8 +3,8 @@ import { Alert, FlatList, SafeAreaView, Text, View } from 'react-native';
 
 import type {
   CompanyElement,
+  MovieElement,
   RootScreenProps,
-  SearchPage,
   SearchScreenState,
 } from '@shared/types';
 import MovieDataFetcher from '@services/MovieDataFetcher';
@@ -53,48 +53,42 @@ class SearchScreen extends React.Component<
     });
   }
 
-  private fetchMovies(searchContent: string): void {
-    MovieDataFetcher.searchAsync(searchContent)
-      .then((data: SearchPage) =>
-        this.setState({
-          results: {
-            movies: data.results.map(element => toMovieElement(element)),
-          },
-        }),
-      )
-      .catch((err: TypeError) => Alert.alert('No connection', err.message));
+  private async searchMovies(content: string): Promise<MovieElement[]> {
+    const searchPage = await MovieDataFetcher.searchAsync(content);
+    return searchPage.results.map(element => toMovieElement(element));
   }
 
-  private fetchCompanies(searchContent: string): void {
-    CompanyDataFetcher.searchAsync(searchContent)
-      .then((data: SearchPage) =>
-        this.setState({
-          results: {
-            companies: data.results.map(element => toCompanyElement(element)),
-          },
-        }),
-      )
-      .catch((err: TypeError) => Alert.alert('No connection', err.message));
+  private async searchCompanies(content: string): Promise<CompanyElement[]> {
+    const searchPage = await CompanyDataFetcher.searchAsync(content);
+    return searchPage.results.map(element => toCompanyElement(element));
   }
 
-  private async handleSearchContentChange(
-    searchContent: string,
-  ): Promise<void> {
-    this.setState({ searchContent });
-    if (searchContent) {
-      await Promise.all([
-        this.fetchMovies(searchContent),
-        this.fetchCompanies(searchContent),
-      ]);
-    } else {
-      this.setState({
-        results: {
-          movies: [],
-          companies: [],
-        },
-      });
+  private async handleSearchContentChange(content: string): Promise<void> {
+    let movies: MovieElement[] = [];
+    let companies: CompanyElement[] = [];
+
+    try {
+      if (content) {
+        [movies, companies] = await Promise.all([
+          this.searchMovies(content),
+          this.searchCompanies(content),
+        ]);
+      }
+    } catch (error: unknown) {
+      if (error instanceof TypeError) {
+        Alert.alert('No connection', error.message);
+      }
     }
+
+    this.setState({
+      searchContent: content,
+      results: {
+        movies,
+        companies,
+      },
+    });
   }
+
   private renderSuggesttionFragment(): React.JSX.Element {
     return (
       <SafeAreaView style={[styles.container, styles.center]}>
@@ -113,9 +107,7 @@ class SearchScreen extends React.Component<
               contentContainerStyle={styles.contentList}
               data={this.state.results.movies}
               ListHeaderComponent={
-                <Text style={[styles.text, { paddingHorizontal: 16 }]}>
-                  Movie
-                </Text>
+                <Text style={[styles.text, styles.listHeader]}>Movie</Text>
               }
               renderItem={({ item, index }) => (
                 <HorizontalImageCard
@@ -135,17 +127,15 @@ class SearchScreen extends React.Component<
               contentContainerStyle={styles.contentList}
               data={this.state.results.companies}
               ListHeaderComponent={
-                <Text style={[styles.text, { paddingHorizontal: 16 }]}>
-                  Company
-                </Text>
+                <Text style={[styles.text, styles.listHeader]}>Company</Text>
               }
               renderItem={({ item, index }) => (
                 <View>
-                  <Text style={{ color: 'black' }}>{item.id}</Text>
-                  <Text style={{ color: 'black' }}>{item.name}</Text>
-                  <Text style={{ color: 'black' }}>{item.logoPath}</Text>
-                  <Text style={{ color: 'black' }}>{item.originCountry}</Text>
-                  <Text style={{ color: 'black' }}>{index}</Text>
+                  <Text style={styles.companyText}>{item.id}</Text>
+                  <Text style={styles.companyText}>{item.name}</Text>
+                  <Text style={styles.companyText}>{item.logoPath}</Text>
+                  <Text style={styles.companyText}>{item.originCountry}</Text>
+                  <Text style={styles.companyText}>{index}</Text>
                 </View>
               )}
             />

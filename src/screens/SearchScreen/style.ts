@@ -22,6 +22,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    listHeader: {
+        paddingHorizontal: 16,
+    },
+    companyText: {
+        color: 'black',
+    },
 });
 
 export default styles;
