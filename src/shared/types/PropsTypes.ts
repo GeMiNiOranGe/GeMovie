@@ -1,6 +1,7 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MovieElement } from './Movie';
+import { ColorValue, StyleProp, TextStyle } from 'react-native';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -30,4 +31,13 @@ export type LabelProps = {
 export type ExpandableTextProps = {
     text: string;
     numberOfLines: number;
+};
+
+export type SearchBarProps = {
+    style?: StyleProp<TextStyle>;
+    autoFocus?: boolean;
+    placeholder?: string;
+    placeholderTextColor?: ColorValue;
+    onChangeText?: (text: string) => void;
+    value?: string;
 };

@@ -7,7 +7,6 @@ export type SearchScreenState = {
         companies?: CompanyElement[];
     };
     searchContent: string;
-    isSearchBarOpen: boolean;
 };
 
 export type MovieDetailScreenState = {
