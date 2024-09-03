@@ -8,7 +8,7 @@ import type {
   SearchScreenState,
 } from '@shared/types';
 import { CompanyService, MovieService } from '@services';
-import { HorizontalImageCard, SearchBar } from '@components';
+import { MovieSearchCard, SearchBar } from '@components';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
 import styles from './style';
 
@@ -80,7 +80,7 @@ class SearchScreen extends React.Component<
             <Text style={[styles.text, styles.listHeader]}>Movie</Text>
           }
           renderItem={({ item, index }) => (
-            <HorizontalImageCard
+            <MovieSearchCard
               item={item}
               index={index}
               onPress={(): void => {

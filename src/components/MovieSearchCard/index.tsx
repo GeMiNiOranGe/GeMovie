@@ -7,7 +7,7 @@ import { TMDB_BASE_IMAGE_URL } from '@config';
 import { getFormattedDate } from '@shared/utils';
 import styles from './style';
 
-class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
+class MovieSearchCard extends React.Component<HorizontalImageCardProps> {
   public constructor(props: HorizontalImageCardProps) {
     super(props);
   }
@@ -75,4 +75,4 @@ class HorizontalImageCard extends React.Component<HorizontalImageCardProps> {
   }
 }
 
-export default HorizontalImageCard;
+export default MovieSearchCard;
