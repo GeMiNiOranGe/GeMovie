@@ -30,3 +30,5 @@ export type Spacing = {
     large: number;
     extraLarge: number;
 };
+
+export type SearchType = 'company' | 'movie';

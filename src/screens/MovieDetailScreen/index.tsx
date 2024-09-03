@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { imageSize } from '@shared/constants';
 import { MovieDetailScreenState, RootScreenProps } from '@shared/types';
-import MovieDataFetcher from '@services/MovieDataFetcher';
+import { MovieService } from '@services';
 import { getFormattedDate } from '@shared/utils';
 import { ExpandableText, Label } from '@components';
 import styles from './style';
@@ -24,7 +24,7 @@ class MovieDetailScreen extends React.Component<
   public override componentDidMount(): void {
     const { movieId } = this.props.route.params;
 
-    MovieDataFetcher.getDetailAsync(movieId).then(data =>
+    MovieService.getDetailAsync(movieId).then(data =>
       this.setState({ movie: data }),
     );
   }

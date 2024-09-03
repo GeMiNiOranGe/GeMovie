@@ -15,8 +15,8 @@
       "@screens": [
         "src/screens",
       ],
-      "@services/*": [
-        "src/services/*",
+      "@services": [
+        "src/services",
       ],
       "@shared/*": [
         "src/shared/*",

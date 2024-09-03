@@ -7,8 +7,7 @@ import type {
   RootScreenProps,
   SearchScreenState,
 } from '@shared/types';
-import MovieDataFetcher from '@services/MovieDataFetcher';
-import CompanyDataFetcher from '@services/CompanyDataFetcher';
+import { CompanyService, MovieService } from '@services';
 import { HorizontalImageCard, SearchBar } from '@components';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
 import styles from './style';
@@ -31,12 +30,12 @@ class SearchScreen extends React.Component<
   }
 
   private async searchMovies(content: string): Promise<MovieElement[]> {
-    const searchPage = await MovieDataFetcher.searchAsync(content);
+    const searchPage = await MovieService.searchAsync(content);
     return searchPage.results.map(element => toMovieElement(element));
   }
 
   private async searchCompanies(content: string): Promise<CompanyElement[]> {
-    const searchPage = await CompanyDataFetcher.searchAsync(content);
+    const searchPage = await CompanyService.searchAsync(content);
     return searchPage.results.map(element => toCompanyElement(element));
   }
 
