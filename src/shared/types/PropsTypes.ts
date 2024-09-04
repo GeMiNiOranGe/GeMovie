@@ -1,14 +1,18 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { MovieElement } from './Movie';
-import { ColorValue, StyleProp, TextStyle } from 'react-native';
+import {
+    ColorValue,
+    GestureResponderEvent,
+    StyleProp,
+    TextStyle,
+} from 'react-native';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
     SearchScreen: undefined;
     SearchSuggestionScreen: undefined;
     MovieDetailScreen: {
-        index: number;
         movieId: number;
     };
 };
@@ -17,10 +21,10 @@ export type RootScreenProps<
     Screen extends keyof RootStackParamList = keyof RootStackParamList,
 > = NativeStackScreenProps<RootStackParamList, Screen>;
 
-export type HorizontalImageCardProps = {
-    index: number;
+export type MovieSearchCardProps = {
     item: MovieElement;
-    onPress: (event: number) => void;
+    index?: number;
+    onPress?: (event: GestureResponderEvent) => void;
 };
 
 export type LabelProps = {

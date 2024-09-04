@@ -85,7 +85,6 @@ class SearchScreen extends React.Component<
               index={index}
               onPress={(): void => {
                 this.props.navigation.navigate('MovieDetailScreen', {
-                  index,
                   movieId: item.id,
                 });
               }}

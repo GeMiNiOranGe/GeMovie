@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableHighlight, Image } from 'react-native';
 
-import { HorizontalImageCardProps } from '@shared/types';
+import { MovieSearchCardProps } from '@shared/types';
 import { imageSize } from '@shared/constants';
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { getFormattedDate } from '@shared/utils';
 import styles from './style';
 
-class MovieSearchCard extends React.PureComponent<HorizontalImageCardProps> {
-  public constructor(props: HorizontalImageCardProps) {
+class MovieSearchCard extends React.PureComponent<MovieSearchCardProps> {
+  public constructor(props: MovieSearchCardProps) {
     super(props);
   }
 
@@ -17,7 +17,7 @@ class MovieSearchCard extends React.PureComponent<HorizontalImageCardProps> {
       <TouchableHighlight
         style={styles.button}
         underlayColor={'transparent'}
-        onPress={() => this.props.onPress(this.props.index)}
+        onPress={this.props.onPress}
       >
         <View style={styles.card}>
           <View style={[styles.absolute, styles.cardBackground]} />
