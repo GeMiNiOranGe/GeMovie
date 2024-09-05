@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert, FlatList, SafeAreaView, Text, View } from 'react-native';
+import { SearchBar } from '@rneui/themed';
 
 import type {
   CompanyElement,
@@ -8,7 +9,7 @@ import type {
   SearchScreenState,
 } from '@shared/types';
 import { CompanyService, MovieService } from '@services';
-import { MovieSearchCard, SearchBar } from '@components';
+import { MovieSearchCard } from '@components';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
 import styles from './style';
 
@@ -55,7 +56,6 @@ class SearchScreen extends React.Component<
     }
 
     this.setState({
-      searchContent: content,
       results: {
         movies,
         companies,
@@ -68,9 +68,14 @@ class SearchScreen extends React.Component<
       <SafeAreaView style={styles.container}>
         <SearchBar
           autoFocus
-          placeholderTextColor='black'
           placeholder='Search for shows, movies,...'
-          onChangeText={this.handleSearchContentChange}
+          platform='android'
+          value={this.state.searchContent}
+          onCancel={() => this.props.navigation.goBack()}
+          onChangeText={(text: string) => {
+            this.setState({ searchContent: text });
+            this.handleSearchContentChange(text);
+          }}
         />
         <FlatList
           style={styles.list}
