@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
 
+import { Ionicons } from '@assets/icons';
 import { RootScreenProps } from '@shared/types';
 import styles from './style';
 
@@ -15,10 +16,13 @@ class SearchSuggestionScreen extends React.Component<
 
   private renderHeaderRight() {
     return (
-      <Button
+      <TouchableOpacity
         onPress={() => this.props.navigation.navigate('SearchScreen')}
-        title='Search'
-      />
+      >
+        <Text>
+          <Ionicons.SearchIcon size={24} color='black' />;
+        </Text>
+      </TouchableOpacity>
     );
   }
 

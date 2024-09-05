@@ -11,6 +11,7 @@ import type {
 import { CompanyService, MovieService } from '@services';
 import { MovieSearchCard } from '@components';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
+import { Ionicons } from '@assets/icons';
 import styles from './style';
 
 class SearchScreen extends React.Component<
@@ -71,6 +72,7 @@ class SearchScreen extends React.Component<
           placeholder='Search for shows, movies,...'
           platform='android'
           value={this.state.searchContent}
+          searchIcon={<Ionicons.SearchIcon size={24} color='black' />}
           onCancel={() => this.props.navigation.goBack()}
           onChangeText={(text: string) => {
             this.setState({ searchContent: text });

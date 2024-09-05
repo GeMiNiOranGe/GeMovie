@@ -20,3 +20,5 @@ export const spacing: Spacing = {
     large: 16,
     extraLarge: 24,
 };
+
+export const defaultIconSize: number = 12;
