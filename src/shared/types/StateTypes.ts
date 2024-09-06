@@ -3,14 +3,14 @@ import { Movie, MovieElement } from './Movie';
 
 export type SearchScreenState = {
     results: {
-        movies?: MovieElement[];
-        companies?: CompanyElement[];
+        movies?: MovieElement[] | undefined;
+        companies?: CompanyElement[] | undefined;
     };
     searchContent: string;
 };
 
 export type MovieDetailScreenState = {
-    movie?: Movie;
+    movie?: Movie | undefined;
 };
 
 export type ExpandableTextState = {

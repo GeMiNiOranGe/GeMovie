@@ -19,19 +19,19 @@ export type MovieElement = {
 
 export type Movie = {
     adult: boolean;
-    backdropPath: string | undefined;
-    belongsToCollection: BelongsToCollection | undefined;
+    backdropPath?: string | undefined;
+    belongsToCollection?: BelongsToCollection | undefined;
     budget: number;
     genres: GenreElement[];
     homepage: string;
     id: number;
-    imdbId: string | undefined;
+    imdbId?: string | undefined;
     originCountry: string[];
     originalLanguage: string;
     originalTitle: string;
     overview: string;
     popularity: number;
-    posterPath: string | undefined;
+    posterPath?: string | undefined;
     productionCompanies: CompanyElement[];
     productionCountries: ProductionCountryElement[];
     releaseDate: Date;
