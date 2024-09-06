@@ -27,6 +27,7 @@ export type ImageDimensions = {
 };
 
 export type Spacing = {
+    tiny: number;
     small: number;
     medium: number;
     large: number;

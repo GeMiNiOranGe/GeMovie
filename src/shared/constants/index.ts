@@ -15,6 +15,7 @@ export const imageSize: ImageSize = {
 };
 
 export const spacing: Spacing = {
+    tiny: 4,
     small: 8,
     medium: 12,
     large: 16,

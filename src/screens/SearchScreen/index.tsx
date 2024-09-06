@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, FlatList, SafeAreaView, Text, View } from 'react-native';
+import { Alert, FlatList, SafeAreaView, Text } from 'react-native';
 import { SearchBar } from '@rneui/themed';
 
 import type {
@@ -106,7 +106,13 @@ class SearchScreen extends React.Component<
             <Text style={[styles.text, styles.listHeader]}>Company</Text>
           }
           renderItem={({ item, index }) => (
-            <CompanySearchCard item={item} index={index} />
+            <CompanySearchCard
+              item={item}
+              index={index}
+              onPress={(): void => {
+                console.log('Company detail');
+              }}
+            />
           )}
         />
       </SafeAreaView>
