@@ -31,9 +31,6 @@ const styles = StyleSheet.create({
     listHeader: {
         paddingHorizontal: 16,
     },
-    companyText: {
-        color: 'black',
-    },
 });
 
 export default styles;

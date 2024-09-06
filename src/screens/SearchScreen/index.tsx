@@ -9,7 +9,7 @@ import type {
   SearchScreenState,
 } from '@shared/types';
 import { CompanyService, MovieService } from '@services';
-import { MovieSearchCard } from '@components';
+import { CompanySearchCard, MovieSearchCard } from '@components';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
 import { Ionicons } from '@assets/icons';
 import styles from './style';
@@ -106,13 +106,7 @@ class SearchScreen extends React.Component<
             <Text style={[styles.text, styles.listHeader]}>Company</Text>
           }
           renderItem={({ item, index }) => (
-            <View>
-              <Text style={styles.companyText}>{item.id}</Text>
-              <Text style={styles.companyText}>{item.name}</Text>
-              <Text style={styles.companyText}>{item.logoPath}</Text>
-              <Text style={styles.companyText}>{item.originCountry}</Text>
-              <Text style={styles.companyText}>{index}</Text>
-            </View>
+            <CompanySearchCard item={item} index={index} />
           )}
         />
       </SafeAreaView>

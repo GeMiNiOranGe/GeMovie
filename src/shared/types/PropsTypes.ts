@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { GestureResponderEvent } from 'react-native';
 
 import { MovieElement } from './Movie';
+import { CompanyElement } from './Company';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -31,4 +32,10 @@ export type LabelProps = {
 export type ExpandableTextProps = {
     text: string;
     numberOfLines: number;
+};
+
+export type CompanySearchCardProps = {
+    item: CompanyElement;
+    index?: number;
+    onPress?: (event: GestureResponderEvent) => void;
 };
