@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
+import { SearchNormal1 } from 'iconsax-react-native';
 
-import { Ionicons } from '@assets/icons';
 import { RootScreenProps } from '@shared/types';
 import styles from './style';
 
@@ -19,9 +19,7 @@ class SearchSuggestionScreen extends React.Component<
       <TouchableOpacity
         onPress={() => this.props.navigation.navigate('SearchScreen')}
       >
-        <Text>
-          <Ionicons.SearchIcon size={24} color='black' />;
-        </Text>
+        <SearchNormal1 size={24} color={'black'} />
       </TouchableOpacity>
     );
   }

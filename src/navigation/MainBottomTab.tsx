@@ -1,19 +1,35 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Home, SearchNormal1 } from 'iconsax-react-native';
 
-import { Octicons, Ionicons } from '@assets/icons';
 import { TabBarIconProps } from '@shared/types';
 import { HomeStack, SearchStack } from '@navigation';
 
 const BottomTab = createBottomTabNavigator();
 
 class MainBottomTab extends React.Component {
-  private renderHomeIcon({ focused }: TabBarIconProps) {
-    return <Octicons.HomeIcon size={24} color={focused ? 'black' : 'gray'} />;
+  private renderHomeIcon({
+    focused,
+    color,
+    size,
+  }: TabBarIconProps): React.JSX.Element {
+    return (
+      <Home size={size} color={color} variant={focused ? 'Bold' : 'Linear'} />
+    );
   }
 
-  private renderSearchIcon({ focused }: TabBarIconProps) {
-    return <Ionicons.SearchIcon size={24} color={focused ? 'black' : 'gray'} />;
+  private renderSearchIcon({
+    focused,
+    color,
+    size,
+  }: TabBarIconProps): React.JSX.Element {
+    return (
+      <SearchNormal1
+        size={size}
+        color={color}
+        variant={focused ? 'Bold' : 'Linear'}
+      />
+    );
   }
 
   public override render(): React.JSX.Element {
