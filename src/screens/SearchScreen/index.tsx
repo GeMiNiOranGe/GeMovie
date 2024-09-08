@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert, FlatList, SafeAreaView, Text } from 'react-native';
-import { SearchBar } from '@rneui/themed';
+import { Alert, FlatList, SafeAreaView, Text, View } from 'react-native';
+import { IconButton, Searchbar } from 'react-native-paper';
+import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
 
 import type {
   CompanyElement,
@@ -11,7 +12,6 @@ import type {
 import { CompanyService, MovieService } from '@services';
 import { CompanySearchCard, MovieSearchCard } from '@components';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
-import { Ionicons } from '@assets/icons';
 import styles from './style';
 
 class SearchScreen extends React.Component<
@@ -64,24 +64,43 @@ class SearchScreen extends React.Component<
     });
   }
 
+  private renderReturnIcon() {
+    return <ArrowLeft2 size='24' color='black' />;
+  }
+
+  private renderSearchIcon() {
+    return <SearchNormal1 size='16' color='black' />;
+  }
+
   public override render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
-        <SearchBar
-          autoFocus
-          placeholder='Search for shows, movies,...'
-          platform='android'
-          value={this.state.searchContent}
-          searchIcon={<Ionicons.SearchIcon size={24} color='black' />}
-          onCancel={() => this.props.navigation.goBack()}
-          onChangeText={(text: string) => {
-            this.setState({ searchContent: text });
-            this.handleSearchContentChange(text);
-          }}
-        />
+        <View style={styles.searchBarBox}>
+          <View style={styles.center}>
+            <IconButton
+              onPress={() => this.props.navigation.goBack()}
+              icon={this.renderReturnIcon}
+            />
+          </View>
+
+          <Searchbar
+            style={styles.searchBar}
+            inputStyle={styles.searchBarInput}
+            icon={this.renderSearchIcon}
+            autoFocus
+            placeholder='Search for shows, movies,...'
+            value={this.state.searchContent}
+            onChangeText={(text: string) => {
+              this.setState({ searchContent: text });
+              this.handleSearchContentChange(text);
+            }}
+          />
+        </View>
+
         <FlatList
           style={styles.list}
           contentContainerStyle={styles.contentList}
+          keyboardShouldPersistTaps='handled'
           data={this.state.results.movies}
           ListHeaderComponent={
             <Text style={[styles.text, styles.listHeader]}>Movie</Text>
@@ -101,6 +120,7 @@ class SearchScreen extends React.Component<
         <FlatList
           style={styles.list}
           contentContainerStyle={styles.contentList}
+          keyboardShouldPersistTaps='handled'
           data={this.state.results.companies}
           ListHeaderComponent={
             <Text style={[styles.text, styles.listHeader]}>Company</Text>

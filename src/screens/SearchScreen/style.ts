@@ -20,6 +20,22 @@ const styles = StyleSheet.create({
     listHeader: {
         paddingHorizontal: 16,
     },
+    center: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    searchBarBox: {
+        flexDirection: 'row',
+        paddingRight: 16,
+        paddingVertical: 8,
+    },
+    searchBar: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    searchBarInput: {
+        minHeight: 0,
+    },
 });
 
 export default styles;
