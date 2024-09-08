@@ -33,3 +33,11 @@ export type Spacing = {
 };
 
 export type SearchType = 'company' | 'movie';
+
+export type Variant =
+    | 'Linear'
+    | 'Outline'
+    | 'Broken'
+    | 'Bold'
+    | 'Bulk'
+    | 'TwoTone';

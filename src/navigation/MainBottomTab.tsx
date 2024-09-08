@@ -2,9 +2,11 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, SearchNormal1 } from 'iconsax-react-native';
 
-import { TabBarIconProps } from '@shared/types';
+import { TabBarIconProps, Variant } from '@shared/types';
 import { HomeStack, SearchStack } from '@navigation';
 
+const focusedIconVariant: Variant = 'Bulk';
+const normalIconVariant: Variant = 'Linear';
 const BottomTab = createBottomTabNavigator();
 
 class MainBottomTab extends React.Component {
@@ -14,7 +16,11 @@ class MainBottomTab extends React.Component {
     size,
   }: TabBarIconProps): React.JSX.Element {
     return (
-      <Home size={size} color={color} variant={focused ? 'Bold' : 'Linear'} />
+      <Home
+        size={size}
+        color={color}
+        variant={focused ? focusedIconVariant : normalIconVariant}
+      />
     );
   }
 
@@ -27,7 +33,7 @@ class MainBottomTab extends React.Component {
       <SearchNormal1
         size={size}
         color={color}
-        variant={focused ? 'Bold' : 'Linear'}
+        variant={focused ? focusedIconVariant : normalIconVariant}
       />
     );
   }
