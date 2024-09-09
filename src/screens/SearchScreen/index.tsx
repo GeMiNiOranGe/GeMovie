@@ -130,7 +130,9 @@ class SearchScreen extends React.Component<
               item={item}
               index={index}
               onPress={(): void => {
-                console.log('Company detail');
+                this.props.navigation.navigate('CompanyDetailScreen', {
+                  companyId: item.id,
+                });
               }}
             />
           )}
