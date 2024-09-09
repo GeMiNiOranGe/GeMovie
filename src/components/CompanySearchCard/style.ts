@@ -2,41 +2,50 @@ import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
 
+const paddingCard = spacing.medium;
+const innerRadius = 4;
+const outerRadius = innerRadius + paddingCard;
+
 const styles = StyleSheet.create({
-    container: {
-        marginHorizontal: 0,
-        marginTop: 0,
-        marginBottom: spacing.medium,
-        padding: spacing.medium,
-        borderRadius: 16,
-        borderColor: 'transparent',
+    card: {
+        marginBottom: spacing.small,
+        padding: paddingCard,
+        borderRadius: outerRadius,
+        backgroundColor: 'white',
     },
-    wrapper: {
+    cardContent: {
         flexDirection: 'row',
+    },
+    image: {
+        height: 64,
+        width: 64,
+        marginRight: spacing.large,
+        borderRadius: innerRadius,
+    },
+    content: {
+        justifyContent: 'center',
+        flexShrink: 1,
     },
     title: {
         marginBottom: spacing.tiny,
         color: 'black',
         fontSize: 16,
     },
-    content: {
-        justifyContent: 'center',
-        flexShrink: 1,
-    },
-    image: {
-        height: 48,
-        width: 48,
-        marginRight: spacing.medium,
-        borderRadius: 4,
-    },
-    forwardButton: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-    },
     text: {
         fontSize: 12,
         color: 'gray',
+    },
+    navigationBox: {
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+    },
+    navigationIconButton: {
+        marginRight: 0,
+    },
+    spaceBetweenRow: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
 });
 
