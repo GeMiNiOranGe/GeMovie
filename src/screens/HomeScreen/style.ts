@@ -1,73 +1,77 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'black',
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
+    },
     container: {
         flex: 1,
         backgroundColor: '#0b0f1e',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    header: {
-        position: 'relative',
-        height: 100,
-        justifyContent: 'center',
-        paddingTop: 500,
-    },
-    headerImage: {
-        width: 300,
-        height: 490,
-        resizeMode: 'cover',
-        alignSelf: 'center',
-        borderRadius: 20,
-    },
-    titleContainer: {
-        flexDirection: 'row',
-    },
-    rating: {
-        position: 'absolute',
-        left: 25,
-        top: 15,
-        backgroundColor: '#f5c518',
-        padding: 5,
-        borderRadius: 5,
-    },
-    ratingText: {
-        fontWeight: 'bold',
-    },
-    title: {
-        position: 'absolute',
-        left: 80,
-        top: 15,
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'white',
-    },
-    watchNow: {
-        position: 'absolute',
-        right: 25,
-        top: 15,
-        backgroundColor: '#007bff',
-        padding: 7,
-        borderRadius: 20,
-    },
-    watchNowText: {
-        fontWeight: 'bold',
-        color: 'white',
     },
     content: {
-        paddingHorizontal: 25,
-        paddingVertical: 300,
+        flex: 1,
+        width: '100%',
+        paddingHorizontal: 10,
+        paddingVertical: 10,
     },
     movieList: {
         flexDirection: 'row',
-        paddingVertical: 15,
+        paddingTop: 10,
     },
     movieThumbnail: {
-        width: 100,
-        height: 150,
+        width: 140,
+        height: 200,
         borderRadius: 10,
         marginRight: 10,
     },
+    movieItem: {
+        alignItems: 'center',
+        marginLeft: 10,
+        width: 160,
+    },
+    movieTitle: {
+        color: '#fff',
+        marginTop: 5,
+        fontSize: 12,
+        textAlign: 'center',
+        width: '100%',
+    },
+    section: {
+        width: '100%',
+        marginVertical: 20,
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+    },
+    sectionTitle: {
+        color: '#f5c518',
+        fontSize: 18,
+        marginTop: 10,
+    },
+    celebrityList: {
+        flexDirection: 'row',
+        top: 10,
+    },
+    celebrityItem: {
+        marginRight: 10,
+        alignItems: 'center',
+    },
+    celebrityThumbnail: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+    },
+    celebrityName: {
+        color: '#fff',
+        marginTop: 5,
+        fontSize: 12,
+        textAlign: 'center',
+    },
 });
-
 export default styles;

@@ -1,74 +1,116 @@
 import React from 'react';
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styles from './style';
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
+import { Slideshow } from '@components';
 
 class HomeScreen extends React.Component {
   public override state = {
     movies: [] as any[],
-    selectedMovie: null as any,
+    celebrities: [] as any[],
+    upcomingMovies: [] as any[],
+    isLoading: true,
   };
-
   public override componentDidMount() {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ movies: data.results, selectedMovie: data.results[0] });
-      });
+    const celebrityUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
+    const upcomingMoviesUrl = `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}`;
+    setTimeout(() => {
+      Promise.all([
+        fetch(url).then(response => response.json()),
+        fetch(celebrityUrl).then(response => response.json()),
+        fetch(upcomingMoviesUrl).then(response => response.json()),
+      ])
+        .then(([movieData, celebrityData, upcomingMoviesData]) => {
+          this.setState({
+            movies: movieData.results,
+            celebrities: celebrityData.results,
+            upcomingMovies: upcomingMoviesData.results,
+            isLoading: false,
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          this.setState({ isLoading: false });
+        });
+    }, 700);
   }
-  private handleMovieSelect = (movie: any) => {
-    this.setState({ selectedMovie: movie });
-  };
   public override render() {
-    const { movies, selectedMovie } = this.state;
+    // eslint-disable-next-line prettier/prettier
+    const { movies, celebrities, upcomingMovies,isLoading} = this.state;
+    if (isLoading) {
+      return (
+        <View style={[styles.loadingContainer, styles.horizontal]}>
+          <ActivityIndicator size='large' />
+        </View>
+      );
+    }
+    const upcomingMoviesImages = upcomingMovies.map(movie =>
+      URLBuilder.buildImageURL('w780', movie.backdrop_path),
+    );
+    const upcomingMoviesTitles = upcomingMovies.map(movie => movie.title);
+    const upcomingMoviesReleaseDates = upcomingMovies.map(
+      movie => movie.release_date,
+    );
     return (
       <View style={styles.container}>
-        <View>
-          {selectedMovie && (
-            <View style={styles.header}>
-              <Image
-                source={{
-                  // eslint-disable-next-line prettier/prettier
-                  uri: URLBuilder.buildImageURL('w300', selectedMovie.poster_path),
-                }}
-                style={styles.headerImage}
-              />
-              <View style={styles.titleContainer}>
-                <View style={styles.rating}>
-                  <Text style={styles.ratingText}>
-                    {selectedMovie.vote_average}
+        <Slideshow
+          images={upcomingMoviesImages}
+          titles={upcomingMoviesTitles}
+          releaseDates={upcomingMoviesReleaseDates}
+        />
+        <View style={styles.content}>
+          <Text style={styles.sectionTitle}>Featured Today</Text>
+          <ScrollView horizontal style={styles.movieList}>
+            {movies.map(movie => {
+              const imageUrl = URLBuilder.buildImageURL(
+                'w185',
+                movie.poster_path,
+              );
+              return (
+                <TouchableOpacity key={movie.id}>
+                  <Image
+                    source={{ uri: imageUrl }}
+                    style={styles.movieThumbnail}
+                  />
+                  <Text numberOfLines={1} style={styles.movieTitle}>
+                    {movie.title}
                   </Text>
-                </View>
-                <Text style={styles.title}>{selectedMovie.title}</Text>
-                <TouchableOpacity style={styles.watchNow}>
-                  <Text style={styles.watchNowText}>Watch Now</Text>
                 </TouchableOpacity>
-              </View>
-            </View>
-          )}
-          <View style={styles.content}>
-            <ScrollView horizontal style={styles.movieList}>
-              {movies.map(movie => {
-                const imageUrl = URLBuilder.buildImageURL(
-                  'w185',
-                  movie.poster_path,
-                );
-                return (
-                  <TouchableOpacity
-                    key={movie.id}
-                    onPress={() => this.handleMovieSelect(movie)}
-                  >
+              );
+            })}
+          </ScrollView>
+        </View>
+        {/* Most Popular Celebrities */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Most popular celebrities</Text>
+          <ScrollView horizontal style={styles.celebrityList}>
+            {celebrities.map(celebrity => {
+              const imageUrl = URLBuilder.buildImageURL(
+                'w185',
+                celebrity.profile_path,
+              );
+              return (
+                <TouchableOpacity key={celebrity.id}>
+                  <View style={styles.celebrityItem}>
                     <Image
                       source={{ uri: imageUrl }}
-                      style={styles.movieThumbnail}
+                      style={styles.celebrityThumbnail}
                     />
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
-          </View>
+                    <Text style={styles.celebrityName}>{celebrity.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
         </View>
       </View>
     );
