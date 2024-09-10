@@ -18,7 +18,7 @@ class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
     return (
       <Card
         style={styles.card}
-        contentStyle={styles.cardContent}
+        contentStyle={layout.row}
         onPress={this.props.onPress}
       >
         {this.props.item.logoPath ? (

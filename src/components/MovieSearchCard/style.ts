@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
 
+const imageDimensions = calculateImageDimensions(116, 2, 3);
+
 const styles = StyleSheet.create({
     button: {
         marginBottom: 12,
@@ -14,7 +16,7 @@ const styles = StyleSheet.create({
     },
     cardImage: {
         borderRadius: 4,
-        ...calculateImageDimensions(116, 2, 3),
+        ...imageDimensions,
     },
     cardImageView: {
         elevation: 5,

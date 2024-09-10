@@ -8,8 +8,8 @@ export function getFormattedDate(date?: Date): string | undefined {
 
 export function calculateImageDimensions(
     pixel: number,
-    horizontalRatio: number,
-    verticalRatio: number,
+    horizontalRatio: number = 1,
+    verticalRatio: number = 1,
 ): ImageDimensions {
     return {
         width: pixel,
