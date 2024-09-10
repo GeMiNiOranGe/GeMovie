@@ -39,7 +39,12 @@ class MainBottomTab extends React.Component {
 
   public override render(): React.JSX.Element {
     return (
-      <BottomTab.Navigator screenOptions={{ headerShown: false }}>
+      <BottomTab.Navigator
+        initialRouteName='HomeStack'
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         <BottomTab.Screen
           name='HomeStack'
           component={HomeStack}
