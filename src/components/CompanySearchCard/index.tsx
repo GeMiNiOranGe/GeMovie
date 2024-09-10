@@ -3,6 +3,7 @@ import { Image, Text, View } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, PictureFrame } from 'iconsax-react-native';
 
+import { layout } from '@shared/themes';
 import { imageSize } from '@shared/constants';
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { CompanySearchCardProps } from '@shared/types';
@@ -29,17 +30,12 @@ class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
             }}
           />
         ) : (
-          <View
-            style={[
-              styles.image,
-              { justifyContent: 'center', alignItems: 'center' },
-            ]}
-          >
+          <View style={[styles.image, layout.center]}>
             <PictureFrame size='48' color='black' />
           </View>
         )}
 
-        <View style={styles.spaceBetweenRow}>
+        <View style={[layout.flex1, layout.spaceBetweenRow]}>
           <View style={styles.content}>
             <Text style={styles.title} numberOfLines={1}>
               {this.props.item.name}
