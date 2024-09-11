@@ -2,7 +2,13 @@ module.exports = {
     root: true,
     extends: '@react-native',
     rules: {
-        indent: ['error', 4],
+        indent: [
+            'error',
+            4,
+            {
+                SwitchCase: 1,
+            },
+        ],
         'linebreak-style': ['error', 'unix'],
         'jsx-quotes': ['error', 'prefer-single'],
         '@typescript-eslint/no-unused-vars': ['warn'],
@@ -13,7 +19,13 @@ module.exports = {
         {
             files: ['*.tsx', '*.jsx'],
             rules: {
-                indent: ['error', 2],
+                indent: [
+                    'error',
+                    2,
+                    {
+                        SwitchCase: 1,
+                    },
+                ],
             },
         },
     ],

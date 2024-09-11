@@ -1,7 +1,8 @@
 import React from 'react';
-import { Alert, FlatList, SafeAreaView, Text, View } from 'react-native';
+import { Alert, FlatList, SafeAreaView, View } from 'react-native';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
+import { TabView, Route } from 'react-native-tab-view';
 
 import type {
   CompanyElement,
@@ -26,6 +27,11 @@ class SearchScreen extends React.Component<
         companies: [],
       },
       searchContent: '',
+      index: 0,
+      routes: [
+        { key: 'movie', title: 'Movie' },
+        { key: 'company', title: 'Company' },
+      ],
     };
 
     this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
@@ -72,6 +78,53 @@ class SearchScreen extends React.Component<
     return <SearchNormal1 size='16' color='black' />;
   }
 
+  private renderScene = ({ route }: { route: Route }) => {
+    switch (route.key) {
+      case 'movie':
+        return (
+          <FlatList
+            style={styles.list}
+            contentContainerStyle={styles.contentList}
+            keyboardShouldPersistTaps='handled'
+            data={this.state.results.movies}
+            renderItem={({ item, index }) => (
+              <MovieSearchCard
+                item={item}
+                index={index}
+                onPress={() => {
+                  this.props.navigation.navigate('MovieDetailScreen', {
+                    movieId: item.id,
+                  });
+                }}
+              />
+            )}
+          />
+        );
+      case 'company':
+        return (
+          <FlatList
+            style={styles.list}
+            contentContainerStyle={styles.contentList}
+            keyboardShouldPersistTaps='handled'
+            data={this.state.results.companies}
+            renderItem={({ item, index }) => (
+              <CompanySearchCard
+                item={item}
+                index={index}
+                onPress={() => {
+                  this.props.navigation.navigate('CompanyDetailScreen', {
+                    companyId: item.id,
+                  });
+                }}
+              />
+            )}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   public override render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
@@ -97,45 +150,13 @@ class SearchScreen extends React.Component<
           />
         </View>
 
-        <FlatList
-          style={styles.list}
-          contentContainerStyle={styles.contentList}
-          keyboardShouldPersistTaps='handled'
-          data={this.state.results.movies}
-          ListHeaderComponent={
-            <Text style={[styles.text, styles.listHeader]}>Movie</Text>
-          }
-          renderItem={({ item, index }) => (
-            <MovieSearchCard
-              item={item}
-              index={index}
-              onPress={(): void => {
-                this.props.navigation.navigate('MovieDetailScreen', {
-                  movieId: item.id,
-                });
-              }}
-            />
-          )}
-        />
-        <FlatList
-          style={styles.list}
-          contentContainerStyle={styles.contentList}
-          keyboardShouldPersistTaps='handled'
-          data={this.state.results.companies}
-          ListHeaderComponent={
-            <Text style={[styles.text, styles.listHeader]}>Company</Text>
-          }
-          renderItem={({ item, index }) => (
-            <CompanySearchCard
-              item={item}
-              index={index}
-              onPress={(): void => {
-                this.props.navigation.navigate('CompanyDetailScreen', {
-                  companyId: item.id,
-                });
-              }}
-            />
-          )}
+        <TabView
+          navigationState={{
+            index: this.state.index,
+            routes: this.state.routes,
+          }}
+          renderScene={this.renderScene}
+          onIndexChange={index => this.setState({ index })}
         />
       </SafeAreaView>
     );

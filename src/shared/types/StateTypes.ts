@@ -1,3 +1,5 @@
+import { Route } from 'react-native-tab-view';
+
 import { CompanyElement } from './Company';
 import { Movie, MovieElement } from './Movie';
 
@@ -7,6 +9,8 @@ export type SearchScreenState = {
         companies?: CompanyElement[] | undefined;
     };
     searchContent: string;
+    index: number;
+    routes: Route[];
 };
 
 export type MovieDetailScreenState = {
