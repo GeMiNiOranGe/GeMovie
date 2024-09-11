@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#0b0f1e',
+        backgroundColor: '#051a2d',
     },
     content: {
         flex: 1,
@@ -26,22 +26,28 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     movieThumbnail: {
-        width: 140,
-        height: 200,
-        borderRadius: 10,
-        marginRight: 10,
+        width: 150,
+        height: 230,
+        marginRight: 20,
+        borderRadius: 20,
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4.65,
+        elevation: 8,
     },
     movieItem: {
         alignItems: 'center',
-        marginLeft: 10,
-        width: 160,
     },
     movieTitle: {
         color: '#fff',
         marginTop: 5,
-        fontSize: 12,
+        fontSize: 15,
         textAlign: 'center',
-        width: '100%',
+        marginRight: 10,
     },
     section: {
         width: '100%',
@@ -49,8 +55,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 5,
     },
+    containerSectionTitle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
     sectionTitle: {
-        color: '#f5c518',
+        color: '#FFE4E1',
         fontSize: 18,
         marginTop: 10,
     },
@@ -70,7 +80,7 @@ const styles = StyleSheet.create({
     celebrityName: {
         color: '#fff',
         marginTop: 5,
-        fontSize: 12,
+        fontSize: 15,
         textAlign: 'center',
     },
 });

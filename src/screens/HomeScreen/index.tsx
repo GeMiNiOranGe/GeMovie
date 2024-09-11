@@ -11,11 +11,12 @@ import styles from './style';
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
 import { Slideshow } from '@components';
+import { Celebrity, FeaturedMovie, RootScreenProps } from '@shared/types';
 
-class HomeScreen extends React.Component {
+class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
   public override state = {
-    movies: [] as any[],
-    celebrities: [] as any[],
+    movies: [] as FeaturedMovie[],
+    celebrities: [] as Celebrity[],
     upcomingMovies: [] as any[],
     isLoading: true,
   };
@@ -46,6 +47,7 @@ class HomeScreen extends React.Component {
   public override render() {
     // eslint-disable-next-line prettier/prettier
     const { movies, celebrities, upcomingMovies,isLoading} = this.state;
+    const { navigation } = this.props;
     if (isLoading) {
       return (
         <View style={[styles.loadingContainer, styles.horizontal]}>
@@ -68,7 +70,14 @@ class HomeScreen extends React.Component {
           releaseDates={upcomingMoviesReleaseDates}
         />
         <View style={styles.content}>
-          <Text style={styles.sectionTitle}>Featured Today</Text>
+          <View style={styles.containerSectionTitle}>
+            <Text style={styles.sectionTitle}>Featured Today</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SeeAllScreen')}
+            >
+              <Text style={styles.sectionTitle}>See All</Text>
+            </TouchableOpacity>
+          </View>
           <ScrollView horizontal style={styles.movieList}>
             {movies.map(movie => {
               const imageUrl = URLBuilder.buildImageURL(
@@ -81,9 +90,6 @@ class HomeScreen extends React.Component {
                     source={{ uri: imageUrl }}
                     style={styles.movieThumbnail}
                   />
-                  <Text numberOfLines={1} style={styles.movieTitle}>
-                    {movie.title}
-                  </Text>
                 </TouchableOpacity>
               );
             })}

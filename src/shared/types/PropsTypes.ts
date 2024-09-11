@@ -11,6 +11,7 @@ export type RootStackParamList = ParamListBase & {
     MovieDetailScreen: {
         movieId: number;
     };
+    SeeAllScreen: undefined;
 };
 
 export type RootScreenProps<

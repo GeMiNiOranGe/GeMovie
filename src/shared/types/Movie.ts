@@ -16,7 +16,13 @@ export type MovieElement = {
     voteAverage: number;
     voteCount: number;
 };
-
+export type FeaturedMovie = {
+    id: number;
+    title: string;
+    poster_path: string;
+    backdrop_path: string;
+    release_date: string;
+};
 export type Movie = {
     adult: boolean;
     backdropPath: string | undefined;

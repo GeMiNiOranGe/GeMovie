@@ -1,9 +1,10 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window'); // Get screen width
 
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        marginTop: 10,
         position: 'relative',
     },
     slide: {
@@ -12,17 +13,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        width: 500,
+        width: width,
         height: 300,
         resizeMode: 'cover',
     },
     pagination: {
         bottom: 10,
     },
-    textContainer: {
+    contentContainer: {
+        flexDirection: 'row',
         position: 'absolute',
         bottom: 10,
         left: 10,
+        alignItems: 'center',
+    },
+    textContainer: {
+        maxWidth: width * 0.7,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 5,
         borderRadius: 5,
@@ -36,15 +42,17 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 14,
     },
+    playIcon: {
+        marginLeft: 10,
+    },
     arrowButton: {
         position: 'absolute',
-        top: '40%',
+        top: '50%',
         zIndex: 10,
-        width: 35,
+        width: 40,
         height: 35,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         borderRadius: 15,
     },
     arrowText: {
@@ -58,4 +66,5 @@ const styles = StyleSheet.create({
         right: 5,
     },
 });
+
 export default styles;

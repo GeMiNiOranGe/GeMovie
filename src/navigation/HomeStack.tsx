@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { HomeScreen } from '@screens';
+import { HomeScreen, SeeAllMoviesScreen } from '@screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +13,15 @@ class HomeStack extends React.Component {
           name='HomeScreen'
           component={HomeScreen}
           options={{
-            title: 'Home',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='SeeAllScreen'
+          component={SeeAllMoviesScreen}
+          options={{
+            headerShown: true,
+            title: 'All',
           }}
         />
       </Stack.Navigator>
