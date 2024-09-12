@@ -1,6 +1,10 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ColorValue, GestureResponderEvent } from 'react-native';
+import {
+    ColorValue,
+    GestureResponderEvent,
+    ListRenderItem,
+} from 'react-native';
 
 import { MovieElement } from './Movie';
 import { CompanyElement } from './Company';
@@ -27,6 +31,12 @@ export type MovieSearchCardProps = {
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
+export type CompanySearchCardProps = {
+    item: CompanyElement;
+    index?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
 export type LabelProps = {
     name: string;
     value?: string | undefined;
@@ -35,12 +45,6 @@ export type LabelProps = {
 export type ExpandableTextProps = {
     text: string;
     numberOfLines: number;
-};
-
-export type CompanySearchCardProps = {
-    item: CompanyElement;
-    index?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
 export type IconProps = {
@@ -52,4 +56,9 @@ export type TabBarIconProps = {
     focused: boolean;
     color: string;
     size: number;
+};
+
+export type SearchResultsListProps<ItemT> = {
+    data: ArrayLike<ItemT> | null | undefined;
+    renderItem: ListRenderItem<ItemT> | null | undefined;
 };

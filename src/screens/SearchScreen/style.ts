@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-import { spacing } from '@shared/constants';
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -9,20 +7,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 32,
         color: 'black',
-    },
-    list: {
-        paddingTop: 10,
-    },
-    contentList: {
-        paddingBottom: 10,
-        paddingHorizontal: spacing.large,
-    },
-    listHeader: {
-        paddingHorizontal: 16,
-    },
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     searchBarBox: {
         flexDirection: 'row',

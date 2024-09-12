@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, FlatList, SafeAreaView, View } from 'react-native';
+import { Alert, Dimensions, SafeAreaView, View } from 'react-native';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
 import { TabView, Route } from 'react-native-tab-view';
@@ -10,9 +10,14 @@ import type {
   RootScreenProps,
   SearchScreenState,
 } from '@shared/types';
+import {
+  CompanySearchCard,
+  MovieSearchCard,
+  SearchResultsList,
+} from '@components';
 import { CompanyService, MovieService } from '@services';
-import { CompanySearchCard, MovieSearchCard } from '@components';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
+import { layout } from '@shared/themes';
 import styles from './style';
 
 class SearchScreen extends React.Component<
@@ -82,10 +87,7 @@ class SearchScreen extends React.Component<
     switch (route.key) {
       case 'movie':
         return (
-          <FlatList
-            style={styles.list}
-            contentContainerStyle={styles.contentList}
-            keyboardShouldPersistTaps='handled'
+          <SearchResultsList
             data={this.state.results.movies}
             renderItem={({ item, index }) => (
               <MovieSearchCard
@@ -102,10 +104,7 @@ class SearchScreen extends React.Component<
         );
       case 'company':
         return (
-          <FlatList
-            style={styles.list}
-            contentContainerStyle={styles.contentList}
-            keyboardShouldPersistTaps='handled'
+          <SearchResultsList
             data={this.state.results.companies}
             renderItem={({ item, index }) => (
               <CompanySearchCard
@@ -129,7 +128,7 @@ class SearchScreen extends React.Component<
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.searchBarBox}>
-          <View style={styles.center}>
+          <View style={layout.center}>
             <IconButton
               onPress={() => this.props.navigation.goBack()}
               icon={this.renderReturnIcon}
@@ -157,6 +156,8 @@ class SearchScreen extends React.Component<
           }}
           renderScene={this.renderScene}
           onIndexChange={index => this.setState({ index })}
+          initialLayout={{ width: Dimensions.get('window').width }}
+          swipeEnabled={false}
         />
       </SafeAreaView>
     );
