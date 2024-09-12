@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#051a2d',
     },
     content: {
         flex: 1,
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     sectionTitle: {
-        color: '#FFE4E1',
+        color: 'white',
         fontSize: 18,
         marginTop: 10,
     },

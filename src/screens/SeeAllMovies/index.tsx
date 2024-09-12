@@ -12,6 +12,7 @@ import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
 import { FeaturedMovie } from '@shared/types';
 import _ from 'lodash';
+import LinearGradient from 'react-native-linear-gradient';
 class AllMovies extends React.Component {
   public override state = {
     movies: [] as FeaturedMovie[],
@@ -55,7 +56,12 @@ class AllMovies extends React.Component {
   public override render() {
     const { movies } = this.state;
     return (
-      <View style={styles.container}>
+      <LinearGradient
+        style={styles.container}
+        start={{ x: 1, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        colors={['#355C7D', '#6C5B7B', '#24243e']}
+      >
         <View style={styles.movieList}>
           <FlatList
             data={movies}
@@ -81,7 +87,7 @@ class AllMovies extends React.Component {
             numColumns={2}
           />
         </View>
-      </View>
+      </LinearGradient>
     );
   }
 }

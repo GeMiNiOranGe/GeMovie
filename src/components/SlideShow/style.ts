@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        width: width,
+        width: '100%',
         height: 300,
         resizeMode: 'cover',
     },
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     prevButton: {
-        left: 5,
+        left: 4,
     },
     nextButton: {
         right: 5,

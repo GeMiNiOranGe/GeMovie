@@ -12,6 +12,7 @@ import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
 import { Slideshow } from '@components';
 import { Celebrity, FeaturedMovie, RootScreenProps } from '@shared/types';
+import LinearGradient from 'react-native-linear-gradient';
 
 class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
   public override state = {
@@ -63,7 +64,12 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
       movie => movie.release_date,
     );
     return (
-      <View style={styles.container}>
+      <LinearGradient
+        style={styles.container}
+        start={{ x: 1, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        colors={['#544a7d', '#ffd452']}
+      >
         <Slideshow
           images={upcomingMoviesImages}
           titles={upcomingMoviesTitles}
@@ -95,6 +101,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
             })}
           </ScrollView>
         </View>
+
         {/* Most Popular Celebrities */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Most popular celebrities</Text>
@@ -118,7 +125,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
             })}
           </ScrollView>
         </View>
-      </View>
+      </LinearGradient>
     );
   }
 }
