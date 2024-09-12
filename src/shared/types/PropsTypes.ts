@@ -27,13 +27,15 @@ export type RootScreenProps<
 
 export type MovieSearchCardProps = {
     item: MovieElement;
-    index?: number | undefined;
+    index: number;
+    listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
 export type CompanySearchCardProps = {
     item: CompanyElement;
-    index?: number | undefined;
+    index: number;
+    listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 

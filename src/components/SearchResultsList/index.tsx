@@ -10,7 +10,6 @@ class SearchResultsList<ItemT = any> extends React.PureComponent<
   public override render(): React.JSX.Element {
     return (
       <FlatList
-        style={styles.list}
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps='handled'
         data={this.props.data}

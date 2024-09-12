@@ -4,7 +4,7 @@ import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, PictureFrame } from 'iconsax-react-native';
 
 import { layout } from '@shared/themes';
-import { imageSize } from '@shared/constants';
+import { imageSize, spacing } from '@shared/constants';
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { CompanySearchCardProps } from '@shared/types';
 import styles from './style';
@@ -15,9 +15,12 @@ class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
   }
 
   public override render(): React.JSX.Element {
+    const marginBottom: number =
+      this.props.index === (this.props.listLength || 0) - 1 ? 0 : spacing.small;
+
     return (
       <Card
-        style={styles.card}
+        style={[styles.card, { marginBottom }]}
         contentStyle={layout.row}
         onPress={this.props.onPress}
       >

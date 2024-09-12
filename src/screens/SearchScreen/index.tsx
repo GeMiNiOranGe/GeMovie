@@ -93,6 +93,7 @@ class SearchScreen extends React.Component<
               <MovieSearchCard
                 item={item}
                 index={index}
+                listLength={this.state.results.movies?.length}
                 onPress={() => {
                   this.props.navigation.navigate('MovieDetailScreen', {
                     movieId: item.id,
@@ -110,6 +111,7 @@ class SearchScreen extends React.Component<
               <CompanySearchCard
                 item={item}
                 index={index}
+                listLength={this.state.results.companies?.length}
                 onPress={() => {
                   this.props.navigation.navigate('CompanyDetailScreen', {
                     companyId: item.id,

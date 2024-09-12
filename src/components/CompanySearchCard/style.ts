@@ -10,7 +10,6 @@ const outerRadius = innerRadius + paddingCard;
 
 const styles = StyleSheet.create({
     card: {
-        marginBottom: spacing.small,
         padding: paddingCard,
         borderRadius: outerRadius,
         backgroundColor: 'white',
