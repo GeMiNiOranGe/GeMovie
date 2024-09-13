@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
-import { ArrowRight2, PictureFrame } from 'iconsax-react-native';
+import { ArrowRight2, Image as ImageIcon } from 'iconsax-react-native';
 
 import { layout } from '@shared/themes';
 import { imageSize, spacing } from '@shared/constants';
@@ -34,7 +34,7 @@ class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
           />
         ) : (
           <View style={[styles.image, layout.center]}>
-            <PictureFrame size='48' color='black' />
+            <ImageIcon size='32' color='black' />
           </View>
         )}
 

@@ -6,6 +6,16 @@ export function getFormattedDate(date?: Date): string | undefined {
         : date?.toDateString();
 }
 
+export function getFormattedFullYear(date?: Date): string | number | undefined {
+    return date?.toString() === 'Invalid Date'
+        ? 'unknown'
+        : date?.getFullYear();
+}
+
+export function getFormattedVoteAverage(voteAverage: number): string | number {
+    return voteAverage === 10 ? voteAverage : voteAverage.toFixed(1);
+}
+
 export function calculateImageDimensions(
     pixel: number,
     horizontalRatio: number = 1,
