@@ -1,5 +1,3 @@
-import { ColorValue } from 'react-native';
-
 export type SearchPage<T> = {
     page: number;
     results: T[];
@@ -27,6 +25,7 @@ export type ImageDimensions = {
 };
 
 export type Spacing = {
+    tiny: number;
     small: number;
     medium: number;
     large: number;
@@ -35,13 +34,10 @@ export type Spacing = {
 
 export type SearchType = 'company' | 'movie';
 
-export type IconProps = {
-    size?: number;
-    color?: ColorValue | number;
-};
-
-export type TabBarIconProps = {
-    focused: boolean;
-    color: string;
-    size: number;
-};
+export type Variant =
+    | 'Linear'
+    | 'Outline'
+    | 'Broken'
+    | 'Bold'
+    | 'Bulk'
+    | 'TwoTone';

@@ -1,8 +1,13 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { GestureResponderEvent } from 'react-native';
+import {
+    ColorValue,
+    GestureResponderEvent,
+    ListRenderItem,
+} from 'react-native';
 
 import { MovieElement } from './Movie';
+import { CompanyElement } from './Company';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -10,6 +15,9 @@ export type RootStackParamList = ParamListBase & {
     SearchSuggestionScreen: undefined;
     MovieDetailScreen: {
         movieId: number;
+    };
+    CompanyDetailScreen: {
+        companyId: number;
     };
     SeeAllScreen: undefined;
 };
@@ -20,16 +28,40 @@ export type RootScreenProps<
 
 export type MovieSearchCardProps = {
     item: MovieElement;
-    index?: number;
-    onPress?: (event: GestureResponderEvent) => void;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
+export type CompanySearchCardProps = {
+    item: CompanyElement;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
 export type LabelProps = {
     name: string;
-    value?: string;
+    value?: string | undefined;
 };
 
 export type ExpandableTextProps = {
     text: string;
     numberOfLines: number;
+};
+
+export type IconProps = {
+    size?: number | undefined;
+    color?: ColorValue | number | undefined;
+};
+
+export type TabBarIconProps = {
+    focused: boolean;
+    color: string;
+    size: number;
+};
+
+export type SearchResultsListProps<ItemT> = {
+    data: ArrayLike<ItemT> | null | undefined;
+    renderItem: ListRenderItem<ItemT> | null | undefined;
 };

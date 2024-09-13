@@ -1,4 +1,4 @@
-import type { ImageSize, Spacing } from '@shared/types';
+import type { ImageSize, Spacing, Variant } from '@shared/types';
 
 export const imageSize: ImageSize = {
     w45: 'w45',
@@ -15,6 +15,7 @@ export const imageSize: ImageSize = {
 };
 
 export const spacing: Spacing = {
+    tiny: 4,
     small: 8,
     medium: 12,
     large: 16,
@@ -22,3 +23,6 @@ export const spacing: Spacing = {
 };
 
 export const defaultIconSize: number = 12;
+
+export const activeIcon: Variant = 'Bulk';
+export const normalIcon: Variant = 'Linear';

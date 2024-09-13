@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
 
+const imageDimensions = calculateImageDimensions(185, 2, 3);
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
     },
     posterImage: {
         borderRadius: 12,
-        ...calculateImageDimensions(185, 2, 3),
+        ...imageDimensions,
     },
     posterSection: {},
     title: {

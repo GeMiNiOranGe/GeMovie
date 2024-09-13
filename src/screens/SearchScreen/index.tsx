@@ -1,6 +1,8 @@
 import React from 'react';
-import { Alert, FlatList, SafeAreaView, Text, View } from 'react-native';
-import { SearchBar } from '@rneui/themed';
+import { Alert, Dimensions, SafeAreaView, View } from 'react-native';
+import { IconButton, Searchbar } from 'react-native-paper';
+import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
+import { TabView, Route } from 'react-native-tab-view';
 
 import type {
   CompanyElement,
@@ -8,10 +10,14 @@ import type {
   RootScreenProps,
   SearchScreenState,
 } from '@shared/types';
+import {
+  CompanySearchCard,
+  MovieSearchCard,
+  SearchResultsList,
+} from '@components';
 import { CompanyService, MovieService } from '@services';
-import { MovieSearchCard } from '@components';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
-import { Ionicons } from '@assets/icons';
+import { layout } from '@shared/themes';
 import styles from './style';
 
 class SearchScreen extends React.Component<
@@ -26,6 +32,11 @@ class SearchScreen extends React.Component<
         companies: [],
       },
       searchContent: '',
+      index: 0,
+      routes: [
+        { key: 'movie', title: 'Movie' },
+        { key: 'company', title: 'Company' },
+      ],
     };
 
     this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
@@ -64,56 +75,91 @@ class SearchScreen extends React.Component<
     });
   }
 
+  private renderReturnIcon() {
+    return <ArrowLeft2 size='24' color='black' />;
+  }
+
+  private renderSearchIcon() {
+    return <SearchNormal1 size='16' color='black' />;
+  }
+
+  private renderScene = ({ route }: { route: Route }) => {
+    switch (route.key) {
+      case 'movie':
+        return (
+          <SearchResultsList
+            data={this.state.results.movies}
+            renderItem={({ item, index }) => (
+              <MovieSearchCard
+                item={item}
+                index={index}
+                listLength={this.state.results.movies?.length}
+                onPress={() => {
+                  this.props.navigation.navigate('MovieDetailScreen', {
+                    movieId: item.id,
+                  });
+                }}
+              />
+            )}
+          />
+        );
+      case 'company':
+        return (
+          <SearchResultsList
+            data={this.state.results.companies}
+            renderItem={({ item, index }) => (
+              <CompanySearchCard
+                item={item}
+                index={index}
+                listLength={this.state.results.companies?.length}
+                onPress={() => {
+                  this.props.navigation.navigate('CompanyDetailScreen', {
+                    companyId: item.id,
+                  });
+                }}
+              />
+            )}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   public override render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
-        <SearchBar
-          autoFocus
-          placeholder='Search for shows, movies,...'
-          platform='android'
-          value={this.state.searchContent}
-          searchIcon={<Ionicons.SearchIcon size={24} color='black' />}
-          onCancel={() => this.props.navigation.goBack()}
-          onChangeText={(text: string) => {
-            this.setState({ searchContent: text });
-            this.handleSearchContentChange(text);
-          }}
-        />
-        <FlatList
-          style={styles.list}
-          contentContainerStyle={styles.contentList}
-          data={this.state.results.movies}
-          ListHeaderComponent={
-            <Text style={[styles.text, styles.listHeader]}>Movie</Text>
-          }
-          renderItem={({ item, index }) => (
-            <MovieSearchCard
-              item={item}
-              index={index}
-              onPress={(): void => {
-                this.props.navigation.navigate('MovieDetailScreen', {
-                  movieId: item.id,
-                });
-              }}
+        <View style={styles.searchBarBox}>
+          <View style={layout.center}>
+            <IconButton
+              onPress={() => this.props.navigation.goBack()}
+              icon={this.renderReturnIcon}
             />
-          )}
-        />
-        <FlatList
-          style={styles.list}
-          contentContainerStyle={styles.contentList}
-          data={this.state.results.companies}
-          ListHeaderComponent={
-            <Text style={[styles.text, styles.listHeader]}>Company</Text>
-          }
-          renderItem={({ item, index }) => (
-            <View>
-              <Text style={styles.companyText}>{item.id}</Text>
-              <Text style={styles.companyText}>{item.name}</Text>
-              <Text style={styles.companyText}>{item.logoPath}</Text>
-              <Text style={styles.companyText}>{item.originCountry}</Text>
-              <Text style={styles.companyText}>{index}</Text>
-            </View>
-          )}
+          </View>
+
+          <Searchbar
+            style={styles.searchBar}
+            inputStyle={styles.searchBarInput}
+            icon={this.renderSearchIcon}
+            autoFocus
+            placeholder='Search for shows, movies,...'
+            value={this.state.searchContent}
+            onChangeText={(text: string) => {
+              this.setState({ searchContent: text });
+              this.handleSearchContentChange(text);
+            }}
+          />
+        </View>
+
+        <TabView
+          navigationState={{
+            index: this.state.index,
+            routes: this.state.routes,
+          }}
+          renderScene={this.renderScene}
+          onIndexChange={index => this.setState({ index })}
+          initialLayout={{ width: Dimensions.get('window').width }}
+          swipeEnabled={false}
         />
       </SafeAreaView>
     );

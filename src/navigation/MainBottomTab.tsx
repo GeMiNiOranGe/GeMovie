@@ -1,24 +1,50 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Home, SearchNormal1 } from 'iconsax-react-native';
 
-import { Octicons, Ionicons } from '@assets/icons';
+import { activeIcon, normalIcon } from '@shared/constants';
 import { TabBarIconProps } from '@shared/types';
 import { HomeStack, SearchStack } from '@navigation';
 
 const BottomTab = createBottomTabNavigator();
 
 class MainBottomTab extends React.Component {
-  private renderHomeIcon({ focused }: TabBarIconProps) {
-    return <Octicons.HomeIcon size={24} color={focused ? 'black' : 'gray'} />;
+  private renderHomeIcon({
+    focused,
+    color,
+    size,
+  }: TabBarIconProps): React.JSX.Element {
+    return (
+      <Home
+        size={size}
+        color={color}
+        variant={focused ? activeIcon : normalIcon}
+      />
+    );
   }
 
-  private renderSearchIcon({ focused }: TabBarIconProps) {
-    return <Ionicons.SearchIcon size={24} color={focused ? 'black' : 'gray'} />;
+  private renderSearchIcon({
+    focused,
+    color,
+    size,
+  }: TabBarIconProps): React.JSX.Element {
+    return (
+      <SearchNormal1
+        size={size}
+        color={color}
+        variant={focused ? activeIcon : normalIcon}
+      />
+    );
   }
 
   public override render(): React.JSX.Element {
     return (
-      <BottomTab.Navigator screenOptions={{ headerShown: false }}>
+      <BottomTab.Navigator
+        initialRouteName='HomeStack'
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
         <BottomTab.Screen
           name='HomeStack'
           component={HomeStack}

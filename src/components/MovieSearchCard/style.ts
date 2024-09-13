@@ -1,34 +1,37 @@
 import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
+import { spacing } from '@shared/constants';
+
+const imageDimensions = calculateImageDimensions(116, 2, 3);
+const paddingCard = spacing.medium;
+const innerRadius = 4;
+const outerRadius = innerRadius + paddingCard;
 
 const styles = StyleSheet.create({
-    button: {
-        marginBottom: 12,
-    },
     card: {
-        flex: 1,
-        flexDirection: 'row',
-        paddingLeft: 12,
-        paddingBottom: 12,
-    },
-    cardImage: {
-        borderRadius: 4,
-        ...calculateImageDimensions(116, 2, 3),
-    },
-    cardImageView: {
-        elevation: 5,
-    },
-    cardContent: {
-        top: 12,
-        padding: 8,
-        flexShrink: 1,
-    },
-    cardBackground: {
+        marginTop: spacing.medium,
         backgroundColor: 'white',
-        borderRadius: 12,
-        top: 12,
-        elevation: 5,
+        borderRadius: outerRadius,
+    },
+    contentCard: {
+        flexDirection: 'row',
+        paddingLeft: paddingCard,
+    },
+    image: {
+        borderRadius: innerRadius,
+        ...imageDimensions,
+    },
+    imageBox: {
+        elevation: 4,
+        marginRight: spacing.large,
+        top: -paddingCard,
+        backgroundColor: 'white',
+    },
+    content: {
+        paddingVertical: spacing.medium,
+        paddingRight: spacing.medium,
+        flexShrink: 1,
     },
     title: {
         fontSize: 16,
@@ -38,31 +41,31 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'gray',
     },
-    flexEnd: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
-    },
-    ratingView: {
+    ratingBox: {
         backgroundColor: '#ff4273',
-        borderRadius: 1000,
-        width: 40,
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
+        borderTopLeftRadius: innerRadius,
+        borderBottomRightRadius: innerRadius,
+        width: 52,
+        height: 24,
     },
     ratingText: {
         color: 'white',
+        fontSize: 12,
+        marginLeft: spacing.tiny,
     },
     overview: {
-        marginVertical: 8,
+        marginVertical: spacing.tiny,
     },
-    absolute: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        right: 0,
-        left: 0,
+    navigationBox: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+    },
+    navigationIconButton: {
+        margin: 0,
+        backgroundColor: '#ff4273',
+        borderRadius: 0,
+        borderTopLeftRadius: outerRadius,
+        borderBottomRightRadius: outerRadius,
     },
 });
 

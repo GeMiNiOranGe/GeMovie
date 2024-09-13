@@ -1,76 +1,95 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, Image } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { ArrowRight2, Image as ImageIcon, Star1 } from 'iconsax-react-native';
+import { Card, IconButton } from 'react-native-paper';
 
-import { MovieSearchCardProps } from '@shared/types';
-import { imageSize } from '@shared/constants';
 import { TMDB_BASE_IMAGE_URL } from '@config';
-import { getFormattedDate } from '@shared/utils';
+import { MovieSearchCardProps } from '@shared/types';
+import { imageSize, spacing } from '@shared/constants';
+import { layout } from '@shared/themes';
+import { getFormattedFullYear, getFormattedVoteAverage } from '@shared/utils';
 import styles from './style';
 
 class MovieSearchCard extends React.PureComponent<MovieSearchCardProps> {
-  public constructor(props: MovieSearchCardProps) {
-    super(props);
+  private renderNavigationIcon() {
+    return <ArrowRight2 size={24} color='white' />;
   }
 
   public override render(): React.JSX.Element {
+    const marginBottom: number =
+      this.props.index === (this.props.listLength || 0) - 1 ? 0 : spacing.small;
+
     return (
-      <TouchableHighlight
-        style={styles.button}
-        underlayColor={'transparent'}
+      <Card
+        style={[styles.card, { marginBottom }]}
+        contentStyle={styles.contentCard}
         onPress={this.props.onPress}
       >
-        <View style={styles.card}>
-          <View style={[styles.absolute, styles.cardBackground]} />
-
-          <View style={[styles.cardImage, styles.cardImageView]}>
+        <View style={[styles.image, styles.imageBox, layout.center]}>
+          {this.props.item.posterPath ? (
             <Image
-              style={[styles.cardImage, styles.absolute]}
+              style={styles.image}
               source={{
                 uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w185}${this.props.item.posterPath}`,
               }}
             />
+          ) : (
+            <ImageIcon size='48' color='black' />
+          )}
 
-            <View style={styles.flexEnd}>
-              <View style={styles.ratingView}>
-                <Text style={styles.ratingText}>
-                  {this.props.item.voteAverage
-                    ? this.props.item.voteAverage.toFixed(1)
-                    : 'N/A'}
-                </Text>
-              </View>
-            </View>
-          </View>
+          <View
+            style={[
+              styles.ratingBox,
+              layout.center,
+              layout.row,
+              StyleSheet.absoluteFill,
+            ]}
+          >
+            <Star1 size='16' color='white' variant='Bold' />
 
-          <View style={styles.cardContent}>
-            <Text style={styles.title} numberOfLines={2}>
-              {this.props.item.title}
-            </Text>
-
-            <Text style={styles.information} numberOfLines={1}>
-              {this.props.item.originalTitle}
-            </Text>
-
-            <Text style={styles.information} numberOfLines={1}>
-              {getFormattedDate(this.props.item.releaseDate)}
-              {' - '}
-              {this.props.item.originalLanguage.toUpperCase()}
-            </Text>
-
-            {!this.props.item.overview ? null : (
-              <Text
-                style={[styles.information, styles.overview]}
-                numberOfLines={2}
-              >
-                {this.props.item.overview}
-              </Text>
-            )}
-
-            <Text style={styles.information} numberOfLines={2}>
-              Genre: {this.props.item.genreIds}
+            <Text style={styles.ratingText}>
+              {getFormattedVoteAverage(this.props.item.voteAverage)}
             </Text>
           </View>
         </View>
-      </TouchableHighlight>
+
+        <View style={styles.content}>
+          <Text style={styles.title} numberOfLines={2}>
+            {this.props.item.title}
+          </Text>
+
+          <Text style={styles.information} numberOfLines={1}>
+            {this.props.item.originalTitle}
+          </Text>
+
+          <Text style={styles.information} numberOfLines={1}>
+            {getFormattedFullYear(this.props.item.releaseDate)}
+            {' - '}
+            {this.props.item.originalLanguage.toUpperCase()}
+          </Text>
+
+          {this.props.item.overview && (
+            <Text
+              style={[styles.information, styles.overview]}
+              numberOfLines={2}
+            >
+              {this.props.item.overview}
+            </Text>
+          )}
+
+          <Text style={styles.information} numberOfLines={2}>
+            Genre: {this.props.item.genreIds}
+          </Text>
+        </View>
+
+        <View style={[styles.navigationBox, StyleSheet.absoluteFill]}>
+          <IconButton
+            style={styles.navigationIconButton}
+            icon={this.renderNavigationIcon}
+            onPress={this.props.onPress}
+          />
+        </View>
+      </Card>
     );
   }
 }
