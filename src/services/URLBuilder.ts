@@ -18,6 +18,6 @@ export default class URLBuilder {
         size: keyof typeof imageSize,
         path: string,
     ): string {
-        return `${TMDB_BASE_IMAGE_URL}${imageSize[size]}${path}`;
+        return `${TMDB_BASE_IMAGE_URL}/${imageSize[size]}${path}`;
     }
 }
