@@ -11,35 +11,23 @@ import styles from './style';
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
 import { FeaturedMovie } from '@shared/types';
-import _ from 'lodash';
 import LinearGradient from 'react-native-linear-gradient';
 class AllMovies extends React.Component {
   public override state = {
     movies: [] as FeaturedMovie[],
     scaleAnim: new Animated.Value(1),
   };
-  public shuffleInterval: NodeJS.Timeout | undefined;
   public override componentDidMount() {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
     fetch(url)
       .then(response => response.json())
       .then(movieData => {
         this.setState({ movies: movieData.results });
-        this.shuffleInterval = setInterval(this.shuffleMovies, 5000);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }
-  public override componentWillUnmount() {
-    if (this.shuffleInterval) {
-      clearInterval(this.shuffleInterval);
-    }
-  }
-  private shuffleMovies = () => {
-    const shuffledMovies = _.shuffle(this.state.movies);
-    this.setState({ movies: shuffledMovies });
-  };
   private handleMouseEnter = () => {
     Animated.spring(this.state.scaleAnim, {
       toValue: 1.1,
