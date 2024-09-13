@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         width: '100%',
+        height: '100%',
         paddingHorizontal: 10,
         paddingVertical: 10,
     },
@@ -26,17 +27,10 @@ const styles = StyleSheet.create({
     },
     movieThumbnail: {
         width: 150,
-        height: 230,
+        height: 200,
         marginRight: 20,
         borderRadius: 20,
-        shadowColor: 'black',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 4.65,
-        elevation: 8,
+        resizeMode: 'cover',
     },
     movieItem: {
         alignItems: 'center',

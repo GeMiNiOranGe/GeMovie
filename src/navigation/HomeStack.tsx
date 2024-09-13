@@ -1,9 +1,10 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { HomeScreen, SeeAllMoviesScreen } from '@screens';
+import { HomeScreen, MovieDetailScreen, SeeAllMoviesScreen } from '@screens';
+import { RootStackParamList } from '@shared/types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 class HomeStack extends React.Component {
   public override render(): React.JSX.Element {
@@ -13,7 +14,7 @@ class HomeStack extends React.Component {
           name='HomeScreen'
           component={HomeScreen}
           options={{
-            headerShown: false,
+            title: 'Home',
           }}
         />
         <Stack.Screen
@@ -23,6 +24,11 @@ class HomeStack extends React.Component {
             headerShown: true,
             title: 'All',
           }}
+        />
+        <Stack.Screen
+          name='MovieDetailScreen'
+          component={MovieDetailScreen}
+          options={{ title: 'Detail' }}
         />
       </Stack.Navigator>
     );

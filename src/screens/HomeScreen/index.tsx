@@ -91,7 +91,14 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
                 movie.poster_path,
               );
               return (
-                <TouchableOpacity key={movie.id}>
+                <TouchableOpacity
+                  key={movie.id}
+                  onPress={() =>
+                    navigation.navigate('MovieDetailScreen', {
+                      movieId: movie.id,
+                    })
+                  }
+                >
                   <Image
                     source={{ uri: imageUrl }}
                     style={styles.movieThumbnail}
