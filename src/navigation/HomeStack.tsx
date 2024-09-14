@@ -14,7 +14,7 @@ class HomeStack extends React.Component {
           name='HomeScreen'
           component={HomeScreen}
           options={{
-            title: 'Home',
+            headerShown: false,
           }}
         />
         <Stack.Screen

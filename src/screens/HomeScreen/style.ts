@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-
+import { Dimensions, StyleSheet } from 'react-native';
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     loadingContainer: {
         flex: 1,
@@ -14,20 +14,22 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    header: {
+        flex: 3.5,
+    },
     content: {
-        flex: 1,
+        flex: 4,
         width: '100%',
         height: '100%',
         paddingHorizontal: 10,
-        paddingVertical: 10,
     },
     movieList: {
         flexDirection: 'row',
         paddingTop: 10,
     },
     movieThumbnail: {
-        width: 150,
-        height: 200,
+        width: width * 0.3,
+        height: height / 4,
         marginRight: 20,
         borderRadius: 20,
         resizeMode: 'cover',
@@ -43,10 +45,10 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     section: {
+        flex: 3.5,
         width: '100%',
-        marginVertical: 20,
-        paddingHorizontal: 15,
-        paddingVertical: 5,
+        height: '50%',
+        paddingLeft: 10,
     },
     containerSectionTitle: {
         flexDirection: 'row',
@@ -66,9 +68,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     celebrityThumbnail: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: width * 0.25,
+        height: height * 0.14,
+        borderRadius: 60,
     },
     celebrityName: {
         color: '#fff',

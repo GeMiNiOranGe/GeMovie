@@ -57,7 +57,7 @@ class Slideshow extends React.Component<SlideshowProps> {
                 <TouchableOpacity>
                   <Icon
                     name='play-circle'
-                    size={40}
+                    size={30}
                     color='#fff'
                     style={styles.playIcon}
                   />
@@ -73,7 +73,7 @@ class Slideshow extends React.Component<SlideshowProps> {
         >
           <Icon
             name='chevron-left'
-            size={20}
+            size={15}
             color='#fff'
             style={styles.playIcon}
           />
@@ -84,7 +84,7 @@ class Slideshow extends React.Component<SlideshowProps> {
         >
           <Icon
             name='chevron-right'
-            size={20}
+            size={15}
             color='#fff'
             style={styles.playIcon}
           />

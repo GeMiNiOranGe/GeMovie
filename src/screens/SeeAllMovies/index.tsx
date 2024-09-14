@@ -7,16 +7,19 @@ import {
   FlatList,
   Animated,
 } from 'react-native';
-import styles from './style';
+import LinearGradient from 'react-native-linear-gradient';
+
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
-import { FeaturedMovie } from '@shared/types';
-import LinearGradient from 'react-native-linear-gradient';
-class AllMovies extends React.Component {
+import type { FeaturedMovie, RootScreenProps } from '@shared/types';
+import styles from './style';
+
+class AllMovies extends React.Component<RootScreenProps<'SeeAllScreen'>> {
   public override state = {
     movies: [] as FeaturedMovie[],
     scaleAnim: new Animated.Value(1),
   };
+
   public override componentDidMount() {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
     fetch(url)
@@ -28,21 +31,10 @@ class AllMovies extends React.Component {
         console.error('Error fetching data:', error);
       });
   }
-  private handleMouseEnter = () => {
-    Animated.spring(this.state.scaleAnim, {
-      toValue: 1.1,
-      useNativeDriver: true,
-    }).start();
-  };
 
-  private handleMouseLeave = () => {
-    Animated.spring(this.state.scaleAnim, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-  };
   public override render() {
     const { movies } = this.state;
+    const { navigation } = this.props;
     return (
       <LinearGradient
         style={styles.container}
@@ -54,7 +46,14 @@ class AllMovies extends React.Component {
           <FlatList
             data={movies}
             renderItem={({ item }) => (
-              <TouchableOpacity key={item.id}>
+              <TouchableOpacity
+                key={item.id}
+                onPress={() =>
+                  navigation.navigate('MovieDetailScreen', {
+                    movieId: item.id,
+                  })
+                }
+              >
                 <Image
                   source={{
                     uri: URLBuilder.buildImageURL('w185', item.poster_path),

@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const itemWidth = (width - 60) / 2;
 
 const styles = StyleSheet.create({
@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     movieThumbnail: {
-        width: 160,
-        height: 250,
+        width: width * 0.4,
+        height: height * 0.4,
         borderRadius: 20,
         shadowColor: 'black',
         shadowOffset: {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 4.65,
         elevation: 8,
-        marginHorizontal: 20,
+        marginHorizontal: 10,
         marginVertical: 10,
     },
     movieList: {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 20,
         textAlign: 'center',
-        marginLeft: 20,
+        marginLeft: 10,
         width: '100%',
     },
 });

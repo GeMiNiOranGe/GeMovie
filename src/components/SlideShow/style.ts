@@ -1,11 +1,12 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-const { width } = Dimensions.get('window'); // Get screen width
+const { width, height } = Dimensions.get('window'); // Get screen width
 
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         position: 'relative',
+        height: '100%',
     },
     slide: {
         flex: 1,
@@ -13,8 +14,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        width: '100%',
-        height: 300,
+        width: width,
+        height: height / 3.5,
         resizeMode: 'cover',
     },
     pagination: {
@@ -23,19 +24,20 @@ const styles = StyleSheet.create({
     contentContainer: {
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 10,
-        left: 10,
+        bottom: 1,
+        left: 5,
         alignItems: 'center',
     },
     textContainer: {
-        maxWidth: width * 0.7,
+        maxWidth: width * 0.5,
+        maxHeight: height / 2,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 5,
         borderRadius: 5,
     },
     title: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: 'bold',
     },
     releaseDate: {
@@ -47,12 +49,12 @@ const styles = StyleSheet.create({
     },
     arrowButton: {
         position: 'absolute',
-        top: '50%',
+        top: '40%',
         zIndex: 10,
-        width: 40,
-        height: 35,
+        width: 25,
+        height: 25,
         justifyContent: 'center',
-        alignItems: 'center',
+        // alignItems: 'center',
         borderRadius: 15,
     },
     arrowText: {
@@ -60,10 +62,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     prevButton: {
-        left: 4,
+        left: 5,
     },
     nextButton: {
-        right: 5,
+        right: 10,
     },
 });
 

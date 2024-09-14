@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import styles from './style';
+import LinearGradient from 'react-native-linear-gradient';
+
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
 import { Slideshow } from '@components';
-import { Celebrity, FeaturedMovie, RootScreenProps } from '@shared/types';
-import LinearGradient from 'react-native-linear-gradient';
+import type { Celebrity, FeaturedMovie, RootScreenProps } from '@shared/types';
+import styles from './style';
 
 class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
   public override state = {
@@ -21,6 +22,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
     upcomingMovies: [] as any[],
     isLoading: true,
   };
+
   public override componentDidMount() {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
     const celebrityUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
@@ -45,6 +47,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
         });
     }, 700);
   }
+
   public override render() {
     // eslint-disable-next-line prettier/prettier
     const { movies, celebrities, upcomingMovies,isLoading} = this.state;
@@ -56,13 +59,17 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
         </View>
       );
     }
+
     const upcomingMoviesImages = upcomingMovies.map(movie =>
       URLBuilder.buildImageURL('w780', movie.backdrop_path),
     );
+
     const upcomingMoviesTitles = upcomingMovies.map(movie => movie.title);
+
     const upcomingMoviesReleaseDates = upcomingMovies.map(
       movie => movie.release_date,
     );
+
     return (
       <LinearGradient
         style={styles.container}
@@ -70,11 +77,13 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
         end={{ x: 0, y: 0 }}
         colors={['#544a7d', '#ffd452']}
       >
-        <Slideshow
-          images={upcomingMoviesImages}
-          titles={upcomingMoviesTitles}
-          releaseDates={upcomingMoviesReleaseDates}
-        />
+        <View style={styles.header}>
+          <Slideshow
+            images={upcomingMoviesImages}
+            titles={upcomingMoviesTitles}
+            releaseDates={upcomingMoviesReleaseDates}
+          />
+        </View>
         <View style={styles.content}>
           <View style={styles.containerSectionTitle}>
             <Text style={styles.sectionTitle}>Featured Today</Text>
