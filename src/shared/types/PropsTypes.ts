@@ -36,6 +36,10 @@ export type CompanySearchResultsTopTabProps = RootTopTabProps & {
     data: CompanyElement[] | undefined;
 };
 
+export type MovieSearchResultsTopTabProps = RootTopTabProps & {
+    data: MovieElement[] | undefined;
+};
+
 export type MovieSearchCardProps = {
     item: MovieElement;
     index: number;
