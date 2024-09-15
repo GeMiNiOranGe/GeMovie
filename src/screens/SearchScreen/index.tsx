@@ -10,14 +10,11 @@ import type {
   RootScreenProps,
   SearchScreenState,
 } from '@shared/types';
-import {
-  CompanySearchCard,
-  MovieSearchCard,
-  SearchResultsList,
-} from '@components';
+import { MovieSearchCard, SearchResultsList } from '@components';
 import { CompanyService, MovieService } from '@services';
 import { toCompanyElement, toMovieElement } from '@shared/utils';
 import { layout } from '@shared/themes';
+import { CompanySearchResultsTopTab } from '@tabs';
 import styles from './style';
 
 class SearchScreen extends React.Component<
@@ -105,20 +102,9 @@ class SearchScreen extends React.Component<
         );
       case 'company':
         return (
-          <SearchResultsList
+          <CompanySearchResultsTopTab
             data={this.state.results.companies}
-            renderItem={({ item, index }) => (
-              <CompanySearchCard
-                item={item}
-                index={index}
-                listLength={this.state.results.companies?.length}
-                onPress={() => {
-                  this.props.navigation.navigate('CompanyDetailScreen', {
-                    companyId: item.id,
-                  });
-                }}
-              />
-            )}
+            navigation={this.props.navigation}
           />
         );
       default:

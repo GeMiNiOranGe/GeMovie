@@ -1,5 +1,8 @@
 import { ParamListBase } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {
+    NativeStackNavigationProp,
+    NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {
     ColorValue,
     GestureResponderEvent,
@@ -24,6 +27,14 @@ export type RootStackParamList = ParamListBase & {
 export type RootScreenProps<
     Screen extends keyof RootStackParamList = keyof RootStackParamList,
 > = NativeStackScreenProps<RootStackParamList, Screen>;
+
+export type RootTopTabProps = {
+    navigation: NativeStackNavigationProp<ParamListBase>;
+};
+
+export type CompanySearchResultsTopTabProps = RootTopTabProps & {
+    data: CompanyElement[] | undefined;
+};
 
 export type MovieSearchCardProps = {
     item: MovieElement;

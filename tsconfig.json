@@ -24,6 +24,9 @@
       "@shared/*": [
         "src/shared/*",
       ],
+      "@tabs": [
+        "src/tabs",
+      ],
     },
     "noImplicitOverride": true,
     "noImplicitReturns": true,
