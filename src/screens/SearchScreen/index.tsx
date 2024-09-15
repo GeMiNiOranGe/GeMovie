@@ -3,6 +3,8 @@ import { Alert, Dimensions, SafeAreaView, View } from 'react-native';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
 import { TabView, Route } from 'react-native-tab-view';
+import type { DebouncedFunc } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import type {
   CompanyElement,
@@ -16,10 +18,16 @@ import { toCompanyElement, toMovieElement } from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
 
+const debounceWaitTime = 400;
+
 class SearchScreen extends React.Component<
   RootScreenProps<'SearchScreen'>,
   SearchScreenState
 > {
+  private debouncedHandleSearchContentChange: DebouncedFunc<
+    (content: string) => Promise<void>
+  >;
+
   public constructor(props: RootScreenProps<'SearchScreen'>) {
     super(props);
     this.state = {
@@ -36,6 +44,10 @@ class SearchScreen extends React.Component<
     };
 
     this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
+    this.debouncedHandleSearchContentChange = debounce(
+      this.handleSearchContentChange,
+      debounceWaitTime,
+    );
   }
 
   private async searchMovies(content: string): Promise<MovieElement[]> {
@@ -119,8 +131,19 @@ class SearchScreen extends React.Component<
             placeholder='Search for shows, movies,...'
             value={this.state.searchContent}
             onChangeText={(text: string) => {
+              if (text.trim() === '') {
+                this.setState({
+                  searchContent: text,
+                  results: {
+                    movies: [],
+                    companies: [],
+                  },
+                });
+                return;
+              }
+
               this.setState({ searchContent: text });
-              this.handleSearchContentChange(text);
+              this.debouncedHandleSearchContentChange(text);
             }}
           />
         </View>
