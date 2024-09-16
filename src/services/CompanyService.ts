@@ -1,5 +1,6 @@
-import { SearchService } from '@services';
-import type { CompanyElement, SearchPage } from '@shared/types';
+import { DetailService, SearchService } from '@services';
+import type { Company, CompanyElement, SearchPage } from '@shared/types';
+import { toCompany } from '@shared/utils';
 
 export default class CompanyService {
     public static async searchAsync(
@@ -9,5 +10,9 @@ export default class CompanyService {
             query: text,
         });
         return await SearchService.searchAsync('company', params);
+    }
+
+    public static async getDetailAsync(id: number): Promise<Company> {
+        return await DetailService.getDetailAsync(id, 'company', toCompany);
     }
 }

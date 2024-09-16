@@ -1,6 +1,6 @@
 import { Route } from 'react-native-tab-view';
 
-import { CompanyElement } from './Company';
+import { Company, CompanyElement } from './Company';
 import { Movie, MovieElement } from './Movie';
 
 export type SearchScreenState = {
@@ -19,4 +19,9 @@ export type MovieDetailScreenState = {
 
 export type ExpandableTextState = {
     isExpand: boolean;
+};
+
+export type CompanyDetailScreenState = {
+    company?: Company | undefined;
+    movies?: Movie[] | undefined;
 };
