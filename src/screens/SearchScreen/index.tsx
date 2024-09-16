@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, Dimensions, SafeAreaView, View } from 'react-native';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
-import { TabView, Route } from 'react-native-tab-view';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import type { DebouncedFunc } from 'lodash';
 import debounce from 'lodash/debounce';
 
@@ -19,6 +19,7 @@ import { layout } from '@shared/themes';
 import styles from './style';
 
 const debounceWaitTime = 425;
+const TopTab = createMaterialTopTabNavigator();
 
 class SearchScreen extends React.Component<
   RootScreenProps<'SearchScreen'>,
@@ -36,11 +37,6 @@ class SearchScreen extends React.Component<
         companies: [],
       },
       searchContent: '',
-      index: 0,
-      routes: [
-        { key: 'movie', title: 'Movie' },
-        { key: 'company', title: 'Company' },
-      ],
     };
 
     this.handleSearchbarTextChange = this.handleSearchbarTextChange.bind(this);
@@ -107,27 +103,6 @@ class SearchScreen extends React.Component<
     return <SearchNormal1 size='16' color='black' />;
   }
 
-  private renderScene = ({ route }: { route: Route }) => {
-    switch (route.key) {
-      case 'movie':
-        return (
-          <MovieSearchResultsTopTab
-            data={this.state.results.movies}
-            navigation={this.props.navigation}
-          />
-        );
-      case 'company':
-        return (
-          <CompanySearchResultsTopTab
-            data={this.state.results.companies}
-            navigation={this.props.navigation}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
   public override render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
@@ -150,16 +125,32 @@ class SearchScreen extends React.Component<
           />
         </View>
 
-        <TabView
-          navigationState={{
-            index: this.state.index,
-            routes: this.state.routes,
-          }}
-          renderScene={this.renderScene}
-          onIndexChange={index => this.setState({ index })}
+        <TopTab.Navigator
+          initialRouteName='Movie'
           initialLayout={{ width: Dimensions.get('window').width }}
-          swipeEnabled={false}
-        />
+          screenOptions={{
+            swipeEnabled: false,
+          }}
+        >
+          <TopTab.Screen
+            name='Movie'
+            children={() => (
+              <MovieSearchResultsTopTab
+                data={this.state.results.movies}
+                navigation={this.props.navigation}
+              />
+            )}
+          />
+          <TopTab.Screen
+            name='Company'
+            children={() => (
+              <CompanySearchResultsTopTab
+                data={this.state.results.companies}
+                navigation={this.props.navigation}
+              />
+            )}
+          />
+        </TopTab.Navigator>
       </SafeAreaView>
     );
   }
