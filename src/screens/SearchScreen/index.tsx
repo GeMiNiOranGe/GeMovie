@@ -18,13 +18,13 @@ import { toCompanyElement, toMovieElement } from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
 
-const debounceWaitTime = 400;
+const debounceWaitTime = 425;
 
 class SearchScreen extends React.Component<
   RootScreenProps<'SearchScreen'>,
   SearchScreenState
 > {
-  private debouncedHandleSearchContentChange: DebouncedFunc<
+  private debouncedFetchSearchResults: DebouncedFunc<
     (content: string) => Promise<void>
   >;
 
@@ -43,9 +43,9 @@ class SearchScreen extends React.Component<
       ],
     };
 
-    this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
-    this.debouncedHandleSearchContentChange = debounce(
-      this.handleSearchContentChange,
+    this.handleSearchbarTextChange = this.handleSearchbarTextChange.bind(this);
+    this.debouncedFetchSearchResults = debounce(
+      this.fetchSearchResults,
       debounceWaitTime,
     );
   }
@@ -60,7 +60,7 @@ class SearchScreen extends React.Component<
     return searchPage.results.map(element => toCompanyElement(element));
   }
 
-  private async handleSearchContentChange(content: string): Promise<void> {
+  private async fetchSearchResults(content: string): Promise<void> {
     let movies: MovieElement[] = [];
     let companies: CompanyElement[] = [];
 
@@ -81,6 +81,22 @@ class SearchScreen extends React.Component<
         companies,
       },
     });
+  }
+
+  private handleSearchbarTextChange(text: string) {
+    if (text.trim() === '') {
+      this.setState({
+        searchContent: text,
+        results: {
+          movies: [],
+          companies: [],
+        },
+      });
+      return;
+    }
+
+    this.setState({ searchContent: text });
+    this.debouncedFetchSearchResults(text);
   }
 
   private renderReturnIcon() {
@@ -130,21 +146,7 @@ class SearchScreen extends React.Component<
             autoFocus
             placeholder='Search for shows, movies,...'
             value={this.state.searchContent}
-            onChangeText={(text: string) => {
-              if (text.trim() === '') {
-                this.setState({
-                  searchContent: text,
-                  results: {
-                    movies: [],
-                    companies: [],
-                  },
-                });
-                return;
-              }
-
-              this.setState({ searchContent: text });
-              this.debouncedHandleSearchContentChange(text);
-            }}
+            onChangeText={this.handleSearchbarTextChange}
           />
         </View>
 
