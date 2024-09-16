@@ -1,10 +1,10 @@
 import { SearchService } from '@services';
-import type { CompanyElement, SearchPage } from '@shared/types';
+import type { CompanyElement, SearchResponse } from '@shared/types';
 
 export default class CompanyService {
     public static async searchAsync(
         text: string,
-    ): Promise<SearchPage<CompanyElement>> {
+    ): Promise<SearchResponse<CompanyElement>> {
         const params = new URLSearchParams({
             query: text,
         });

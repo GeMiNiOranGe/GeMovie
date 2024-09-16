@@ -47,13 +47,13 @@ class SearchScreen extends React.Component<
   }
 
   private async searchMovies(content: string): Promise<MovieElement[]> {
-    const searchPage = await MovieService.searchAsync(content);
-    return searchPage.results.map(element => toMovieElement(element));
+    const searchResponse = await MovieService.searchAsync(content);
+    return searchResponse.results.map(element => toMovieElement(element));
   }
 
   private async searchCompanies(content: string): Promise<CompanyElement[]> {
-    const searchPage = await CompanyService.searchAsync(content);
-    return searchPage.results.map(element => toCompanyElement(element));
+    const searchResponse = await CompanyService.searchAsync(content);
+    return searchResponse.results.map(element => toCompanyElement(element));
   }
 
   private async fetchSearchResults(content: string): Promise<void> {

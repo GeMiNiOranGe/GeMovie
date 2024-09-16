@@ -1,4 +1,4 @@
-export type SearchPage<T> = {
+export type SearchResponse<T> = {
     page: number;
     results: T[];
     totalPages: number;

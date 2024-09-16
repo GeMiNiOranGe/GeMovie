@@ -1,11 +1,11 @@
 import { DetailService, SearchService } from '@services';
 import { toMovie } from '@shared/utils';
-import type { Movie, MovieElement, SearchPage } from '@shared/types';
+import type { Movie, MovieElement, SearchResponse } from '@shared/types';
 
 export default class MovieService {
     public static async searchAsync(
         text: string,
-    ): Promise<SearchPage<MovieElement>> {
+    ): Promise<SearchResponse<MovieElement>> {
         const params = new URLSearchParams({
             query: text,
         });

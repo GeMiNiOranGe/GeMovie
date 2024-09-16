@@ -2,11 +2,11 @@ import {
     BelongsToCollection,
     GenreElement,
     ProductionCountryElement,
-    SearchPage,
+    SearchResponse,
     SpokenLanguageElement,
 } from '@shared/types';
 
-export function toSearchPage<T>(val: any): SearchPage<T> {
+export function toSearchResponse<T>(val: any): SearchResponse<T> {
     return {
         page: val.page,
         results: val.results,
