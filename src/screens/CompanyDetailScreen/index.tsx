@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   FlatList,
@@ -28,6 +29,7 @@ class CompanyDetailScreen extends React.Component<
     this.state = {
       company: undefined,
       movies: [],
+      randomMovie: undefined,
     };
   }
 
@@ -38,8 +40,11 @@ class CompanyDetailScreen extends React.Component<
     fetch(movieUrl)
       .then(response => response.json())
       .then(movieData => {
+        const movies = movieData.results;
+        const randomMovie = movies[Math.floor(Math.random() * movies.length)];
         this.setState({
           movies: movieData.results,
+          randomMovie: randomMovie,
         });
       });
 
@@ -50,90 +55,116 @@ class CompanyDetailScreen extends React.Component<
 
   public override render(): React.JSX.Element {
     const { navigation } = this.props;
+    const { randomMovie } = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          {this.state.company?.logoPath ? (
-            <Image
-              style={styles.backdropImage}
-              resizeMode='contain'
-              source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${this.state.company?.logoPath}`,
-              }}
-            />
-          ) : (
-            <Icon name='institution' size={100} color='black' />
-          )}
-          <Text style={styles.headerContent}>{this.state.company?.name}</Text>
-        </View>
-        <LinearGradient
-          style={styles.body}
-          start={{ x: 1, y: 1 }}
-          end={{ x: 0, y: 1 }}
-          colors={['#FF5F6D', '#FFC371']}
-        >
-          <ScrollView
-            contentContainerStyle={styles.scrollContainer}
-            horizontal
-            showsHorizontalScrollIndicator={false}
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={styles.header}>
+            {randomMovie?.poster_path ? (
+              <Image
+                source={{
+                  uri: URLBuilder.buildImageURL(
+                    'w780',
+                    randomMovie.poster_path,
+                  ),
+                }}
+                blurRadius={1}
+                style={styles.headerImage}
+              />
+            ) : (
+              <Text>No backdrop available</Text>
+            )}
+          </View>
+          <LinearGradient
+            style={styles.body}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            colors={['#FFEFBA', '#FFFFFF']}
           >
-            {this.state.company?.originCountry && (
-              <Label
-                icon={<Icon name='flag' size={20} color='white' />}
-                value={`${this.state.company.originCountry}`}
-              />
-            )}
-            {this.state.company?.headquarters && (
-              <Label
-                icon={<Icons name='location' size={20} color='white' />}
-                value={`${this.state.company.headquarters}`}
-              />
-            )}
-
-            {this.state.company?.parentCompany?.name && (
-              <Label
-                icon={<Icon name='building' size={20} color='white' />}
-                value={`${this.state.company.parentCompany.name}`}
-              />
-            )}
-
-            {this.state.company?.homepage && (
-              <Label
-                icon={<Icon name='link' size={20} color='white' />}
-                value={`${this.state.company.homepage}`}
-              />
-            )}
-          </ScrollView>
-          <View style={styles.containerMovie}>
-            <Text style={styles.containerMovieText}>Most Popular Movies</Text>
-            <FlatList
-              data={this.state.movies}
+            <View>
+              {this.state.company?.logoPath ? (
+                <Image
+                  style={styles.backdropImage}
+                  resizeMode='contain'
+                  source={{
+                    uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${this.state.company?.logoPath}`,
+                  }}
+                />
+              ) : (
+                <View style={styles.iconCircle}>
+                  <Icon
+                    name='institution'
+                    size={60}
+                    color='black'
+                    style={styles.icon}
+                  />
+                </View>
+              )}
+            </View>
+            <Text style={styles.LogoContent}>{this.state.company?.name}</Text>
+            <ScrollView
+              contentContainerStyle={styles.scrollContainer}
               horizontal
               showsHorizontalScrollIndicator={false}
-              keyExtractor={item => item.id.toString()}
-              renderItem={({ item: movie }) => {
-                const imageUrl = URLBuilder.buildImageURL(
-                  'w185',
-                  movie.poster_path,
-                );
-                return (
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('MovieDetailScreen', {
-                        movieId: movie.id,
-                      })
-                    }
-                  >
-                    <Image
-                      source={{ uri: imageUrl }}
-                      style={styles.movieThumbnail}
-                    />
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
-        </LinearGradient>
+            >
+              {this.state.company?.originCountry && (
+                <Label
+                  icon={<Icon name='flag' size={20} color='black' />}
+                  value={`${this.state.company.originCountry}`}
+                />
+              )}
+              {this.state.company?.headquarters && (
+                <Label
+                  icon={<Icons name='location' size={20} color='black' />}
+                  value={`${this.state.company.headquarters}`}
+                />
+              )}
+
+              {this.state.company?.parentCompany?.name && (
+                <Label
+                  icon={<Icon name='building' size={20} color='black' />}
+                  value={`${this.state.company.parentCompany.name}`}
+                />
+              )}
+
+              {this.state.company?.homepage && (
+                <Label
+                  icon={<Icon name='link' size={20} color='black' />}
+                  value={`${this.state.company.homepage}`}
+                />
+              )}
+            </ScrollView>
+            <View style={styles.containerMovie}>
+              <Text style={styles.containerMovieText}>Most Popular Movies</Text>
+              <FlatList
+                data={this.state.movies}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item: movie }) => {
+                  const imageUrl = URLBuilder.buildImageURL(
+                    'w185',
+                    movie.poster_path,
+                  );
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('MovieDetailScreen', {
+                          movieId: movie.id,
+                        })
+                      }
+                    >
+                      <Image
+                        source={{ uri: imageUrl }}
+                        style={styles.movieThumbnail}
+                      />
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            </View>
+          </LinearGradient>
+        </ScrollView>
       </SafeAreaView>
     );
   }
