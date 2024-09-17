@@ -14,7 +14,6 @@ import type {
 } from '@shared/types';
 import { CompanySearchResultsTopTab, MovieSearchResultsTopTab } from '@tabs';
 import { CompanyService, MovieService } from '@services';
-import { toCompanyElement, toMovieElement } from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
 
@@ -46,25 +45,18 @@ class SearchScreen extends React.Component<
     );
   }
 
-  private async searchMovies(content: string): Promise<MovieElement[]> {
-    const searchResponse = await MovieService.searchAsync(content);
-    return searchResponse.results.map(element => toMovieElement(element));
-  }
-
-  private async searchCompanies(content: string): Promise<CompanyElement[]> {
-    const searchResponse = await CompanyService.searchAsync(content);
-    return searchResponse.results.map(element => toCompanyElement(element));
-  }
-
   private async fetchSearchResults(content: string): Promise<void> {
     let movies: MovieElement[] = [];
     let companies: CompanyElement[] = [];
 
     try {
-      [movies, companies] = await Promise.all([
-        this.searchMovies(content),
-        this.searchCompanies(content),
+      const [movieResponse, companyResponse] = await Promise.all([
+        MovieService.searchAsync(content),
+        CompanyService.searchAsync(content),
       ]);
+
+      movies = movieResponse.getResults();
+      companies = companyResponse.getResults();
     } catch (error: unknown) {
       if (error instanceof TypeError) {
         Alert.alert('No connection', error.message);

@@ -1,13 +1,17 @@
-import { SearchService } from '@services';
+import { SearchResponseWrapper, SearchService } from '@services';
+import { toCompanyElement } from '@shared/utils';
 import type { CompanyElement, SearchResponse } from '@shared/types';
 
 export default class CompanyService {
     public static async searchAsync(
         text: string,
-    ): Promise<SearchResponse<CompanyElement>> {
+    ): Promise<SearchResponseWrapper<CompanyElement>> {
         const params = new URLSearchParams({
             query: text,
         });
-        return await SearchService.searchAsync('company', params);
+        const response: SearchResponse<CompanyElement> =
+            await SearchService.searchAsync('company', params);
+
+        return new SearchResponseWrapper(response, toCompanyElement);
     }
 }
