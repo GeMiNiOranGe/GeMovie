@@ -41,8 +41,9 @@ export type CompanySearchCardProps = {
 };
 
 export type LabelProps = {
-    name: string;
+    name?: string;
     value?: string | undefined;
+    icon?: JSX.Element | undefined;
 };
 
 export type ExpandableTextProps = {
