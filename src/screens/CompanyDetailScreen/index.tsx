@@ -14,6 +14,9 @@ import { CompanyService, URLBuilder } from '@services';
 import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
 import { imageSize } from '@shared/constants';
 import { Label } from '@components';
+import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Icons from 'react-native-vector-icons/Ionicons';
 import styles from './style';
 
 class CompanyDetailScreen extends React.Component<
@@ -50,33 +53,56 @@ class CompanyDetailScreen extends React.Component<
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Image
-            style={styles.backdropImage}
-            resizeMode='contain'
-            source={{
-              uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${this.state.company?.logoPath}`,
-            }}
-          />
+          {this.state.company?.logoPath ? (
+            <Image
+              style={styles.backdropImage}
+              resizeMode='contain'
+              source={{
+                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${this.state.company?.logoPath}`,
+              }}
+            />
+          ) : (
+            <Icon name='institution' size={100} color='black' />
+          )}
           <Text style={styles.headerContent}>{this.state.company?.name}</Text>
         </View>
-        <View style={styles.body}>
+        <LinearGradient
+          style={styles.body}
+          start={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 1 }}
+          colors={['#FF5F6D', '#FFC371']}
+        >
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
             horizontal
             showsHorizontalScrollIndicator={false}
           >
-            <Label
-              name='Country'
-              value={`${this.state.company?.originCountry}`}
-            />
-            <Label
-              name='HeadQuarter'
-              value={`${this.state.company?.headquarters}`}
-            />
-            <Label
-              name='Parent Company'
-              value={`${this.state.company?.parentCompany?.name}`}
-            />
+            {this.state.company?.originCountry && (
+              <Label
+                icon={<Icon name='flag' size={20} color='white' />}
+                value={`${this.state.company.originCountry}`}
+              />
+            )}
+            {this.state.company?.headquarters && (
+              <Label
+                icon={<Icons name='location' size={20} color='white' />}
+                value={`${this.state.company.headquarters}`}
+              />
+            )}
+
+            {this.state.company?.parentCompany?.name && (
+              <Label
+                icon={<Icon name='building' size={20} color='white' />}
+                value={`${this.state.company.parentCompany.name}`}
+              />
+            )}
+
+            {this.state.company?.homepage && (
+              <Label
+                icon={<Icon name='link' size={20} color='white' />}
+                value={`${this.state.company.homepage}`}
+              />
+            )}
           </ScrollView>
           <View style={styles.containerMovie}>
             <Text style={styles.containerMovieText}>Most Popular Movies</Text>
@@ -107,7 +133,7 @@ class CompanyDetailScreen extends React.Component<
               }}
             />
           </View>
-        </View>
+        </LinearGradient>
       </SafeAreaView>
     );
   }

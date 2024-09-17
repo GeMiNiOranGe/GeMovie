@@ -10,6 +10,9 @@ const styles = StyleSheet.create({
         // textAlign: 'center',
         color: 'black',
     },
+    icon: {
+        padding: 3,
+    },
 });
 
 export default styles;

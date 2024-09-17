@@ -12,7 +12,11 @@ class Label extends React.Component<LabelProps> {
   public override render(): React.JSX.Element {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{this.props.name}</Text>
+        {this.props.icon ? (
+          <View style={styles.icon}>{this.props.icon}</View>
+        ) : (
+          <Text style={styles.text}>{this.props.name}</Text>
+        )}
         <Text style={styles.text}>{this.props.value}</Text>
       </View>
     );

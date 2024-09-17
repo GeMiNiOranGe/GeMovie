@@ -8,6 +8,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        marginBottom: 5,
     },
     headerContent: {
         fontSize: 15,
@@ -15,8 +19,10 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     body: {
-        flex: 2,
+        flex: 2.5,
         backgroundColor: 'white',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
     },
     scrollContainer: {
         paddingLeft: 15,
@@ -29,10 +35,11 @@ const styles = StyleSheet.create({
     containerMovieText: {
         fontSize: 15,
         color: 'black',
+        marginBottom: 5,
     },
     movieThumbnail: {
-        width: 120,
-        height: 180,
+        width: width * 0.3,
+        height: height * 0.3,
         borderRadius: 20,
         marginRight: 10,
     },
