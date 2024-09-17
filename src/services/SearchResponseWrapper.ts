@@ -1,32 +1,33 @@
 import { SearchResponse } from '@shared/types';
 
 class SearchResponseWrapper<T> {
-    private _searchResponse: SearchResponse<T>;
-    private convertFn: (element: any) => T;
+    private searchResponse: SearchResponse<T>;
+    private elementConvertFn: (element: any) => T;
 
     public constructor(
         searchResponse: SearchResponse<T>,
-        convertFn: (val: any) => T,
+        elementConvertFn: (val: any) => T,
     ) {
-        this._searchResponse = searchResponse;
-        this.convertFn = convertFn;
+        this.searchResponse = searchResponse;
+        this.elementConvertFn = elementConvertFn;
     }
 
     public getPage(): number {
-        return this._searchResponse.page;
+        return this.searchResponse.page;
     }
 
     public getResults(): T[] {
-        return this._searchResponse.results.map(element =>
-            this.convertFn(element),
+        return this.searchResponse.results.map(element =>
+            this.elementConvertFn(element),
         );
     }
 
     public getTotalPages(): number {
-        return this._searchResponse.totalPages;
+        return this.searchResponse.totalPages;
     }
+
     public getTotalResults(): number {
-        return this._searchResponse.totalResults;
+        return this.searchResponse.totalResults;
     }
 }
 
