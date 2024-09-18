@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     containerSectionTitle: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        paddingHorizontal: 5,
     },
     sectionTitle: {
         color: 'white',

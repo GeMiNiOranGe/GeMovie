@@ -4,3 +4,4 @@ export { default as MovieDetailScreen } from './MovieDetailScreen';
 export { default as SearchSuggestionScreen } from './SearchSuggestionScreen';
 export { default as CompanyDetailScreen } from './CompanyDetailScreen';
 export { default as SeeAllMoviesScreen } from './SeeAllMovies';
+export { default as CelebrityDetailScreen } from './CelebrityDetailScreen';

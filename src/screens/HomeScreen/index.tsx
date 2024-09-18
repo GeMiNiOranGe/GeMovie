@@ -120,7 +120,12 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
 
         {/* Most Popular Celebrities */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Most popular celebrities</Text>
+          <View style={styles.containerSectionTitle}>
+            <Text style={styles.sectionTitle}>Most popular celebrities</Text>
+            <TouchableOpacity>
+              <Text style={styles.sectionTitle}>See All</Text>
+            </TouchableOpacity>
+          </View>
           <ScrollView horizontal style={styles.celebrityList}>
             {celebrities.map(celebrity => {
               const imageUrl = URLBuilder.buildImageURL(
@@ -128,7 +133,14 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
                 celebrity.profile_path,
               );
               return (
-                <TouchableOpacity key={celebrity.id}>
+                <TouchableOpacity
+                  key={celebrity.id}
+                  onPress={() =>
+                    navigation.navigate('CelebrityDetailScreen', {
+                      celebrityId: celebrity.id,
+                    })
+                  }
+                >
                   <View style={styles.celebrityItem}>
                     <Image
                       source={{ uri: imageUrl }}

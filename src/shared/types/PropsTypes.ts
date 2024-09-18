@@ -19,6 +19,9 @@ export type RootStackParamList = ParamListBase & {
     CompanyDetailScreen: {
         companyId: number;
     };
+    CelebrityDetailScreen: {
+        celebrityId: number;
+    };
     SeeAllScreen: undefined;
 };
 

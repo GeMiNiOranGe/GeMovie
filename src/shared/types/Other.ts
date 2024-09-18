@@ -32,7 +32,7 @@ export type Spacing = {
     extraLarge: number;
 };
 
-export type SearchType = 'company' | 'movie';
+export type SearchType = 'company' | 'movie' | 'celebrity';
 
 export type Variant =
     | 'Linear'

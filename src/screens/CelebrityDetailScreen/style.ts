@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
+
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
@@ -18,13 +19,6 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         position: 'absolute',
     },
-    LogoContent: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: 'black',
-        textAlign: 'center',
-        marginTop: 60,
-    },
     body: {
         flex: 4,
         backgroundColor: '#C0C0C0',
@@ -32,31 +26,41 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 30,
         marginTop: '-28%',
     },
+    containerProfile: {
+        flex: 1,
+    },
+    ProfileName: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: 'black',
+        textAlign: 'center',
+        marginTop: 60,
+    },
     scrollContainer: {
-        paddingLeft: 15,
+        paddingLeft: '40%',
         marginTop: 10,
         justifyContent: 'center',
+    },
+    Biography: {
+        flex: 1,
+        padding: 5,
+    },
+    biographyText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#FF9933',
     },
     containerMovie: {
         flex: 4,
         paddingLeft: 10,
         marginTop: 10,
     },
-    containerMovieText: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#F0E68C',
-        marginBottom: 5,
-    },
     movieThumbnail: {
         width: width * 0.3,
         height: height * 0.25,
         borderRadius: 20,
         marginRight: 10,
-    },
-    text: {
-        fontSize: 32,
-        color: 'black',
+        marginBottom: 5,
     },
     backdropImage: {
         width: 100,
@@ -87,6 +91,9 @@ const styles = StyleSheet.create({
     icon: {
         textAlign: 'center',
     },
+    text: {
+        fontSize: 15,
+        color: 'black',
+    },
 });
-
 export default styles;
