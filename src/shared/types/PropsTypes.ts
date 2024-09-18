@@ -52,6 +52,13 @@ export type MovieSearchCardProps = {
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
+export type TvShowSearchCardProps = {
+    item: TvShowElement;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
 export type CompanySearchCardProps = {
     item: CompanyElement;
     index: number;

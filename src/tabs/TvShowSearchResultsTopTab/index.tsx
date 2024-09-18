@@ -1,7 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 
-import { SearchResultsList } from '@components';
+import { SearchResultsList, TvShowSearchCard } from '@components';
 import type { TvShowSearchResultsTopTabProps } from '@shared/types';
 
 class TvShowSearchResultsTopTab extends React.PureComponent<TvShowSearchResultsTopTabProps> {
@@ -10,10 +9,16 @@ class TvShowSearchResultsTopTab extends React.PureComponent<TvShowSearchResultsT
       <SearchResultsList
         data={this.props.data}
         renderItem={({ item, index }) => (
-          <View>
-            <Text>{item.name}</Text>
-            <Text>{item.id}</Text>
-          </View>
+          <TvShowSearchCard
+            item={item}
+            index={index}
+            listLength={this.props.data?.length}
+            onPress={() => {
+              this.props.navigation.navigate('TvShowDetailScreen', {
+                tvShowId: item.id,
+              });
+            }}
+          />
         )}
       />
     );
