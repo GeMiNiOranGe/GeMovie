@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     body: {
         flex: 4,
         opacity: 0.8,
+        backgroundColor: '#C0C0C0',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         marginTop: '-28%',
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     containerMovieText: {
         fontSize: 15,
         fontWeight: 'bold',
-        color: '#FF3333',
+        color: '#F0E68C',
         marginBottom: 5,
     },
     movieThumbnail: {
