@@ -11,14 +11,13 @@ import type {
   MovieElement,
   RootScreenProps,
   SearchScreenState,
-  TvShowElement,
 } from '@shared/types';
 import {
   CompanySearchResultsTopTab,
   MovieSearchResultsTopTab,
   TvShowSearchResultsTopTab,
 } from '@tabs';
-import { CompanyService, MovieService, TvShowService } from '@services';
+import { CompanyService, MovieService } from '@services';
 import { layout } from '@shared/themes';
 import styles from './style';
 
@@ -38,7 +37,6 @@ class SearchScreen extends React.Component<
     this.state = {
       results: {
         movies: [],
-        tvShows: [],
         companies: [],
       },
       searchContent: '',
@@ -53,19 +51,15 @@ class SearchScreen extends React.Component<
 
   private async fetchSearchResults(content: string): Promise<void> {
     let movies: MovieElement[] = [];
-    let tvShows: TvShowElement[] = [];
     let companies: CompanyElement[] = [];
 
     try {
-      const [movieResponse, tvShowResponse, companyResponse] =
-        await Promise.all([
-          MovieService.searchAsync(content),
-          TvShowService.searchAsync(content),
-          CompanyService.searchAsync(content),
-        ]);
+      const [movieResponse, companyResponse] = await Promise.all([
+        MovieService.searchAsync(content),
+        CompanyService.searchAsync(content),
+      ]);
 
       movies = movieResponse.getResults();
-      tvShows = tvShowResponse.getResults();
       companies = companyResponse.getResults();
     } catch (error: unknown) {
       if (error instanceof TypeError) {
@@ -76,7 +70,6 @@ class SearchScreen extends React.Component<
     this.setState({
       results: {
         movies,
-        tvShows,
         companies,
       },
     });
@@ -88,7 +81,6 @@ class SearchScreen extends React.Component<
         searchContent: text,
         results: {
           movies: [],
-          tvShows: [],
           companies: [],
         },
       });
@@ -134,6 +126,7 @@ class SearchScreen extends React.Component<
           initialLayout={{ width: Dimensions.get('window').width }}
           screenOptions={{
             swipeEnabled: false,
+            lazy: true,
           }}
         >
           <TopTab.Screen
@@ -153,7 +146,7 @@ class SearchScreen extends React.Component<
             name='TvShowSearchResultsTopTab'
             children={() => (
               <TvShowSearchResultsTopTab
-                data={this.state.results.tvShows}
+                searchContent={this.state.searchContent}
                 navigation={this.props.navigation}
               />
             )}

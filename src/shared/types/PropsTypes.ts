@@ -42,7 +42,7 @@ export type MovieSearchResultsTopTabProps = RootTopTabProps & {
 };
 
 export type TvShowSearchResultsTopTabProps = RootTopTabProps & {
-    data: TvShowElement[] | undefined;
+    searchContent: string;
 };
 
 export type MovieSearchCardProps = {
