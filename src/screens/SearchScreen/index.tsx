@@ -13,7 +13,11 @@ import type {
   SearchScreenState,
   TvShowElement,
 } from '@shared/types';
-import { CompanySearchResultsTopTab, MovieSearchResultsTopTab } from '@tabs';
+import {
+  CompanySearchResultsTopTab,
+  MovieSearchResultsTopTab,
+  TvShowSearchResultsTopTab,
+} from '@tabs';
 import { CompanyService, MovieService, TvShowService } from '@services';
 import { layout } from '@shared/themes';
 import styles from './style';
@@ -126,29 +130,49 @@ class SearchScreen extends React.Component<
         </View>
 
         <TopTab.Navigator
-          initialRouteName='Movie'
+          initialRouteName='MovieSearchResultsTopTab'
           initialLayout={{ width: Dimensions.get('window').width }}
           screenOptions={{
             swipeEnabled: false,
           }}
         >
           <TopTab.Screen
-            name='Movie'
+            name='MovieSearchResultsTopTab'
             children={() => (
               <MovieSearchResultsTopTab
                 data={this.state.results.movies}
                 navigation={this.props.navigation}
               />
             )}
+            options={{
+              title: 'Movie',
+            }}
           />
+
           <TopTab.Screen
-            name='Company'
+            name='TvShowSearchResultsTopTab'
+            children={() => (
+              <TvShowSearchResultsTopTab
+                data={this.state.results.tvShows}
+                navigation={this.props.navigation}
+              />
+            )}
+            options={{
+              title: 'Tv show',
+            }}
+          />
+
+          <TopTab.Screen
+            name='CompanySearchResultsTopTab'
             children={() => (
               <CompanySearchResultsTopTab
                 data={this.state.results.companies}
                 navigation={this.props.navigation}
               />
             )}
+            options={{
+              title: 'Company',
+            }}
           />
         </TopTab.Navigator>
       </SafeAreaView>

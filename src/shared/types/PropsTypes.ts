@@ -11,6 +11,7 @@ import {
 
 import { MovieElement } from './Movie';
 import { CompanyElement } from './Company';
+import { TvShowElement } from './TvShow';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -38,6 +39,10 @@ export type CompanySearchResultsTopTabProps = RootTopTabProps & {
 
 export type MovieSearchResultsTopTabProps = RootTopTabProps & {
     data: MovieElement[] | undefined;
+};
+
+export type TvShowSearchResultsTopTabProps = RootTopTabProps & {
+    data: TvShowElement[] | undefined;
 };
 
 export type MovieSearchCardProps = {
