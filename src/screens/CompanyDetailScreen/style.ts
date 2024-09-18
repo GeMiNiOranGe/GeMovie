@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 4,
-        backgroundColor: 'white',
+        opacity: 0.8,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         marginTop: '-28%',

@@ -68,7 +68,7 @@ class CompanyDetailScreen extends React.Component<
                     randomMovie.poster_path,
                   ),
                 }}
-                blurRadius={1}
+                blurRadius={3}
                 style={styles.headerImage}
               />
             ) : (
@@ -79,7 +79,7 @@ class CompanyDetailScreen extends React.Component<
             style={styles.body}
             start={{ x: 1, y: 0 }}
             end={{ x: 0, y: 1 }}
-            colors={['#FFEFBA', '#FFFFFF']}
+            colors={['#833ab4', '#fd1d1d', '#fcb045']}
           >
             <View>
               {this.state.company?.logoPath ? (
