@@ -1,4 +1,4 @@
-export type SearchPage<T> = {
+export type SearchResponse<T> = {
     page: number;
     results: T[];
     totalPages: number;
@@ -32,7 +32,7 @@ export type Spacing = {
     extraLarge: number;
 };
 
-export type SearchType = 'company' | 'movie' | 'celebrity';
+export type SearchType = 'tv' | 'movie' | 'company' | 'celebrity';
 
 export type Variant =
     | 'Linear'

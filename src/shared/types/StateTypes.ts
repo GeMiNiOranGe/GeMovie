@@ -1,17 +1,21 @@
-import { Route } from 'react-native-tab-view';
-
 import { Company, CompanyElement } from './Company';
 import { Movie, MovieElement } from './Movie';
+import { TvShowElement } from './TvShow';
 import { Celebrity, KnownFor } from './Celebrity';
 
 export type SearchScreenState = {
     results: {
         movies?: MovieElement[] | undefined;
-        companies?: CompanyElement[] | undefined;
     };
     searchContent: string;
-    index: number;
-    routes: Route[];
+};
+
+export type TvShowSearchResultsTopTabState = {
+    tvShows?: TvShowElement[] | undefined;
+};
+
+export type CompanySearchResultsTopTabState = {
+    companies?: CompanyElement[] | undefined;
 };
 
 export type MovieDetailScreenState = {

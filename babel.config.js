@@ -23,6 +23,7 @@ module.exports = {
                     '@screens': './src/screens',
                     '@services': './src/services',
                     '@shared': './src/shared',
+                    '@tabs': './src/tabs',
                 },
             },
         ],

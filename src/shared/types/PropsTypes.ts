@@ -1,5 +1,8 @@
 import { ParamListBase } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {
+    NativeStackNavigationProp,
+    NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {
     ColorValue,
     GestureResponderEvent,
@@ -8,6 +11,7 @@ import {
 
 import { MovieElement } from './Movie';
 import { CompanyElement } from './Company';
+import { TvShowElement } from './TvShow';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -29,8 +33,31 @@ export type RootScreenProps<
     Screen extends keyof RootStackParamList = keyof RootStackParamList,
 > = NativeStackScreenProps<RootStackParamList, Screen>;
 
+export type RootTopTabProps = {
+    navigation: NativeStackNavigationProp<ParamListBase>;
+};
+
+export type MovieSearchResultsTopTabProps = RootTopTabProps & {
+    data: MovieElement[] | undefined;
+};
+
+export type TvShowSearchResultsTopTabProps = RootTopTabProps & {
+    searchContent: string;
+};
+
+export type CompanySearchResultsTopTabProps = RootTopTabProps & {
+    searchContent: string;
+};
+
 export type MovieSearchCardProps = {
     item: MovieElement;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
+export type TvShowSearchCardProps = {
+    item: TvShowElement;
     index: number;
     listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;

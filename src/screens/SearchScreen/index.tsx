@@ -2,65 +2,60 @@ import React from 'react';
 import { Alert, Dimensions, SafeAreaView, View } from 'react-native';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
-import { TabView, Route } from 'react-native-tab-view';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import type { DebouncedFunc } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import type {
-  CompanyElement,
   MovieElement,
   RootScreenProps,
   SearchScreenState,
 } from '@shared/types';
 import {
-  CompanySearchCard,
-  MovieSearchCard,
-  SearchResultsList,
-} from '@components';
-import { CompanyService, MovieService } from '@services';
-import { toCompanyElement, toMovieElement } from '@shared/utils';
+  CompanySearchResultsTopTab,
+  MovieSearchResultsTopTab,
+  TvShowSearchResultsTopTab,
+} from '@tabs';
+import { MovieService } from '@services';
 import { layout } from '@shared/themes';
 import styles from './style';
+
+const debounceWaitTime = 425;
+const TopTab = createMaterialTopTabNavigator();
 
 class SearchScreen extends React.Component<
   RootScreenProps<'SearchScreen'>,
   SearchScreenState
 > {
+  private debouncedFetchSearchResults: DebouncedFunc<
+    (content: string) => Promise<void>
+  >;
+
   public constructor(props: RootScreenProps<'SearchScreen'>) {
     super(props);
     this.state = {
       results: {
         movies: [],
-        companies: [],
       },
       searchContent: '',
-      index: 0,
-      routes: [
-        { key: 'movie', title: 'Movie' },
-        { key: 'company', title: 'Company' },
-      ],
     };
 
-    this.handleSearchContentChange = this.handleSearchContentChange.bind(this);
+    this.handleSearchbarTextChange = this.handleSearchbarTextChange.bind(this);
+    this.debouncedFetchSearchResults = debounce(
+      this.fetchSearchResults,
+      debounceWaitTime,
+    );
   }
 
-  private async searchMovies(content: string): Promise<MovieElement[]> {
-    const searchPage = await MovieService.searchAsync(content);
-    return searchPage.results.map(element => toMovieElement(element));
-  }
-
-  private async searchCompanies(content: string): Promise<CompanyElement[]> {
-    const searchPage = await CompanyService.searchAsync(content);
-    return searchPage.results.map(element => toCompanyElement(element));
-  }
-
-  private async handleSearchContentChange(content: string): Promise<void> {
+  private async fetchSearchResults(content: string): Promise<void> {
     let movies: MovieElement[] = [];
-    let companies: CompanyElement[] = [];
 
     try {
-      [movies, companies] = await Promise.all([
-        this.searchMovies(content),
-        this.searchCompanies(content),
+      const [movieResponse] = await Promise.all([
+        MovieService.searchAsync(content),
       ]);
+
+      movies = movieResponse.getResults();
     } catch (error: unknown) {
       if (error instanceof TypeError) {
         Alert.alert('No connection', error.message);
@@ -70,9 +65,23 @@ class SearchScreen extends React.Component<
     this.setState({
       results: {
         movies,
-        companies,
       },
     });
+  }
+
+  private handleSearchbarTextChange(text: string) {
+    if (text.trim() === '') {
+      this.setState({
+        searchContent: text,
+        results: {
+          movies: [],
+        },
+      });
+      return;
+    }
+
+    this.setState({ searchContent: text });
+    this.debouncedFetchSearchResults(text);
   }
 
   private renderReturnIcon() {
@@ -82,49 +91,6 @@ class SearchScreen extends React.Component<
   private renderSearchIcon() {
     return <SearchNormal1 size='16' color='black' />;
   }
-
-  private renderScene = ({ route }: { route: Route }) => {
-    switch (route.key) {
-      case 'movie':
-        return (
-          <SearchResultsList
-            data={this.state.results.movies}
-            renderItem={({ item, index }) => (
-              <MovieSearchCard
-                item={item}
-                index={index}
-                listLength={this.state.results.movies?.length}
-                onPress={() => {
-                  this.props.navigation.navigate('MovieDetailScreen', {
-                    movieId: item.id,
-                  });
-                }}
-              />
-            )}
-          />
-        );
-      case 'company':
-        return (
-          <SearchResultsList
-            data={this.state.results.companies}
-            renderItem={({ item, index }) => (
-              <CompanySearchCard
-                item={item}
-                index={index}
-                listLength={this.state.results.companies?.length}
-                onPress={() => {
-                  this.props.navigation.navigate('CompanyDetailScreen', {
-                    companyId: item.id,
-                  });
-                }}
-              />
-            )}
-          />
-        );
-      default:
-        return null;
-    }
-  };
 
   public override render(): React.JSX.Element {
     return (
@@ -144,23 +110,60 @@ class SearchScreen extends React.Component<
             autoFocus
             placeholder='Search for shows, movies,...'
             value={this.state.searchContent}
-            onChangeText={(text: string) => {
-              this.setState({ searchContent: text });
-              this.handleSearchContentChange(text);
-            }}
+            onChangeText={this.handleSearchbarTextChange}
           />
         </View>
 
-        <TabView
-          navigationState={{
-            index: this.state.index,
-            routes: this.state.routes,
-          }}
-          renderScene={this.renderScene}
-          onIndexChange={index => this.setState({ index })}
+        <TopTab.Navigator
+          initialRouteName='MovieSearchResultsTopTab'
           initialLayout={{ width: Dimensions.get('window').width }}
-          swipeEnabled={false}
-        />
+          screenOptions={{
+            swipeEnabled: false,
+            lazy: true,
+          }}
+        >
+          <TopTab.Screen
+            name='MovieSearchResultsTopTab'
+            options={{
+              title: 'Movie',
+            }}
+          >
+            {() => (
+              <MovieSearchResultsTopTab
+                data={this.state.results.movies}
+                navigation={this.props.navigation}
+              />
+            )}
+          </TopTab.Screen>
+
+          <TopTab.Screen
+            name='TvShowSearchResultsTopTab'
+            options={{
+              title: 'Tv show',
+            }}
+          >
+            {() => (
+              <TvShowSearchResultsTopTab
+                searchContent={this.state.searchContent}
+                navigation={this.props.navigation}
+              />
+            )}
+          </TopTab.Screen>
+
+          <TopTab.Screen
+            name='CompanySearchResultsTopTab'
+            options={{
+              title: 'Company',
+            }}
+          >
+            {() => (
+              <CompanySearchResultsTopTab
+                searchContent={this.state.searchContent}
+                navigation={this.props.navigation}
+              />
+            )}
+          </TopTab.Screen>
+        </TopTab.Navigator>
       </SafeAreaView>
     );
   }
