@@ -30,3 +30,4 @@ export function calculateImageDimensions(
 export * from './CompanyConverter';
 export * from './Converter';
 export * from './MovieConverter';
+export * from './TvShowConverter';

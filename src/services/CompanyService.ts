@@ -1,11 +1,15 @@
-import { DetailService, SearchService } from '@services';
+import { DetailService, SearchResponseWrapper, SearchService } from '@services';
 import type { Company, CompanyElement, SearchPage } from '@shared/types';
 import { toCompany } from '@shared/utils';
 
 export default class CompanyService {
+    /**
+     * Search for companies by their original and alternative names.
+     * @param text content you want to search
+     */
     public static async searchAsync(
         text: string,
-    ): Promise<SearchPage<CompanyElement>> {
+    ): Promise<SearchResponseWrapper<CompanyElement>> {
         const params = new URLSearchParams({
             query: text,
         });

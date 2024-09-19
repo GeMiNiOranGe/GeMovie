@@ -19,7 +19,7 @@ class SearchSuggestionScreen extends React.Component<
       <TouchableOpacity
         onPress={() => this.props.navigation.navigate('SearchScreen')}
       >
-        <SearchNormal1 size={24} color={'black'} />
+        <SearchNormal1 size={24} color='black' />
       </TouchableOpacity>
     );
   }
