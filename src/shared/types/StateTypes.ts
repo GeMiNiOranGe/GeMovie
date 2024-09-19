@@ -5,13 +5,16 @@ import { TvShowElement } from './TvShow';
 export type SearchScreenState = {
     results: {
         movies?: MovieElement[] | undefined;
-        companies?: CompanyElement[] | undefined;
     };
     searchContent: string;
 };
 
 export type TvShowSearchResultsTopTabState = {
-    tvShows: TvShowElement[] | undefined;
+    tvShows?: TvShowElement[] | undefined;
+};
+
+export type CompanySearchResultsTopTabState = {
+    companies?: CompanyElement[] | undefined;
 };
 
 export type MovieDetailScreenState = {

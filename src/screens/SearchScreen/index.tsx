@@ -7,7 +7,6 @@ import type { DebouncedFunc } from 'lodash';
 import debounce from 'lodash/debounce';
 
 import type {
-  CompanyElement,
   MovieElement,
   RootScreenProps,
   SearchScreenState,
@@ -17,7 +16,7 @@ import {
   MovieSearchResultsTopTab,
   TvShowSearchResultsTopTab,
 } from '@tabs';
-import { CompanyService, MovieService } from '@services';
+import { MovieService } from '@services';
 import { layout } from '@shared/themes';
 import styles from './style';
 
@@ -37,7 +36,6 @@ class SearchScreen extends React.Component<
     this.state = {
       results: {
         movies: [],
-        companies: [],
       },
       searchContent: '',
     };
@@ -51,16 +49,13 @@ class SearchScreen extends React.Component<
 
   private async fetchSearchResults(content: string): Promise<void> {
     let movies: MovieElement[] = [];
-    let companies: CompanyElement[] = [];
 
     try {
-      const [movieResponse, companyResponse] = await Promise.all([
+      const [movieResponse] = await Promise.all([
         MovieService.searchAsync(content),
-        CompanyService.searchAsync(content),
       ]);
 
       movies = movieResponse.getResults();
-      companies = companyResponse.getResults();
     } catch (error: unknown) {
       if (error instanceof TypeError) {
         Alert.alert('No connection', error.message);
@@ -70,7 +65,6 @@ class SearchScreen extends React.Component<
     this.setState({
       results: {
         movies,
-        companies,
       },
     });
   }
@@ -81,7 +75,6 @@ class SearchScreen extends React.Component<
         searchContent: text,
         results: {
           movies: [],
-          companies: [],
         },
       });
       return;
@@ -165,7 +158,7 @@ class SearchScreen extends React.Component<
           >
             {() => (
               <CompanySearchResultsTopTab
-                data={this.state.results.companies}
+                searchContent={this.state.searchContent}
                 navigation={this.props.navigation}
               />
             )}

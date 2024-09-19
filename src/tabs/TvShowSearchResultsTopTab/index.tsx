@@ -32,6 +32,10 @@ class TvShowSearchResultsTopTab extends React.PureComponent<
   }
 
   public override componentDidMount(): void {
+    if (this.props.searchContent.trim() === '') {
+      return;
+    }
+
     this.searchTvShows(this.props.searchContent);
   }
 

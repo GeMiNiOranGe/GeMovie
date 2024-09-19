@@ -33,15 +33,15 @@ export type RootTopTabProps = {
     navigation: NativeStackNavigationProp<ParamListBase>;
 };
 
-export type CompanySearchResultsTopTabProps = RootTopTabProps & {
-    data: CompanyElement[] | undefined;
-};
-
 export type MovieSearchResultsTopTabProps = RootTopTabProps & {
     data: MovieElement[] | undefined;
 };
 
 export type TvShowSearchResultsTopTabProps = RootTopTabProps & {
+    searchContent: string;
+};
+
+export type CompanySearchResultsTopTabProps = RootTopTabProps & {
     searchContent: string;
 };
 
