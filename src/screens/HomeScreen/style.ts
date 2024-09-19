@@ -79,5 +79,13 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
     },
+    scrollContent: {
+        flex: 1,
+        paddingBottom: 20,
+    },
+    containerTV: {
+        marginTop: 15,
+        position: 'relative',
+    },
 });
 export default styles;

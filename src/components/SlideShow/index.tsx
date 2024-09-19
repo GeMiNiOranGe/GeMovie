@@ -1,14 +1,10 @@
 import React from 'react';
 import Swiper from 'react-native-swiper';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from '../SlideShow/style';
 
-type SlideshowProps = {
-  images: string[];
-  titles: string[];
-  releaseDates: string[];
-};
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { SlideshowProps } from '@shared/types';
+import styles from '../SlideShow/style';
 
 class Slideshow extends React.Component<SlideshowProps> {
   private swiper: Swiper | null = null;
@@ -26,7 +22,8 @@ class Slideshow extends React.Component<SlideshowProps> {
   };
 
   public override render() {
-    const { images, titles, releaseDates } = this.props;
+    const { images, titles, releaseDates, navigateToMovieDetail, movieIds } =
+      this.props;
 
     return (
       <View style={styles.wrapper}>
@@ -41,7 +38,11 @@ class Slideshow extends React.Component<SlideshowProps> {
           showsPagination={false}
         >
           {images.map((image, index) => (
-            <View key={index} style={styles.slide}>
+            <TouchableOpacity
+              key={index}
+              onPress={() => navigateToMovieDetail(movieIds[index])}
+              style={styles.slide}
+            >
               <Image source={{ uri: image }} style={styles.image} />
               <View style={styles.contentContainer}>
                 <View style={styles.textContainer}>
@@ -63,7 +64,7 @@ class Slideshow extends React.Component<SlideshowProps> {
                   />
                 </TouchableOpacity>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </Swiper>
 

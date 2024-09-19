@@ -69,3 +69,11 @@ export type SearchResultsListProps<ItemT> = {
     data: ArrayLike<ItemT> | null | undefined;
     renderItem: ListRenderItem<ItemT> | null | undefined;
 };
+
+export type SlideshowProps = {
+    images: string[];
+    titles: string[];
+    releaseDates: string[];
+    navigateToMovieDetail: (movieId: number) => void;
+    movieIds: number[];
+};
