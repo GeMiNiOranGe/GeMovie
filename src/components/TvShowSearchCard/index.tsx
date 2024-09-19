@@ -8,7 +8,7 @@ import styles from './style';
 class TvShowSearchCard extends React.PureComponent<TvShowSearchCardProps> {
   public override render(): React.JSX.Element {
     return (
-      <Card style={styles.container}>
+      <Card style={styles.container} onPress={this.props.onPress}>
         <Text style={styles.text}>{this.props.item.name}</Text>
         <Text style={styles.text}>{this.props.item.id}</Text>
       </Card>
