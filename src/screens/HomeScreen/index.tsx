@@ -13,7 +13,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
 import { Slideshow } from '@components';
-import type { Celebrity, FeaturedMovie, RootScreenProps } from '@shared/types';
+import type {
+  Celebrity,
+  FeaturedMovie,
+  FeaturedTvShow,
+  RootScreenProps,
+} from '@shared/types';
 import styles from './style';
 
 class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
@@ -21,6 +26,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
     movies: [] as FeaturedMovie[],
     celebrities: [] as Celebrity[],
     upcomingMovies: [] as any[],
+    tvShow: [] as unknown as FeaturedTvShow[],
     isLoading: true,
   };
 
@@ -36,11 +42,12 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
         fetch(upcomingMoviesUrl).then(response => response.json()),
         fetch(tvShowsUrl).then(response => response.json()),
       ])
-        .then(([movieData, celebrityData, upcomingMoviesData]) => {
+        .then(([movieData, celebrityData, upcomingMoviesData, tvShowData]) => {
           this.setState({
             movies: movieData.results,
             celebrities: celebrityData.results,
             upcomingMovies: upcomingMoviesData.results,
+            tvShow: tvShowData.results,
             isLoading: false,
           });
         })
@@ -53,7 +60,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
 
   public override render() {
     // eslint-disable-next-line prettier/prettier
-    const { movies, celebrities, upcomingMovies,isLoading} = this.state;
+    const { movies, celebrities, upcomingMovies, tvShow ,isLoading} = this.state;
     const { navigation } = this.props;
     if (isLoading) {
       return (
@@ -62,7 +69,6 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
         </View>
       );
     }
-
     const upcomingMoviesImages = upcomingMovies.map(movie =>
       URLBuilder.buildImageURL('w780', movie.backdrop_path),
     );
@@ -142,18 +148,21 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
                 <Text style={styles.sectionTitle}>See All</Text>
               </TouchableOpacity>
             </View>
-            <ScrollView horizontal style={styles.celebrityList}>
-              {celebrities.map(celebrity => {
+            <FlatList
+              data={celebrities}
+              horizontal
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => {
                 const imageUrl = URLBuilder.buildImageURL(
                   'w185',
-                  celebrity.profile_path,
+                  item.profile_path,
                 );
                 return (
                   <TouchableOpacity
-                    key={celebrity.id}
+                    key={item.id}
                     onPress={() =>
                       navigation.navigate('CelebrityDetailScreen', {
-                        celebrityId: celebrity.id,
+                        celebrityId: item.id,
                       })
                     }
                   >
@@ -162,18 +171,47 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
                         source={{ uri: imageUrl }}
                         style={styles.celebrityThumbnail}
                       />
-                      <Text style={styles.celebrityName}>{celebrity.name}</Text>
+                      <Text style={styles.celebrityName}>{item.name}</Text>
                     </View>
                   </TouchableOpacity>
                 );
-              })}
-            </ScrollView>
-
+              }}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.celebrityList}
+            />
             {/* TV Show */}
             <View style={styles.containerTV}>
               <View style={styles.containerSectionTitle}>
                 <Text style={styles.sectionTitle}>TV Show</Text>
+                <Text style={styles.sectionTitle}>See All</Text>
               </View>
+              <FlatList
+                data={tvShow}
+                horizontal
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item }) => {
+                  const imageUrl = URLBuilder.buildImageURL(
+                    'w185',
+                    item.poster_path,
+                  );
+                  return (
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('TvShowDetailScreen', {
+                          tvShowId: item.id,
+                        })
+                      }
+                    >
+                      <Image
+                        source={{ uri: imageUrl }}
+                        style={styles.TvThumbnail}
+                      />
+                    </TouchableOpacity>
+                  );
+                }}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.TvList}
+              />
             </View>
           </View>
         </ScrollView>
