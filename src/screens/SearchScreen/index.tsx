@@ -131,42 +131,45 @@ class SearchScreen extends React.Component<
         >
           <TopTab.Screen
             name='MovieSearchResultsTopTab'
-            children={() => (
+            options={{
+              title: 'Movie',
+            }}
+          >
+            {() => (
               <MovieSearchResultsTopTab
                 data={this.state.results.movies}
                 navigation={this.props.navigation}
               />
             )}
-            options={{
-              title: 'Movie',
-            }}
-          />
+          </TopTab.Screen>
 
           <TopTab.Screen
             name='TvShowSearchResultsTopTab'
-            children={() => (
+            options={{
+              title: 'Tv show',
+            }}
+          >
+            {() => (
               <TvShowSearchResultsTopTab
                 searchContent={this.state.searchContent}
                 navigation={this.props.navigation}
               />
             )}
-            options={{
-              title: 'Tv show',
-            }}
-          />
+          </TopTab.Screen>
 
           <TopTab.Screen
             name='CompanySearchResultsTopTab'
-            children={() => (
+            options={{
+              title: 'Company',
+            }}
+          >
+            {() => (
               <CompanySearchResultsTopTab
                 data={this.state.results.companies}
                 navigation={this.props.navigation}
               />
             )}
-            options={{
-              title: 'Company',
-            }}
-          />
+          </TopTab.Screen>
         </TopTab.Navigator>
       </SafeAreaView>
     );

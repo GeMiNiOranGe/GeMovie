@@ -1,6 +1,6 @@
 module.exports = {
     root: true,
-    extends: '@react-native',
+    extends: ['@react-native', 'plugin:react/recommended'],
     rules: {
         indent: [
             'error',
@@ -10,9 +10,6 @@ module.exports = {
             },
         ],
         'linebreak-style': ['error', 'unix'],
-        'jsx-quotes': ['error', 'prefer-single'],
-        '@typescript-eslint/no-unused-vars': ['warn'],
-        '@typescript-eslint/explicit-member-accessibility': 'error',
         curly: 'error',
         'dot-notation': [
             'error',
@@ -28,6 +25,10 @@ module.exports = {
             },
         ],
         eqeqeq: ['error', 'smart'],
+        'jsx-quotes': ['error', 'prefer-single'],
+        '@typescript-eslint/no-unused-vars': ['warn'],
+        '@typescript-eslint/explicit-member-accessibility': 'error',
+        'react/jsx-curly-brace-presence': ['error', 'never'],
     },
     overrides: [
         {
