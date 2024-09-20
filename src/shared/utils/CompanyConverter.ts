@@ -18,7 +18,7 @@ export function toCompany(val: any): Company {
         logoPath: val['logo_path'] ?? undefined,
         name: val.name,
         originCountry: val['origin_country'],
-        parentCompany: toParentCompany(val.parent_company),
+        parentCompany: toParentCompany(val['parent_company']),
     };
 }
 

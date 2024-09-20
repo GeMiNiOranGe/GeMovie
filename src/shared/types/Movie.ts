@@ -24,7 +24,6 @@ export type FeaturedMovie = {
     release_date: string;
 };
 export type Movie = {
-    poster_path: string;
     adult: boolean;
     backdropPath?: string | undefined;
     belongsToCollection?: BelongsToCollection | undefined;

@@ -27,6 +27,7 @@ export function calculateImageDimensions(
     };
 }
 
+export * from './CollectionConverter';
 export * from './CompanyConverter';
 export * from './Converter';
 export * from './MovieConverter';
