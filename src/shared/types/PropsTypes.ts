@@ -70,6 +70,13 @@ export type CompanySearchCardProps = {
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
+export type CollectionSearchCardProps = {
+    item: CompanyElement;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
 export type LabelProps = {
     name?: string;
     value?: string | undefined;
