@@ -1,7 +1,6 @@
 import { DetailService, SearchResponseWrapper, SearchService } from '@services';
-import { toCompanyElement } from '@shared/utils';
+import { toCompany, toCompanyElement } from '@shared/utils';
 import type { Company, CompanyElement, SearchResponse } from '@shared/types';
-import { toCompany } from '@shared/utils';
 
 export default class CompanyService {
     /**
@@ -20,6 +19,10 @@ export default class CompanyService {
         return new SearchResponseWrapper(response, toCompanyElement);
     }
 
+    /**
+     * Get the company details by ID.
+     * @param id company id
+     */
     public static async getDetailAsync(id: number): Promise<Company> {
         return await DetailService.getDetailAsync(id, 'company', toCompany);
     }

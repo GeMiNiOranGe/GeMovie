@@ -1,7 +1,7 @@
-import { Company, CompanyElement } from './Company';
-import { Movie, MovieElement } from './Movie';
-import { TvShowElement } from './TvShow';
-import { Celebrity, KnownFor } from './Celebrity';
+import type { Company, CompanyElement } from './Company';
+import type { Movie, MovieElement } from './Movie';
+import type { TvShowElement } from './TvShow';
+import type { Celebrity, KnownFor } from './Celebrity';
 
 export type SearchScreenState = {
     results: {

@@ -1,4 +1,4 @@
-import { CompanyElement } from './Company';
+import type { CompanyElement } from './Company';
 
 export type MovieElement = {
     adult: boolean;
