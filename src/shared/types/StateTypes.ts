@@ -2,6 +2,7 @@ import type { Company, CompanyElement } from './Company';
 import type { Movie, MovieElement } from './Movie';
 import type { TvShowElement } from './TvShow';
 import type { Celebrity, KnownFor } from './Celebrity';
+import type { CollectionElement } from './Collection';
 
 export type SearchScreenState = {
     results: {
@@ -20,6 +21,10 @@ export type CompanySearchResultsTopTabState = {
 
 export type MovieDetailScreenState = {
     movie?: Movie | undefined;
+};
+
+export type CollectionSearchResultsTopTabState = {
+    collections?: CollectionElement[] | undefined;
 };
 
 export type ExpandableTextState = {

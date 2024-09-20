@@ -12,6 +12,7 @@ import type {
   SearchScreenState,
 } from '@shared/types';
 import {
+  CollectionSearchResultsTopTab,
   CompanySearchResultsTopTab,
   MovieSearchResultsTopTab,
   TvShowSearchResultsTopTab,
@@ -120,6 +121,7 @@ class SearchScreen extends React.Component<
           screenOptions={{
             swipeEnabled: false,
             lazy: true,
+            tabBarScrollEnabled: true,
           }}
         >
           <TopTab.Screen
@@ -144,6 +146,20 @@ class SearchScreen extends React.Component<
           >
             {() => (
               <TvShowSearchResultsTopTab
+                searchContent={this.state.searchContent}
+                navigation={this.props.navigation}
+              />
+            )}
+          </TopTab.Screen>
+
+          <TopTab.Screen
+            name='CollectionSearchResultsTopTab'
+            options={{
+              title: 'Collection',
+            }}
+          >
+            {() => (
+              <CollectionSearchResultsTopTab
                 searchContent={this.state.searchContent}
                 navigation={this.props.navigation}
               />

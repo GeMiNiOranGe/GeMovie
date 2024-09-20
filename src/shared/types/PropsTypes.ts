@@ -9,9 +9,10 @@ import {
     ListRenderItem,
 } from 'react-native';
 
-import { MovieElement } from './Movie';
-import { CompanyElement } from './Company';
-import { TvShowElement } from './TvShow';
+import type { MovieElement } from './Movie';
+import type { CompanyElement } from './Company';
+import type { TvShowElement } from './TvShow';
+import type { CollectionElement } from './Collection';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -49,6 +50,10 @@ export type CompanySearchResultsTopTabProps = RootTopTabProps & {
     searchContent: string;
 };
 
+export type CollectionSearchResultsTopTabProps = RootTopTabProps & {
+    searchContent: string;
+};
+
 export type MovieSearchCardProps = {
     item: MovieElement;
     index: number;
@@ -71,7 +76,7 @@ export type CompanySearchCardProps = {
 };
 
 export type CollectionSearchCardProps = {
-    item: CompanyElement;
+    item: CollectionElement;
     index: number;
     listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
