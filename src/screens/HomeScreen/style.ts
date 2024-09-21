@@ -15,13 +15,14 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        flex: 3.5,
+        height: height * 0.29,
     },
     content: {
-        flex: 4,
+        flex: 3,
         width: '100%',
         height: '100%',
         paddingHorizontal: 10,
+        position: 'relative',
     },
     movieList: {
         flexDirection: 'row',
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     },
     celebrityList: {
         flexDirection: 'row',
-        top: 10,
+        top: 5,
     },
     celebrityItem: {
         marginRight: 10,
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     },
     celebrityThumbnail: {
         width: width * 0.25,
-        height: height * 0.14,
+        height: height * 0.15,
         borderRadius: 60,
     },
     celebrityName: {
@@ -78,6 +79,27 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontSize: 15,
         textAlign: 'center',
+    },
+    scrollContent: {
+        flex: 1,
+        paddingBottom: 20,
+    },
+    containerTV: {
+        flex: 1,
+        marginTop: 15,
+        marginBottom: 10,
+        position: 'relative',
+    },
+    TvList: {
+        flexDirection: 'row',
+        paddingTop: 10,
+    },
+    TvThumbnail: {
+        width: width * 0.5,
+        height: height / 4.5,
+        marginRight: 10,
+        borderRadius: 20,
+        resizeMode: 'stretch',
     },
 });
 export default styles;

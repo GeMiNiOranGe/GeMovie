@@ -6,6 +6,7 @@ import {
   HomeScreen,
   MovieDetailScreen,
   SeeAllMoviesScreen,
+  TvShowDetailScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
 
@@ -33,12 +34,25 @@ class HomeStack extends React.Component {
         <Stack.Screen
           name='MovieDetailScreen'
           component={MovieDetailScreen}
-          options={{ title: 'Detail' }}
+          options={{
+            title: 'Detail',
+          }}
         />
+
         <Stack.Screen
           name='CelebrityDetailScreen'
           component={CelebrityDetailScreen}
-          options={{ title: 'Detail' }}
+          options={{
+            title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='TvShowDetailScreen'
+          component={TvShowDetailScreen}
+          options={{
+            title: 'Detail',
+          }}
         />
       </Stack.Navigator>
     );

@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         position: 'relative',
-        height: '100%',
     },
     slide: {
         flex: 1,
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textContainer: {
-        maxWidth: width * 0.5,
+        maxWidth: width * 0.6,
         maxHeight: height / 2,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 5,
