@@ -2,10 +2,10 @@ import React from 'react';
 import { Text } from 'react-native';
 import { Card } from 'react-native-paper';
 
-import type { CelebritySearchCardProps } from '@shared/types';
+import type { PersonSearchCardProps } from '@shared/types';
 import styles from './style';
 
-class CelebritySearchCard extends React.PureComponent<CelebritySearchCardProps> {
+class PersonSearchCard extends React.PureComponent<PersonSearchCardProps> {
   public override render(): React.JSX.Element {
     return (
       <Card style={styles.container} onPress={this.props.onPress}>
@@ -16,4 +16,4 @@ class CelebritySearchCard extends React.PureComponent<CelebritySearchCardProps> 
   }
 }
 
-export default CelebritySearchCard;
+export default PersonSearchCard;

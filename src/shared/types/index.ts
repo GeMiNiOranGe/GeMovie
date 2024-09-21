@@ -5,4 +5,4 @@ export * from './TvShow';
 export * from './Other';
 export * from './Company';
 export * from './Collection';
-export * from './Celebrity';
+export * from './Person';

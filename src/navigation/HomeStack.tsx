@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {
-  CelebrityDetailScreen,
+  PersonDetailScreen,
   HomeScreen,
   MovieDetailScreen,
   SeeAllMoviesScreen,
@@ -40,8 +40,8 @@ class HomeStack extends React.Component {
         />
 
         <Stack.Screen
-          name='CelebrityDetailScreen'
-          component={CelebrityDetailScreen}
+          name='PersonDetailScreen'
+          component={PersonDetailScreen}
           options={{
             title: 'Detail',
           }}

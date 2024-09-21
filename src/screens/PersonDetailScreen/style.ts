@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     containerProfile: {
         flex: 1,
     },
-    ProfileName: {
+    profileName: {
         fontSize: 15,
         fontWeight: 'bold',
         color: 'black',
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         justifyContent: 'center',
     },
-    Biography: {
+    biography: {
         flex: 1,
         padding: 5,
     },

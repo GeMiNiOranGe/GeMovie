@@ -11,7 +11,7 @@ export type KnownFor = {
     vote_count: number;
 };
 
-export type CelebrityElement = {
+export type PersonElement = {
     adult: boolean;
     gender: number;
     id: number;
@@ -23,7 +23,7 @@ export type CelebrityElement = {
     knownFor: KnownFor[];
 };
 
-export type Celebrity = {
+export type Person = {
     id: number;
     name: string;
     popularity: number;

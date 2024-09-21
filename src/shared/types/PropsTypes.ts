@@ -13,7 +13,7 @@ import type { MovieElement } from './Movie';
 import type { CompanyElement } from './Company';
 import type { TvShowElement } from './TvShow';
 import type { CollectionElement } from './Collection';
-import type { CelebrityElement } from './Celebrity';
+import type { PersonElement } from './Person';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -25,8 +25,8 @@ export type RootStackParamList = ParamListBase & {
     CompanyDetailScreen: {
         companyId: number;
     };
-    CelebrityDetailScreen: {
-        celebrityId: number;
+    PersonDetailScreen: {
+        personId: number;
     };
     SeeAllScreen: undefined;
 };
@@ -83,8 +83,8 @@ export type CollectionSearchCardProps = {
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
-export type CelebritySearchCardProps = {
-    item: CelebrityElement;
+export type PersonSearchCardProps = {
+    item: PersonElement;
     index: number;
     listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;

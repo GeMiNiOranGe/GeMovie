@@ -14,7 +14,7 @@ import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
 import { Slideshow } from '@components';
 import type {
-  Celebrity,
+  Person,
   FeaturedMovie,
   FeaturedTvShow,
   RootScreenProps,
@@ -24,7 +24,7 @@ import styles from './style';
 class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
   public override state = {
     movies: [] as FeaturedMovie[],
-    celebrities: [] as Celebrity[],
+    people: [] as Person[],
     upcomingMovies: [] as any[],
     tvShow: [] as unknown as FeaturedTvShow[],
     isLoading: true,
@@ -32,20 +32,20 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
 
   public override componentDidMount() {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
-    const celebrityUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
+    const personUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
     const upcomingMoviesUrl = `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}`;
     const tvShowsUrl = `${TMDB_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`;
     setTimeout(() => {
       Promise.all([
         fetch(url).then(response => response.json()),
-        fetch(celebrityUrl).then(response => response.json()),
+        fetch(personUrl).then(response => response.json()),
         fetch(upcomingMoviesUrl).then(response => response.json()),
         fetch(tvShowsUrl).then(response => response.json()),
       ])
-        .then(([movieData, celebrityData, upcomingMoviesData, tvShowData]) => {
+        .then(([movieData, personData, upcomingMoviesData, tvShowData]) => {
           this.setState({
             movies: movieData.results,
-            celebrities: celebrityData.results,
+            people: personData.results,
             upcomingMovies: upcomingMoviesData.results,
             tvShow: tvShowData.results,
             isLoading: false,
@@ -59,8 +59,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
   }
 
   public override render() {
-    // eslint-disable-next-line prettier/prettier
-    const { movies, celebrities, upcomingMovies, tvShow ,isLoading} = this.state;
+    const { movies, people, upcomingMovies, tvShow, isLoading } = this.state;
     const { navigation } = this.props;
     if (isLoading) {
       return (
@@ -149,7 +148,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
               </TouchableOpacity>
             </View>
             <FlatList
-              data={celebrities}
+              data={people}
               horizontal
               keyExtractor={item => item.id.toString()}
               renderItem={({ item }) => {
@@ -161,8 +160,8 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
                   <TouchableOpacity
                     key={item.id}
                     onPress={() =>
-                      navigation.navigate('CelebrityDetailScreen', {
-                        celebrityId: item.id,
+                      navigation.navigate('PersonDetailScreen', {
+                        personId: item.id,
                       })
                     }
                   >

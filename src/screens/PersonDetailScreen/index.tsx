@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import { CelebrityDetailScreenState, RootScreenProps } from '@shared/types';
+import { PersonDetailScreenState, RootScreenProps } from '@shared/types';
 import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
 import { imageSize } from '@shared/constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,22 +17,22 @@ import { ExpandableText, Label } from '@components';
 import { URLBuilder } from '@services';
 import styles from './style';
 
-class CelebrityDetailScreen extends React.Component<
-  RootScreenProps<'CelebrityDetailScreen'>,
-  CelebrityDetailScreenState
+class PersonDetailScreen extends React.Component<
+  RootScreenProps<'PersonDetailScreen'>,
+  PersonDetailScreenState
 > {
-  public constructor(props: RootScreenProps<'CelebrityDetailScreen'>) {
+  public constructor(props: RootScreenProps<'PersonDetailScreen'>) {
     super(props);
     this.state = {
-      celebrity: undefined,
+      person: undefined,
       movies: [],
     };
   }
 
   public override componentDidMount(): void {
-    const { celebrityId } = this.props.route.params;
-    const url = `${TMDB_BASE_URL}/person/${celebrityId}?api_key=${TMDB_API_KEY}&language=en-US`;
-    const movieUrl = `${TMDB_BASE_URL}/person/${celebrityId}/movie_credits?api_key=${TMDB_API_KEY}&language=en-US`;
+    const { personId } = this.props.route.params;
+    const url = `${TMDB_BASE_URL}/person/${personId}?api_key=${TMDB_API_KEY}&language=en-US`;
+    const movieUrl = `${TMDB_BASE_URL}/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}&language=en-US`;
 
     Promise.all([
       fetch(url).then(response => response.json()),
@@ -40,7 +40,7 @@ class CelebrityDetailScreen extends React.Component<
     ])
       .then(([celebrityData, movieData]) => {
         this.setState({
-          celebrity: celebrityData,
+          person: celebrityData,
           movies: movieData.cast,
         });
       })
@@ -50,7 +50,7 @@ class CelebrityDetailScreen extends React.Component<
   }
 
   public override render(): React.JSX.Element {
-    const { celebrity, movies } = this.state;
+    const { person, movies } = this.state;
     const headerImage =
       movies.length > 0 && movies[0]?.poster_path
         ? `${TMDB_BASE_IMAGE_URL}/w780${movies[0].poster_path}`
@@ -76,12 +76,12 @@ class CelebrityDetailScreen extends React.Component<
         >
           <View style={styles.containerProfile}>
             <View>
-              {celebrity?.profile_path ? (
+              {person?.profile_path ? (
                 <Image
                   style={styles.backdropImage}
                   resizeMode='contain'
                   source={{
-                    uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${celebrity?.profile_path}`,
+                    uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${person?.profile_path}`,
                   }}
                 />
               ) : (
@@ -95,7 +95,7 @@ class CelebrityDetailScreen extends React.Component<
                 </View>
               )}
             </View>
-            <Text style={styles.ProfileName}>{this.state.celebrity?.name}</Text>
+            <Text style={styles.profileName}>{this.state.person?.name}</Text>
             <ScrollView
               contentContainerStyle={styles.scrollContainer}
               horizontal
@@ -103,14 +103,14 @@ class CelebrityDetailScreen extends React.Component<
             >
               <Label
                 icon={<Icon name='heart' size={20} color='red' />}
-                value={`${this.state.celebrity?.popularity}`}
+                value={`${this.state.person?.popularity}`}
               />
             </ScrollView>
           </View>
-          <ScrollView style={styles.Biography}>
+          <ScrollView style={styles.biography}>
             <Text style={styles.biographyText}>Introduction</Text>
             <ExpandableText
-              text={`${this.state.celebrity?.biography}`}
+              text={`${this.state.person?.biography}`}
               numberOfLines={3}
             />
 
@@ -150,4 +150,4 @@ class CelebrityDetailScreen extends React.Component<
   }
 }
 
-export default CelebrityDetailScreen;
+export default PersonDetailScreen;
