@@ -1,6 +1,6 @@
 import { DetailService, SearchResponseWrapper, SearchService } from '@services';
 import { toMovie, toMovieElement } from '@shared/utils';
-import type { Movie, MovieElement, SearchResponse } from '@shared/types';
+import type { Movie, MovieElement } from '@shared/types';
 
 export default class MovieService {
     /**
@@ -13,10 +13,7 @@ export default class MovieService {
         const params = new URLSearchParams({
             query: text,
         });
-        const response: SearchResponse<MovieElement> =
-            await SearchService.searchAsync('movie', params);
-
-        return new SearchResponseWrapper(response, toMovieElement);
+        return await SearchService.searchAsync('movie', params, toMovieElement);
     }
 
     /**

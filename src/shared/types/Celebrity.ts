@@ -11,6 +11,18 @@ export type KnownFor = {
     vote_count: number;
 };
 
+export type CelebrityElement = {
+    adult: boolean;
+    gender: number;
+    id: number;
+    knownForDepartment: string;
+    name: string;
+    originalName: string;
+    popularity: number;
+    profilePath: string;
+    knownFor: KnownFor[];
+};
+
 export type Celebrity = {
     id: number;
     name: string;

@@ -13,6 +13,7 @@ import type { MovieElement } from './Movie';
 import type { CompanyElement } from './Company';
 import type { TvShowElement } from './TvShow';
 import type { CollectionElement } from './Collection';
+import type { CelebrityElement } from './Celebrity';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -77,6 +78,13 @@ export type CompanySearchCardProps = {
 
 export type CollectionSearchCardProps = {
     item: CollectionElement;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
+export type CelebritySearchCardProps = {
+    item: CelebrityElement;
     index: number;
     listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;

@@ -1,5 +1,5 @@
 import { SearchResponseWrapper, SearchService } from '@services';
-import type { TvShowElement, SearchResponse } from '@shared/types';
+import type { TvShowElement } from '@shared/types';
 import { toTvShowElement } from '@shared/utils';
 
 export default class TvShowService {
@@ -13,9 +13,6 @@ export default class TvShowService {
         const params = new URLSearchParams({
             query: text,
         });
-        const response: SearchResponse<TvShowElement> =
-            await SearchService.searchAsync('tv', params);
-
-        return new SearchResponseWrapper(response, toTvShowElement);
+        return await SearchService.searchAsync('tv', params, toTvShowElement);
     }
 }

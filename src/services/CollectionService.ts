@@ -1,4 +1,4 @@
-import type { CollectionElement, SearchResponse } from '@shared/types';
+import type { CollectionElement } from '@shared/types';
 import { SearchResponseWrapper, SearchService } from '@services';
 import { toCollectionElement } from '@shared/utils';
 
@@ -13,9 +13,10 @@ export default class CollectionService {
         const params = new URLSearchParams({
             query: text,
         });
-        const response: SearchResponse<CollectionElement> =
-            await SearchService.searchAsync('collection', params);
-
-        return new SearchResponseWrapper(response, toCollectionElement);
+        return await SearchService.searchAsync(
+            'collection',
+            params,
+            toCollectionElement,
+        );
     }
 }

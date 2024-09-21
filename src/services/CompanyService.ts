@@ -1,6 +1,6 @@
 import { DetailService, SearchResponseWrapper, SearchService } from '@services';
 import { toCompany, toCompanyElement } from '@shared/utils';
-import type { Company, CompanyElement, SearchResponse } from '@shared/types';
+import type { Company, CompanyElement } from '@shared/types';
 
 export default class CompanyService {
     /**
@@ -13,10 +13,11 @@ export default class CompanyService {
         const params = new URLSearchParams({
             query: text,
         });
-        const response: SearchResponse<CompanyElement> =
-            await SearchService.searchAsync('company', params);
-
-        return new SearchResponseWrapper(response, toCompanyElement);
+        return await SearchService.searchAsync(
+            'company',
+            params,
+            toCompanyElement,
+        );
     }
 
     /**
