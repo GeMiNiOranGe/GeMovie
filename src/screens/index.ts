@@ -6,3 +6,4 @@ export { default as CompanyDetailScreen } from './CompanyDetailScreen';
 export { default as TvShowDetailScreen } from './TvShowDetailScreen';
 export { default as SeeAllMoviesScreen } from './SeeAllMovies';
 export { default as CelebrityDetailScreen } from './CelebrityDetailScreen';
+export { default as CollectionDetailScreen } from './CollectionDetailScreen';
