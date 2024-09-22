@@ -1,8 +1,13 @@
-import type { Company, CompanyElement } from './Company';
-import type { Movie, MovieElement } from './Movie';
-import type { TvShowElement } from './TvShow';
-import type { Person, KnownFor } from './Person';
-import type { CollectionElement } from './Collection';
+import type {
+    CollectionElement,
+    Company,
+    CompanyElement,
+    KnownFor,
+    Movie,
+    MovieElement,
+    Person,
+    TvShowElement,
+} from '@shared/types';
 
 export type SearchScreenState = {
     results: {

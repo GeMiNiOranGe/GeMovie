@@ -1,4 +1,4 @@
-import type { CompanyElement } from './Company';
+import type { CompanyElement } from '@shared/types';
 
 export type MovieElement = {
     adult: boolean;
@@ -16,6 +16,7 @@ export type MovieElement = {
     voteAverage: number;
     voteCount: number;
 };
+
 export type FeaturedMovie = {
     id: number;
     title: string;
@@ -23,6 +24,7 @@ export type FeaturedMovie = {
     backdrop_path: string;
     release_date: string;
 };
+
 export type Movie = {
     adult: boolean;
     backdropPath?: string | undefined;

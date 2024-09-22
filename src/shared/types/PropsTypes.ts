@@ -1,19 +1,21 @@
-import { ParamListBase } from '@react-navigation/native';
-import {
+import type { ParamListBase } from '@react-navigation/native';
+import type {
     NativeStackNavigationProp,
     NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import {
+import type {
     ColorValue,
     GestureResponderEvent,
     ListRenderItem,
 } from 'react-native';
 
-import type { MovieElement } from './Movie';
-import type { CompanyElement } from './Company';
-import type { TvShowElement } from './TvShow';
-import type { CollectionElement } from './Collection';
-import type { PersonElement } from './Person';
+import type {
+    CollectionElement,
+    CompanyElement,
+    MovieElement,
+    PersonElement,
+    TvShowElement,
+} from '@shared/types';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;

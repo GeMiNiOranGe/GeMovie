@@ -4,6 +4,7 @@ export { default as SearchService } from './SearchService';
 export { default as DetailService } from './DetailService';
 export { default as MovieService } from './MovieService';
 export { default as TvShowService } from './TvShowService';
+export { default as PersonService } from './PersonService';
 export { default as CompanyService } from './CompanyService';
 export { default as CollectionService } from './CollectionService';
 export { default as SearchResponseWrapper } from './SearchResponseWrapper';

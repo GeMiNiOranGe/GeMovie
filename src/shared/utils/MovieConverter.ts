@@ -1,10 +1,10 @@
 import { Movie, MovieElement } from '@shared/types';
-import { toCompanyElement } from './CompanyConverter';
 import {
     toBelongsToCollection,
+    toCompanyElement,
     toProductionCountryElement,
     toSpokenLanguageElement,
-} from './Converter';
+} from '@shared/utils';
 
 export function toMovieElement(val: any): MovieElement {
     return {
