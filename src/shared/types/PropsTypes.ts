@@ -115,6 +115,13 @@ export type TabBarIconProps = {
 export type SearchResultsListProps<ItemT> = {
     data: ArrayLike<ItemT> | null | undefined;
     renderItem: ListRenderItem<ItemT> | null | undefined;
+    isFooterLoading?: boolean | undefined;
+    totalResults?: number | undefined;
+    onEndReached?:
+        | ((info: { distanceFromEnd: number }) => void)
+        | null
+        | undefined;
+    keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
 };
 
 export type SlideshowProps = {

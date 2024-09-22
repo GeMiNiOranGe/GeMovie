@@ -7,6 +7,16 @@ const styles = StyleSheet.create({
         paddingVertical: spacing.small,
         paddingHorizontal: spacing.large,
     },
+    footer: {
+        marginTop: spacing.small,
+    },
+    header: {
+        marginBottom: spacing.tiny,
+    },
+    headerText: {
+        color: 'gray',
+        marginLeft: spacing.medium,
+    },
 });
 
 export default styles;

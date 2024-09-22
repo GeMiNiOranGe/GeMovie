@@ -16,7 +16,8 @@ export type TvShowSearchResultsTopTabState = {
 };
 
 export type CompanySearchResultsTopTabState = {
-    companies?: CompanyElement[] | undefined;
+    companies: CompanyElement[];
+    isFetchingNextPage: boolean;
 };
 
 export type MovieDetailScreenState = {

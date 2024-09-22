@@ -1,4 +1,5 @@
 import React from 'react';
+import { Alert } from 'react-native';
 import type { DebouncedFunc } from 'lodash';
 import debounce from 'lodash/debounce';
 
@@ -13,22 +14,67 @@ class CompanySearchResultsTopTab extends React.PureComponent<
   CompanySearchResultsTopTabProps,
   CompanySearchResultsTopTabState
 > {
-  private debouncedSearchCompanies: DebouncedFunc<
+  private debouncedSearchFirstPage: DebouncedFunc<
     (content: string) => Promise<void>
   >;
+  private nextPage = 0;
+  private totalPages = 0;
+  private totalResults = 0;
 
   public constructor(props: CompanySearchResultsTopTabProps) {
     super(props);
     this.state = {
       companies: [],
+      isFetchingNextPage: false,
     };
 
-    this.debouncedSearchCompanies = debounce(this.searchCompanies, 350);
+    this.debouncedSearchFirstPage = debounce(this.searchFirstPage, 350);
+    this.searchNextPage = this.searchNextPage.bind(this);
   }
 
-  private async searchCompanies(content: string): Promise<void> {
-    const companyResponse = await CompanyService.searchAsync(content);
-    this.setState({ companies: companyResponse.getResults() });
+  private async searchFirstPage(content: string): Promise<void> {
+    try {
+      const firstPageResponse = await CompanyService.searchAsync(content);
+
+      this.nextPage = firstPageResponse.getPage() + 1;
+      this.totalPages = firstPageResponse.getTotalPages();
+      this.totalResults = firstPageResponse.getTotalResults();
+      this.setState({ companies: firstPageResponse.getResults() });
+    } catch (error: unknown) {
+      if (error instanceof TypeError) {
+        Alert.alert('Error', error.message);
+      }
+    }
+  }
+
+  private async searchNextPage() {
+    if (
+      this.nextPage > this.totalPages ||
+      [this.nextPage, this.totalPages].includes(0) ||
+      this.state.isFetchingNextPage
+    ) {
+      return;
+    }
+
+    try {
+      this.setState({ isFetchingNextPage: true });
+      const nextPageResponse = await CompanyService.searchAsync(
+        this.props.searchContent,
+        this.nextPage,
+      );
+
+      this.nextPage++;
+      this.setState({
+        companies: [...this.state.companies, ...nextPageResponse.getResults()],
+        isFetchingNextPage: false,
+      });
+    } catch (error: unknown) {
+      if (error instanceof TypeError) {
+        Alert.alert('Error', error.message);
+      }
+    } finally {
+      this.setState({ isFetchingNextPage: false });
+    }
   }
 
   public override componentDidMount(): void {
@@ -36,7 +82,7 @@ class CompanySearchResultsTopTab extends React.PureComponent<
       return;
     }
 
-    this.searchCompanies(this.props.searchContent);
+    this.searchFirstPage(this.props.searchContent);
   }
 
   public override async componentDidUpdate(
@@ -47,16 +93,23 @@ class CompanySearchResultsTopTab extends React.PureComponent<
     }
 
     if (this.props.searchContent.trim() === '') {
-      this.setState({ companies: [] });
+      this.nextPage = 0;
+      this.totalPages = 0;
+      this.totalResults = 0;
+      this.setState({ companies: [], isFetchingNextPage: false });
       return;
     }
 
-    this.debouncedSearchCompanies(this.props.searchContent);
+    this.debouncedSearchFirstPage(this.props.searchContent);
   }
 
   public override render(): React.JSX.Element {
     return (
       <SearchResultsList
+        onEndReached={this.searchNextPage}
+        keyExtractor={item => item.id.toString()}
+        isFooterLoading={this.state.isFetchingNextPage}
+        totalResults={this.totalResults}
         data={this.state.companies}
         renderItem={({ item, index }) => (
           <CompanySearchCard
