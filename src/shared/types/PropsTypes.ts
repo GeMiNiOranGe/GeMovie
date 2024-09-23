@@ -123,6 +123,10 @@ export type SearchResultsListProps<ItemT> = {
     renderItem: ListRenderItem<ItemT> | null | undefined;
     isFooterLoading?: boolean | undefined;
     totalResults?: number | undefined;
+    listEmptyComponent?: React.JSX.Element | undefined;
+    noResultsIcon?: React.JSX.Element | undefined;
+    noResultsText?: string | undefined;
+    noResultsSubtext?: string | undefined;
     onEndReached?:
         | ((info: { distanceFromEnd: number }) => void)
         | null

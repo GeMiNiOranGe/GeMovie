@@ -110,6 +110,7 @@ class CompanySearchResultsTopTab extends React.PureComponent<
         keyExtractor={item => item.id.toString()}
         isFooterLoading={this.state.isFetchingNextPage}
         totalResults={this.totalResults}
+        noResultsSubtext='No companies found'
         data={this.state.companies}
         renderItem={({ item, index }) => (
           <CompanySearchCard

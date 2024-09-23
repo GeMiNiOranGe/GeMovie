@@ -23,6 +23,8 @@ export type Spacing = {
     medium: number;
     large: number;
     extraLarge: number;
+    huge: number;
+    extraHuge: number;
 };
 
 export type SearchType =
