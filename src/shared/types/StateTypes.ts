@@ -6,6 +6,7 @@ import type {
     Movie,
     MovieElement,
     Person,
+    PersonElement,
     TvShowElement,
 } from '@shared/types';
 
@@ -25,12 +26,16 @@ export type CompanySearchResultsTopTabState = {
     isFetchingNextPage: boolean;
 };
 
-export type MovieDetailScreenState = {
-    movie?: Movie | undefined;
-};
-
 export type CollectionSearchResultsTopTabState = {
     collections?: CollectionElement[] | undefined;
+};
+
+export type PersonSearchResultsTopTabState = {
+    people?: PersonElement[] | undefined;
+};
+
+export type MovieDetailScreenState = {
+    movie?: Movie | undefined;
 };
 
 export type ExpandableTextState = {

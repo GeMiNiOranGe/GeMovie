@@ -15,6 +15,7 @@ import {
   CollectionSearchResultsTopTab,
   CompanySearchResultsTopTab,
   MovieSearchResultsTopTab,
+  PersonSearchResultsTopTab,
   TvShowSearchResultsTopTab,
 } from '@tabs';
 import { MovieService } from '@services';
@@ -146,6 +147,20 @@ class SearchScreen extends React.Component<
           >
             {() => (
               <TvShowSearchResultsTopTab
+                searchContent={this.state.searchContent}
+                navigation={this.props.navigation}
+              />
+            )}
+          </TopTab.Screen>
+
+          <TopTab.Screen
+            name='PersonSearchResultsTopTab'
+            options={{
+              title: 'Person',
+            }}
+          >
+            {() => (
+              <PersonSearchResultsTopTab
                 searchContent={this.state.searchContent}
                 navigation={this.props.navigation}
               />

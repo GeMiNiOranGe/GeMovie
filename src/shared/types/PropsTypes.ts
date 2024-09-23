@@ -49,6 +49,10 @@ export type TvShowSearchResultsTopTabProps = RootTopTabProps & {
     searchContent: string;
 };
 
+export type PersonSearchResultsTopTabProps = RootTopTabProps & {
+    searchContent: string;
+};
+
 export type CompanySearchResultsTopTabProps = RootTopTabProps & {
     searchContent: string;
 };
