@@ -1,3 +1,14 @@
+import type { DebouncedFunc } from 'lodash';
+
+import type { SearchResponseWrapper } from '@services';
+import type {
+    TvShowElement,
+    MovieElement,
+    CollectionElement,
+    CompanyElement,
+    PersonElement,
+} from '@shared/types';
+
 export type ImageSize = {
     w45: string;
     w92: string;
@@ -51,6 +62,20 @@ export type Variant =
     | 'Bold'
     | 'Bulk'
     | 'TwoTone';
+
+export type SearchAsync<T> = (
+    content: string,
+    page?: number,
+) => Promise<SearchResponseWrapper<T>>;
+
+export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
+
+export type SearchResultsElementBase =
+    | MovieElement
+    | TvShowElement
+    | PersonElement
+    | CollectionElement
+    | CompanyElement;
 
 export type Media = {
     mediaType: string;

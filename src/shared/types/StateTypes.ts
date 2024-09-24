@@ -21,6 +21,11 @@ export type TvShowSearchResultsTopTabState = {
     tvShows?: TvShowElement[] | undefined;
 };
 
+export type SearchResultsTopTabBaseState<T> = {
+    results: T[];
+    isFetchingNextPage: boolean;
+};
+
 export type CompanySearchResultsTopTabState = {
     companies: CompanyElement[];
     isFetchingNextPage: boolean;

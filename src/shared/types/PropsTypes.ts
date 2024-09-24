@@ -61,6 +61,10 @@ export type CollectionSearchResultsTopTabProps = RootTopTabProps & {
     searchContent: string;
 };
 
+export type SearchResultsTopTabBaseProps = RootTopTabProps & {
+    searchContent: string;
+};
+
 export type MovieSearchCardProps = {
     item: MovieElement;
     index: number;
