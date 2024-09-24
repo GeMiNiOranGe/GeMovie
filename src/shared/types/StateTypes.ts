@@ -15,10 +15,6 @@ export type SearchScreenState = {
     searchContent: string;
 };
 
-export type TvShowSearchResultsTopTabState = {
-    tvShows?: TvShowElement[] | undefined;
-};
-
 export type SearchResultsTopTabBaseState<T> = {
     results: T[];
     isFetchingNextPage: boolean;

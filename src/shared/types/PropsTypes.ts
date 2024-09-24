@@ -45,10 +45,6 @@ export type MovieSearchResultsTopTabProps = RootTopTabProps & {
     data: MovieElement[] | undefined;
 };
 
-export type TvShowSearchResultsTopTabProps = RootTopTabProps & {
-    searchContent: string;
-};
-
 export type PersonSearchResultsTopTabProps = RootTopTabProps & {
     searchContent: string;
 };
