@@ -1,6 +1,5 @@
 import type {
     Company,
-    CompanyElement,
     KnownFor,
     Movie,
     MovieElement,
@@ -22,11 +21,6 @@ export type TvShowSearchResultsTopTabState = {
 
 export type SearchResultsTopTabBaseState<T> = {
     results: T[];
-    isFetchingNextPage: boolean;
-};
-
-export type CompanySearchResultsTopTabState = {
-    companies: CompanyElement[];
     isFetchingNextPage: boolean;
 };
 
