@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {
   ActivityIndicator,
@@ -18,48 +19,55 @@ import type {
   FeaturedMovie,
   FeaturedTvShow,
   RootScreenProps,
+  HomeScreenState,
 } from '@shared/types';
 import styles from './style';
 
-class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
+class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScreenState> {
   public override state = {
     movies: [] as FeaturedMovie[],
     people: [] as Person[],
     upcomingMovies: [] as any[],
     tvShow: [] as unknown as FeaturedTvShow[],
     isLoading: true,
+    backgroundImageIndex: 0,
   };
+
 
   public override componentDidMount() {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
     const personUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
     const upcomingMoviesUrl = `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}`;
     const tvShowsUrl = `${TMDB_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`;
-    setTimeout(() => {
-      Promise.all([
-        fetch(url).then(response => response.json()),
-        fetch(personUrl).then(response => response.json()),
-        fetch(upcomingMoviesUrl).then(response => response.json()),
-        fetch(tvShowsUrl).then(response => response.json()),
-      ])
-        .then(([movieData, personData, upcomingMoviesData, tvShowData]) => {
-          this.setState({
-            movies: movieData.results,
-            people: personData.results,
-            upcomingMovies: upcomingMoviesData.results,
-            tvShow: tvShowData.results,
-            isLoading: false,
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-          this.setState({ isLoading: false });
+    Promise.all([
+      fetch(url).then(response => response.json()),
+      fetch(personUrl).then(response => response.json()),
+      fetch(upcomingMoviesUrl).then(response => response.json()),
+      fetch(tvShowsUrl).then(response => response.json()),
+    ])
+      .then(([movieData, personData, upcomingMoviesData, tvShowData]) => {
+        this.setState({
+          movies: movieData.results,
+          people: personData.results,
+          upcomingMovies: upcomingMoviesData.results,
+          tvShow: tvShowData.results,
+          isLoading: false,
         });
-    }, 700);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        this.setState({ isLoading: false });
+      });
   }
 
   public override render() {
-    const { movies, people, upcomingMovies, tvShow, isLoading } = this.state;
+    const {
+      movies,
+      people,
+      upcomingMovies,
+      tvShow,
+      isLoading,
+    } = this.state;
     const { navigation } = this.props;
     if (isLoading) {
       return (
@@ -71,7 +79,6 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
     const upcomingMoviesImages = upcomingMovies.map(movie =>
       URLBuilder.buildImageURL('w780', movie.backdrop_path),
     );
-
     const upcomingMoviesTitles = upcomingMovies.map(movie => movie.title);
 
     const upcomingMoviesReleaseDates = upcomingMovies.map(
@@ -117,26 +124,22 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
               renderItem={({ item }) => {
                 const imageUrl = URLBuilder.buildImageURL(
                   'w185',
-                  item.poster_path,
+                  item.poster_path
                 );
                 return (
                   <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('MovieDetailScreen', {
-                        movieId: item.id,
-                      })
-                    }
+                    onPress={() => navigation.navigate('MovieDetailScreen', {
+                      movieId: item.id,
+                    })}
                   >
                     <Image
                       source={{ uri: imageUrl }}
-                      style={styles.movieThumbnail}
-                    />
+                      style={styles.movieThumbnail} />
                   </TouchableOpacity>
                 );
-              }}
+              } }
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.movieList}
-            />
+              contentContainerStyle={styles.movieList} />
           </View>
 
           {/* Most Popular Celebrities */}
@@ -154,30 +157,26 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
               renderItem={({ item }) => {
                 const imageUrl = URLBuilder.buildImageURL(
                   'w185',
-                  item.profile_path,
+                  item.profile_path
                 );
                 return (
                   <TouchableOpacity
                     key={item.id}
-                    onPress={() =>
-                      navigation.navigate('PersonDetailScreen', {
-                        personId: item.id,
-                      })
-                    }
+                    onPress={() => navigation.navigate('PersonDetailScreen', {
+                      personId: item.id,
+                    })}
                   >
                     <View style={styles.celebrityItem}>
                       <Image
                         source={{ uri: imageUrl }}
-                        style={styles.celebrityThumbnail}
-                      />
+                        style={styles.celebrityThumbnail} />
                       <Text style={styles.celebrityName}>{item.name}</Text>
                     </View>
                   </TouchableOpacity>
                 );
-              }}
+              } }
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.celebrityList}
-            />
+              contentContainerStyle={styles.celebrityList} />
             {/* TV Show */}
             <View style={styles.containerTV}>
               <View style={styles.containerSectionTitle}>
@@ -191,26 +190,22 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>> {
                 renderItem={({ item }) => {
                   const imageUrl = URLBuilder.buildImageURL(
                     'w185',
-                    item.poster_path,
+                    item.poster_path
                   );
                   return (
                     <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate('TvShowDetailScreen', {
-                          tvShowId: item.id,
-                        })
-                      }
+                      onPress={() => navigation.navigate('TvShowDetailScreen', {
+                        tvShowId: item.id,
+                      })}
                     >
                       <Image
                         source={{ uri: imageUrl }}
-                        style={styles.TvThumbnail}
-                      />
+                        style={styles.TvThumbnail} />
                     </TouchableOpacity>
                   );
-                }}
+                } }
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.TvList}
-              />
+                contentContainerStyle={styles.TvList} />
             </View>
           </View>
         </ScrollView>

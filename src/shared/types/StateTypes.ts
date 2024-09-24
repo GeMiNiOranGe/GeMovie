@@ -1,6 +1,6 @@
 import type { Company, CompanyElement } from './Company';
-import type { Movie, MovieElement } from './Movie';
-import type { TvShowElement } from './TvShow';
+import type { FeaturedMovie, Movie, MovieElement } from './Movie';
+import type { FeaturedTvShow, TvShowElement } from './TvShow';
 import type { Person, KnownFor } from './Person';
 import type { CollectionElement } from './Collection';
 
@@ -40,4 +40,13 @@ export type CompanyDetailScreenState = {
 export type PersonDetailScreenState = {
     person?: Person | undefined;
     movies: KnownFor[];
+};
+
+export type HomeScreenState = {
+    movies: FeaturedMovie[];
+    people: Person[];
+    upcomingMovies: any[];
+    tvShow: FeaturedTvShow[];
+    isLoading: boolean;
+    backgroundImageIndex: number;
 };

@@ -8,12 +8,11 @@ import {
     GestureResponderEvent,
     ListRenderItem,
 } from 'react-native';
-
-import type { MovieElement } from './Movie';
 import type { CompanyElement } from './Company';
-import type { TvShowElement } from './TvShow';
 import type { CollectionElement } from './Collection';
-import type { PersonElement } from './Person';
+import { MovieElement } from './Movie';
+import { TvShowElement } from './TvShow';
+import { PersonElement } from './Person';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;

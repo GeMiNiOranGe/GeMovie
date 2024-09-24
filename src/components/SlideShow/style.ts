@@ -1,30 +1,42 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-const { width, height } = Dimensions.get('window'); // Get screen width
+const { width, height } = Dimensions.get('window');
+export const sliderWidth = width;
+export const itemWidth = width * 0.65;
 
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         position: 'relative',
     },
-    slide: {
-        flex: 1,
-        justifyContent: 'center',
+    carouselContainer: {
+        marginTop: 10,
+    },
+    carouselContentContainer: {
         alignItems: 'center',
     },
-    image: {
-        width: width,
-        height: height / 3.5,
-        resizeMode: 'cover',
+    slide: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOpacity: 0.5,
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowRadius: 20,
     },
-    pagination: {
-        bottom: 10,
+    image: {
+        width: itemWidth * 0.9,
+        height: height / 2,
+        resizeMode: 'cover',
+        borderRadius: 20,
     },
     contentContainer: {
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 1,
-        left: 5,
+        bottom: 10,
+        left: 10,
         alignItems: 'center',
     },
     textContainer: {
@@ -45,26 +57,6 @@ const styles = StyleSheet.create({
     },
     playIcon: {
         marginLeft: 10,
-    },
-    arrowButton: {
-        position: 'absolute',
-        top: '40%',
-        zIndex: 10,
-        width: 25,
-        height: 25,
-        justifyContent: 'center',
-        // alignItems: 'center',
-        borderRadius: 15,
-    },
-    arrowText: {
-        color: '#fff',
-        fontSize: 24,
-    },
-    prevButton: {
-        left: 5,
-    },
-    nextButton: {
-        right: 10,
     },
 });
 
