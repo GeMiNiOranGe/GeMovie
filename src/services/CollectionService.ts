@@ -6,12 +6,15 @@ export default class CollectionService {
     /**
      * Search for collections by their original, translated and alternative names.
      * @param text content you want to search
+     * @param page page number
      */
     public static async searchAsync(
         text: string,
+        page: number = 1,
     ): Promise<SearchResponseWrapper<CollectionElement>> {
         const params = new URLSearchParams({
             query: text,
+            page: `${page}`,
         });
         return await SearchService.searchAsync(
             'collection',

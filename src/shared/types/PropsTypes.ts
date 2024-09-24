@@ -57,10 +57,6 @@ export type CompanySearchResultsTopTabProps = RootTopTabProps & {
     searchContent: string;
 };
 
-export type CollectionSearchResultsTopTabProps = RootTopTabProps & {
-    searchContent: string;
-};
-
 export type SearchResultsTopTabBaseProps = RootTopTabProps & {
     searchContent: string;
 };

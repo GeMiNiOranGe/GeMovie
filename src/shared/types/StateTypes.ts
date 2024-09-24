@@ -1,5 +1,4 @@
 import type {
-    CollectionElement,
     Company,
     CompanyElement,
     KnownFor,
@@ -29,10 +28,6 @@ export type SearchResultsTopTabBaseState<T> = {
 export type CompanySearchResultsTopTabState = {
     companies: CompanyElement[];
     isFetchingNextPage: boolean;
-};
-
-export type CollectionSearchResultsTopTabState = {
-    collections?: CollectionElement[] | undefined;
 };
 
 export type PersonSearchResultsTopTabState = {
