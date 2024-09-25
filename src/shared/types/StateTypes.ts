@@ -4,8 +4,6 @@ import type {
     Movie,
     MovieElement,
     Person,
-    PersonElement,
-    TvShowElement,
 } from '@shared/types';
 
 export type SearchScreenState = {
@@ -18,10 +16,6 @@ export type SearchScreenState = {
 export type SearchResultsTopTabBaseState<T> = {
     results: T[];
     isFetchingNextPage: boolean;
-};
-
-export type PersonSearchResultsTopTabState = {
-    people?: PersonElement[] | undefined;
 };
 
 export type MovieDetailScreenState = {
