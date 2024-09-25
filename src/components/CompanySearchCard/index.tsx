@@ -3,10 +3,10 @@ import { Image, Text, View } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, Image as ImageIcon } from 'iconsax-react-native';
 
+import { URLBuilder } from '@services';
 import { layout } from '@shared/themes';
-import { imageSize, spacing } from '@shared/constants';
-import { TMDB_BASE_IMAGE_URL } from '@config';
-import { CompanySearchCardProps } from '@shared/types';
+import { spacing } from '@shared/constants';
+import type { CompanySearchCardProps } from '@shared/types';
 import styles from './style';
 
 class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
@@ -29,11 +29,11 @@ class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
             style={styles.image}
             resizeMode='contain'
             source={{
-              uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w92}${this.props.item.logoPath}`,
+              uri: URLBuilder.buildImageURL('w92', this.props.item.logoPath),
             }}
           />
         ) : (
-          <View style={[styles.image, layout.center]}>
+          <View style={[styles.image, styles.notFoundImage, layout.center]}>
             <ImageIcon size='32' color='black' />
           </View>
         )}

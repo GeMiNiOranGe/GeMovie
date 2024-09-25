@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         elevation: 4,
         marginRight: spacing.large,
         top: -paddingCard,
-        backgroundColor: 'white',
+        backgroundColor: '#f1f1f1',
     },
     content: {
         paddingVertical: spacing.medium,

@@ -3,11 +3,11 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { ArrowRight2, Image as ImageIcon, Star1 } from 'iconsax-react-native';
 import { Card, IconButton } from 'react-native-paper';
 
-import { TMDB_BASE_IMAGE_URL } from '@config';
-import { MovieSearchCardProps } from '@shared/types';
-import { imageSize, spacing } from '@shared/constants';
+import { URLBuilder } from '@services';
+import { spacing } from '@shared/constants';
 import { layout } from '@shared/themes';
 import { getFormattedFullYear, getFormattedVoteAverage } from '@shared/utils';
+import type { MovieSearchCardProps } from '@shared/types';
 import styles from './style';
 
 class MovieSearchCard extends React.PureComponent<MovieSearchCardProps> {
@@ -30,7 +30,10 @@ class MovieSearchCard extends React.PureComponent<MovieSearchCardProps> {
             <Image
               style={styles.image}
               source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w185}${this.props.item.posterPath}`,
+                uri: URLBuilder.buildImageURL(
+                  'w185',
+                  this.props.item.posterPath,
+                ),
               }}
             />
           ) : (

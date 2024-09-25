@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
         marginRight: spacing.large,
         borderRadius: innerRadius,
     },
+    notFoundImage: {
+        backgroundColor: '#f1f1f1',
+    },
     content: {
         justifyContent: 'center',
         flexShrink: 1,
