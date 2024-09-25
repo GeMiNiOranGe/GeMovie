@@ -18,13 +18,6 @@ const styles = StyleSheet.create({
     slide: {
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#000',
-        shadowOpacity: 0.5,
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowRadius: 20,
     },
     image: {
         width: itemWidth * 0.9,
@@ -36,27 +29,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         position: 'absolute',
         bottom: 10,
-        left: 10,
+        left: 5,
         alignItems: 'center',
     },
     textContainer: {
-        maxWidth: width * 0.6,
+        maxWidth: width * 0.4,
         maxHeight: height / 2,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 5,
         borderRadius: 5,
     },
     title: {
         color: '#fff',
         fontSize: 15,
         fontWeight: 'bold',
+        flexShrink: 1,
     },
     releaseDate: {
         color: '#fff',
         fontSize: 14,
     },
     playIcon: {
-        marginLeft: 10,
+        marginLeft: 5,
     },
 });
 

@@ -86,7 +86,6 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
     );
 
     const upcomingMoviesIds = upcomingMovies.map(movie => movie.id);
-
     return (
       <LinearGradient
         style={styles.container}
