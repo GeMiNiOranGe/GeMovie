@@ -2,10 +2,12 @@ import React from 'react';
 import { Text } from 'react-native';
 import { Card } from 'react-native-paper';
 
-import type { CollectionSearchCardProps } from '@shared/types';
+import type { CollectionElement, SearchCardProps } from '@shared/types';
 import styles from './style';
 
-class CollectionSearchCard extends React.PureComponent<CollectionSearchCardProps> {
+class CollectionSearchCard extends React.PureComponent<
+  SearchCardProps<CollectionElement>
+> {
   public override render(): React.JSX.Element {
     return (
       <Card style={styles.container} onPress={this.props.onPress}>

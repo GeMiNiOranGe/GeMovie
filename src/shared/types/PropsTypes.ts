@@ -10,12 +10,8 @@ import type {
 } from 'react-native';
 
 import type {
-    CollectionElement,
-    CompanyElement,
     MovieElement,
-    PersonElement,
     SearchCardElement,
-    TvShowElement,
     VideoElementBase,
 } from '@shared/types';
 
@@ -56,41 +52,6 @@ export type VideoSearchCardBaseProps<T extends VideoElementBase> =
 
 export type SearchCardProps<T extends SearchCardElement> = {
     item: T;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type MovieSearchCardProps = {
-    item: MovieElement;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type TvShowSearchCardProps = {
-    item: TvShowElement;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type CompanySearchCardProps = {
-    item: CompanyElement;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type CollectionSearchCardProps = {
-    item: CollectionElement;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type PersonSearchCardProps = {
-    item: PersonElement;
     index: number;
     listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
