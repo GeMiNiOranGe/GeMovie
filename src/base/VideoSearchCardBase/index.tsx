@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  GestureResponderEvent,
-} from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { ArrowRight2, Image as ImageIcon, Star1 } from 'iconsax-react-native';
 import { Card, IconButton } from 'react-native-paper';
 
@@ -13,32 +7,8 @@ import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
 import { layout } from '@shared/themes';
 import { getFormattedFullYear, getFormattedVoteAverage } from '@shared/utils';
-import type {
-  CollectionElement,
-  CompanyElement,
-  MovieElement,
-  PersonElement,
-  TvShowElement,
-} from '@shared/types';
+import type { VideoElementBase, VideoSearchCardBaseProps } from '@shared/types';
 import styles from './style';
-
-type SearchCardElement =
-  | MovieElement
-  | TvShowElement
-  | PersonElement
-  | CollectionElement
-  | CompanyElement;
-
-type SearchCardProps<T extends SearchCardElement> = {
-  item: T;
-  index: number;
-  listLength?: number | undefined;
-  onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-type VideoElementBase = MovieElement | TvShowElement;
-
-type VideoSearchCardBaseProps<T extends VideoElementBase> = SearchCardProps<T>;
 
 abstract class VideoSearchCardBase<
   T extends VideoElementBase,

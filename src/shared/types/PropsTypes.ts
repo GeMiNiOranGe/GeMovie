@@ -14,7 +14,9 @@ import type {
     CompanyElement,
     MovieElement,
     PersonElement,
+    SearchCardElement,
     TvShowElement,
+    VideoElementBase,
 } from '@shared/types';
 
 export type RootStackParamList = ParamListBase & {
@@ -47,6 +49,16 @@ export type MovieSearchResultsTopTabProps = RootTopTabProps & {
 
 export type SearchResultsTopTabBaseProps = RootTopTabProps & {
     searchContent: string;
+};
+
+export type VideoSearchCardBaseProps<T extends VideoElementBase> =
+    SearchCardProps<T>;
+
+export type SearchCardProps<T extends SearchCardElement> = {
+    item: T;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
 export type MovieSearchCardProps = {

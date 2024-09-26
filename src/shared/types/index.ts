@@ -88,6 +88,15 @@ export type SearchResponse<T> = {
     totalResults: number;
 };
 
+export type SearchCardElement =
+    | MovieElement
+    | TvShowElement
+    | PersonElement
+    | CollectionElement
+    | CompanyElement;
+
+export type VideoElementBase = MovieElement | TvShowElement;
+
 export * from './PropsTypes';
 export * from './StateTypes';
 export * from './Movie';
