@@ -3,16 +3,16 @@ export type TvShowElement = {
     backdropPath: string;
     genreIds: number[];
     id: number;
-    originCountry: string[];
     originalLanguage: string;
-    originalName: string;
     overview: string;
     popularity: number;
     posterPath: string;
-    firstAirDate: Date;
-    name: string;
     voteAverage: number;
     voteCount: number;
+    originalName: string;
+    name: string;
+    firstAirDate: Date;
+    originCountry: string[];
 };
 
 export type FeaturedTvShow = {
