@@ -50,3 +50,10 @@ export type HomeScreenState = {
     isLoading: boolean;
     backgroundImageIndex: number;
 };
+
+export type TrendScreenState = {
+    trendingMovies: FeaturedMovie[];
+    trendingTvShows: FeaturedTvShow[];
+    isLoading: boolean;
+    backgroundImage: { uri: string } | undefined;
+};

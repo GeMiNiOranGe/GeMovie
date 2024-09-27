@@ -25,7 +25,9 @@ class MovieDetailScreen extends React.Component<
     const { movieId } = this.props.route.params;
 
     MovieService.getDetailAsync(movieId).then(data =>
-      this.setState({ movie: data }),
+      this.setState({ movie: data }, () => {
+        this.props.navigation.setOptions({ title: data.title });
+      }),
     );
   }
 

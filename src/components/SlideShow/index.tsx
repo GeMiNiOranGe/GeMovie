@@ -8,9 +8,12 @@ import styles, { sliderWidth, itemWidth } from '../SlideShow/style';
 
 class Slideshow extends React.Component<SlideshowProps> {
   private carousel: Carousel<any> | null = null;
-  public override state = {
-    currentIndex: 0,
-  };
+  public constructor(props: SlideshowProps) {
+    super(props);
+    this.state = {
+      currentIndex: 0,
+    };
+  }
 
   public handleSnapToItem = (index: number) => {
     this.setState({ currentIndex: index });

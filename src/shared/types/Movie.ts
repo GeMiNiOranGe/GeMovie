@@ -1,6 +1,7 @@
 import type { CompanyElement } from './Company';
 
 export type MovieElement = {
+    media_type: string;
     adult: boolean;
     backdropPath: string;
     genreIds: number[];
@@ -17,6 +18,7 @@ export type MovieElement = {
     voteCount: number;
 };
 export type FeaturedMovie = {
+    media_type: string;
     id: number;
     title: string;
     poster_path: string;

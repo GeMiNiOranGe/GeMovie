@@ -1,4 +1,5 @@
 export type TvShowElement = {
+    media_type: string;
     adult: boolean;
     backdropPath: string;
     genreIds: number[];
@@ -16,6 +17,7 @@ export type TvShowElement = {
 };
 
 export type FeaturedTvShow = {
+    media_type: string;
     id: number;
     title: string;
     poster_path: string;

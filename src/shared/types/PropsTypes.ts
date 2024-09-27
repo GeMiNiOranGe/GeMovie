@@ -18,6 +18,7 @@ export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
     SearchScreen: undefined;
     SearchSuggestionScreen: undefined;
+    TrendScreen: undefined;
     MovieDetailScreen: {
         movieId: number;
     };
