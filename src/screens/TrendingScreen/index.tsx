@@ -2,7 +2,6 @@ import {
   View,
   ActivityIndicator,
   Text,
-  FlatList,
   Image,
   ImageBackground,
   TouchableOpacity,
@@ -16,9 +15,11 @@ import {
   FeaturedTvShow,
   RootScreenProps,
 } from '@shared/types';
-import { URLBuilder } from '@services';
-import styles from './style';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { MasonryFlashList } from '@shopify/flash-list';
+import { URLBuilder } from '@services';
+import { getRandomHeight } from '@shared/utils';
+import styles from './style';
 
 class TrendingScreen extends React.Component<
   RootScreenProps<'TrendingScreen'>,
@@ -33,6 +34,7 @@ class TrendingScreen extends React.Component<
       trendingTvShows: [],
       isLoading: true,
       backgroundImage: undefined,
+      selectedCategory: 'movie',
     };
   }
 
@@ -89,7 +91,7 @@ class TrendingScreen extends React.Component<
     const imageUrl = URLBuilder.buildImageURL('w500', item.poster_path);
     return (
       <TouchableOpacity
-        style={styles.movieItem}
+        style={[styles.movieItem, { height: getRandomHeight(150, 300) }]}
         onPress={() =>
           this.props.navigation.navigate('MovieDetailScreen', {
             movieId: item.id,
@@ -106,7 +108,6 @@ class TrendingScreen extends React.Component<
             style={styles.movieThumbnail}
           />
         )}
-        <Text style={styles.movieTitle}>{item.title}</Text>
       </TouchableOpacity>
     );
   };
@@ -114,7 +115,7 @@ class TrendingScreen extends React.Component<
   public renderTvShowItem = ({ item }: { item: FeaturedTvShow }) => {
     const imageUrl = URLBuilder.buildImageURL('w500', item.poster_path);
     return (
-      <View style={styles.movieItem}>
+      <View style={[styles.movieItem, { height: getRandomHeight(150, 300) }]}>
         {imageUrl ? (
           <Image source={{ uri: imageUrl }} style={styles.movieThumbnail} />
         ) : (
@@ -129,6 +130,7 @@ class TrendingScreen extends React.Component<
       </View>
     );
   };
+
   public getRandomTrendingItem = (): FeaturedMovie | FeaturedTvShow | null => {
     const { trendingMovies, trendingTvShows } = this.state;
     const combined: (FeaturedMovie | FeaturedTvShow)[] = [
@@ -144,9 +146,18 @@ class TrendingScreen extends React.Component<
     return combined[randomIndex];
   };
 
+  private handleCategory = (category: 'movie' | 'tv') => {
+    this.setState({ selectedCategory: category });
+  };
+
   public override render() {
-    const { isLoading, trendingMovies, trendingTvShows, backgroundImage } =
-      this.state;
+    const {
+      isLoading,
+      trendingMovies,
+      trendingTvShows,
+      backgroundImage,
+      selectedCategory,
+    } = this.state;
 
     if (isLoading) {
       return (
@@ -164,21 +175,42 @@ class TrendingScreen extends React.Component<
             blurRadius={5}
           >
             <View style={styles.overlay}>
-              <Text style={styles.sectionTitle}>Trending Movies</Text>
-              <FlatList
-                data={trendingMovies}
-                renderItem={this.renderMovieItem}
+              <View style={styles.category}>
+                <TouchableOpacity
+                  style={styles.btnCategory}
+                  onPress={() => this.handleCategory('movie')}
+                >
+                  <Text style={styles.textCategory}>Movies</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btnCategory}
+                  onPress={() => this.handleCategory('tv')}
+                >
+                  <Text style={styles.textCategory}>TV</Text>
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.sectionTitle}>
+                {selectedCategory === 'movie'
+                  ? 'Trending Movies'
+                  : 'Trending TV Shows'}
+              </Text>
+              <MasonryFlashList
+                data={
+                  selectedCategory === 'movie'
+                    ? trendingMovies
+                    : trendingTvShows
+                }
+                renderItem={
+                  selectedCategory === 'movie'
+                    ? this.renderMovieItem
+                    : this.renderTvShowItem
+                }
                 keyExtractor={item => item.id.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-              />
-              <Text style={styles.sectionTitle}>Trending TV Shows</Text>
-              <FlatList
-                data={trendingTvShows}
-                renderItem={this.renderTvShowItem}
-                keyExtractor={item => item.id.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
+                numColumns={3}
+                estimatedItemSize={200}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.listContent}
               />
             </View>
           </ImageBackground>

@@ -16,6 +16,13 @@ export function getFormattedVoteAverage(voteAverage: number): string | number {
     return voteAverage === 10 ? voteAverage : voteAverage.toFixed(1);
 }
 
+export const getRandomHeight = (
+    min: number = 150,
+    max: number = 300,
+): number => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 export function calculateImageDimensions(
     pixel: number,
     horizontalRatio: number = 1,

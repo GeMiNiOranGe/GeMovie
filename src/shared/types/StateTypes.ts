@@ -56,4 +56,5 @@ export type TrendScreenState = {
     trendingTvShows: FeaturedTvShow[];
     isLoading: boolean;
     backgroundImage: { uri: string } | undefined;
+    selectedCategory: string;
 };

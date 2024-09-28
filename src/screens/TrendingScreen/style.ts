@@ -26,14 +26,18 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     movieThumbnail: {
-        width: 100,
-        height: 150,
-        borderRadius: 10,
-        resizeMode: 'cover',
+        width: 300,
+        height: '100%',
+        aspectRatio: 1,
+        resizeMode: 'contain',
     },
     movieItem: {
+        flex: 1,
+        marginTop: 5,
         marginRight: 10,
         alignItems: 'center',
+        overflow: 'hidden',
+        elevation: 10,
     },
     background: {
         flex: 1,
@@ -41,9 +45,30 @@ const styles = StyleSheet.create({
     },
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
         padding: 20,
         justifyContent: 'flex-start',
+    },
+    listContent: {
+        paddingBottom: 20,
+    },
+    category: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    btnCategory: {
+        borderWidth: 1,
+        backgroundColor: 'white',
+        height: 40,
+        width: 70,
+        borderRadius: 10,
+    },
+    textCategory: {
+        textAlign: 'center',
+        padding: 10,
+        color: 'black',
+        fontWeight: 'bold',
     },
 });
 
