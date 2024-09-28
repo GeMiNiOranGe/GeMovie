@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         elevation: 4,
         marginRight: spacing.large,
         top: -paddingCard,
-        backgroundColor: themeColor.neutral1,
+        backgroundColor: themeColor.primary,
     },
     content: {
         paddingVertical: spacing.medium,
@@ -54,6 +54,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.small,
         paddingVertical: spacing.tiny,
         right: -spacing.small,
+        elevation: 4,
+        shadowColor: themeColor.secondary,
     },
     ratingText: {
         color: themeColor.primary,
@@ -71,9 +73,10 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         top: -spacing.medium,
         right: spacing.medium,
-        backgroundColor: themeColor.neutral2,
+        backgroundColor: themeColor.neutral,
         paddingHorizontal: spacing.small,
         paddingVertical: spacing.tiny,
+        elevation: 4,
     },
     mediaTypeText: {
         fontSize: 10,

@@ -7,8 +7,7 @@ const themeColor: ThemeColor = {
     background: '#f2f2f2',
     text: '#000000',
     subtext: '#808080',
-    neutral1: '#eeeeee',
-    neutral2: '#c0c0c0',
+    neutral: '#c0c0c0',
 };
 
 export default themeColor;

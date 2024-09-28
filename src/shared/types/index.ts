@@ -46,8 +46,7 @@ export type ThemeColor = {
     background: ColorValue;
     text: ColorValue;
     subtext: ColorValue;
-    neutral1: ColorValue;
-    neutral2: ColorValue;
+    neutral: ColorValue;
 };
 
 export type SearchType =
