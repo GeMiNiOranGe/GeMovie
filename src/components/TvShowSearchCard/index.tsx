@@ -14,6 +14,10 @@ class TvShowSearchCard extends VideoSearchCardBase<TvShowElement> {
     return this.props.item.firstAirDate;
   }
 
+  protected override get originCountry(): string[] {
+    return this.props.item.originCountry;
+  }
+
   protected override get mediaType(): string {
     return 'Tv series';
   }

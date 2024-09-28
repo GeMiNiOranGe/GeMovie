@@ -13,13 +13,13 @@ import { toMovieElement, toTvShowElement } from '@shared/utils';
 
 export function getFormattedDate(date?: Date): string | undefined {
     return date?.toDateString() === 'Invalid Date'
-        ? 'unknown'
+        ? 'Unknown'
         : date?.toDateString();
 }
 
 export function getFormattedFullYear(date?: Date): string | number | undefined {
     return date?.toString() === 'Invalid Date'
-        ? 'unknown'
+        ? 'Unknown'
         : date?.getFullYear();
 }
 

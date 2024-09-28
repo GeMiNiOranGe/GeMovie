@@ -14,6 +14,10 @@ class MovieSearchCard extends VideoSearchCardBase<MovieElement> {
     return this.props.item.releaseDate;
   }
 
+  protected override get video(): boolean {
+    return this.props.item.video;
+  }
+
   protected override get mediaType(): string {
     return 'Movie';
   }

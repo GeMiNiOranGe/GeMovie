@@ -1,3 +1,4 @@
+import type { ColorValue } from 'react-native';
 import type { DebouncedFunc } from 'lodash';
 
 import type { SearchResponseWrapper } from '@services';
@@ -36,6 +37,17 @@ export type Spacing = {
     extraLarge: number;
     huge: number;
     extraHuge: number;
+};
+
+export type ThemeColor = {
+    primary: ColorValue;
+    secondary: ColorValue;
+    accent: ColorValue;
+    background: ColorValue;
+    text: ColorValue;
+    subtext: ColorValue;
+    neutral1: ColorValue;
+    neutral2: ColorValue;
 };
 
 export type SearchType =
