@@ -106,7 +106,21 @@ export type SearchCardElement =
     | CollectionElement
     | CompanyElement;
 
-export type VideoElementBase = MovieElement | TvShowElement;
+export type MediaElement = {
+    adult: boolean;
+    backdropPath?: string | undefined;
+    id: number;
+    originalLanguage: string;
+    overview: string;
+    posterPath?: string | undefined;
+};
+
+export type VideoElementBase = MediaElement & {
+    voteAverage: number;
+    voteCount: number;
+    popularity: number;
+    genreIds: number[];
+};
 
 export * from './PropsTypes';
 export * from './StateTypes';

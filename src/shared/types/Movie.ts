@@ -1,16 +1,6 @@
-import type { CompanyElement } from '@shared/types';
+import type { CompanyElement, VideoElementBase } from '@shared/types';
 
-export type MovieElement = {
-    adult: boolean;
-    backdropPath: string;
-    genreIds: number[];
-    id: number;
-    originalLanguage: string;
-    overview: string;
-    popularity: number;
-    posterPath: string;
-    voteAverage: number;
-    voteCount: number;
+export type MovieElement = VideoElementBase & {
     originalTitle: string;
     title: string;
     releaseDate: Date;

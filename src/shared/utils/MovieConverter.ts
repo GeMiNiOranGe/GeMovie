@@ -9,14 +9,14 @@ import {
 export function toMovieElement(val: any): MovieElement {
     return {
         adult: val.adult,
-        backdropPath: val['backdrop_path'],
+        backdropPath: val['backdrop_path'] ?? undefined,
         genreIds: val['genre_ids'],
         id: val.id,
         originalLanguage: val['original_language'],
         originalTitle: val['original_title'],
         overview: val.overview,
         popularity: val.popularity,
-        posterPath: val['poster_path'],
+        posterPath: val['poster_path'] ?? undefined,
         releaseDate: new Date(val['release_date']),
         title: val.title,
         video: val.video,
