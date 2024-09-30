@@ -42,7 +42,10 @@ export type Spacing = {
 export type ThemeColor = {
     primary: ColorValue;
     secondary: ColorValue;
-    accent: ColorValue;
+    accent: {
+        light: ColorValue;
+        dark: ColorValue;
+    };
     background: ColorValue;
     text: ColorValue;
     subtext: ColorValue;

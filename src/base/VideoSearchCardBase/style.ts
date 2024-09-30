@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     },
     navigationIconButton: {
         margin: 0,
-        backgroundColor: themeColor.accent,
+        backgroundColor: themeColor.accent.dark,
         borderRadius: 0,
         borderTopLeftRadius: outerRadius,
         borderBottomRightRadius: outerRadius,
