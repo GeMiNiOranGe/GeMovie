@@ -124,3 +124,7 @@ export type SlideshowProps = {
     navigateToMovieDetail: (movieId: number) => void;
     movieIds: number[];
 };
+
+export type VideoProps = {
+    movieId: number | undefined;
+};

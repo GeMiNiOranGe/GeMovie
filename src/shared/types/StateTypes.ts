@@ -58,3 +58,8 @@ export type TrendScreenState = {
     backgroundImage: { uri: string } | undefined;
     selectedCategory: string;
 };
+
+export type YoutubeState = {
+    videoKey: string | null;
+    loading: boolean;
+};
