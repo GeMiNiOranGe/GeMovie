@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     slide: {
         justifyContent: 'center',
         alignItems: 'center',
+        paddingLeft: 30,
     },
     image: {
         width: itemWidth * 0.9,

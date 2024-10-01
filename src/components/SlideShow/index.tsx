@@ -47,7 +47,7 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
 
     const scale = scrollX.interpolate({
       inputRange,
-      outputRange: [0.8, 1, 0.8],
+      outputRange: [0.9, 1, 0.9],
       extrapolate: 'clamp',
     });
 
