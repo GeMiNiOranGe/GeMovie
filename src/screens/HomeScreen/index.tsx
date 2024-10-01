@@ -111,7 +111,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>Featured Today</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate('SeeAllScreen')}
+                onPress={() => navigation.navigate('SeeAllMovieScreen')}
               >
                 <Text style={styles.sectionTitle}>See All</Text>
               </TouchableOpacity>
@@ -145,7 +145,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
           <View style={styles.section}>
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>Most popular celebrities</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=> navigation.navigate('SeeAllPersonScreen')}>
                 <Text style={styles.sectionTitle}>See All</Text>
               </TouchableOpacity>
             </View>

@@ -11,21 +11,21 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
-import type { FeaturedMovie, RootScreenProps } from '@shared/types';
+import type { Person, RootScreenProps } from '@shared/types';
 import styles from './style';
 
-class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
+class AllPerson extends React.Component<RootScreenProps<'SeeAllPersonScreen'>> {
   public override state = {
-    movies: [] as FeaturedMovie[],
+    people: [] as Person[],
     scaleAnim: new Animated.Value(1),
   };
 
   public override componentDidMount() {
-    const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
-    fetch(url)
+    const personUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
+    fetch(personUrl)
       .then(response => response.json())
-      .then(movieData => {
-        this.setState({ movies: movieData.results });
+      .then(personData => {
+        this.setState({ people: personData.results });
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -33,30 +33,30 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
   }
 
   public override render() {
-    const { movies } = this.state;
+    const { people } = this.state;
     const { navigation } = this.props;
     return (
       <LinearGradient
         style={styles.container}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        colors={['#355C7D', '#6C5B7B', '#24243e']}
+        start={{ x: 1, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        colors={['#ff9966', '#ff5e62', '#24243e']}
       >
         <View style={styles.movieList}>
           <FlatList
-            data={movies}
+            data={people}
             renderItem={({ item }) => (
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
-                  navigation.navigate('MovieDetailScreen', {
-                    movieId: item.id,
+                  navigation.navigate('PersonDetailScreen', {
+                    personId: item.id,
                   })
                 }
               >
                 <Image
                   source={{
-                    uri: URLBuilder.buildImageURL('w185', item.poster_path),
+                    uri: URLBuilder.buildImageURL('w185', item.profile_path),
                   }}
                   style={styles.movieThumbnail}
                 />
@@ -66,7 +66,7 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
                     ellipsizeMode='tail'
                     numberOfLines={2}
                   >
-                    {item.title}
+                    {item.name}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -79,4 +79,4 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
   }
 }
 
-export default AllMovies;
+export default AllPerson;

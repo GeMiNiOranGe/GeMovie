@@ -88,6 +88,7 @@ class PersonDetailScreen extends React.Component<
               source={{ uri: headerImage }}
               style={styles.headerImage}
               resizeMode='cover'
+              blurRadius={5}
             />
           ) : (
             <Text>No Image Available</Text>
