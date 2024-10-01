@@ -1,28 +1,39 @@
 import React from 'react';
+import { ListRenderItem } from 'react-native';
 
-import { MovieSearchCard, SearchResultsList } from '@components';
-import type { MovieSearchResultsTopTabProps } from '@shared/types';
+import { SearchResultsTopTabBase } from '@base';
+import { MovieSearchCard } from '@components';
+import { MovieService } from '@services';
+import type { SearchResultsTopTabBaseProps, MovieElement } from '@shared/types';
 
-class MovieSearchResultsTopTab extends React.PureComponent<MovieSearchResultsTopTabProps> {
-  public override render(): React.JSX.Element {
-    return (
-      <SearchResultsList
-        data={this.props.data}
-        renderItem={({ item, index }) => (
-          <MovieSearchCard
-            item={item}
-            index={index}
-            listLength={this.props.data?.length}
-            onPress={() => {
-              this.props.navigation.navigate('MovieDetailScreen', {
-                movieId: item.id,
-              });
-            }}
-          />
-        )}
-      />
-    );
+class MovieSearchResultsTopTab extends SearchResultsTopTabBase<MovieElement> {
+  public constructor(props: SearchResultsTopTabBaseProps) {
+    super(props, MovieService.searchAsync);
   }
+
+  protected override keyExtractor(item: MovieElement): string {
+    return item.id.toString();
+  }
+
+  protected override get noResultsSubtext(): string | undefined {
+    return 'No movies found';
+  }
+
+  protected override renderItem: ListRenderItem<MovieElement> = ({
+    item,
+    index,
+  }) => (
+    <MovieSearchCard
+      item={item}
+      index={index}
+      listLength={this.state.results?.length}
+      onPress={() => {
+        this.props.navigation.navigate('MovieDetailScreen', {
+          movieId: item.id,
+        });
+      }}
+    />
+  );
 }
 
 export default MovieSearchResultsTopTab;

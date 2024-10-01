@@ -9,11 +9,7 @@ import type {
     ListRenderItem,
 } from 'react-native';
 
-import type {
-    MovieElement,
-    SearchCardElement,
-    VideoElementBase,
-} from '@shared/types';
+import type { SearchCardElement, VideoElementBase } from '@shared/types';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -35,15 +31,8 @@ export type RootScreenProps<
     Screen extends keyof RootStackParamList = keyof RootStackParamList,
 > = NativeStackScreenProps<RootStackParamList, Screen>;
 
-export type RootTopTabProps = {
+export type SearchResultsTopTabBaseProps = {
     navigation: NativeStackNavigationProp<ParamListBase>;
-};
-
-export type MovieSearchResultsTopTabProps = RootTopTabProps & {
-    data: MovieElement[] | undefined;
-};
-
-export type SearchResultsTopTabBaseProps = RootTopTabProps & {
     searchContent: string;
 };
 

@@ -117,7 +117,7 @@ class SearchScreen extends React.Component<
         </View>
 
         <TopTab.Navigator
-          initialRouteName='MovieSearchResultsTopTab'
+          initialRouteName='MultiSearchResultsTopTab'
           initialLayout={{ width: Dimensions.get('window').width }}
           screenOptions={{
             swipeEnabled: false,
@@ -126,6 +126,17 @@ class SearchScreen extends React.Component<
           }}
         >
           <TopTab.Screen
+            name='MultiSearchResultsTopTab'
+            options={{
+              title: 'All',
+            }}
+          >
+            {() => (
+              <></>
+            )}
+          </TopTab.Screen>
+
+          <TopTab.Screen
             name='MovieSearchResultsTopTab'
             options={{
               title: 'Movie',
@@ -133,7 +144,7 @@ class SearchScreen extends React.Component<
           >
             {() => (
               <MovieSearchResultsTopTab
-                data={this.state.results.movies}
+                searchContent={this.state.searchContent}
                 navigation={this.props.navigation}
               />
             )}
