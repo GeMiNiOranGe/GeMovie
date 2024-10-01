@@ -50,3 +50,8 @@ export type HomeScreenState = {
     isLoading: boolean;
     backgroundImageIndex: number;
 };
+
+export type SlideshowState = {
+    currentIndex: number;
+    isAutoplay: boolean;
+};
