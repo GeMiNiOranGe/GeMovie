@@ -3,6 +3,7 @@ import type {
     GenreElement,
     ImageDimensions,
     KnownForElement,
+    Media,
     MovieElement,
     ProductionCountryElement,
     SearchResponse,
@@ -27,6 +28,19 @@ export function getFormattedVoteAverage(voteAverage: number): string | number {
     return voteAverage === 10 ? voteAverage : voteAverage.toFixed(1);
 }
 
+export function getFormattedGender(genderNumber: number): string {
+    switch (genderNumber) {
+        case 1:
+            return 'Female';
+        case 2:
+            return 'Male';
+        case 3:
+            return 'Non-binary';
+        default:
+            return 'Not specified';
+    }
+}
+
 export function calculateImageDimensions(
     pixel: number,
     horizontalRatio: number = 1,
@@ -36,6 +50,12 @@ export function calculateImageDimensions(
         width: pixel,
         height: (pixel / horizontalRatio) * verticalRatio,
     };
+}
+
+export function isMovieElement(
+    element: KnownForElement,
+): element is MovieElement & Media {
+    return element?.mediaType === 'movie';
 }
 
 export function toSearchResponse<T>(val: any): SearchResponse<T> {

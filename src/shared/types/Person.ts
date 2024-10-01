@@ -13,7 +13,9 @@ export type KnownFor = {
     vote_count: number;
 };
 
-export type KnownForElement = (TvShowElement | MovieElement) & Media;
+export type KnownForElement =
+    | ((TvShowElement | MovieElement) & Media)
+    | undefined;
 
 export type PersonElement = {
     adult: boolean;
