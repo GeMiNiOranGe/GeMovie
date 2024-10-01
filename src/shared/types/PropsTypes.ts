@@ -9,7 +9,7 @@ import type {
     ListRenderItem,
 } from 'react-native';
 
-import type { SearchCardElement, VideoElementBase } from '@shared/types';
+import type { SearchElement, VideoElementBase } from '@shared/types';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -39,7 +39,7 @@ export type SearchResultsTopTabBaseProps = {
 export type VideoSearchCardBaseProps<T extends VideoElementBase> =
     SearchCardProps<T>;
 
-export type SearchCardProps<T extends SearchCardElement> = {
+export type SearchCardProps<T extends SearchElement> = {
     item: T;
     index: number;
     listLength?: number | undefined;

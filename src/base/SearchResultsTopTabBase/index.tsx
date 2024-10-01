@@ -6,13 +6,13 @@ import { SearchResultsList } from '@components';
 import type {
   DebouncedSearch,
   SearchAsync,
-  SearchResultsElementBase,
+  SearchElement,
   SearchResultsTopTabBaseProps,
   SearchResultsTopTabBaseState,
 } from '@shared/types';
 
 abstract class SearchResultsTopTabBase<
-  T extends SearchResultsElementBase,
+  T extends SearchElement,
   P extends SearchResultsTopTabBaseProps = SearchResultsTopTabBaseProps,
 > extends React.PureComponent<P, SearchResultsTopTabBaseState<T>> {
   private debouncedSearch: DebouncedSearch;

@@ -2,13 +2,7 @@ import type { ColorValue } from 'react-native';
 import type { DebouncedFunc } from 'lodash';
 
 import type { SearchResponseWrapper } from '@services';
-import type {
-    TvShowElement,
-    MovieElement,
-    CollectionElement,
-    CompanyElement,
-    PersonElement,
-} from '@shared/types';
+import type { CompanyElement, PersonElement } from '@shared/types';
 
 export type ImageSize = {
     w45: string;
@@ -84,13 +78,6 @@ export type SearchAsync<T> = (
 
 export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 
-export type SearchResultsElementBase =
-    | MovieElement
-    | TvShowElement
-    | PersonElement
-    | CollectionElement
-    | CompanyElement;
-
 export type Media = {
     mediaType: string;
 };
@@ -102,12 +89,7 @@ export type SearchResponse<T> = {
     totalResults: number;
 };
 
-export type SearchCardElement =
-    | MovieElement
-    | TvShowElement
-    | PersonElement
-    | CollectionElement
-    | CompanyElement;
+export type SearchElement = MediaElement | PersonElement | CompanyElement;
 
 export type MediaElement = {
     adult: boolean;
