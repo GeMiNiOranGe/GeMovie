@@ -63,3 +63,8 @@ export type YoutubeState = {
     videoKey: string | null;
     loading: boolean;
 };
+
+export type SlideshowState = {
+    currentIndex: number;
+    isAutoplay: boolean;
+};

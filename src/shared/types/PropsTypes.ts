@@ -28,7 +28,8 @@ export type RootStackParamList = ParamListBase & {
     PersonDetailScreen: {
         personId: number;
     };
-    SeeAllScreen: undefined;
+    SeeAllMovieScreen: undefined;
+    SeeAllPersonScreen: undefined;
 };
 
 export type RootScreenProps<
