@@ -4,16 +4,20 @@ import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, Image as ImageIcon } from 'iconsax-react-native';
 
 import { URLBuilder } from '@services';
-import { layout } from '@shared/themes';
+import { layout, themeColor } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import type { CompanyElement, SearchCardProps } from '@shared/types';
 import styles from './style';
+
+const navigationIconSize = 20;
 
 class CompanySearchCard extends React.PureComponent<
   SearchCardProps<CompanyElement>
 > {
   private renderNavigationIcon() {
-    return <ArrowRight2 size={24} color='black' />;
+    return (
+      <ArrowRight2 size={navigationIconSize} color='white' variant='Bold' />
+    );
   }
 
   public override render(): React.JSX.Element {
@@ -50,11 +54,13 @@ class CompanySearchCard extends React.PureComponent<
             </Text>
           </View>
 
-          <View style={styles.navigationBox}>
+          <View style={[layout.justifyCenter, layout.itemsEnd]}>
             <IconButton
-              style={styles.navigationIconButton}
+              style={[layout.flex1, styles.navigationIconButton]}
               icon={this.renderNavigationIcon}
               onPress={this.props.onPress}
+              size={navigationIconSize}
+              rippleColor={themeColor.accent.light}
             />
           </View>
         </View>

@@ -18,7 +18,7 @@ import {
   toMultiSearchElement,
 } from '@shared/utils';
 
-async function searchAsync(
+async function searchMultiAsync(
   text: string,
   page: number = 1,
 ): Promise<SearchResponseWrapper<MultiSearchElement>> {
@@ -31,7 +31,7 @@ async function searchAsync(
 
 class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElement> {
   public constructor(props: SearchResultsTopTabBaseProps) {
-    super(props, searchAsync);
+    super(props, searchMultiAsync);
   }
 
   protected override keyExtractor(item: MultiSearchElement): string {
