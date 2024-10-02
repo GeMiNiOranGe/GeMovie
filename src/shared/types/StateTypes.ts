@@ -1,15 +1,6 @@
-import type {
-    Company,
-    KnownFor,
-    Movie,
-    MovieElement,
-    Person,
-} from '@shared/types';
+import type { Company, KnownFor, Movie, Person } from '@shared/types';
 
 export type SearchScreenState = {
-    results: {
-        movies?: MovieElement[] | undefined;
-    };
     searchContent: string;
 };
 
