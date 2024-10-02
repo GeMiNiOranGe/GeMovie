@@ -5,12 +5,17 @@ import type {
     KnownForElement,
     Media,
     MovieElement,
+    MultiSearchElement,
     ProductionCountryElement,
     SearchResponse,
     SpokenLanguageElement,
     TvShowElement,
 } from '@shared/types';
-import { toMovieElement, toTvShowElement } from '@shared/utils';
+import {
+    toMovieElement,
+    toTvShowElement,
+    toPersonElement,
+} from '@shared/utils';
 
 export function getFormattedDate(date?: Date): string | undefined {
     return date?.toDateString() === 'Invalid Date'
@@ -29,16 +34,16 @@ export function getFormattedVoteAverage(voteAverage: number): string | number {
 }
 
 export function getFormattedGender(genderNumber: number): string {
-    switch (genderNumber) {
-        case 1:
-            return 'Female';
-        case 2:
-            return 'Male';
-        case 3:
-            return 'Non-binary';
-        default:
-            return 'Not specified';
+    if (genderNumber === 1) {
+        return 'Female';
     }
+    if (genderNumber === 2) {
+        return 'Male';
+    }
+    if (genderNumber === 3) {
+        return 'Non-binary';
+    }
+    return 'Not specified';
 }
 
 export function calculateImageDimensions(
@@ -54,8 +59,25 @@ export function calculateImageDimensions(
 
 export function isMovieElement(
     element: KnownForElement,
+): element is MovieElement & Media;
+
+export function isMovieElement(
+    element: MultiSearchElement,
+): element is MovieElement & Media;
+
+export function isMovieElement(
+    element: unknown,
 ): element is MovieElement & Media {
-    return element?.mediaType === 'movie';
+    return (
+        'mediaType' in (element as Media) &&
+        (element as Media).mediaType === 'movie'
+    );
+}
+
+export function isTvShowElement(
+    element: MultiSearchElement,
+): element is TvShowElement & Media {
+    return element?.mediaType === 'tv';
 }
 
 export function toSearchResponse<T>(val: any): SearchResponse<T> {
@@ -112,6 +134,25 @@ export function toKnownForElement(val: any): KnownForElement {
     return {
         mediaType: val['media_type'],
         ...elementValue,
+    };
+}
+
+export function toMultiSearchElement(val: any): MultiSearchElement {
+    if (val['media_type'] === 'movie') {
+        return {
+            mediaType: val['media_type'],
+            ...toMovieElement(val),
+        };
+    }
+    if (val['media_type'] === 'tv') {
+        return {
+            mediaType: val['media_type'],
+            ...toTvShowElement(val),
+        };
+    }
+    return {
+        mediaType: val['media_type'],
+        ...toPersonElement(val),
     };
 }
 

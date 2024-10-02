@@ -2,7 +2,12 @@ import type { ColorValue } from 'react-native';
 import type { DebouncedFunc } from 'lodash';
 
 import type { SearchResponseWrapper } from '@services';
-import type { CompanyElement, PersonElement } from '@shared/types';
+import type {
+    CompanyElement,
+    PersonElement,
+    MovieElement,
+    TvShowElement,
+} from '@shared/types';
 
 export type ImageSize = {
     w45: string;
@@ -106,6 +111,13 @@ export type VideoElementBase = MediaElement & {
     popularity: number;
     genreIds: number[];
 };
+
+export type MultiSearchElement = (
+    | MovieElement
+    | TvShowElement
+    | PersonElement
+) &
+    Media;
 
 export * from './PropsTypes';
 export * from './StateTypes';

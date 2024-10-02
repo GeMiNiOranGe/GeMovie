@@ -15,6 +15,7 @@ import {
   CollectionSearchResultsTopTab,
   CompanySearchResultsTopTab,
   MovieSearchResultsTopTab,
+  MultiSearchResultsTopTab,
   PersonSearchResultsTopTab,
   TvShowSearchResultsTopTab,
 } from '@tabs';
@@ -132,7 +133,10 @@ class SearchScreen extends React.Component<
             }}
           >
             {() => (
-              <></>
+              <MultiSearchResultsTopTab
+                searchContent={this.state.searchContent}
+                navigation={this.props.navigation}
+              />
             )}
           </TopTab.Screen>
 
