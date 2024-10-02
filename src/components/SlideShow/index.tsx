@@ -92,49 +92,18 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
 
   public keyExtractor = (item: any, index: number) => index.toString();
 
-  private startAutoplay = () => {
-    const { images } = this.props;
-    if (this.autoplayTimer || !this.state.isAutoplay || images.length <= 1) {
-      return;
-    }
-
-    this.autoplayTimer = setInterval(() => {
-      let nextIndex = this.state.currentIndex + 1;
-      if (nextIndex >= images.length) {
-        nextIndex = 0;
-      }
-      this.setState({ currentIndex: nextIndex }, () => {
-        this.scrollToIndex(nextIndex);
-      });
-    }, 5000);
-  };
-
-  private stopAutoplay = () => {
-    if (this.autoplayTimer) {
-      clearInterval(this.autoplayTimer);
-      this.autoplayTimer = null;
-    }
-  };
-
-  private scrollToIndex = (index: number) => {
-    if (this.flatListRef.current) {
-      this.flatListRef.current.scrollToIndex({ index, animated: true });
-    }
-  };
-
-  public override componentDidMount() {
-    this.startAutoplay();
-  }
-
-  public override componentWillUnmount() {
-    this.stopAutoplay();
-  }
-
   public override render() {
     const { images } = this.props;
+    const { currentIndex } = this.state;
+    const backgroundImage = images[currentIndex];
 
     return (
       <View style={styles.wrapper}>
+        <Image
+          source={{ uri: backgroundImage }}
+          blurRadius={10}
+          style={styles.backgroundImage}
+        />
         <Animated.FlatList
           ref={this.flatListRef}
           data={images}
@@ -152,19 +121,6 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
             { useNativeDriver: false },
           )}
           scrollEventThrottle={16}
-          onTouchStart={this.stopAutoplay}
-          onTouchEnd={this.startAutoplay}
-          onScrollToIndexFailed={info => {
-            const wait = new Promise(resolve => setTimeout(resolve, 500));
-            wait.then(() => {
-              if (this.flatListRef.current) {
-                this.flatListRef.current.scrollToIndex({
-                  index: info.index,
-                  animated: true,
-                });
-              }
-            });
-          }}
         />
       </View>
     );

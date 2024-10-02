@@ -24,7 +24,13 @@ const styles = StyleSheet.create({
         width: itemWidth * 0.9,
         height: height / 2,
         resizeMode: 'cover',
-        borderRadius: 20,
+        borderRadius: 10,
+    },
+    backgroundImage: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
     },
     contentContainer: {
         flexDirection: 'row',
