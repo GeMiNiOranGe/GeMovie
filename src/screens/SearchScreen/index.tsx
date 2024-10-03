@@ -15,6 +15,7 @@ import {
 } from '@tabs';
 import { layout } from '@shared/themes';
 import styles from './style';
+import { GenreService } from '@services';
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -46,6 +47,10 @@ class SearchScreen extends React.Component<
 
   private renderSearchIcon() {
     return <SearchNormal1 size='16' color='black' />;
+  }
+
+  public override async componentDidMount(): Promise<void> {
+    await GenreService.instance.fetchGenres();
   }
 
   public override render(): React.JSX.Element {

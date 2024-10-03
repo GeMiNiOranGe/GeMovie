@@ -119,6 +119,11 @@ export type MultiSearchElement = (
 ) &
     Media;
 
+export type Genre = {
+    id: number;
+    name: string;
+};
+
 export * from './PropsTypes';
 export * from './StateTypes';
 export * from './Movie';

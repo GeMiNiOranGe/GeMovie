@@ -1,6 +1,7 @@
+import { GenreService } from '@services';
 import type {
     BelongsToCollection,
-    GenreElement,
+    Genre,
     ImageDimensions,
     KnownForElement,
     Media,
@@ -44,6 +45,23 @@ export function getFormattedGender(genderNumber: number): string {
         return 'Non-binary';
     }
     return 'Not specified';
+}
+
+export function getFormattedGenres(genreIds: number[]): (string | undefined)[] {
+    if (genreIds.length === 0) {
+        return ['Unknown'];
+    }
+
+    const genres: Genre[] = GenreService.instance.getGenres();
+
+    const genreTuples: [number, string][] = genres.map(genre => [
+        genre.id,
+        genre.name,
+    ]);
+
+    const genreMap = new Map(genreTuples);
+
+    return genreIds.map(id => genreMap.get(id)).filter(Boolean);
 }
 
 export function calculateImageDimensions(
@@ -104,7 +122,7 @@ export function toBelongsToCollection(
     };
 }
 
-export function toGenreElement(val: any): GenreElement {
+export function toGenre(val: any): Genre {
     return {
         id: val.id,
         name: val.name,

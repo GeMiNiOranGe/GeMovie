@@ -6,7 +6,11 @@ import { Card, IconButton } from 'react-native-paper';
 import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
 import { layout, themeColor } from '@shared/themes';
-import { getFormattedFullYear, getFormattedVoteAverage } from '@shared/utils';
+import {
+  getFormattedFullYear,
+  getFormattedGenres,
+  getFormattedVoteAverage,
+} from '@shared/utils';
 import type { VideoElementBase, VideoSearchCardBaseProps } from '@shared/types';
 import styles from './style';
 
@@ -88,7 +92,7 @@ abstract class VideoSearchCardBase<
           )}
 
           <Text style={styles.text} numberOfLines={2}>
-            Genre: {this.props.item.genreIds}
+            Genre: {getFormattedGenres(this.props.item.genreIds).join(', ')}
           </Text>
         </View>
 

@@ -1,4 +1,4 @@
-import type { CompanyElement, VideoElementBase } from '@shared/types';
+import type { CompanyElement, Genre, VideoElementBase } from '@shared/types';
 
 export type MovieElement = VideoElementBase & {
     originalTitle: string;
@@ -20,7 +20,7 @@ export type Movie = {
     backdropPath?: string | undefined;
     belongsToCollection?: BelongsToCollection | undefined;
     budget: number;
-    genres: GenreElement[];
+    genres: Genre[];
     homepage: string;
     id: number;
     imdbId?: string | undefined;
@@ -49,11 +49,6 @@ export type BelongsToCollection = {
     name: string;
     posterPath: string;
     backdropPath: string;
-};
-
-export type GenreElement = {
-    id: number;
-    name: string;
 };
 
 export type ProductionCountryElement = {
