@@ -7,7 +7,7 @@ import { imageSize } from '@shared/constants';
 import { MovieDetailScreenState, RootScreenProps } from '@shared/types';
 import { MovieService } from '@services';
 import { getFormattedDate } from '@shared/utils';
-import { ExpandableText, Label } from '@components';
+import { ExpandableText, Label, Youtube } from '@components';
 import styles from './style';
 
 class MovieDetailScreen extends React.Component<
@@ -25,11 +25,14 @@ class MovieDetailScreen extends React.Component<
     const { movieId } = this.props.route.params;
 
     MovieService.getDetailAsync(movieId).then(data =>
-      this.setState({ movie: data }),
+      this.setState({ movie: data }, () => {
+        this.props.navigation.setOptions({ title: data.title });
+      }),
     );
   }
 
   public override render(): React.JSX.Element {
+    console.log(this.state.movie?.id);
     return (
       <SafeAreaView style={styles.container}>
         <Image
@@ -103,6 +106,9 @@ class MovieDetailScreen extends React.Component<
               <Text style={styles.text}>
                 Homepage: {this.state.movie?.homepage}
               </Text>
+              <View>
+                <Youtube movieId={this.state.movie?.id} />
+              </View>
             </View>
           </View>
         </ScrollView>

@@ -1,95 +1,127 @@
 import React from 'react';
-import Swiper from 'react-native-swiper';
-import { View, Image, Text, TouchableOpacity } from 'react-native';
-
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  FlatList,
+  Animated,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { SlideshowProps } from '@shared/types';
-import styles from '../SlideShow/style';
+import { SlideshowProps, SlideshowState } from '@shared/types';
+import styles, { itemWidth } from '../SlideShow/style';
 
-class Slideshow extends React.Component<SlideshowProps> {
-  private swiper: Swiper | null = null;
+class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
+  public scrollX = new Animated.Value(0);
+  private flatListRef = React.createRef<FlatList<any>>();
+  private autoplayTimer: NodeJS.Timeout | null = null;
 
-  private handlePrevButton = () => {
-    if (this.swiper) {
-      this.swiper.scrollBy(-1, true);
+  public constructor(props: SlideshowProps) {
+    super(props);
+    this.state = {
+      currentIndex: 0,
+      isAutoplay: true,
+    };
+  }
+
+  public handleSnapToItem = (index: number) => {
+    this.setState({ currentIndex: index });
+  };
+
+  public ItemsChange = ({ viewableItems }: { viewableItems: any[] }) => {
+    if (viewableItems.length > 0) {
+      const index = viewableItems[0].index;
+      if (index !== undefined && index !== this.state.currentIndex) {
+        this.setState({ currentIndex: index });
+      }
     }
   };
 
-  private handleNextButton = () => {
-    if (this.swiper) {
-      this.swiper.scrollBy(1, true);
-    }
+  public renderItem = ({ index }: { index: number }) => {
+    const { scrollX, props } = this;
+    const inputRange = [
+      (index - 1) * itemWidth,
+      index * itemWidth,
+      (index + 1) * itemWidth,
+    ];
+
+    const scale = scrollX.interpolate({
+      inputRange,
+      outputRange: [0.9, 1, 0.9],
+      extrapolate: 'clamp',
+    });
+
+    const opacity = scrollX.interpolate({
+      inputRange,
+      outputRange: [0.7, 1, 0.7],
+      extrapolate: 'clamp',
+    });
+
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => props.navigateToMovieDetail(props.movieIds[index])}
+        style={styles.slide}
+      >
+        <Animated.View style={{ transform: [{ scale }], opacity }}>
+          <Image source={{ uri: props.images[index] }} style={styles.image} />
+          <View style={styles.contentContainer}>
+            <View style={styles.textContainer}>
+              <Text style={styles.title} numberOfLines={2} ellipsizeMode='tail'>
+                {props.titles[index]}
+              </Text>
+              <Text style={styles.releaseDate}>
+                {props.releaseDates[index]}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => props.navigateToMovieDetail(props.movieIds[index])}
+            >
+              <Icon
+                name='play-circle'
+                size={30}
+                color='#fff'
+                style={styles.playIcon}
+              />
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </TouchableOpacity>
+    );
   };
+
+  public keyExtractor = (item: any, index: number) => index.toString();
 
   public override render() {
-    const { images, titles, releaseDates, navigateToMovieDetail, movieIds } =
-      this.props;
+    const { images } = this.props;
+    const { currentIndex } = this.state;
+    const backgroundImage = images[currentIndex];
 
     return (
       <View style={styles.wrapper}>
-        <Swiper
-          ref={ref => {
-            this.swiper = ref;
-          }}
-          autoplay
-          autoplayTimeout={5}
-          loop
-          paginationStyle={styles.pagination}
-          showsPagination={false}
-        >
-          {images.map((image, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => navigateToMovieDetail(movieIds[index])}
-              style={styles.slide}
-            >
-              <Image source={{ uri: image }} style={styles.image} />
-              <View style={styles.contentContainer}>
-                <View style={styles.textContainer}>
-                  <Text
-                    style={styles.title}
-                    numberOfLines={1}
-                    ellipsizeMode='tail'
-                  >
-                    {titles[index]}
-                  </Text>
-                  <Text style={styles.releaseDate}>{releaseDates[index]}</Text>
-                </View>
-                <TouchableOpacity>
-                  <Icon
-                    name='play-circle'
-                    size={30}
-                    color='#fff'
-                    style={styles.playIcon}
-                  />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </Swiper>
-
-        <TouchableOpacity
-          style={[styles.arrowButton, styles.prevButton]}
-          onPress={this.handlePrevButton}
-        >
-          <Icon
-            name='chevron-left'
-            size={15}
-            color='#fff'
-            style={styles.playIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.arrowButton, styles.nextButton]}
-          onPress={this.handleNextButton}
-        >
-          <Icon
-            name='chevron-right'
-            size={15}
-            color='#fff'
-            style={styles.playIcon}
-          />
-        </TouchableOpacity>
+        <Image
+          source={{ uri: backgroundImage }}
+          blurRadius={10}
+          style={styles.backgroundImage}
+        />
+        <Animated.FlatList
+          ref={this.flatListRef}
+          data={images}
+          renderItem={this.renderItem}
+          keyExtractor={this.keyExtractor}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          snapToAlignment='center'
+          decelerationRate='fast'
+          onViewableItemsChanged={this.ItemsChange}
+          viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: this.scrollX } } }],
+            { useNativeDriver: false },
+          )}
+          scrollEventThrottle={16}
+        />
       </View>
     );
   }

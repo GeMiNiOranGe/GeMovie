@@ -8,6 +8,7 @@ export type MovieElement = VideoElementBase & {
 };
 
 export type FeaturedMovie = {
+    media_type: string;
     id: number;
     title: string;
     poster_path: string;

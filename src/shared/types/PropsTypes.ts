@@ -15,6 +15,7 @@ export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
     SearchScreen: undefined;
     SearchSuggestionScreen: undefined;
+    TrendScreen: undefined;
     MovieDetailScreen: {
         movieId: number;
     };
@@ -24,7 +25,8 @@ export type RootStackParamList = ParamListBase & {
     PersonDetailScreen: {
         personId: number;
     };
-    SeeAllScreen: undefined;
+    SeeAllMovieScreen: undefined;
+    SeeAllPersonScreen: undefined;
 };
 
 export type RootScreenProps<
@@ -90,4 +92,8 @@ export type SlideshowProps = {
     releaseDates: string[];
     navigateToMovieDetail: (movieId: number) => void;
     movieIds: number[];
+};
+
+export type VideoProps = {
+    movieId: number | undefined;
 };

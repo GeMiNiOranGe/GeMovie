@@ -1,4 +1,5 @@
 import {
+  Animated,
   FlatList,
   Image,
   ScrollView,
@@ -21,12 +22,14 @@ class PersonDetailScreen extends React.Component<
   RootScreenProps<'PersonDetailScreen'>,
   PersonDetailScreenState
 > {
+  private pulseAnimation: Animated.Value;
   public constructor(props: RootScreenProps<'PersonDetailScreen'>) {
     super(props);
     this.state = {
       person: undefined,
       movies: [],
     };
+    this.pulseAnimation = new Animated.Value(1);
   }
 
   public override componentDidMount(): void {
@@ -47,6 +50,24 @@ class PersonDetailScreen extends React.Component<
       .catch(error => {
         console.error('Error fetching data:', error);
       });
+    this.startPulseAnimation();
+  }
+
+  private startPulseAnimation(): void {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(this.pulseAnimation, {
+          toValue: 1.2,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this.pulseAnimation, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
   }
 
   public override render(): React.JSX.Element {
@@ -55,6 +76,10 @@ class PersonDetailScreen extends React.Component<
       movies.length > 0 && movies[0]?.poster_path
         ? `${TMDB_BASE_IMAGE_URL}/w780${movies[0].poster_path}`
         : null;
+    const animatedHeart = {
+      transform: [{ scale: this.pulseAnimation }],
+    };
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -63,6 +88,7 @@ class PersonDetailScreen extends React.Component<
               source={{ uri: headerImage }}
               style={styles.headerImage}
               resizeMode='cover'
+              blurRadius={5}
             />
           ) : (
             <Text>No Image Available</Text>
@@ -102,7 +128,11 @@ class PersonDetailScreen extends React.Component<
               showsHorizontalScrollIndicator={false}
             >
               <Label
-                icon={<Icon name='heart' size={20} color='red' />}
+                icon={
+                  <Animated.View style={animatedHeart}>
+                    <Icon name='heart' size={20} color='red' />
+                  </Animated.View>
+                }
                 value={`${this.state.person?.popularity}`}
               />
             </ScrollView>

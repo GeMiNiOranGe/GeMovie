@@ -64,6 +64,13 @@ export function getFormattedGenres(genreIds: number[]): (string | undefined)[] {
     return genreIds.map(id => genreMap.get(id)).filter(Boolean);
 }
 
+export const getRandomHeight = (
+    min: number = 150,
+    max: number = 300,
+): number => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 export function calculateImageDimensions(
     pixel: number,
     horizontalRatio: number = 1,

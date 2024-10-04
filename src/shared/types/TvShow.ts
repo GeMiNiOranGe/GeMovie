@@ -8,6 +8,7 @@ export type TvShowElement = VideoElementBase & {
 };
 
 export type FeaturedTvShow = {
+    media_type: string;
     id: number;
     title: string;
     poster_path: string;

@@ -7,3 +7,5 @@ export { default as TvShowDetailScreen } from './TvShowDetailScreen';
 export { default as SeeAllMoviesScreen } from './SeeAllMovies';
 export { default as PersonDetailScreen } from './PersonDetailScreen';
 export { default as CollectionDetailScreen } from './CollectionDetailScreen';
+export { default as TrendingScreen } from './TrendingScreen';
+export { default as SeeAllPerson } from './SeeAllPerson';

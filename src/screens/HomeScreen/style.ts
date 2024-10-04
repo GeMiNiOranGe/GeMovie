@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        height: height * 0.29,
+        height: height * 0.55,
     },
     content: {
         flex: 3,

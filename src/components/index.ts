@@ -8,3 +8,4 @@ export { default as TvShowSearchCard } from './TvShowSearchCard';
 export { default as PersonSearchCard } from './PersonSearchCard';
 export { default as Slideshow } from './SlideShow';
 export { default as SearchResultsTabBar } from './SearchResultsTabBar';
+export { default as Youtube } from './Youtube';
