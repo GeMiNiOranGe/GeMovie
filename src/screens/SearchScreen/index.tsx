@@ -2,7 +2,10 @@ import React from 'react';
 import { Dimensions, SafeAreaView, View } from 'react-native';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {
+  createMaterialTopTabNavigator,
+  MaterialTopTabBarProps,
+} from '@react-navigation/material-top-tabs';
 
 import type { RootScreenProps, SearchScreenState } from '@shared/types';
 import {
@@ -13,9 +16,10 @@ import {
   PersonSearchResultsTopTab,
   TvShowSearchResultsTopTab,
 } from '@tabs';
+import { GenreService } from '@services';
+import { SearchResultsTabBar } from '@components';
 import { layout } from '@shared/themes';
 import styles from './style';
-import { GenreService } from '@services';
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -49,6 +53,10 @@ class SearchScreen extends React.Component<
     return <SearchNormal1 size='16' color='black' />;
   }
 
+  private renderTabBar(props: MaterialTopTabBarProps) {
+    return <SearchResultsTabBar {...props} />;
+  }
+
   public override async componentDidMount(): Promise<void> {
     await GenreService.instance.fetchGenres();
   }
@@ -59,6 +67,8 @@ class SearchScreen extends React.Component<
         <View style={styles.searchBarBox}>
           <View style={layout.center}>
             <IconButton
+              style={styles.returnIcon}
+              size={32}
               onPress={() => this.props.navigation.goBack()}
               icon={this.renderReturnIcon}
             />
@@ -83,6 +93,7 @@ class SearchScreen extends React.Component<
             lazy: true,
             tabBarScrollEnabled: true,
           }}
+          tabBar={this.renderTabBar}
         >
           <TopTab.Screen
             name='MultiSearchResultsTopTab'
