@@ -15,6 +15,7 @@ class SearchResultsTabBar extends React.PureComponent<MaterialTopTabBarProps> {
           horizontal
           contentContainerStyle={styles.contentContainer}
           showsHorizontalScrollIndicator={false}
+          keyboardShouldPersistTaps='handled'
         >
           {this.props.state.routes.map((route, index) => {
             const { options } = this.props.descriptors[route.key];
