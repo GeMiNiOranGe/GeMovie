@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  type ListRenderItemInfo,
+  Pressable,
+} from 'react-native';
 import { ArrowRight2, Image as ImageIcon, Star1 } from 'iconsax-react-native';
 import { Card, IconButton } from 'react-native-paper';
 
@@ -19,6 +27,16 @@ const navigationIconSize = 20;
 abstract class VideoSearchCardBase<
   T extends VideoElementBase,
 > extends React.PureComponent<VideoSearchCardBaseProps<T>> {
+  private genres: (string | undefined)[] = getFormattedGenres(
+    this.props.item.genreIds,
+  );
+
+  public constructor(props: VideoSearchCardBaseProps<T>) {
+    super(props);
+
+    this.renderGenreTagItem = this.renderGenreTagItem.bind(this);
+  }
+
   protected abstract get originalName(): string;
   protected abstract get name(): string;
   protected abstract get airDate(): Date;
@@ -30,6 +48,19 @@ abstract class VideoSearchCardBase<
 
   protected get originCountry(): string[] {
     return [];
+  }
+
+  private renderGenreTagItem({
+    item,
+    index,
+  }: ListRenderItemInfo<string | undefined>) {
+    const marginRight = index === this.genres.length - 1 ? 0 : spacing.small;
+
+    return (
+      <Pressable style={[layout.center, styles.genreTag, { marginRight }]}>
+        <Text style={styles.genreTagText}>{item}</Text>
+      </Pressable>
+    );
   }
 
   private renderNavigationIcon() {
@@ -74,36 +105,45 @@ abstract class VideoSearchCardBase<
           </View>
         </View>
 
-        <View style={styles.content}>
-          <Text style={styles.title} numberOfLines={2}>
-            {this.name}
-          </Text>
-
-          <Text style={[styles.text, styles.airDate]} numberOfLines={1}>
-            {getFormattedFullYear(this.airDate)}
-            {' - '}
-            {this.props.item.originalLanguage.toUpperCase()}
-          </Text>
-
-          {this.props.item.overview && (
-            <Text style={[styles.text, styles.overview]} numberOfLines={3}>
-              {this.props.item.overview}
+        <View style={layout.flex1}>
+          <View style={styles.content}>
+            <Text style={styles.title} numberOfLines={2}>
+              {this.name}
             </Text>
-          )}
 
-          <Text style={styles.text} numberOfLines={2}>
-            Genre: {getFormattedGenres(this.props.item.genreIds).join(', ')}
-          </Text>
-        </View>
+            <Text style={[styles.text, styles.airDate]} numberOfLines={1}>
+              {getFormattedFullYear(this.airDate)}
+              {' - '}
+              {this.props.item.originalLanguage.toUpperCase()}
+            </Text>
 
-        <View style={[layout.flexEnd, StyleSheet.absoluteFill]}>
-          <IconButton
-            style={styles.navigationIconButton}
-            icon={this.renderNavigationIcon}
-            onPress={this.props.onPress}
-            size={navigationIconSize}
-            rippleColor={themeColor.accent.light}
-          />
+            {this.props.item.overview && (
+              <Text style={[styles.text, styles.overview]} numberOfLines={3}>
+                {this.props.item.overview}
+              </Text>
+            )}
+          </View>
+
+          <View style={[layout.flexEnd, StyleSheet.absoluteFill]}>
+            <View style={layout.row}>
+              <FlatList
+                style={styles.genreList}
+                horizontal
+                keyboardShouldPersistTaps='handled'
+                keyExtractor={(_item, index) => index.toString()}
+                data={this.genres}
+                renderItem={this.renderGenreTagItem}
+              />
+
+              <IconButton
+                style={styles.navigationIconButton}
+                icon={this.renderNavigationIcon}
+                onPress={this.props.onPress}
+                size={navigationIconSize}
+                rippleColor={themeColor.accent.light}
+              />
+            </View>
+          </View>
         </View>
 
         <View style={[layout.itemsEnd, StyleSheet.absoluteFill]}>
