@@ -32,7 +32,6 @@ class MovieDetailScreen extends React.Component<
   }
 
   public override render(): React.JSX.Element {
-    console.log(this.state.movie?.id);
     return (
       <SafeAreaView style={styles.container}>
         <Image
@@ -107,7 +106,7 @@ class MovieDetailScreen extends React.Component<
                 Homepage: {this.state.movie?.homepage}
               </Text>
               <View>
-                <Youtube movieId={this.state.movie?.id} />
+                <Youtube type='movie' id={this.state.movie?.id} />
               </View>
             </View>
           </View>

@@ -1,5 +1,5 @@
-import { SearchResponseWrapper, SearchService } from '@services';
-import type { TvShowElement } from '@shared/types';
+import { DetailService, SearchResponseWrapper, SearchService } from '@services';
+import type { FeaturedTvShow, TvShowElement } from '@shared/types';
 import { toTvShowElement } from '@shared/utils';
 
 export default class TvShowService {
@@ -14,5 +14,9 @@ export default class TvShowService {
             query: text,
         });
         return await SearchService.searchAsync('tv', params, toTvShowElement);
+    }
+
+    public static async getDetailAsync(id: number): Promise<TvShowElement> {
+        return await DetailService.getDetailAsync(id, 'tv', toTvShowElement);
     }
 }

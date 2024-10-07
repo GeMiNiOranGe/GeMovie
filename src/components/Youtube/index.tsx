@@ -19,16 +19,18 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
   }
 
   public override componentDidUpdate(prevProps: VideoProps): void {
-    if (prevProps.movieId !== this.props.movieId) {
+    if (prevProps.id !== this.props.id || prevProps.type !== this.props.type) {
       this.getVideo();
     }
   }
 
   private getVideo = async () => {
-    const { movieId } = this.props;
+    const { type, id } = this.props;
+    const endpoint = type === 'movie' ? 'movie' : 'tv';
+
     try {
       const response = await fetch(
-        `${TMDB_BASE_URL}/movie/${movieId}/videos?api_key=${TMDB_API_KEY}`,
+        `${TMDB_BASE_URL}/${endpoint}/${id}/videos?api_key=${TMDB_API_KEY}`,
       );
       const data = await response.json();
       if (data.results && data.results.length > 0) {
@@ -40,13 +42,22 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
         this.setState({ loading: false });
       }
     } catch (error) {
-      console.error('Error fetching video:', error);
+      console.error(`Error fetching ${type} video:`, error);
       this.setState({ loading: false });
     }
   };
 
   public override render() {
-    const { videoKey } = this.state;
+    const { videoKey, loading } = this.state;
+
+    if (loading) {
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
+
     if (!videoKey) {
       return (
         <View>
@@ -54,10 +65,11 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
         </View>
       );
     }
+
     return (
       <View style={styles.videoContainer}>
         <YoutubePlayer
-          height={600}
+          height={300}
           width={300}
           videoId={videoKey}
           play={false}
@@ -66,4 +78,5 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
     );
   }
 }
+
 export default Youtube;

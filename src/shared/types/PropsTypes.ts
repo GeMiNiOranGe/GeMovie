@@ -28,6 +28,9 @@ export type RootStackParamList = ParamListBase & {
     PersonDetailScreen: {
         personId: number;
     };
+    TvShowDetailScreen: {
+        tvshowId: number;
+    };
     SeeAllMovieScreen: undefined;
     SeeAllPersonScreen: undefined;
 };
@@ -127,5 +130,6 @@ export type SlideshowProps = {
 };
 
 export type VideoProps = {
-    movieId: number | undefined;
+    type: 'movie' | 'tv';
+    id: number | undefined;
 };
