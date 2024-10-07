@@ -32,7 +32,6 @@ class MovieDetailScreen extends React.Component<
   }
 
   public override render(): React.JSX.Element {
-    console.log(this.state.movie?.id);
     return (
       <SafeAreaView style={styles.container}>
         <Image

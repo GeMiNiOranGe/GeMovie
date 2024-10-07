@@ -19,13 +19,17 @@ import {
   getFormattedGenres,
   getFormattedVoteAverage,
 } from '@shared/utils';
-import type { VideoElementBase, VideoSearchCardBaseProps } from '@shared/types';
+import type {
+  VideoElementBase,
+  VideoGenreIds,
+  VideoSearchCardBaseProps,
+} from '@shared/types';
 import styles from './style';
 
 const navigationIconSize = 20;
 
 abstract class VideoSearchCardBase<
-  T extends VideoElementBase,
+  T extends VideoElementBase & VideoGenreIds,
 > extends React.PureComponent<VideoSearchCardBaseProps<T>> {
   private genres: (string | undefined)[] = getFormattedGenres(
     this.props.item.genreIds,

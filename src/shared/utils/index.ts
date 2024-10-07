@@ -9,7 +9,7 @@ import type {
     MultiSearchElement,
     ProductionCountryElement,
     SearchResponse,
-    SpokenLanguageElement,
+    Language,
     TvShowElement,
 } from '@shared/types';
 import {
@@ -143,7 +143,7 @@ export function toProductionCountryElement(val: any): ProductionCountryElement {
     };
 }
 
-export function toSpokenLanguageElement(val: any): SpokenLanguageElement {
+export function toLanguage(val: any): Language {
     return {
         englishName: val['english_name'],
         iso_639_1: val['iso_639_1'],
