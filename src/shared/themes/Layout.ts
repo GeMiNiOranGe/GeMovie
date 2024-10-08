@@ -9,6 +9,10 @@ const layout = {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    flexEnd: {
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+    },
     /* Flexbox */
     col: {
         flexDirection: 'column',

@@ -1,3 +1,5 @@
+import type { Media, MovieElement, TvShowElement } from '@shared/types';
+
 export type KnownFor = {
     id: number;
     title: string;
@@ -11,6 +13,10 @@ export type KnownFor = {
     vote_count: number;
 };
 
+export type KnownForElement =
+    | ((TvShowElement | MovieElement) & Media)
+    | undefined;
+
 export type PersonElement = {
     adult: boolean;
     gender: number;
@@ -20,7 +26,7 @@ export type PersonElement = {
     originalName: string;
     popularity: number;
     profilePath: string;
-    knownFor: KnownFor[];
+    knownFor: KnownForElement[];
 };
 
 export type Person = {

@@ -3,15 +3,21 @@ import { Image, Text, View } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, Image as ImageIcon } from 'iconsax-react-native';
 
-import { layout } from '@shared/themes';
-import { imageSize, spacing } from '@shared/constants';
-import { TMDB_BASE_IMAGE_URL } from '@config';
-import { CompanySearchCardProps } from '@shared/types';
+import { URLBuilder } from '@services';
+import { layout, themeColor } from '@shared/themes';
+import { spacing } from '@shared/constants';
+import type { CompanyElement, SearchCardProps } from '@shared/types';
 import styles from './style';
 
-class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
+const navigationIconSize = 20;
+
+class CompanySearchCard extends React.PureComponent<
+  SearchCardProps<CompanyElement>
+> {
   private renderNavigationIcon() {
-    return <ArrowRight2 size={24} color='black' />;
+    return (
+      <ArrowRight2 size={navigationIconSize} color='white' variant='Bold' />
+    );
   }
 
   public override render(): React.JSX.Element {
@@ -29,11 +35,11 @@ class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
             style={styles.image}
             resizeMode='contain'
             source={{
-              uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w92}${this.props.item.logoPath}`,
+              uri: URLBuilder.buildImageURL('w92', this.props.item.logoPath),
             }}
           />
         ) : (
-          <View style={[styles.image, layout.center]}>
+          <View style={[styles.image, styles.notFoundImage, layout.center]}>
             <ImageIcon size='32' color='black' />
           </View>
         )}
@@ -48,11 +54,13 @@ class CompanySearchCard extends React.PureComponent<CompanySearchCardProps> {
             </Text>
           </View>
 
-          <View style={styles.navigationBox}>
+          <View style={[layout.justifyCenter, layout.itemsEnd]}>
             <IconButton
-              style={styles.navigationIconButton}
+              style={[layout.flex1, styles.navigationIconButton]}
               icon={this.renderNavigationIcon}
               onPress={this.props.onPress}
+              size={navigationIconSize}
+              rippleColor={themeColor.accent.light}
             />
           </View>
         </View>

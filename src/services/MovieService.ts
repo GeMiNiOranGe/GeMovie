@@ -6,12 +6,15 @@ export default class MovieService {
     /**
      * Search for movies by their original, translated and alternative titles.
      * @param text content you want to search
+     * @param page page number
      */
     public static async searchAsync(
         text: string,
+        page: number = 1,
     ): Promise<SearchResponseWrapper<MovieElement>> {
         const params = new URLSearchParams({
             query: text,
+            page: `${page}`,
         });
         return await SearchService.searchAsync('movie', params, toMovieElement);
     }

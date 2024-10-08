@@ -1,19 +1,10 @@
-export type TvShowElement = {
-    media_type: string;
-    adult: boolean;
-    backdropPath: string;
-    genreIds: number[];
-    id: number;
-    originCountry: string[];
-    originalLanguage: string;
+import { VideoElementBase } from '@shared/types';
+
+export type TvShowElement = VideoElementBase & {
     originalName: string;
-    overview: string;
-    popularity: number;
-    posterPath: string;
-    firstAirDate: Date;
     name: string;
-    voteAverage: number;
-    voteCount: number;
+    firstAirDate: Date;
+    originCountry: string[];
 };
 
 export type FeaturedTvShow = {

@@ -1,25 +1,25 @@
-import type { CollectionElement } from '@shared/types';
+import type { PersonElement } from '@shared/types';
 import { SearchResponseWrapper, SearchService } from '@services';
-import { toCollectionElement } from '@shared/utils';
+import { toPersonElement } from '@shared/utils';
 
-export default class CollectionService {
+export default class PersonService {
     /**
-     * Search for collections by their original, translated and alternative names.
+     * Search for people by their name and also known as names.
      * @param text content you want to search
      * @param page page number
      */
     public static async searchAsync(
         text: string,
         page: number = 1,
-    ): Promise<SearchResponseWrapper<CollectionElement>> {
+    ): Promise<SearchResponseWrapper<PersonElement>> {
         const params = new URLSearchParams({
             query: text,
             page: `${page}`,
         });
         return await SearchService.searchAsync(
-            'collection',
+            'person',
             params,
-            toCollectionElement,
+            toPersonElement,
         );
     }
 }

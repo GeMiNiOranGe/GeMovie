@@ -1,18 +1,15 @@
-import { ParamListBase } from '@react-navigation/native';
-import {
+import type { ParamListBase } from '@react-navigation/native';
+import type {
     NativeStackNavigationProp,
     NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import {
+import type {
     ColorValue,
     GestureResponderEvent,
     ListRenderItem,
 } from 'react-native';
-import type { CompanyElement } from './Company';
-import type { CollectionElement } from './Collection';
-import { MovieElement } from './Movie';
-import { TvShowElement } from './TvShow';
-import { PersonElement } from './Person';
+
+import type { SearchElement, VideoElementBase } from '@shared/types';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -39,56 +36,16 @@ export type RootScreenProps<
     Screen extends keyof RootStackParamList = keyof RootStackParamList,
 > = NativeStackScreenProps<RootStackParamList, Screen>;
 
-export type RootTopTabProps = {
+export type SearchResultsTopTabBaseProps = {
     navigation: NativeStackNavigationProp<ParamListBase>;
-};
-
-export type MovieSearchResultsTopTabProps = RootTopTabProps & {
-    data: MovieElement[] | undefined;
-};
-
-export type TvShowSearchResultsTopTabProps = RootTopTabProps & {
     searchContent: string;
 };
 
-export type CompanySearchResultsTopTabProps = RootTopTabProps & {
-    searchContent: string;
-};
+export type VideoSearchCardBaseProps<T extends VideoElementBase> =
+    SearchCardProps<T>;
 
-export type CollectionSearchResultsTopTabProps = RootTopTabProps & {
-    searchContent: string;
-};
-
-export type MovieSearchCardProps = {
-    item: MovieElement;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type TvShowSearchCardProps = {
-    item: TvShowElement;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type CompanySearchCardProps = {
-    item: CompanyElement;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type CollectionSearchCardProps = {
-    item: CollectionElement;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type PersonSearchCardProps = {
-    item: PersonElement;
+export type SearchCardProps<T extends SearchElement> = {
+    item: T;
     index: number;
     listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
@@ -119,6 +76,17 @@ export type TabBarIconProps = {
 export type SearchResultsListProps<ItemT> = {
     data: ArrayLike<ItemT> | null | undefined;
     renderItem: ListRenderItem<ItemT> | null | undefined;
+    isFooterLoading?: boolean | undefined;
+    totalResults?: number | undefined;
+    listEmptyComponent?: React.JSX.Element | undefined;
+    noResultsIcon?: React.JSX.Element | undefined;
+    noResultsText?: string | undefined;
+    noResultsSubtext?: string | undefined;
+    onEndReached?:
+        | ((info: { distanceFromEnd: number }) => void)
+        | null
+        | undefined;
+    keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
 };
 
 export type SlideshowProps = {

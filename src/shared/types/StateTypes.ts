@@ -17,18 +17,12 @@ import type {
 >>>>>>> Stashed changes
 
 export type SearchScreenState = {
-    results: {
-        movies?: MovieElement[] | undefined;
-    };
     searchContent: string;
 };
 
-export type TvShowSearchResultsTopTabState = {
-    tvShows?: TvShowElement[] | undefined;
-};
-
-export type CompanySearchResultsTopTabState = {
-    companies?: CompanyElement[] | undefined;
+export type SearchResultsTopTabBaseState<T> = {
+    results: T[];
+    isFetchingNextPage: boolean;
 };
 
 export type MovieDetailScreenState = {

@@ -1,22 +1,12 @@
-import type { CompanyElement } from './Company';
+import type { CompanyElement, Genre, VideoElementBase } from '@shared/types';
 
-export type MovieElement = {
-    media_type: string;
-    adult: boolean;
-    backdropPath: string;
-    genreIds: number[];
-    id: number;
-    originalLanguage: string;
+export type MovieElement = VideoElementBase & {
     originalTitle: string;
-    overview: string;
-    popularity: number;
-    posterPath: string;
-    releaseDate: Date;
     title: string;
+    releaseDate: Date;
     video: boolean;
-    voteAverage: number;
-    voteCount: number;
 };
+
 export type FeaturedMovie = {
     media_type: string;
     id: number;
@@ -25,12 +15,13 @@ export type FeaturedMovie = {
     backdrop_path: string;
     release_date: string;
 };
+
 export type Movie = {
     adult: boolean;
     backdropPath?: string | undefined;
     belongsToCollection?: BelongsToCollection | undefined;
     budget: number;
-    genres: GenreElement[];
+    genres: Genre[];
     homepage: string;
     id: number;
     imdbId?: string | undefined;
@@ -59,11 +50,6 @@ export type BelongsToCollection = {
     name: string;
     posterPath: string;
     backdropPath: string;
-};
-
-export type GenreElement = {
-    id: number;
-    name: string;
 };
 
 export type ProductionCountryElement = {

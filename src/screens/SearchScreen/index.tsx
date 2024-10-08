@@ -1,88 +1,48 @@
 import React from 'react';
-import { Alert, Dimensions, SafeAreaView, View } from 'react-native';
+import { Dimensions, SafeAreaView, View } from 'react-native';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import type { DebouncedFunc } from 'lodash';
-import debounce from 'lodash/debounce';
+import {
+  createMaterialTopTabNavigator,
+  MaterialTopTabBarProps,
+} from '@react-navigation/material-top-tabs';
 
-import type {
-  MovieElement,
-  RootScreenProps,
-  SearchScreenState,
-} from '@shared/types';
+import type { RootScreenProps, SearchScreenState } from '@shared/types';
 import {
   CollectionSearchResultsTopTab,
   CompanySearchResultsTopTab,
   MovieSearchResultsTopTab,
+  MultiSearchResultsTopTab,
+  PersonSearchResultsTopTab,
   TvShowSearchResultsTopTab,
 } from '@tabs';
-import { MovieService } from '@services';
+import { GenreService } from '@services';
+import { SearchResultsTabBar } from '@components';
 import { layout } from '@shared/themes';
 import styles from './style';
 
-const debounceWaitTime = 425;
 const TopTab = createMaterialTopTabNavigator();
 
 class SearchScreen extends React.Component<
   RootScreenProps<'SearchScreen'>,
   SearchScreenState
 > {
-  private debouncedFetchSearchResults: DebouncedFunc<
-    (content: string) => Promise<void>
-  >;
-
   public constructor(props: RootScreenProps<'SearchScreen'>) {
     super(props);
     this.state = {
-      results: {
-        movies: [],
-      },
       searchContent: '',
     };
 
     this.handleSearchbarTextChange = this.handleSearchbarTextChange.bind(this);
-    this.debouncedFetchSearchResults = debounce(
-      this.fetchSearchResults,
-      debounceWaitTime,
-    );
-  }
-
-  private async fetchSearchResults(content: string): Promise<void> {
-    let movies: MovieElement[] = [];
-
-    try {
-      const [movieResponse] = await Promise.all([
-        MovieService.searchAsync(content),
-      ]);
-
-      movies = movieResponse.getResults();
-    } catch (error: unknown) {
-      if (error instanceof TypeError) {
-        Alert.alert('No connection', error.message);
-      }
-    }
-
-    this.setState({
-      results: {
-        movies,
-      },
-    });
   }
 
   private handleSearchbarTextChange(text: string) {
     if (text.trim() === '') {
-      this.setState({
-        searchContent: text,
-        results: {
-          movies: [],
-        },
-      });
+      this.setState({ searchContent: text });
       return;
     }
 
     this.setState({ searchContent: text });
-    this.debouncedFetchSearchResults(text);
   }
 
   private renderReturnIcon() {
@@ -93,12 +53,22 @@ class SearchScreen extends React.Component<
     return <SearchNormal1 size='16' color='black' />;
   }
 
+  private renderTabBar(props: MaterialTopTabBarProps) {
+    return <SearchResultsTabBar {...props} />;
+  }
+
+  public override async componentDidMount(): Promise<void> {
+    await GenreService.instance.fetchGenres();
+  }
+
   public override render(): React.JSX.Element {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.searchBarBox}>
           <View style={layout.center}>
             <IconButton
+              style={styles.returnIcon}
+              size={32}
               onPress={() => this.props.navigation.goBack()}
               icon={this.renderReturnIcon}
             />
@@ -116,14 +86,29 @@ class SearchScreen extends React.Component<
         </View>
 
         <TopTab.Navigator
-          initialRouteName='MovieSearchResultsTopTab'
+          initialRouteName='MultiSearchResultsTopTab'
           initialLayout={{ width: Dimensions.get('window').width }}
           screenOptions={{
             swipeEnabled: false,
             lazy: true,
             tabBarScrollEnabled: true,
           }}
+          tabBar={this.renderTabBar}
         >
+          <TopTab.Screen
+            name='MultiSearchResultsTopTab'
+            options={{
+              title: 'All',
+            }}
+          >
+            {() => (
+              <MultiSearchResultsTopTab
+                searchContent={this.state.searchContent}
+                navigation={this.props.navigation}
+              />
+            )}
+          </TopTab.Screen>
+
           <TopTab.Screen
             name='MovieSearchResultsTopTab'
             options={{
@@ -132,7 +117,7 @@ class SearchScreen extends React.Component<
           >
             {() => (
               <MovieSearchResultsTopTab
-                data={this.state.results.movies}
+                searchContent={this.state.searchContent}
                 navigation={this.props.navigation}
               />
             )}
@@ -146,6 +131,20 @@ class SearchScreen extends React.Component<
           >
             {() => (
               <TvShowSearchResultsTopTab
+                searchContent={this.state.searchContent}
+                navigation={this.props.navigation}
+              />
+            )}
+          </TopTab.Screen>
+
+          <TopTab.Screen
+            name='PersonSearchResultsTopTab'
+            options={{
+              title: 'Person',
+            }}
+          >
+            {() => (
+              <PersonSearchResultsTopTab
                 searchContent={this.state.searchContent}
                 navigation={this.props.navigation}
               />

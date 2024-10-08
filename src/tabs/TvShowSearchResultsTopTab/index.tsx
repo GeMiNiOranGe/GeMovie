@@ -1,78 +1,42 @@
 import React from 'react';
-import type { DebouncedFunc } from 'lodash';
-import debounce from 'lodash/debounce';
+import { ListRenderItem } from 'react-native';
 
-import { SearchResultsList, TvShowSearchCard } from '@components';
+import { SearchResultsTopTabBase } from '@base';
+import { TvShowSearchCard } from '@components';
 import { TvShowService } from '@services';
 import type {
-  TvShowSearchResultsTopTabProps,
-  TvShowSearchResultsTopTabState,
+  SearchResultsTopTabBaseProps,
+  TvShowElement,
 } from '@shared/types';
 
-class TvShowSearchResultsTopTab extends React.PureComponent<
-  TvShowSearchResultsTopTabProps,
-  TvShowSearchResultsTopTabState
-> {
-  private debouncedSearchTvShows: DebouncedFunc<
-    (content: string) => Promise<void>
-  >;
-
-  public constructor(props: TvShowSearchResultsTopTabProps) {
-    super(props);
-    this.state = {
-      tvShows: [],
-    };
-
-    this.debouncedSearchTvShows = debounce(this.searchTvShows, 350);
+class TvShowSearchResultsTopTab extends SearchResultsTopTabBase<TvShowElement> {
+  public constructor(props: SearchResultsTopTabBaseProps) {
+    super(props, TvShowService.searchAsync);
   }
 
-  private async searchTvShows(content: string): Promise<void> {
-    const tvShowResponse = await TvShowService.searchAsync(content);
-    this.setState({ tvShows: tvShowResponse.getResults() });
+  protected override keyExtractor(item: TvShowElement): string {
+    return item.id.toString();
   }
 
-  public override componentDidMount(): void {
-    if (this.props.searchContent.trim() === '') {
-      return;
-    }
-
-    this.searchTvShows(this.props.searchContent);
+  protected override get noResultsSubtext(): string | undefined {
+    return 'No TV shows found';
   }
 
-  public override async componentDidUpdate(
-    prevProps: Readonly<TvShowSearchResultsTopTabProps>,
-  ): Promise<void> {
-    if (this.props.searchContent === prevProps.searchContent) {
-      return;
-    }
-
-    if (this.props.searchContent.trim() === '') {
-      this.setState({ tvShows: [] });
-      return;
-    }
-
-    this.debouncedSearchTvShows(this.props.searchContent);
-  }
-
-  public override render(): React.JSX.Element {
-    return (
-      <SearchResultsList
-        data={this.state.tvShows}
-        renderItem={({ item, index }) => (
-          <TvShowSearchCard
-            item={item}
-            index={index}
-            listLength={this.state.tvShows?.length}
-            onPress={() => {
-              this.props.navigation.navigate('TvShowDetailScreen', {
-                tvShowId: item.id,
-              });
-            }}
-          />
-        )}
-      />
-    );
-  }
+  protected override renderItem: ListRenderItem<TvShowElement> = ({
+    item,
+    index,
+  }) => (
+    <TvShowSearchCard
+      item={item}
+      index={index}
+      listLength={this.state.results?.length}
+      onPress={() => {
+        this.props.navigation.navigate('TvShowDetailScreen', {
+          tvShowId: item.id,
+        });
+      }}
+    />
+  );
 }
 
 export default TvShowSearchResultsTopTab;

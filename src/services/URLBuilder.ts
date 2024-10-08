@@ -35,4 +35,12 @@ export default class URLBuilder {
     ): string {
         return `${TMDB_BASE_IMAGE_URL}/${imageSize[size]}${path}`;
     }
+
+    /**
+     * Build a genre list url
+     * @param type `"movie"` | `"tv"`
+     */
+    public static buildGenreListURL(type: 'movie' | 'tv'): string {
+        return `https://api.themoviedb.org/3/genre/${type}/list?api_key=${TMDB_API_KEY}`;
+    }
 }

@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
 import { calculateImageDimensions } from '@shared/utils';
+import { themeColor } from '@shared/themes';
 
 const imageDimensions = calculateImageDimensions(64);
 const paddingCard = spacing.medium;
@@ -10,14 +11,18 @@ const outerRadius = innerRadius + paddingCard;
 
 const styles = StyleSheet.create({
     card: {
-        padding: paddingCard,
+        paddingVertical: paddingCard,
+        paddingLeft: paddingCard,
         borderRadius: outerRadius,
-        backgroundColor: 'white',
+        backgroundColor: themeColor.primary,
     },
     image: {
         ...imageDimensions,
         marginRight: spacing.large,
         borderRadius: innerRadius,
+    },
+    notFoundImage: {
+        backgroundColor: themeColor.background,
     },
     content: {
         justifyContent: 'center',
@@ -25,19 +30,20 @@ const styles = StyleSheet.create({
     },
     title: {
         marginBottom: spacing.tiny,
-        color: 'black',
+        color: themeColor.text,
         fontSize: 16,
     },
     text: {
         fontSize: 12,
-        color: 'gray',
-    },
-    navigationBox: {
-        justifyContent: 'center',
-        alignItems: 'flex-end',
+        color: themeColor.subtext,
     },
     navigationIconButton: {
-        marginRight: 0,
+        margin: 0,
+        marginVertical: '35%',
+        borderRadius: 0,
+        borderTopLeftRadius: outerRadius,
+        borderBottomLeftRadius: outerRadius,
+        backgroundColor: themeColor.accent.dark,
     },
 });
 

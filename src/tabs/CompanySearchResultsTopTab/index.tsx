@@ -1,78 +1,42 @@
 import React from 'react';
-import type { DebouncedFunc } from 'lodash';
-import debounce from 'lodash/debounce';
+import { ListRenderItem } from 'react-native';
 
-import { CompanySearchCard, SearchResultsList } from '@components';
+import { SearchResultsTopTabBase } from '@base';
+import { CompanySearchCard } from '@components';
 import { CompanyService } from '@services';
 import type {
-  CompanySearchResultsTopTabProps,
-  CompanySearchResultsTopTabState,
+  CompanyElement,
+  SearchResultsTopTabBaseProps,
 } from '@shared/types';
 
-class CompanySearchResultsTopTab extends React.PureComponent<
-  CompanySearchResultsTopTabProps,
-  CompanySearchResultsTopTabState
-> {
-  private debouncedSearchCompanies: DebouncedFunc<
-    (content: string) => Promise<void>
-  >;
-
-  public constructor(props: CompanySearchResultsTopTabProps) {
-    super(props);
-    this.state = {
-      companies: [],
-    };
-
-    this.debouncedSearchCompanies = debounce(this.searchCompanies, 350);
+class CompanySearchResultsTopTab extends SearchResultsTopTabBase<CompanyElement> {
+  public constructor(props: SearchResultsTopTabBaseProps) {
+    super(props, CompanyService.searchAsync);
   }
 
-  private async searchCompanies(content: string): Promise<void> {
-    const companyResponse = await CompanyService.searchAsync(content);
-    this.setState({ companies: companyResponse.getResults() });
+  protected override keyExtractor(item: CompanyElement): string {
+    return item.id.toString();
   }
 
-  public override componentDidMount(): void {
-    if (this.props.searchContent.trim() === '') {
-      return;
-    }
-
-    this.searchCompanies(this.props.searchContent);
+  protected override get noResultsSubtext(): string | undefined {
+    return 'No companies found';
   }
 
-  public override async componentDidUpdate(
-    prevProps: Readonly<CompanySearchResultsTopTabProps>,
-  ): Promise<void> {
-    if (this.props.searchContent === prevProps.searchContent) {
-      return;
-    }
-
-    if (this.props.searchContent.trim() === '') {
-      this.setState({ companies: [] });
-      return;
-    }
-
-    this.debouncedSearchCompanies(this.props.searchContent);
-  }
-
-  public override render(): React.JSX.Element {
-    return (
-      <SearchResultsList
-        data={this.state.companies}
-        renderItem={({ item, index }) => (
-          <CompanySearchCard
-            item={item}
-            index={index}
-            listLength={this.state.companies?.length}
-            onPress={() => {
-              this.props.navigation.navigate('CompanyDetailScreen', {
-                companyId: item.id,
-              });
-            }}
-          />
-        )}
-      />
-    );
-  }
+  protected override renderItem: ListRenderItem<CompanyElement> = ({
+    item,
+    index,
+  }) => (
+    <CompanySearchCard
+      item={item}
+      index={index}
+      listLength={this.state.results?.length}
+      onPress={() => {
+        this.props.navigation.navigate('CompanyDetailScreen', {
+          companyId: item.id,
+        });
+      }}
+    />
+  );
 }
 
 export default CompanySearchResultsTopTab;

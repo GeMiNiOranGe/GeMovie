@@ -2,8 +2,9 @@ import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
+import { themeColor } from '@shared/themes';
 
-const imageDimensions = calculateImageDimensions(116, 2, 3);
+const imageDimensions = calculateImageDimensions(120, 2, 3);
 const paddingCard = spacing.medium;
 const innerRadius = 4;
 const outerRadius = innerRadius + paddingCard;
@@ -11,11 +12,10 @@ const outerRadius = innerRadius + paddingCard;
 const styles = StyleSheet.create({
     card: {
         marginTop: spacing.medium,
-        backgroundColor: 'white',
+        backgroundColor: themeColor.primary,
         borderRadius: outerRadius,
     },
     contentCard: {
-        flexDirection: 'row',
         paddingLeft: paddingCard,
     },
     image: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         elevation: 4,
         marginRight: spacing.large,
         top: -paddingCard,
-        backgroundColor: 'white',
+        backgroundColor: themeColor.primary,
     },
     content: {
         paddingVertical: spacing.medium,
@@ -35,37 +35,52 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        color: 'black',
+        color: themeColor.text,
     },
-    information: {
+    text: {
         fontSize: 12,
-        color: 'gray',
+        color: themeColor.subtext,
     },
-    ratingBox: {
-        backgroundColor: '#ff4273',
-        borderTopLeftRadius: innerRadius,
-        borderBottomRightRadius: innerRadius,
-        width: 52,
-        height: 24,
-    },
-    ratingText: {
-        color: 'white',
-        fontSize: 12,
-        marginLeft: spacing.tiny,
+    airDate: {
+        marginTop: spacing.medium,
     },
     overview: {
         marginVertical: spacing.tiny,
     },
-    navigationBox: {
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+    ratingBox: {
+        backgroundColor: themeColor.secondary,
+        borderRadius: innerRadius,
+        marginBottom: spacing.tiny,
+        paddingHorizontal: spacing.small,
+        paddingVertical: spacing.tiny,
+        right: -spacing.small,
+        elevation: 4,
+        shadowColor: themeColor.secondary,
+    },
+    ratingText: {
+        color: themeColor.primary,
+        fontSize: 12,
+        marginLeft: spacing.tiny,
     },
     navigationIconButton: {
         margin: 0,
-        backgroundColor: '#ff4273',
+        backgroundColor: themeColor.accent.dark,
         borderRadius: 0,
         borderTopLeftRadius: outerRadius,
         borderBottomRightRadius: outerRadius,
+    },
+    mediaTypeBox: {
+        borderRadius: 4,
+        top: -spacing.medium,
+        right: spacing.medium,
+        backgroundColor: themeColor.neutral,
+        paddingHorizontal: spacing.small,
+        paddingVertical: spacing.tiny,
+        elevation: 4,
+    },
+    mediaTypeText: {
+        fontSize: 10,
+        color: themeColor.text,
     },
 });
 
