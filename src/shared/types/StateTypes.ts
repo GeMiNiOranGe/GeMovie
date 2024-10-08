@@ -1,11 +1,5 @@
-<<<<<<< Updated upstream
-import type { Company, CompanyElement } from './Company';
-import type { FeaturedMovie, Movie, MovieElement } from './Movie';
-import type { FeaturedTvShow, TvShowElement } from './TvShow';
-import type { Person, KnownFor } from './Person';
-import type { CollectionElement } from './Collection';
-=======
 import type {
+    CollectionElement,
     Company,
     FeaturedMovie,
     FeaturedTvShow,
@@ -14,7 +8,6 @@ import type {
     Person,
     TvShowElement,
 } from '@shared/types';
->>>>>>> Stashed changes
 
 export type SearchScreenState = {
     searchContent: string;
@@ -29,14 +22,13 @@ export type MovieDetailScreenState = {
     movie?: Movie | undefined;
 };
 
-<<<<<<< Updated upstream
 export type CollectionSearchResultsTopTabState = {
     collections?: CollectionElement[] | undefined;
-=======
+};
+
 export type TvShowDetailScreenState = {
     tv?: TvShowElement | undefined;
     modalVisible: boolean;
->>>>>>> Stashed changes
 };
 
 export type ExpandableTextState = {
