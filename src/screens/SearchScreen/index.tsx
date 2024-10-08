@@ -126,7 +126,7 @@ class SearchScreen extends React.Component<
           <TopTab.Screen
             name='TvShowSearchResultsTopTab'
             options={{
-              title: 'Tv show',
+              title: 'Tv series',
             }}
           >
             {() => (

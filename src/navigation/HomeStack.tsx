@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 class HomeStack extends React.Component {
   public override render(): React.JSX.Element {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName='HomeScreen'>
         <Stack.Screen
           name='HomeScreen'
           component={HomeScreen}

@@ -31,7 +31,7 @@ export default class URLBuilder {
      */
     public static buildImageURL(
         size: keyof typeof imageSize,
-        path: string,
+        path: string | undefined,
     ): string {
         return `${TMDB_BASE_IMAGE_URL}/${imageSize[size]}${path}`;
     }
