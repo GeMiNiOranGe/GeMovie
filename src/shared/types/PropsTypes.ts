@@ -7,6 +7,9 @@ import type {
     ColorValue,
     GestureResponderEvent,
     ListRenderItem,
+    StyleProp,
+    TextStyle,
+    ViewStyle,
 } from 'react-native';
 
 import type { SearchElement, VideoElementBase } from '@shared/types';
@@ -49,7 +52,11 @@ export type SearchCardProps<T extends SearchElement> = {
 };
 
 export type LabelProps = {
-    name?: string;
+    style?: StyleProp<ViewStyle>;
+    nameStyle?: StyleProp<TextStyle>;
+    valueStyle?: StyleProp<TextStyle>;
+    iconStyle?: StyleProp<ViewStyle>;
+    name: string;
     value?: string | undefined;
     icon?: JSX.Element | undefined;
 };

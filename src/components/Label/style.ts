@@ -1,17 +1,19 @@
-import { spacing } from '@shared/constants';
 import { StyleSheet } from 'react-native';
+
+import { spacing } from '@shared/constants';
+import { themeColor } from '@shared/themes';
 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        marginHorizontal: spacing.medium,
+        marginHorizontal: spacing.large,
     },
     text: {
-        // textAlign: 'center',
-        color: 'black',
+        fontSize: 14,
+        color: themeColor.text,
     },
     icon: {
-        padding: 3,
+        marginRight: spacing.tiny,
     },
 });
 

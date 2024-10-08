@@ -8,13 +8,22 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { Calendar, Clock, Moneys, MoneyRecive } from 'iconsax-react-native';
 
+import { Adult } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
-import { MovieDetailScreenState, RootScreenProps } from '@shared/types';
+import {
+  MovieDetailScreenState,
+  RootScreenProps,
+  Variant,
+} from '@shared/types';
 import { getFormattedDate } from '@shared/utils';
 import { ExpandableText, Label, Youtube } from '@components';
 import { layout, themeColor } from '@shared/themes';
 import styles from './style';
+
+const iconSize = 16;
+const iconVariant: Variant = 'Bold';
 
 class MovieDetailScreen extends React.Component<
   RootScreenProps<'MovieDetailScreen'>,
@@ -88,26 +97,57 @@ class MovieDetailScreen extends React.Component<
               showsHorizontalScrollIndicator={false}
             >
               <Label
+                icon={
+                  <Calendar
+                    size={iconSize}
+                    color={themeColor.text.toString()}
+                    variant={iconVariant}
+                  />
+                }
                 name='Release date'
                 value={getFormattedDate(this.state.movie?.releaseDate)}
               />
 
               <Label
+                icon={
+                  <Clock
+                    size={iconSize}
+                    color={themeColor.text.toString()}
+                    variant={iconVariant}
+                  />
+                }
                 name='Length'
                 value={`${this.state.movie?.runtime} minutes`}
               />
 
               <Label
+                icon={
+                  <Adult size={iconSize} color={themeColor.text.toString()} />
+                }
                 name='Adult'
                 value={this.state.movie?.adult ? 'Yes' : 'No'}
               />
 
               <Label
+                icon={
+                  <Moneys
+                    size={iconSize}
+                    color={themeColor.text.toString()}
+                    variant={iconVariant}
+                  />
+                }
                 name='Budget'
                 value={`${this.state.movie?.budget.toLocaleString()} USD`}
               />
 
               <Label
+                icon={
+                  <MoneyRecive
+                    size={iconSize}
+                    color={themeColor.text.toString()}
+                    variant={iconVariant}
+                  />
+                }
                 name='Revenue'
                 value={`${this.state.movie?.revenue.toLocaleString()} USD`}
               />
