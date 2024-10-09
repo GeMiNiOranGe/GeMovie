@@ -1,4 +1,5 @@
 import type {
+    Collection,
     CollectionElement,
     Company,
     FeaturedMovie,
@@ -24,6 +25,9 @@ export type MovieDetailScreenState = {
 
 export type CollectionSearchResultsTopTabState = {
     collections?: CollectionElement[] | undefined;
+};
+export type CollectionDetailState = {
+    collection?: Collection | undefined;
 };
 
 export type TvShowDetailScreenState = {
