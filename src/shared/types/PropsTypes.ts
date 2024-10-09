@@ -63,7 +63,7 @@ export type LabelProps = {
 
 export type ExpandableTextProps = {
     text: string;
-    numberOfLines: number;
+    numberOfLines?: number | undefined;
 };
 
 export type IconProps = {

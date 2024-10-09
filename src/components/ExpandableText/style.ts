@@ -1,15 +1,21 @@
 import { StyleSheet } from 'react-native';
 
+import { spacing } from '@shared/constants';
+import { themeColor } from '@shared/themes';
+
 const styles = StyleSheet.create({
     text: {
         fontSize: 16,
-        lineHeight: 24,
-        color: 'black',
+        color: themeColor.text,
+    },
+    toggleBox: {
+        paddingTop: spacing.small,
     },
     toggleText: {
+        fontWeight: 'bold',
         fontSize: 14,
-        color: '#007BFF',
-        marginTop: 5,
+        color: themeColor.accent.light,
+        marginRight: spacing.tiny,
     },
 });
 
