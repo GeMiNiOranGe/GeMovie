@@ -26,7 +26,10 @@ export type RootStackParamList = ParamListBase & {
         personId: number;
     };
     TvShowDetailScreen: {
-        tvshowId: number;
+        tvShowId: number;
+    };
+    CollectionDetailScreen: {
+        collectionId: number;
     };
     SeeAllMovieScreen: undefined;
     SeeAllPersonScreen: undefined;
@@ -55,11 +58,13 @@ export type LabelProps = {
     name?: string;
     value?: string | undefined;
     icon?: JSX.Element | undefined;
+    style?: object;
 };
 
 export type ExpandableTextProps = {
     text: string;
     numberOfLines: number;
+    style?: object;
 };
 
 export type IconProps = {
@@ -98,6 +103,6 @@ export type SlideshowProps = {
 };
 
 export type VideoProps = {
-    type: 'movie' | 'tv';
+    type: 'movie' | 'tv' | 'collection';
     id: number | undefined;
 };

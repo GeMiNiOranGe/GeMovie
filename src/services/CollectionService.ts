@@ -1,6 +1,6 @@
-import type { CollectionElement } from '@shared/types';
-import { SearchResponseWrapper, SearchService } from '@services';
-import { toCollectionElement } from '@shared/utils';
+import type { Collection, CollectionElement } from '@shared/types';
+import { DetailService, SearchResponseWrapper, SearchService } from '@services';
+import { toCollection, toCollectionElement } from '@shared/utils';
 
 export default class CollectionService {
     /**
@@ -20,6 +20,18 @@ export default class CollectionService {
             'collection',
             params,
             toCollectionElement,
+        );
+    }
+
+    /**
+     * Get the collection details by ID.
+     * @param id collection id
+     */
+    public static async getDetailAsync(id: number): Promise<Collection> {
+        return await DetailService.getDetailAsync(
+            id,
+            'collection',
+            toCollection,
         );
     }
 }

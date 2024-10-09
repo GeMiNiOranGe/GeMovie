@@ -26,7 +26,14 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
 
   private getVideo = async () => {
     const { type, id } = this.props;
-    const endpoint = type === 'movie' ? 'movie' : 'tv';
+    let endpoint = '';
+    if (type === 'movie') {
+      endpoint = 'movie';
+    } else if (type === 'tv') {
+      endpoint = 'tv';
+    } else {
+      endpoint = 'collection';
+    }
 
     try {
       const response = await fetch(

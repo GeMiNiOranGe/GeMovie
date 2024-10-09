@@ -30,8 +30,8 @@ class TvShowDetailScreen extends React.Component<
   }
 
   public override componentDidMount() {
-    const { tvshowId } = this.props.route.params;
-    TvShowService.getDetailAsync(tvshowId).then(data =>
+    const { tvShowId } = this.props.route.params;
+    TvShowService.getDetailAsync(tvShowId).then(data =>
       this.setState({ tv: data }, () => {
         this.props.navigation.setOptions({ title: data.name });
       }),
@@ -79,14 +79,23 @@ class TvShowDetailScreen extends React.Component<
           <View style={styles.body}>
             <View style={styles.titleBody}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <Label name='Name' value={tv.name} />
+                <Label name='Name' value={tv.name?.toString() || 'N/A'} />
                 <Label
                   name='Country'
                   value={tv.originCountry?.join(', ') || 'N/A'}
                 />
-                <Label name='Popularity' value={tv.popularity.toString()} />
-                <Label name='Vote Average' value={tv.voteAverage.toString()} />
-                <Label name='Vote Count' value={tv.voteCount.toString()} />
+                <Label
+                  name='Popularity'
+                  value={tv.popularity?.toString() || 'N/A'}
+                />
+                <Label
+                  name='Vote Average'
+                  value={tv.voteAverage?.toString() || 'N/A'}
+                />
+                <Label
+                  name='Vote Count'
+                  value={tv.voteCount?.toString() || 'N/A'}
+                />
               </ScrollView>
             </View>
             <View style={styles.contentBody}>

@@ -15,9 +15,9 @@ class Label extends React.Component<LabelProps> {
         {this.props.icon ? (
           <View style={styles.icon}>{this.props.icon}</View>
         ) : (
-          <Text style={styles.text}>{this.props.name}</Text>
+          <Text style={[styles.text, this.props.style]}>{this.props.name}</Text>
         )}
-        <Text style={styles.text}>{this.props.value}</Text>
+        <Text style={[styles.text, this.props.style]}>{this.props.value}</Text>
       </View>
     );
   }

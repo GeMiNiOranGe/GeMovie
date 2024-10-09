@@ -27,7 +27,7 @@ class ExpandableText extends React.Component<
       <View>
         <Text
           numberOfLines={this.state.isExpand ? 0 : this.props.numberOfLines}
-          style={styles.text}
+          style={[styles.text, this.props.style]}
         >
           {this.props.text}
         </Text>
