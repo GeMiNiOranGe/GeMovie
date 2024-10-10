@@ -1,5 +1,12 @@
 import React from 'react';
-import { SafeAreaView, Text, ScrollView, View, Image } from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  ScrollView,
+  View,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import { layout } from '@shared/themes';
 import styles from './style';
 import { CollectionDetailState, RootScreenProps } from '@shared/types';
@@ -7,6 +14,7 @@ import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
 import { CollectionService } from '@services';
 import { imageSize } from '@shared/constants';
 import { ExpandableText, Label, Youtube } from '@components';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class CollectionDetailScreen extends React.Component<
   RootScreenProps<'CollectionDetailScreen'>,
@@ -59,15 +67,33 @@ class CollectionDetailScreen extends React.Component<
       <ScrollView style={styles.container}>
         <SafeAreaView style={layout.center}>
           <View style={styles.head}>
-            <Image
-              style={styles.posterImage}
-              source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${collection?.poster_path}`,
-              }}
-            />
+            {collection?.backdrop_path ? (
+              <ImageBackground
+                source={{
+                  uri: `${TMDB_BASE_IMAGE_URL}/w780${collection?.backdrop_path}`,
+                }}
+                resizeMode='cover'
+                blurRadius={5}
+                style={styles.backdropImage}
+              >
+                <View style={styles.overlay} />
+              </ImageBackground>
+            ) : (
+              <View style={[styles.backdropImage, layout.center]}>
+                <Icon name='picture-o' size={300} color='white' />
+              </View>
+            )}
           </View>
-          <View style={[styles.body, styles.textOverlay]}>
+          <View style={[styles.body]}>
             <View style={[styles.informCollection]}>
+              <View style={styles.containerPoster}>
+                <Image
+                  style={styles.posterImage}
+                  source={{
+                    uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${collection?.poster_path}`,
+                  }}
+                />
+              </View>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <Label
                   name='Language'
