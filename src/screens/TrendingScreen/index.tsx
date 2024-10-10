@@ -115,7 +115,14 @@ class TrendingScreen extends React.Component<
   public renderTvShowItem = ({ item }: { item: FeaturedTvShow }) => {
     const imageUrl = URLBuilder.buildImageURL('w500', item.poster_path);
     return (
-      <View style={[styles.movieItem, { height: getRandomHeight(150, 300) }]}>
+      <TouchableOpacity
+        style={[styles.movieItem, { height: getRandomHeight(150, 300) }]}
+        onPress={() =>
+          this.props.navigation.navigate('TvShowDetailScreen', {
+            tvShowId: item.id,
+          })
+        }
+      >
         {imageUrl ? (
           <Image source={{ uri: imageUrl }} style={styles.movieThumbnail} />
         ) : (
@@ -127,7 +134,7 @@ class TrendingScreen extends React.Component<
           />
         )}
         <Text style={styles.movieTitle}>{item.title}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 

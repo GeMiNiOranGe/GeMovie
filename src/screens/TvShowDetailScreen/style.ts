@@ -37,7 +37,15 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 14,
-        color: 'black',
+        color: 'white',
+    },
+    introText: {
+        color: 'red',
+        fontWeight: 'bold',
+    },
+    expandText: {
+        fontSize: 16,
+        color: 'white',
     },
     posterImage: {
         borderRadius: 12,

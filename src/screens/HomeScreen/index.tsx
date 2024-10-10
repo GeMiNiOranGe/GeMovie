@@ -194,7 +194,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                   return (
                     <TouchableOpacity
                       onPress={() => navigation.navigate('TvShowDetailScreen', {
-                        tvshowId: item.id,
+                        tvShowId: item.id,
                       })}
                     >
                       <Image

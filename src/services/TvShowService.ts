@@ -1,5 +1,5 @@
 import { DetailService, SearchResponseWrapper, SearchService } from '@services';
-import type { FeaturedTvShow, TvShowElement } from '@shared/types';
+import type { TvShowElement } from '@shared/types';
 import { toTvShowElement } from '@shared/utils';
 
 export default class TvShowService {

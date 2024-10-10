@@ -1,4 +1,3 @@
-// TvShowDetailScreen.tsx
 import React from 'react';
 import {
   Image,
@@ -16,6 +15,7 @@ import { TMDB_BASE_IMAGE_URL } from '@config';
 import { imageSize } from '@shared/constants';
 import { ExpandableText, Label, Youtube } from '@components';
 import styles from './style';
+import LinearGradient from 'react-native-linear-gradient';
 
 class TvShowDetailScreen extends React.Component<
   RootScreenProps<'TvShowDetailScreen'>,
@@ -75,40 +75,53 @@ class TvShowDetailScreen extends React.Component<
               </TouchableOpacity>
             </View>
           </View>
-
-          <View style={styles.body}>
+          <LinearGradient
+            style={styles.body}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            colors={['#0f0c29', '#302b63', '#24243e']}
+          >
             <View style={styles.titleBody}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <Label name='Name' value={tv.name?.toString() || 'N/A'} />
+                <Label
+                  name='Name'
+                  value={tv.name?.toString() || 'N/A'}
+                  style={styles.text}
+                />
                 <Label
                   name='Country'
                   value={tv.originCountry?.join(', ') || 'N/A'}
+                  style={styles.text}
                 />
                 <Label
                   name='Popularity'
                   value={tv.popularity?.toString() || 'N/A'}
+                  style={styles.text}
                 />
                 <Label
                   name='Vote Average'
                   value={tv.voteAverage?.toString() || 'N/A'}
+                  style={styles.text}
                 />
                 <Label
                   name='Vote Count'
                   value={tv.voteCount?.toString() || 'N/A'}
+                  style={styles.text}
                 />
               </ScrollView>
             </View>
             <View style={styles.contentBody}>
-              <Text style={styles.text}>Introduction</Text>
+              <Text style={styles.introText}>Introduction</Text>
               <ExpandableText
                 text={tv.overview || 'No overview available.'}
                 numberOfLines={3}
+                style={styles.expandText}
               />
             </View>
             <View style={styles.youtubeContainer}>
               {tv.id !== undefined && <Youtube type='tv' id={tv.id} />}
             </View>
-          </View>
+          </LinearGradient>
 
           <Modal
             animationType='slide'
