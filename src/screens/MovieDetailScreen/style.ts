@@ -2,56 +2,46 @@ import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
+import { themeColor } from '@shared/themes';
 
 const imageDimensions = calculateImageDimensions(185, 2, 3);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        backgroundColor: themeColor.primary,
     },
-    text: {
-        fontSize: 16,
-        color: 'black',
-    },
-    backdropImage: {
+    backdrop: {
         height: '50%',
     },
-    posterImage: {
+    posterBox: {},
+    poster: {
         borderRadius: 12,
         ...imageDimensions,
     },
-    posterSection: {},
+    titleBox: {
+        alignItems: 'center',
+        marginBottom: 24,
+    },
     title: {
         fontSize: 24,
         color: 'black',
         textAlign: 'center',
     },
-    titleSection: {
-        alignItems: 'center',
-        marginBottom: 24,
+    text: {
+        fontSize: 16,
+        color: 'black',
     },
-    introductionSection: {
+    introductionBox: {
         marginBottom: 24,
     },
     content: {
-        backgroundColor: 'pink',
-    },
-    absolute: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        right: 0,
-        left: 0,
+        backgroundColor: themeColor.primary,
     },
     linearGradient: {
         height: 320,
     },
     scrollContainer: {
         flexGrow: 1,
-    },
-    center: {
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     scrollLabel: {
         paddingHorizontal: spacing.large,

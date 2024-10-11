@@ -3,7 +3,7 @@ import {
     toBelongsToCollection,
     toCompanyElement,
     toProductionCountryElement,
-    toSpokenLanguageElement,
+    toLanguage,
 } from '@shared/utils';
 
 export function toMovieElement(val: any): MovieElement {
@@ -53,7 +53,7 @@ export function toMovie(val: any): Movie {
         revenue: val.revenue,
         runtime: val.runtime,
         spokenLanguages: Array.from(val['spoken_languages']).map(element =>
-            toSpokenLanguageElement(element),
+            toLanguage(element),
         ),
         status: val.status,
         tagline: val.tagline,

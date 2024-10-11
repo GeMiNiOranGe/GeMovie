@@ -105,11 +105,24 @@ export type MediaElement = {
     posterPath?: string | undefined;
 };
 
+export type VideoGenreIds = {
+    genreIds: number[];
+};
+
+export type VideoBase = {
+    genres: Genre[];
+    homepage: string;
+    productionCompanies: CompanyElement[];
+    productionCountries: ProductionCountryElement[];
+    spokenLanguages: Language[];
+    status: string;
+    tagline: string;
+};
+
 export type VideoElementBase = MediaElement & {
     voteAverage: number;
     voteCount: number;
     popularity: number;
-    genreIds: number[];
 };
 
 export type MultiSearchElement = (
@@ -121,6 +134,17 @@ export type MultiSearchElement = (
 
 export type Genre = {
     id: number;
+    name: string;
+};
+
+export type Language = {
+    englishName: string;
+    iso_639_1: string;
+    name: string;
+};
+
+export type ProductionCountryElement = {
+    iso_3166_1: string;
     name: string;
 };
 

@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     content: {
         paddingVertical: spacing.medium,
         paddingRight: spacing.medium,
-        flexShrink: 1,
     },
     title: {
         fontSize: 16,
@@ -61,6 +60,19 @@ const styles = StyleSheet.create({
         color: themeColor.primary,
         fontSize: 12,
         marginLeft: spacing.tiny,
+    },
+    genreTag: {
+        borderRadius: innerRadius,
+        backgroundColor: themeColor.background,
+        paddingHorizontal: spacing.small,
+    },
+    genreTagText: {
+        fontSize: 10,
+        color: themeColor.subtext,
+    },
+    genreList: {
+        marginRight: spacing.small,
+        marginBottom: paddingCard,
     },
     navigationIconButton: {
         margin: 0,
