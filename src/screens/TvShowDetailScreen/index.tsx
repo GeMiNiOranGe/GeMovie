@@ -9,13 +9,25 @@ import {
   View,
 } from 'react-native';
 
-import { RootScreenProps, TvShowDetailScreenState } from '@shared/types';
+import {
+  RootScreenProps,
+  TvShowDetailScreenState,
+  LabelProps,
+  Variant,
+} from '@shared/types';
 import { TvShowService } from '@services';
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { imageSize } from '@shared/constants';
-import { ExpandableText, Label, Youtube } from '@components';
-import styles from './style';
+import { ExpandableText, Labels, Youtube } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
+import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native'; // Thêm các icon cần thiết
+import { Adult } from '@assets/icons';
+import { getFormattedDate } from '@shared/utils';
+import styles from './style';
+
+const iconSize = 16;
+const iconColor = '#000';
+const iconVariant: Variant = 'Bold';
 
 class TvShowDetailScreen extends React.Component<
   RootScreenProps<'TvShowDetailScreen'>,
@@ -41,6 +53,45 @@ class TvShowDetailScreen extends React.Component<
   public toggleModal = () => {
     this.setState(prevState => ({ modalVisible: !prevState.modalVisible }));
   };
+
+  private getLabels(): LabelProps[] {
+    const { tv } = this.state;
+    return [
+      {
+        icon: (
+          <Calendar size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+        name: 'First Air Date',
+        value: getFormattedDate(tv?.firstAirDate) || 'N/A',
+      },
+      {
+        icon: <Flag size={iconSize} color={iconColor} variant={iconVariant} />,
+        name: 'Country',
+        value: tv?.originCountry?.join(', ') || 'N/A',
+      },
+      {
+        icon: <Adult size={iconSize} color={iconColor} />,
+        name: 'Adult',
+        value: tv?.adult ? 'Yes' : 'No',
+      },
+      {
+        icon: (
+          <LanguageCircle
+            size={iconSize}
+            color={iconColor}
+            variant={iconVariant}
+          />
+        ),
+        name: 'Language',
+        value: tv?.originalLanguage?.toString() || 'N/A',
+      },
+      {
+        icon: <Star1 size={iconSize} color={iconColor} variant={iconVariant} />,
+        name: 'Popularity',
+        value: tv?.popularity?.toString() || 'N/A',
+      },
+    ];
+  }
 
   public override render() {
     const { tv, modalVisible } = this.state;
@@ -81,26 +132,9 @@ class TvShowDetailScreen extends React.Component<
             end={{ x: 0, y: 0 }}
             colors={['#FFEFBA', '#FFFFFF']}
           >
+            <Text style={styles.titleText}>{tv?.name}</Text>
             <View style={styles.titleBody}>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <Label name='Name' value={tv.name?.toString() || 'N/A'} />
-                <Label
-                  name='Country'
-                  value={tv.originCountry?.join(', ') || 'N/A'}
-                />
-                <Label
-                  name='Popularity'
-                  value={tv.popularity?.toString() || 'N/A'}
-                />
-                <Label
-                  name='Vote Average'
-                  value={tv.voteAverage?.toString() || 'N/A'}
-                />
-                <Label
-                  name='Vote Count'
-                  value={tv.voteCount?.toString() || 'N/A'}
-                />
-              </ScrollView>
+              <Labels data={this.getLabels()} />
             </View>
             <View style={styles.contentBody}>
               <Text style={styles.introText}>Introduction</Text>

@@ -1,20 +1,24 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  Text,
-  ScrollView,
-  View,
-  Image,
-  ImageBackground,
-} from 'react-native';
+import { SafeAreaView, Text, ScrollView, View, Image } from 'react-native';
 import { layout } from '@shared/themes';
 import styles from './style';
-import { CollectionDetailState, RootScreenProps } from '@shared/types';
-import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
+import {
+  CollectionDetailState,
+  RootScreenProps,
+  LabelProps,
+  Variant,
+} from '@shared/types';
+import { TMDB_BASE_IMAGE_URL } from '@config';
 import { CollectionService } from '@services';
 import { imageSize } from '@shared/constants';
-import { ExpandableText, Label, Youtube } from '@components';
+import { ExpandableText, Labels, Youtube } from '@components';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Calendar, LanguageCircle, Star1 } from 'iconsax-react-native'; // Thêm các icon cần thiết
+import { Adult } from '@assets/icons';
+
+const iconSize = 16;
+const iconColor = '#000';
+const iconVariant: Variant = 'Bold';
 
 class CollectionDetailScreen extends React.Component<
   RootScreenProps<'CollectionDetailScreen'>,
@@ -34,18 +38,6 @@ class CollectionDetailScreen extends React.Component<
       return;
     }
 
-    const collectUrl = `${TMDB_BASE_URL}/collection/${collectionId}?api_key=${TMDB_API_KEY}`;
-    fetch(collectUrl)
-      .then(response => response.json())
-      .then(collectionData => {
-        this.setState({
-          collection: collectionData,
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching collection:', error);
-      });
-
     CollectionService.getDetailAsync(collectionId).then(data =>
       this.setState({ collection: data }, () => {
         this.props.navigation.setOptions({ title: data.name });
@@ -53,8 +45,49 @@ class CollectionDetailScreen extends React.Component<
     );
   }
 
+  private getLabels(): LabelProps[] {
+    const { collection } = this.state;
+    if (!collection || !collection.parts || collection.parts.length === 0) {
+      return [];
+    }
+
+    const firstPart = collection.parts[0];
+
+    return [
+      {
+        icon: (
+          <LanguageCircle
+            size={iconSize}
+            color={iconColor}
+            variant={iconVariant}
+          />
+        ),
+        name: 'Language',
+        value: firstPart.original_language || 'N/A',
+      },
+      {
+        icon: (
+          <Calendar size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+        name: 'Release Date',
+        value: firstPart.release_date || 'N/A',
+      },
+      {
+        icon: <Star1 size={iconSize} color={iconColor} variant={iconVariant} />,
+        name: 'Popularity',
+        value: firstPart.popularity?.toString() || 'N/A',
+      },
+      {
+        icon: <Adult size={iconSize} color={iconColor} />,
+        name: '18+',
+        value: firstPart.adult ? 'Yes' : 'No',
+      },
+    ];
+  }
+
   public override render(): React.JSX.Element {
     const { collection } = this.state;
+
     if (!collection) {
       return (
         <SafeAreaView style={[styles.container, layout.center]}>
@@ -62,30 +95,31 @@ class CollectionDetailScreen extends React.Component<
         </SafeAreaView>
       );
     }
-
+    const hasParts = collection.parts && collection.parts.length > 0;
+    const firstPart = hasParts ? collection.parts[0] : null;
     return (
       <ScrollView style={styles.container}>
         <SafeAreaView style={layout.center}>
           <View style={styles.head}>
             {collection?.backdrop_path ? (
-              <ImageBackground
-                source={{
-                  uri: `${TMDB_BASE_IMAGE_URL}/w780${collection?.backdrop_path}`,
-                }}
-                resizeMode='cover'
-                blurRadius={5}
-                style={styles.backdropImage}
-              >
-                <View style={styles.overlay} />
-              </ImageBackground>
+              <>
+                <Image
+                  source={{
+                    uri: `${TMDB_BASE_IMAGE_URL}/w780${collection?.backdrop_path}`,
+                  }}
+                  resizeMode='cover'
+                  blurRadius={5}
+                  style={styles.backdropImage}
+                />
+              </>
             ) : (
-              <View style={[styles.backdropImage, layout.center]}>
-                <Icon name='picture-o' size={300} color='white' />
+              <View style={[styles.backdropImage, layout.spaceBetweenRow]}>
+                <Icon name='picture-o' size={50} color='black' />
               </View>
             )}
           </View>
           <View style={[styles.body]}>
-            <View style={[styles.informCollection]}>
+            <View style={styles.informCollection}>
               <View style={styles.containerPoster}>
                 <Image
                   style={styles.posterImage}
@@ -94,69 +128,31 @@ class CollectionDetailScreen extends React.Component<
                   }}
                 />
               </View>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <Label
-                  name='Language'
-                  value={
-                    this.state.collection?.parts[0]?.original_language || 'N/A'
-                  }
-                  style={styles.textOverlayText}
-                />
-                <Label
-                  name='Release Date'
-                  value={this.state.collection?.parts[0]?.release_date || 'N/A'}
-                  style={styles.textOverlayText}
-                />
-                <Label
-                  name='Popularity'
-                  value={
-                    this.state.collection?.parts[0].popularity?.toString() ||
-                    'N/A'
-                  }
-                  style={styles.textOverlayText}
-                />
-                <Label
-                  name='Vote Count'
-                  value={
-                    this.state.collection?.parts[0].vote_count?.toString() ||
-                    'N/A'
-                  }
-                  style={styles.textOverlayText}
-                />
-                <Label
-                  name='Vote Average'
-                  value={
-                    this.state.collection?.parts[0].vote_average?.toString() ||
-                    'N/A'
-                  }
-                  style={styles.textOverlayText}
-                />
-                <Label
-                  name='Genre'
-                  value={
-                    this.state.collection?.parts[0].genre_ids?.toString() ||
-                    'N/A'
-                  }
-                  style={styles.textOverlayText}
-                />
-                <Label
-                  name='18+'
-                  value={this.state.collection?.parts[0].adult.toString()}
-                  style={styles.textOverlayText}
-                />
-              </ScrollView>
+              {collection ? (
+                collection.backdrop_path ? (
+                  <Text style={styles.titleText}>{collection.name}</Text>
+                ) : (
+                  <Text style={styles.titlenobackground}>
+                    {collection.name}
+                  </Text>
+                )
+              ) : null}
+              <Labels data={this.getLabels()} />
             </View>
-            <View style={styles.contentBody}>
-              <Text style={styles.text}>Introduction</Text>
-              <ExpandableText
-                text={collection?.parts[0].overview || 'No overview available.'}
-                numberOfLines={3}
-                style={styles.textOverlayText}
-              />
-            </View>
-            <View>
-              <Youtube type='collection' id={collection?.parts[0].id} />
-            </View>
+            {hasParts && (
+              <View style={styles.contentBody}>
+                <Text style={styles.text}>Introduction</Text>
+                <ExpandableText
+                  text={firstPart?.overview || 'No overview available.'}
+                  numberOfLines={3}
+                />
+              </View>
+            )}
+            {hasParts && (
+              <View>
+                <Youtube type='collection' id={collection?.id} />
+              </View>
+            )}
           </View>
         </SafeAreaView>
       </ScrollView>

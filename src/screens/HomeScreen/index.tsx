@@ -22,6 +22,8 @@ import type {
   HomeScreenState,
 } from '@shared/types';
 import styles from './style';
+import { Star1, TickCircle } from 'iconsax-react-native';
+import { themeColor } from '@shared/themes';
 
 class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScreenState> {
   public override state = {
@@ -133,7 +135,11 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                   >
                     <Image
                       source={{ uri: imageUrl }}
-                      style={styles.movieThumbnail} />
+                      style={styles.movieThumbnail}
+                    />
+                    <View style={styles.percentVote}>
+                      <Star1 size={23} color={themeColor.neutral.toString()} variant='Bold'/>
+                    </View>
                   </TouchableOpacity>
                 );
               } }
@@ -169,7 +175,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                       <Image
                         source={{ uri: imageUrl }}
                         style={styles.celebrityThumbnail} />
-                      <Text style={styles.celebrityName}>{item.name}</Text>
+                      <Text style={styles.celebrityName}>{item.name} <TickCircle size={23} color={themeColor.neutral.toString()} variant='Bold'/></Text>
                     </View>
                   </TouchableOpacity>
                 );
@@ -199,7 +205,15 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                     >
                       <Image
                         source={{ uri: imageUrl }}
-                        style={styles.TvThumbnail} />
+                        style={styles.TvThumbnail}
+                      />
+                      <View style={styles.percentVote}>
+                        <Star1
+                          size='24'
+                          color={themeColor.neutral.toString()}
+                          variant='Bold'
+                        />
+                      </View>
                     </TouchableOpacity>
                   );
                 } }

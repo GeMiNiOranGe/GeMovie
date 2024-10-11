@@ -95,11 +95,21 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     TvThumbnail: {
-        width: width * 0.5,
-        height: height / 4.5,
+        width: width * 0.4,
+        height: height / 3,
         marginRight: 10,
         borderRadius: 20,
         resizeMode: 'stretch',
+    },
+    percentVote: {
+        height: 30,
+        width: 30,
+        borderRadius: 20,
+        borderWidth: 1,
+        alignItems: 'center',
+        backgroundColor: '#006633',
+        borderColor: '#006633',
+        position: 'absolute',
     },
 });
 export default styles;

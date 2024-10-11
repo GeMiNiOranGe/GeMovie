@@ -27,6 +27,13 @@ const styles = StyleSheet.create({
     body: {
         padding: 20,
     },
+    titleText: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'black',
+        bottom: 5,
+    },
     titleBody: {
         flexDirection: 'row',
         alignItems: 'center',
