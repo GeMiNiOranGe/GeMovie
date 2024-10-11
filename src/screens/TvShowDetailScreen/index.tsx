@@ -77,36 +77,28 @@ class TvShowDetailScreen extends React.Component<
           </View>
           <LinearGradient
             style={styles.body}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            colors={['#0f0c29', '#302b63', '#24243e']}
+            start={{ x: 1, y: 1 }}
+            end={{ x: 0, y: 0 }}
+            colors={['#FFEFBA', '#FFFFFF']}
           >
             <View style={styles.titleBody}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <Label
-                  name='Name'
-                  value={tv.name?.toString() || 'N/A'}
-                  style={styles.text}
-                />
+                <Label name='Name' value={tv.name?.toString() || 'N/A'} />
                 <Label
                   name='Country'
                   value={tv.originCountry?.join(', ') || 'N/A'}
-                  style={styles.text}
                 />
                 <Label
                   name='Popularity'
                   value={tv.popularity?.toString() || 'N/A'}
-                  style={styles.text}
                 />
                 <Label
                   name='Vote Average'
                   value={tv.voteAverage?.toString() || 'N/A'}
-                  style={styles.text}
                 />
                 <Label
                   name='Vote Count'
                   value={tv.voteCount?.toString() || 'N/A'}
-                  style={styles.text}
                 />
               </ScrollView>
             </View>
@@ -115,7 +107,6 @@ class TvShowDetailScreen extends React.Component<
               <ExpandableText
                 text={tv.overview || 'No overview available.'}
                 numberOfLines={3}
-                style={styles.expandText}
               />
             </View>
             <View style={styles.youtubeContainer}>
