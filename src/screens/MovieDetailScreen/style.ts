@@ -73,9 +73,6 @@ const styles = StyleSheet.create({
     labelBox: {
         marginBottom: spacing.small,
     },
-    labelContentList: {
-        paddingHorizontal: spacing.large,
-    },
     introductionBox: {
         marginBottom: 24,
     },

@@ -30,7 +30,7 @@ import type {
   Variant,
 } from '@shared/types';
 import { getFormattedDate } from '@shared/utils';
-import { ExpandableText, Label, Youtube } from '@components';
+import { ExpandableText, Labels, Youtube } from '@components';
 import { layout, themeColor } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import styles from './style';
@@ -50,7 +50,6 @@ class MovieDetailScreen extends React.Component<
     };
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
-    this.renderLabelItem = this.renderLabelItem.bind(this);
   }
 
   public override componentDidMount(): void {
@@ -77,23 +76,6 @@ class MovieDetailScreen extends React.Component<
       >
         {item.name}
       </Chip>
-    );
-  }
-
-  private renderLabelItem({
-    item,
-    index,
-  }: ListRenderItemInfo<LabelProps>): React.JSX.Element {
-    const marginRight =
-      index === this.getLabels().length - 1 ? 0 : spacing.extraLarge;
-
-    return (
-      <Label
-        style={{ marginRight }}
-        icon={item.icon}
-        name={item.name}
-        value={item.value}
-      />
     );
   }
 
@@ -211,13 +193,7 @@ class MovieDetailScreen extends React.Component<
             </View>
 
             <View style={[layout.itemsCenter, styles.labelBox]}>
-              <FlatList
-                contentContainerStyle={styles.labelContentList}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={this.getLabels()}
-                renderItem={this.renderLabelItem}
-              />
+              <Labels data={this.getLabels()} />
             </View>
 
             <View style={styles.introductionBox}>
