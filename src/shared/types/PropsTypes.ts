@@ -7,6 +7,9 @@ import type {
     ColorValue,
     GestureResponderEvent,
     ListRenderItem,
+    StyleProp,
+    TextStyle,
+    ViewStyle,
 } from 'react-native';
 
 import type { SearchElement, VideoElementBase } from '@shared/types';
@@ -55,16 +58,25 @@ export type SearchCardProps<T extends SearchElement> = {
 };
 
 export type LabelProps = {
-    name?: string;
-    value?: string | undefined;
+    style?: StyleProp<ViewStyle> | undefined;
+    nameStyle?: StyleProp<TextStyle> | undefined;
+    valueStyle?: StyleProp<TextStyle> | undefined;
+    iconStyle?: StyleProp<ViewStyle> | undefined;
+    name: string;
+    value: string;
     icon?: JSX.Element | undefined;
-    style?: object;
+};
+
+export type LabelsProps = {
+    style?: StyleProp<ViewStyle> | undefined;
+    contentStyle?: StyleProp<ViewStyle> | undefined;
+    distanceBetweenLabels?: number | undefined;
+    data: LabelProps[];
 };
 
 export type ExpandableTextProps = {
     text: string;
-    numberOfLines: number;
-    style?: object;
+    numberOfLines?: number | undefined;
 };
 
 export type IconProps = {

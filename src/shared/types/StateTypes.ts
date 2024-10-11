@@ -37,6 +37,7 @@ export type TvShowDetailScreenState = {
 
 export type ExpandableTextState = {
     isExpand: boolean;
+    isShowReadButton: boolean;
 };
 
 export type CompanyDetailScreenState = {

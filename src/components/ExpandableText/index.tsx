@@ -1,10 +1,21 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Pressable, Text } from 'react-native';
+import { ArrowDown2, ArrowUp2 } from 'iconsax-react-native';
+import ReadMore from '@fawazahmed/react-native-read-more';
 
-import { ExpandableTextProps, ExpandableTextState } from '@shared/types';
+import {
+  ExpandableTextProps,
+  ExpandableTextState,
+  Variant,
+} from '@shared/types';
+import { layout, themeColor } from '@shared/themes';
 import styles from './style';
 
-class ExpandableText extends React.Component<
+const iconSize = 16;
+const iconColor: string = themeColor.accent.light.toString();
+const iconVariant: Variant = 'Bold';
+
+class ExpandableText extends React.PureComponent<
   ExpandableTextProps,
   ExpandableTextState
 > {
@@ -12,31 +23,78 @@ class ExpandableText extends React.Component<
     super(props);
 
     this.state = {
-      isExpand: false,
+      isExpand: true,
+      isShowReadButton: false,
     };
 
-    this.toggleExpansion = this.toggleExpansion.bind(this);
+    this.onReady = this.onReady.bind(this);
+    this.onPress = this.onPress.bind(this);
+    this.onSeeMore = this.onSeeMore.bind(this);
+    this.onSeeLess = this.onSeeLess.bind(this);
   }
 
-  private toggleExpansion(): void {
+  private renderReadMore(): React.JSX.Element {
+    return (
+      <Pressable
+        style={[layout.row, layout.center, styles.toggleBox]}
+        onPress={() => this.setState({ isExpand: false })}
+      >
+        <Text style={styles.toggleText}>View more</Text>
+
+        <ArrowDown2 size={iconSize} color={iconColor} variant={iconVariant} />
+      </Pressable>
+    );
+  }
+
+  private renderReadLess(): React.JSX.Element {
+    return (
+      <Pressable
+        style={[layout.row, layout.center, styles.toggleBox]}
+        onPress={() => this.setState({ isExpand: true })}
+      >
+        <Text style={styles.toggleText}>View less</Text>
+
+        <ArrowUp2 size={iconSize} color={iconColor} variant={iconVariant} />
+      </Pressable>
+    );
+  }
+
+  private onReady({ canExpand }: { canExpand: boolean }) {
+    canExpand && this.setState({ isShowReadButton: true });
+  }
+
+  private onPress() {
     this.setState({ isExpand: !this.state.isExpand });
+  }
+
+  private onSeeMore() {
+    this.setState({ isExpand: false });
+  }
+
+  private onSeeLess() {
+    this.setState({ isExpand: true });
   }
 
   public override render(): React.JSX.Element {
     return (
-      <View>
-        <Text
-          numberOfLines={this.state.isExpand ? 0 : this.props.numberOfLines}
-          style={[styles.text, this.props.style]}
+      <>
+        <ReadMore
+          style={styles.text}
+          numberOfLines={this.props.numberOfLines}
+          collapsed={this.state.isExpand}
+          seeMoreText=''
+          seeLessText=''
+          onReady={this.onReady}
+          onPress={this.onPress}
+          onSeeMore={this.onSeeMore}
+          onSeeLess={this.onSeeLess}
         >
           {this.props.text}
-        </Text>
-        <TouchableOpacity onPress={this.toggleExpansion}>
-          <Text style={styles.toggleText}>
-            {this.state.isExpand ? 'Show Less' : 'Show More'}
-          </Text>
-        </TouchableOpacity>
-      </View>
+        </ReadMore>
+
+        {this.state.isShowReadButton &&
+          (this.state.isExpand ? this.renderReadMore() : this.renderReadLess())}
+      </>
     );
   }
 }

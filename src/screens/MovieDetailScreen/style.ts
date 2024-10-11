@@ -4,7 +4,7 @@ import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
 import { themeColor } from '@shared/themes';
 
-const imageDimensions = calculateImageDimensions(185, 2, 3);
+const imageDimensions = calculateImageDimensions(160, 2, 3);
 
 const styles = StyleSheet.create({
     container: {
@@ -13,38 +13,68 @@ const styles = StyleSheet.create({
     backdrop: {
         height: '50%',
     },
-    posterBox: {},
+    posterBox: {
+        marginVertical: 16,
+    },
+    posterNotFound: {
+        backgroundColor: themeColor.background,
+    },
     poster: {
         borderRadius: 12,
         ...imageDimensions,
     },
     titleBox: {
         alignItems: 'center',
-        marginBottom: 24,
+        marginBottom: spacing.small,
     },
     title: {
         fontSize: 24,
-        color: 'black',
+        color: themeColor.text,
         textAlign: 'center',
     },
     text: {
         fontSize: 16,
-        color: 'black',
+        color: themeColor.text,
     },
-    introductionBox: {
-        marginBottom: 24,
+    notFoundText: {
+        fontSize: 12,
+        color: themeColor.text,
+        marginTop: spacing.small,
+    },
+    genreBox: {
+        marginBottom: spacing.small,
+    },
+    genre: {
+        fontSize: 12,
+        color: themeColor.text,
+        marginVertical: 4,
+        marginLeft: 12,
+        marginRight: 12,
+    },
+    genreContentList: {
+        paddingHorizontal: spacing.large,
+    },
+    genreChip: {
+        borderRadius: 1000,
+        backgroundColor: themeColor.background,
+    },
+    ratingBox: {
+        marginBottom: spacing.large,
+    },
+    rating: {
+        fontSize: 16,
+        color: themeColor.accent.dark,
+        fontWeight: 'bold',
+        marginLeft: spacing.tiny,
     },
     content: {
         backgroundColor: themeColor.primary,
     },
-    linearGradient: {
-        height: 320,
+    labelBox: {
+        marginBottom: spacing.small,
     },
-    scrollContainer: {
-        flexGrow: 1,
-    },
-    scrollLabel: {
-        paddingHorizontal: spacing.large,
+    introductionBox: {
+        marginBottom: 24,
     },
 });
 
