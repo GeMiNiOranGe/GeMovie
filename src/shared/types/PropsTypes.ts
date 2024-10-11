@@ -52,13 +52,20 @@ export type SearchCardProps<T extends SearchElement> = {
 };
 
 export type LabelProps = {
-    style?: StyleProp<ViewStyle>;
-    nameStyle?: StyleProp<TextStyle>;
-    valueStyle?: StyleProp<TextStyle>;
-    iconStyle?: StyleProp<ViewStyle>;
+    style?: StyleProp<ViewStyle> | undefined;
+    nameStyle?: StyleProp<TextStyle> | undefined;
+    valueStyle?: StyleProp<TextStyle> | undefined;
+    iconStyle?: StyleProp<ViewStyle> | undefined;
     name: string;
     value: string;
     icon?: JSX.Element | undefined;
+};
+
+export type LabelsProps = {
+    style?: StyleProp<ViewStyle> | undefined;
+    contentStyle?: StyleProp<ViewStyle> | undefined;
+    distanceBetweenLabels?: number | undefined;
+    data: LabelProps[];
 };
 
 export type ExpandableTextProps = {

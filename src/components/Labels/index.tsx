@@ -1,22 +1,10 @@
 import React from 'react';
-import {
-  FlatList,
-  StyleProp,
-  ViewStyle,
-  type ListRenderItemInfo,
-} from 'react-native';
+import { FlatList, type ListRenderItemInfo } from 'react-native';
 
 import { Label } from '@components';
-import type { LabelProps } from '@shared/types';
+import type { LabelProps, LabelsProps } from '@shared/types';
 import { spacing } from '@shared/constants';
 import styles from './style';
-
-export type LabelsProps = {
-  style?: StyleProp<ViewStyle> | undefined;
-  contentStyle?: StyleProp<ViewStyle> | undefined;
-  distanceBetweenLabels?: number | undefined;
-  data: LabelProps[];
-};
 
 class Labels extends React.PureComponent<LabelsProps> {
   public constructor(props: LabelsProps) {
