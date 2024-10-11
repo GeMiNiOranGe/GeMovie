@@ -18,13 +18,13 @@ class Label extends React.PureComponent<LabelProps> {
             </View>
           )}
 
-          <Text style={[styles.text, this.props.nameStyle]}>
+          <Text style={[styles.name, this.props.nameStyle]}>
             {this.props.name}
           </Text>
         </View>
 
         {this.props.value && (
-          <Text style={[styles.text, this.props.valueStyle]}>
+          <Text style={[styles.value, this.props.valueStyle]}>
             {this.props.value}
           </Text>
         )}

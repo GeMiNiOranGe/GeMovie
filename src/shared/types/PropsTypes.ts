@@ -57,7 +57,7 @@ export type LabelProps = {
     valueStyle?: StyleProp<TextStyle>;
     iconStyle?: StyleProp<ViewStyle>;
     name: string;
-    value?: string | undefined;
+    value: string;
     icon?: JSX.Element | undefined;
 };
 

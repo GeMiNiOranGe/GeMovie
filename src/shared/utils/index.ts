@@ -18,16 +18,22 @@ import {
     toPersonElement,
 } from '@shared/utils';
 
-export function getFormattedDate(date?: Date): string | undefined {
-    return date?.toDateString() === 'Invalid Date'
+export function getFormattedDate(date?: Date): string {
+    if (!date) {
+        return 'Unknown';
+    }
+
+    return date.toDateString() === 'Invalid Date'
         ? 'Unknown'
-        : date?.toDateString();
+        : date.toDateString();
 }
 
-export function getFormattedFullYear(date?: Date): string | number | undefined {
-    return date?.toString() === 'Invalid Date'
-        ? 'Unknown'
-        : date?.getFullYear();
+export function getFormattedFullYear(date?: Date): string | number {
+    if (!date) {
+        return 'Unknown';
+    }
+
+    return date.toString() === 'Invalid Date' ? 'Unknown' : date.getFullYear();
 }
 
 export function getFormattedVoteAverage(voteAverage: number): string | number {

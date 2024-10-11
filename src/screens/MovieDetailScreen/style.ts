@@ -4,7 +4,7 @@ import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
 import { themeColor } from '@shared/themes';
 
-const imageDimensions = calculateImageDimensions(184, 2, 3);
+const imageDimensions = calculateImageDimensions(160, 2, 3);
 
 const styles = StyleSheet.create({
     container: {
@@ -70,10 +70,10 @@ const styles = StyleSheet.create({
     content: {
         backgroundColor: themeColor.primary,
     },
-    scrollContainer: {
-        flexGrow: 1,
+    labelBox: {
+        marginBottom: spacing.small,
     },
-    scrollLabel: {
+    labelContentList: {
         paddingHorizontal: spacing.large,
     },
     introductionBox: {

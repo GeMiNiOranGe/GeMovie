@@ -24,6 +24,7 @@ import { Adult } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
 import type {
   Genre,
+  LabelProps,
   MovieDetailScreenState,
   RootScreenProps,
   Variant,
@@ -35,7 +36,7 @@ import { spacing } from '@shared/constants';
 import styles from './style';
 
 const iconSize = 16;
-const iconColor = themeColor.text.toString();
+const iconColor = themeColor.subtext.toString();
 const iconVariant: Variant = 'Bold';
 
 class MovieDetailScreen extends React.Component<
@@ -49,6 +50,7 @@ class MovieDetailScreen extends React.Component<
     };
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
+    this.renderLabelItem = this.renderLabelItem.bind(this);
   }
 
   public override componentDidMount(): void {
@@ -61,7 +63,10 @@ class MovieDetailScreen extends React.Component<
     );
   }
 
-  private renderGenreItem({ item, index }: ListRenderItemInfo<Genre>) {
+  private renderGenreItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Genre>): React.JSX.Element {
     const marginRight =
       index === (this.state.movie?.genres.length || 0) - 1 ? 0 : spacing.small;
 
@@ -73,6 +78,63 @@ class MovieDetailScreen extends React.Component<
         {item.name}
       </Chip>
     );
+  }
+
+  private renderLabelItem({
+    item,
+    index,
+  }: ListRenderItemInfo<LabelProps>): React.JSX.Element {
+    const marginRight =
+      index === this.getLabels().length - 1 ? 0 : spacing.extraLarge;
+
+    return (
+      <Label
+        style={{ marginRight }}
+        icon={item.icon}
+        name={item.name}
+        value={item.value}
+      />
+    );
+  }
+
+  private getLabels(): LabelProps[] {
+    return [
+      {
+        icon: (
+          <Calendar size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+        name: 'Release date',
+        value: getFormattedDate(this.state.movie?.releaseDate),
+      },
+      {
+        icon: <Clock size={iconSize} color={iconColor} variant={iconVariant} />,
+        name: 'Length',
+        value: `${this.state.movie?.runtime} minutes`,
+      },
+      {
+        icon: <Adult size={iconSize} color={iconColor} />,
+        name: 'Adult',
+        value: this.state.movie?.adult ? 'Yes' : 'No',
+      },
+      {
+        icon: (
+          <Moneys size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+        name: 'Budget',
+        value: `${this.state.movie?.budget.toLocaleString()} USD`,
+      },
+      {
+        icon: (
+          <MoneyRecive
+            size={iconSize}
+            color={iconColor}
+            variant={iconVariant}
+          />
+        ),
+        name: 'Revenue',
+        value: `${this.state.movie?.revenue.toLocaleString()} USD`,
+      },
+    ];
   }
 
   public override render(): React.JSX.Element {
@@ -148,65 +210,15 @@ class MovieDetailScreen extends React.Component<
               </Text>
             </View>
 
-            <ScrollView
-              contentContainerStyle={styles.scrollLabel}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            >
-              <Label
-                icon={
-                  <Calendar
-                    size={iconSize}
-                    color={iconColor}
-                    variant={iconVariant}
-                  />
-                }
-                name='Release date'
-                value={getFormattedDate(this.state.movie?.releaseDate)}
+            <View style={[layout.itemsCenter, styles.labelBox]}>
+              <FlatList
+                contentContainerStyle={styles.labelContentList}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={this.getLabels()}
+                renderItem={this.renderLabelItem}
               />
-
-              <Label
-                icon={
-                  <Clock
-                    size={iconSize}
-                    color={iconColor}
-                    variant={iconVariant}
-                  />
-                }
-                name='Length'
-                value={`${this.state.movie?.runtime} minutes`}
-              />
-
-              <Label
-                icon={<Adult size={iconSize} color={iconColor} />}
-                name='Adult'
-                value={this.state.movie?.adult ? 'Yes' : 'No'}
-              />
-
-              <Label
-                icon={
-                  <Moneys
-                    size={iconSize}
-                    color={iconColor}
-                    variant={iconVariant}
-                  />
-                }
-                name='Budget'
-                value={`${this.state.movie?.budget.toLocaleString()} USD`}
-              />
-
-              <Label
-                icon={
-                  <MoneyRecive
-                    size={iconSize}
-                    color={iconColor}
-                    variant={iconVariant}
-                  />
-                }
-                name='Revenue'
-                value={`${this.state.movie?.revenue.toLocaleString()} USD`}
-              />
-            </ScrollView>
+            </View>
 
             <View style={styles.introductionBox}>
               <Text style={styles.text}>Introduction</Text>

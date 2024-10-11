@@ -6,9 +6,12 @@ import { themeColor } from '@shared/themes';
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        marginHorizontal: spacing.large,
     },
-    text: {
+    name: {
+        fontSize: 12,
+        color: themeColor.subtext,
+    },
+    value: {
         fontSize: 14,
         color: themeColor.text,
     },
