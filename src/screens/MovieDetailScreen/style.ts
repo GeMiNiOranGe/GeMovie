@@ -33,8 +33,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     text: {
-        fontSize: 16,
+        fontSize: 14,
         color: themeColor.text,
+    },
+    subtext: {
+        fontSize: 14,
+        color: themeColor.subtext,
     },
     notFoundText: {
         fontSize: 12,
@@ -71,10 +75,10 @@ const styles = StyleSheet.create({
         backgroundColor: themeColor.primary,
     },
     labelBox: {
-        marginBottom: spacing.small,
+        marginBottom: spacing.huge,
     },
-    introductionBox: {
-        marginBottom: 24,
+    sectionItem: {
+        marginTop: 8,
     },
 });
 

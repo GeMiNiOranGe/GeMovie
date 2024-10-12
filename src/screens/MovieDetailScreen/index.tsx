@@ -29,8 +29,8 @@ import type {
   RootScreenProps,
   Variant,
 } from '@shared/types';
-import { getFormattedDate } from '@shared/utils';
-import { ExpandableText, Labels, Youtube } from '@components';
+import { getFormattedDate, getFormattedVoteAverage } from '@shared/utils';
+import { ExpandableText, Labels, Section, Youtube } from '@components';
 import { layout, themeColor } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import styles from './style';
@@ -157,7 +157,7 @@ class MovieDetailScreen extends React.Component<
                 <View
                   style={[layout.center, styles.poster, styles.posterNotFound]}
                 >
-                  <ImageIcon size='60' color={themeColor.text.toString()} />
+                  <ImageIcon size='48' color={themeColor.text.toString()} />
                   <Text style={styles.notFoundText}>Poster not found</Text>
                 </View>
               )}
@@ -188,7 +188,8 @@ class MovieDetailScreen extends React.Component<
               />
 
               <Text style={styles.rating}>
-                {this.state.movie?.voteAverage} ({this.state.movie?.voteCount})
+                {getFormattedVoteAverage(this.state.movie?.voteAverage)} (
+                {this.state.movie?.voteCount})
               </Text>
             </View>
 
@@ -196,21 +197,33 @@ class MovieDetailScreen extends React.Component<
               <Labels data={this.getLabels()} />
             </View>
 
-            <View style={styles.introductionBox}>
-              <Text style={styles.text}>Introduction</Text>
-
+            <Section title='Storyline'>
               <ExpandableText
                 text={`${this.state.movie?.overview}`}
                 numberOfLines={3}
               />
 
-              <Text style={styles.text}>
-                Homepage: {this.state.movie?.homepage}
+              <Text style={[styles.text, styles.sectionItem]} numberOfLines={1}>
+                Tagline
+              </Text>
+              <Text style={styles.subtext} numberOfLines={1}>
+                {this.state.movie?.tagline}
               </Text>
 
-              <View>
-                <Youtube type='movie' id={this.state.movie?.id} />
-              </View>
+              <Text style={[styles.text, styles.sectionItem]} numberOfLines={1}>
+                Genres
+              </Text>
+              <Text style={styles.subtext} numberOfLines={1}>
+                {this.state.movie?.genres.map(genre => genre.name).join(', ')}
+              </Text>
+            </Section>
+
+            <Text style={styles.text}>
+              Homepage: {this.state.movie?.homepage}
+            </Text>
+
+            <View>
+              <Youtube type='movie' id={this.state.movie?.id} />
             </View>
           </View>
         </ScrollView>

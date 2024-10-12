@@ -36,8 +36,12 @@ export function getFormattedFullYear(date?: Date): string | number {
     return date.toString() === 'Invalid Date' ? 'Unknown' : date.getFullYear();
 }
 
-export function getFormattedVoteAverage(voteAverage: number): string | number {
-    return voteAverage === 10 ? voteAverage : voteAverage.toFixed(1);
+export function getFormattedVoteAverage(voteAverage?: number): string {
+    if (!voteAverage) {
+        return '0.0';
+    }
+
+    return voteAverage === 10 ? voteAverage.toString() : voteAverage.toFixed(1);
 }
 
 export function getFormattedGender(genderNumber: number): string {
