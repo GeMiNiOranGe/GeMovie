@@ -4,8 +4,8 @@ import { themeColor } from '@shared/themes';
 import { spacing } from '@shared/constants';
 
 const styles = StyleSheet.create({
-    container: {
-        marginHorizontal: spacing.large,
+    section: {
+        paddingHorizontal: spacing.large,
         marginBottom: spacing.extraLarge,
     },
     titleBox: {
@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
         borderRadius: 1000,
         marginRight: spacing.small,
         backgroundColor: themeColor.secondary,
+    },
+    sectionDivider: {
+        height: 1,
+        marginVertical: 8,
+        backgroundColor: themeColor.subtext,
     },
 });
 

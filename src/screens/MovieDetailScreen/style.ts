@@ -77,9 +77,6 @@ const styles = StyleSheet.create({
     labelBox: {
         marginBottom: spacing.huge,
     },
-    sectionItem: {
-        marginTop: 8,
-    },
 });
 
 export default styles;

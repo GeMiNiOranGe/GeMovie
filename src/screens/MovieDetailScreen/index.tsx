@@ -203,14 +203,18 @@ class MovieDetailScreen extends React.Component<
                 numberOfLines={3}
               />
 
-              <Text style={[styles.text, styles.sectionItem]} numberOfLines={1}>
+              <Section.Divider />
+
+              <Text style={styles.text} numberOfLines={1}>
                 Tagline
               </Text>
               <Text style={styles.subtext} numberOfLines={1}>
                 {this.state.movie?.tagline}
               </Text>
 
-              <Text style={[styles.text, styles.sectionItem]} numberOfLines={1}>
+              <Section.Divider />
+
+              <Text style={styles.text} numberOfLines={1}>
                 Genres
               </Text>
               <Text style={styles.subtext} numberOfLines={1}>

@@ -41,8 +41,8 @@ class Labels extends React.PureComponent<LabelsProps> {
       <FlatList
         style={this.props.style}
         contentContainerStyle={[
-          this.props.contentStyle,
           styles.labelContentList,
+          this.props.contentStyle,
         ]}
         horizontal
         showsHorizontalScrollIndicator={false}
