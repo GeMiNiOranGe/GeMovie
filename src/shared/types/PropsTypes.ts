@@ -79,6 +79,18 @@ export type ExpandableTextProps = {
     numberOfLines?: number | undefined;
 };
 
+export type SectionProps = {
+    style?: StyleProp<ViewStyle> | undefined;
+    title: string;
+    children?: React.ReactNode | undefined;
+};
+
+export type SectionLabelProps = {
+    style?: StyleProp<ViewStyle> | undefined;
+    name: string;
+    value: string;
+};
+
 export type IconProps = {
     size?: number | undefined;
     color?: ColorValue | number | undefined;

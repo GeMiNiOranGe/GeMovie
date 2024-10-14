@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         marginBottom: spacing.tiny,
     },
     title: {
-        fontSize: 16,
+        fontSize: 18,
         color: themeColor.text,
         fontWeight: 'bold',
     },
@@ -24,8 +24,16 @@ const styles = StyleSheet.create({
     },
     sectionDivider: {
         height: 1,
-        marginVertical: 8,
+        marginVertical: spacing.small,
         backgroundColor: themeColor.subtext,
+    },
+    sectionLabelName: {
+        fontSize: 16,
+        color: themeColor.text,
+    },
+    sectionLabelValue: {
+        fontSize: 14,
+        color: themeColor.subtext,
     },
 });
 

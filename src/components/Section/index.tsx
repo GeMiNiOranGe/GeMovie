@@ -1,28 +1,27 @@
 import React from 'react';
-import { View, Text, StyleProp, ViewStyle } from 'react-native';
+import { View, Text } from 'react-native';
 
 import SectionDivider from './SectionDivider';
+import SectionLabel from './SectionLabel';
 import { layout } from '@shared/themes';
+import type { SectionProps } from '@shared/types';
 import styles from './style';
-
-export type SectionProps = {
-  style?: StyleProp<ViewStyle> | undefined;
-  title: string;
-  children?: React.ReactNode | undefined;
-};
 
 class Section extends React.PureComponent<SectionProps> {
   public static Divider: typeof SectionDivider;
+  public static Label: typeof SectionLabel;
 
   public override render(): React.JSX.Element {
     return (
       <View style={[styles.section, this.props.style]}>
         <View style={[layout.row, styles.titleBox]}>
           <View style={styles.accent} />
+
           <Text style={styles.title} numberOfLines={1}>
             {this.props.title}
           </Text>
         </View>
+
         <>{this.props.children}</>
       </View>
     );
@@ -30,5 +29,6 @@ class Section extends React.PureComponent<SectionProps> {
 }
 
 Section.Divider = SectionDivider;
+Section.Label = SectionLabel;
 
 export default Section;

@@ -205,21 +205,19 @@ class MovieDetailScreen extends React.Component<
 
               <Section.Divider />
 
-              <Text style={styles.text} numberOfLines={1}>
-                Tagline
-              </Text>
-              <Text style={styles.subtext} numberOfLines={1}>
-                {this.state.movie?.tagline}
-              </Text>
+              <Section.Label
+                name='Tagline'
+                value={`${this.state.movie?.tagline}`}
+              />
 
               <Section.Divider />
 
-              <Text style={styles.text} numberOfLines={1}>
-                Genres
-              </Text>
-              <Text style={styles.subtext} numberOfLines={1}>
-                {this.state.movie?.genres.map(genre => genre.name).join(', ')}
-              </Text>
+              <Section.Label
+                name='Genres'
+                value={`${this.state.movie?.genres
+                  .map(genre => genre.name)
+                  .join(', ')}`}
+              />
             </Section>
 
             <Text style={styles.text}>
