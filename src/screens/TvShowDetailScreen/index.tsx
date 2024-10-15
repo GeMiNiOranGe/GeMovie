@@ -18,7 +18,7 @@ import {
 import { TvShowService } from '@services';
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { imageSize } from '@shared/constants';
-import { ExpandableText, Labels, Youtube } from '@components';
+import { ExpandableText, Labels, Suggestion, Youtube } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native'; // Thêm các icon cần thiết
 import { Adult } from '@assets/icons';
@@ -95,7 +95,7 @@ class TvShowDetailScreen extends React.Component<
 
   public override render() {
     const { tv, modalVisible } = this.state;
-
+    const genreIds: number[] = tv?.genreIds || [];
     if (!tv) {
       return (
         <SafeAreaView style={styles.container}>
@@ -145,6 +145,9 @@ class TvShowDetailScreen extends React.Component<
             </View>
             <View style={styles.youtubeContainer}>
               {tv.id !== undefined && <Youtube type='tv' id={tv.id} />}
+            </View>
+            <View>
+              <Suggestion type='tv' id={tv.id} genre={genreIds} />
             </View>
           </LinearGradient>
 

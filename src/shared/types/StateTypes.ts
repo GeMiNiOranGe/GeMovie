@@ -6,6 +6,7 @@ import type {
     FeaturedTvShow,
     KnownFor,
     Movie,
+    MovieElement,
     Person,
     TvShowElement,
 } from '@shared/types';
@@ -76,4 +77,8 @@ export type YoutubeState = {
 export type SlideshowState = {
     currentIndex: number;
     isAutoplay: boolean;
+};
+
+export type SuggestionState = {
+    recommendItem: Array<MovieElement | TvShowElement>;
 };

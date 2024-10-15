@@ -1,10 +1,11 @@
-import { VideoElementBase, VideoGenreIds } from '@shared/types';
+import { Genre, VideoElementBase, VideoGenreIds } from '@shared/types';
 
 export type TvShowElementBase = VideoElementBase & {
     originalName: string;
     name: string;
     firstAirDate: Date;
     originCountry: string[];
+    genres: Genre[];
 };
 
 export type TvShowElement = TvShowElementBase & VideoGenreIds;
