@@ -235,6 +235,13 @@ class MovieDetailScreen extends React.Component<
 
             <Section title='Details'>
               <Section.Label
+                name='Original Title'
+                value={`${this.state.movie?.originalTitle}`}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
                 name='Release Date'
                 value={getFormattedDate(this.state.movie?.releaseDate)}
               />
@@ -249,7 +256,14 @@ class MovieDetailScreen extends React.Component<
               <Section.Divider />
 
               <Section.Label
-                name='Language spoken'
+                name='Original Language'
+                value={`${this.state.movie?.originalLanguage}`}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Language Spoken'
                 value={`${this.state.movie?.spokenLanguages
                   .map(language => language.englishName)
                   .join(', ')}`}
@@ -261,6 +275,12 @@ class MovieDetailScreen extends React.Component<
                 name='Homepage'
                 value={`${this.state.movie?.homepage}`}
               />
+
+              <Section.Divider />
+
+              <Section.Item name='Production Companies'>
+                <Text style={styles.subtext}>Production Companies</Text>
+              </Section.Item>
             </Section>
 
             <View>

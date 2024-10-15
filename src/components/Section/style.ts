@@ -35,6 +35,10 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: themeColor.subtext,
     },
+    sectionItemName: {
+        fontSize: 16,
+        color: themeColor.text,
+    },
 });
 
 export default styles;

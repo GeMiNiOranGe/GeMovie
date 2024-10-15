@@ -92,6 +92,12 @@ export type SectionLabelProps = {
     value: string;
 };
 
+export type SectionItemProps = {
+    style?: StyleProp<ViewStyle> | undefined;
+    name: string;
+    children?: React.ReactNode | undefined;
+};
+
 export type IconProps = {
     size?: number | undefined;
     color?: ColorValue | number | undefined;
