@@ -29,7 +29,11 @@ import type {
   RootScreenProps,
   Variant,
 } from '@shared/types';
-import { getFormattedDate, getFormattedVoteAverage } from '@shared/utils';
+import {
+  getFormattedDate,
+  getFormattedFullYear,
+  getFormattedVoteAverage,
+} from '@shared/utils';
 import { ExpandableText, Labels, Section, Youtube } from '@components';
 import { layout, themeColor } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -85,8 +89,8 @@ class MovieDetailScreen extends React.Component<
         icon: (
           <Calendar size={iconSize} color={iconColor} variant={iconVariant} />
         ),
-        name: 'Release date',
-        value: getFormattedDate(this.state.movie?.releaseDate),
+        name: 'Year',
+        value: getFormattedFullYear(this.state.movie?.releaseDate),
       },
       {
         icon: <Clock size={iconSize} color={iconColor} variant={iconVariant} />,
@@ -197,6 +201,15 @@ class MovieDetailScreen extends React.Component<
               <Labels data={this.getLabels()} />
             </View>
 
+            <View style={styles.synopsisBox}>
+              <Text style={styles.synopsisTitle}>Synopsis</Text>
+
+              <ExpandableText
+                text={`${this.state.movie?.overview}`}
+                seeButtonPosition='separate'
+              />
+            </View>
+
             <Section title='Storyline'>
               <ExpandableText
                 text={`${this.state.movie?.overview}`}
@@ -220,9 +233,35 @@ class MovieDetailScreen extends React.Component<
               />
             </Section>
 
-            <Text style={styles.text}>
-              Homepage: {this.state.movie?.homepage}
-            </Text>
+            <Section title='Details'>
+              <Section.Label
+                name='Release Date'
+                value={getFormattedDate(this.state.movie?.releaseDate)}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Country of Origin'
+                value={`${this.state.movie?.originCountry.join(', ')}`}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Language spoken'
+                value={`${this.state.movie?.spokenLanguages
+                  .map(language => language.englishName)
+                  .join(', ')}`}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Homepage'
+                value={`${this.state.movie?.homepage}`}
+              />
+            </Section>
 
             <View>
               <Youtube type='movie' id={this.state.movie?.id} />

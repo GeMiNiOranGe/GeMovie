@@ -72,6 +72,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: spacing.tiny,
     },
+    synopsisBox: {
+        paddingHorizontal: spacing.large,
+        marginBottom: spacing.large,
+    },
+    synopsisTitle: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: 'black',
+        paddingBottom: spacing.small,
+    },
     content: {
         backgroundColor: themeColor.primary,
     },

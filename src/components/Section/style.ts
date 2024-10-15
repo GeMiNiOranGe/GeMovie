@@ -6,10 +6,10 @@ import { spacing } from '@shared/constants';
 const styles = StyleSheet.create({
     section: {
         paddingHorizontal: spacing.large,
-        marginBottom: spacing.extraLarge,
+        marginBottom: spacing.huge,
     },
     titleBox: {
-        marginBottom: spacing.tiny,
+        marginBottom: spacing.small,
     },
     title: {
         fontSize: 18,

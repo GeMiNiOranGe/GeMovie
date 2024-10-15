@@ -28,12 +28,14 @@ export function getFormattedDate(date?: Date): string {
         : date.toDateString();
 }
 
-export function getFormattedFullYear(date?: Date): string | number {
+export function getFormattedFullYear(date?: Date): string {
     if (!date) {
         return 'Unknown';
     }
 
-    return date.toString() === 'Invalid Date' ? 'Unknown' : date.getFullYear();
+    return date.toString() === 'Invalid Date'
+        ? 'Unknown'
+        : `${date.getFullYear()}`;
 }
 
 export function getFormattedVoteAverage(voteAverage?: number): string {
