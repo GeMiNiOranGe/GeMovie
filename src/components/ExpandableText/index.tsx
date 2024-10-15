@@ -3,7 +3,7 @@ import { Pressable, Text } from 'react-native';
 import { ArrowDown2, ArrowUp2 } from 'iconsax-react-native';
 import ReadMore from '@fawazahmed/react-native-read-more';
 
-import {
+import type {
   ExpandableTextProps,
   ExpandableTextState,
   Variant,
@@ -14,6 +14,9 @@ import styles from './style';
 const iconSize = 16;
 const iconColor: string = themeColor.accent.light.toString();
 const iconVariant: Variant = 'Bold';
+
+const seeMoreText = 'View more';
+const seeLessText = 'View less';
 
 class ExpandableText extends React.PureComponent<
   ExpandableTextProps,
@@ -39,7 +42,7 @@ class ExpandableText extends React.PureComponent<
         style={[layout.row, layout.center, styles.toggleBox]}
         onPress={() => this.setState({ isExpand: false })}
       >
-        <Text style={styles.toggleText}>View more</Text>
+        <Text style={styles.toggleText}>{seeMoreText}</Text>
 
         <ArrowDown2 size={iconSize} color={iconColor} variant={iconVariant} />
       </Pressable>
@@ -52,7 +55,7 @@ class ExpandableText extends React.PureComponent<
         style={[layout.row, layout.center, styles.toggleBox]}
         onPress={() => this.setState({ isExpand: true })}
       >
-        <Text style={styles.toggleText}>View less</Text>
+        <Text style={styles.toggleText}>{seeLessText}</Text>
 
         <ArrowUp2 size={iconSize} color={iconColor} variant={iconVariant} />
       </Pressable>
@@ -76,25 +79,46 @@ class ExpandableText extends React.PureComponent<
   }
 
   public override render(): React.JSX.Element {
-    return (
-      <>
-        <ReadMore
-          style={styles.text}
-          numberOfLines={this.props.numberOfLines}
-          collapsed={this.state.isExpand}
-          seeMoreText=''
-          seeLessText=''
-          onReady={this.onReady}
-          onPress={this.onPress}
-          onSeeMore={this.onSeeMore}
-          onSeeLess={this.onSeeLess}
-        >
-          {this.props.text}
-        </ReadMore>
+    if (this.props.seeButtonPosition === 'separate') {
+      return (
+        <>
+          <ReadMore
+            style={styles.text}
+            numberOfLines={this.props.numberOfLines}
+            collapsed={this.state.isExpand}
+            seeMoreText=''
+            seeLessText=''
+            onReady={this.onReady}
+            onPress={this.onPress}
+            onSeeMore={this.onSeeMore}
+            onSeeLess={this.onSeeLess}
+          >
+            {this.props.text}
+          </ReadMore>
 
-        {this.state.isShowReadButton &&
-          (this.state.isExpand ? this.renderReadMore() : this.renderReadLess())}
-      </>
+          {this.state.isShowReadButton &&
+            (this.state.isExpand
+              ? this.renderReadMore()
+              : this.renderReadLess())}
+        </>
+      );
+    }
+
+    return (
+      <ReadMore
+        style={styles.text}
+        numberOfLines={this.props.numberOfLines}
+        collapsed={this.state.isExpand}
+        seeMoreText={seeMoreText}
+        seeLessText={seeLessText}
+        seeMoreStyle={styles.toggleButton}
+        seeLessStyle={styles.toggleButton}
+        onPress={this.onPress}
+        onSeeMore={this.onSeeMore}
+        onSeeLess={this.onSeeLess}
+      >
+        {this.props.text}
+      </ReadMore>
     );
   }
 }

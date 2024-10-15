@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
         color: themeColor.accent.light,
         marginRight: spacing.tiny,
     },
+    toggleButton: {
+        fontWeight: 'bold',
+        color: themeColor.accent.light,
+    },
 });
 
 export default styles;

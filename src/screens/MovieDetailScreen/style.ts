@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     titleBox: {
         alignItems: 'center',
         marginBottom: spacing.small,
+        paddingHorizontal: spacing.large,
     },
     title: {
         fontSize: 24,

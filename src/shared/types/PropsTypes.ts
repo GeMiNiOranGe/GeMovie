@@ -75,6 +75,7 @@ export type LabelsProps = {
 };
 
 export type ExpandableTextProps = {
+    seeButtonPosition?: 'withText' | 'separate';
     text: string;
     numberOfLines?: number | undefined;
 };
