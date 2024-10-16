@@ -1,13 +1,10 @@
 import { Genre, TvShowElement } from '@shared/types';
 
 export function toTvShowElement(val: any): TvShowElement {
-    const genreIds: number[] =
-        val.genres?.map((genre: Genre) => genre.id) || [];
-
     return {
         adult: val.adult,
         backdropPath: val['backdrop_path'] ?? undefined,
-        genreIds: genreIds,
+        genreIds: val['genre_ids'],
         id: val.id,
         originCountry: val['origin_country'],
         originalLanguage: val['original_language'],
