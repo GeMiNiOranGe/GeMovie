@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+const { width, height } = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
     container: {
@@ -19,8 +20,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     itemImage: {
-        width: 100,
-        height: 150,
+        width: width * 0.3,
+        height: height / 4,
         borderRadius: 8,
     },
     placeholderImage: {

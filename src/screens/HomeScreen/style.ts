@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     TvThumbnail: {
-        width: width * 0.4,
-        height: height / 3,
+        width: width * 0.3,
+        height: height / 4,
         marginRight: 10,
         borderRadius: 20,
         resizeMode: 'stretch',

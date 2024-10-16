@@ -2,21 +2,21 @@
 import { calculateImageDimensions } from '@shared/utils';
 import { StyleSheet } from 'react-native';
 
-const imageDimensions = calculateImageDimensions(185, 2, 3);
+const imageDimensions = calculateImageDimensions(170, 2, 3);
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
     headerContainer: {
-        height: 350,
-        justifyContent: 'center',
+        height: 300,
         alignItems: 'center',
+        backgroundColor: 'white',
     },
     backgroundImage: {
         height: '100%',
         width: '100%',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
     },
     head: {
         position: 'absolute',

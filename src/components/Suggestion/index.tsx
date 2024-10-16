@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import styles from './styles';
+import { imageSize } from '@shared/constants';
 
 class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
   public constructor(props: SuggestionProps) {
@@ -24,7 +25,6 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
   protected getData = async () => {
     const { id, genre, type } = this.props;
     if (!id) {
-      console.warn('No ID provided to Suggestion component.');
       return;
     }
 
@@ -47,12 +47,14 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
             const movieItem: MovieElement = {
               ...item,
               genreIds: item.genre_ids || [],
+              posterPath: item.poster_path,
             };
             return movieItem;
           } else {
             const tvItem: TvShowElement = {
               ...item,
               genreIds: item.genre_ids || [],
+              posterPath: item.poster_path,
             };
             return tvItem;
           }
@@ -78,12 +80,13 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
 
   public renderItem = ({ item }: { item: MovieElement | TvShowElement }) => {
     if ('originalTitle' in item) {
-      // It's a MovieElement
       return (
         <TouchableOpacity key={item.id} style={styles.itemContainer}>
           {item.posterPath ? (
             <Image
-              source={{ uri: `${TMDB_BASE_IMAGE_URL}/w342${item.posterPath}` }}
+              source={{
+                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${item.posterPath}`,
+              }}
               style={styles.itemImage}
             />
           ) : (
@@ -101,7 +104,9 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
         <TouchableOpacity key={item.id} style={styles.itemContainer}>
           {item.posterPath ? (
             <Image
-              source={{ uri: `${TMDB_BASE_IMAGE_URL}/w342${item.posterPath}` }}
+              source={{
+                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${item.posterPath}`,
+              }}
               style={styles.itemImage}
             />
           ) : (

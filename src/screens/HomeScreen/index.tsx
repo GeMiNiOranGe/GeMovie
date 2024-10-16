@@ -95,20 +95,20 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
         end={{ x: 0, y: 0 }}
         colors={['#544a7d', '#ffd452']}
       >
-        <View style={styles.header}>
-          <Slideshow
-            images={upcomingMoviesImages}
-            titles={upcomingMoviesTitles}
-            releaseDates={upcomingMoviesReleaseDates}
-            movieIds={upcomingMoviesIds}
-            navigateToMovieDetail={movieId =>
-              navigation.navigate('MovieDetailScreen', {
-                movieId,
-              })
-            }
-          />
-        </View>
         <ScrollView>
+          <View style={styles.header}>
+            <Slideshow
+              images={upcomingMoviesImages}
+              titles={upcomingMoviesTitles}
+              releaseDates={upcomingMoviesReleaseDates}
+              movieIds={upcomingMoviesIds}
+              navigateToMovieDetail={movieId =>
+                navigation.navigate('MovieDetailScreen', {
+                  movieId,
+                })
+              }
+            />
+          </View>
           <View style={styles.content}>
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>Featured Today</Text>
