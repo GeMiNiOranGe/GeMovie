@@ -279,7 +279,58 @@ class MovieDetailScreen extends React.Component<
               <Section.Divider />
 
               <Section.Item name='Production Companies'>
-                <Text style={styles.subtext}>Production Companies</Text>
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={this.state.movie?.productionCompanies}
+                  renderItem={({ item, index }) => {
+                    const marginRight =
+                      index ===
+                      (this.state.movie?.productionCompanies.length || 0) - 1
+                        ? 0
+                        : 16;
+
+                    return (
+                      <View
+                        style={{
+                          width: 64,
+                          // backgroundColor: 'orange',
+                          marginRight,
+                        }}
+                      >
+                        <View
+                          style={[
+                            layout.flex1,
+                            layout.center,
+                            {
+                              // margin: 8,
+                              // backgroundColor: 'red',
+                            },
+                          ]}
+                        >
+                          <Image
+                            style={{
+                              width: 64,
+                              height: 64,
+                              resizeMode: 'contain',
+                              // backgroundColor: 'pink',
+                            }}
+                            source={{
+                              uri: URLBuilder.buildImageURL(
+                                'w154',
+                                item.logoPath,
+                              ),
+                            }}
+                          />
+                        </View>
+
+                        <Text style={styles.text} numberOfLines={2}>
+                          {item.name}
+                        </Text>
+                      </View>
+                    );
+                  }}
+                />
               </Section.Item>
             </Section>
 
