@@ -9,12 +9,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#051a2d',
         alignItems: 'center',
         width: width,
-        padding: 10,
     },
     movieThumbnail: {
-        width: width * 0.4,
-        height: height * 0.4,
-        borderRadius: 20,
+        width: 100,
+        height: height / 4,
         shadowColor: 'black',
         shadowOffset: {
             width: 0,
@@ -23,8 +21,9 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 4.65,
         elevation: 8,
-        marginHorizontal: 10,
-        marginVertical: 10,
+        marginVertical: 5,
+        marginHorizontal: 5,
+        resizeMode: 'cover',
     },
     movieList: {
         paddingTop: 10,

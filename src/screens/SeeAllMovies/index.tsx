@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   TouchableOpacity,
   Image,
   FlatList,
@@ -40,7 +39,7 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
         style={styles.container}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
-        colors={['#355C7D', '#6C5B7B', '#24243e']}
+        colors={['#0F2027', '#203A43']}
       >
         <View style={styles.movieList}>
           <FlatList
@@ -60,18 +59,9 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
                   }}
                   style={styles.movieThumbnail}
                 />
-                <View style={styles.movieItem}>
-                  <Text
-                    style={styles.movieTitle}
-                    ellipsizeMode='tail'
-                    numberOfLines={2}
-                  >
-                    {item.title}
-                  </Text>
-                </View>
               </TouchableOpacity>
             )}
-            numColumns={2}
+            numColumns={3}
           />
         </View>
       </LinearGradient>

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     content: {
         flex: 3,
         width: '100%',
-        height: '100%',
+        height: '50%',
         paddingHorizontal: 10,
         position: 'relative',
     },
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     section: {
         flex: 3.5,
         width: '100%',
-        height: '50%',
+        height: '80%',
         paddingLeft: 10,
     },
     containerSectionTitle: {
@@ -59,15 +59,16 @@ const styles = StyleSheet.create({
     sectionTitle: {
         color: 'white',
         fontSize: 18,
-        marginTop: 10,
+        marginTop: 5,
     },
     celebrityList: {
         flexDirection: 'row',
-        top: 5,
+        top: 4,
     },
     celebrityItem: {
         marginRight: 10,
         alignItems: 'center',
+        height: 100,
     },
     celebrityThumbnail: {
         width: width * 0.25,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     },
     celebrityName: {
         color: '#fff',
-        marginTop: 5,
+        marginTop: 4,
         fontSize: 15,
         textAlign: 'center',
     },
