@@ -112,5 +112,27 @@ const styles = StyleSheet.create({
         borderColor: '#006633',
         position: 'absolute',
     },
+    topRatedItemContainer: {
+        position: 'relative',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 10,
+    },
+    rankingIcon: {
+        position: 'absolute',
+        top: 6,
+        right: 80,
+        width: width * 0.3,
+        height: height / 4,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: -10,
+    },
+    rankingText: {
+        color: '#fff',
+        fontFamily: '',
+        fontSize: 50,
+        fontWeight: 'bold',
+    },
 });
 export default styles;

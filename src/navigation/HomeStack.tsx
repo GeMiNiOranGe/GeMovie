@@ -10,6 +10,7 @@ import {
   SeeAllPerson,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
+import AllTV from 'src/screens/SeeAllTV';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -35,6 +36,14 @@ class HomeStack extends React.Component {
         <Stack.Screen
           name='SeeAllPersonScreen'
           component={SeeAllPerson}
+          options={{
+            headerShown: true,
+            title: 'All',
+          }}
+        />
+        <Stack.Screen
+          name='SeeAllTV'
+          component={AllTV}
           options={{
             headerShown: true,
             title: 'All',

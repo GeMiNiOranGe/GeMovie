@@ -22,7 +22,7 @@ import type {
   HomeScreenState,
 } from '@shared/types';
 import styles from './style';
-import { Star1} from 'iconsax-react-native';
+import {Star1} from 'iconsax-react-native';
 import { themeColor } from '@shared/themes';
 
 class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScreenState> {
@@ -124,7 +124,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
               </TouchableOpacity>
             </View>
             <FlatList
-              data={movies}
+              data={movies.slice(0,10)}
               horizontal
               keyExtractor={item => item.id.toString()}
               renderItem={({ item }) => {
@@ -152,49 +152,15 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
               contentContainerStyle={styles.movieList} />
           </View>
 
-          {/* Most Popular Celebrities */}
           <View style={styles.section}>
-            {/* <View style={styles.containerSectionTitle}>
-              <Text style={styles.sectionTitle}>Most popular celebrities</Text>
-              <TouchableOpacity onPress={()=> navigation.navigate('SeeAllPersonScreen')}>
-                <Text style={styles.sectionTitle}>See All</Text>
-              </TouchableOpacity>
-            </View>
-            <FlatList
-              data={people}
-              horizontal
-              keyExtractor={item => item.id.toString()}
-              renderItem={({ item }) => {
-                const imageUrl = URLBuilder.buildImageURL(
-                  'w185',
-                  item.profile_path
-                );
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    onPress={() => navigation.navigate('PersonDetailScreen', {
-                      personId: item.id,
-                    })}
-                  >
-                    <View style={styles.celebrityItem}>
-                      <Image
-                        source={{ uri: imageUrl }}
-                        style={styles.celebrityThumbnail} />
-                      <Text style={styles.celebrityName}>{item.name} <TickCircle size={23} color={themeColor.neutral.toString()} variant='Bold'/></Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              } }
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.celebrityList} /> */}
             {/* TV Show */}
             <View style={styles.containerTV}>
               <View style={styles.containerSectionTitle}>
                 <Text style={styles.sectionTitle}>TV Show</Text>
-                <Text style={styles.sectionTitle}>See All</Text>
+                <Text style={styles.sectionTitle} onPress={()=>navigation.navigate('SeeAllTV')}>See All</Text>
               </View>
               <FlatList
-                data={tvShow}
+                data={tvShow.slice(0,10)}
                 horizontal
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => {
@@ -227,15 +193,15 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
             </View>
             <View style={styles.containerTV}>
               <View style={styles.containerSectionTitle}>
-                <Text style={styles.sectionTitle}>Top Rated</Text>
+                <Text style={styles.sectionTitle}>Top 10 Rated</Text>
                 <Text style={styles.sectionTitle}>See All</Text>
               </View>
-              <FlatList data={topRated}
+              <FlatList data={topRated.slice(0,10)}
                 horizontal
                 keyExtractor={item => item.id.toString()}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.movieList}
-                renderItem={({item})=>{
+                renderItem={({item, index})=>{
                   const imageUrl = URLBuilder.buildImageURL(
                     'w185',
                     item.poster_path
@@ -246,10 +212,16 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                         movieId: item.id,
                       })}
                     >
-                      <Image
-                        source={{uri: imageUrl}}
-                        style={styles.movieThumbnail}
-                      />
+                      <View style={styles.topRatedItemContainer}>
+                        <Image
+                          source={{uri: imageUrl}}
+                          style={styles.movieThumbnail}
+                        />
+                        <View style={styles.rankingIcon}>
+                          <Text style={styles.rankingText}>{index + 1}</Text>
+
+                        </View>
+                      </View>
                     </TouchableOpacity>
                   );
                 }}/>
@@ -261,10 +233,10 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
               </TouchableOpacity>
             </View>
             <FlatList
-              data={people}
+              data={people.slice(0,10)}
               horizontal
               keyExtractor={item => item.id.toString()}
-              renderItem={({ item }) => {
+              renderItem={({ item}) => {
                 const imageUrl = URLBuilder.buildImageURL(
                   'w185',
                   item.profile_path
