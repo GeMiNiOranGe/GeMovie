@@ -46,6 +46,10 @@ export function getFormattedVoteAverage(voteAverage?: number): string {
     return voteAverage === 10 ? voteAverage.toString() : voteAverage.toFixed(1);
 }
 
+export function getFormattedMoney(amount?: number): string {
+    return amount ? `${amount.toLocaleString()} USD` : '-';
+}
+
 export function getFormattedGender(genderNumber: number): string {
     if (genderNumber === 1) {
         return 'Female';

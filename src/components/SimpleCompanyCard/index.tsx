@@ -23,7 +23,7 @@ class SimpleCompanyCard extends React.PureComponent<
         onPress={this.props.onPress}
       >
         <>
-          <View style={[layout.flex1, layout.center, styles.imageBox]}>
+          <View style={[styles.imageBox]}>
             {this.props.item.logoPath ? (
               <Image
                 style={styles.image}
@@ -36,7 +36,9 @@ class SimpleCompanyCard extends React.PureComponent<
                 }}
               />
             ) : (
-              <ImageIcon size='24' color={themeColor.text.toString()} />
+              <View style={[layout.flex1, layout.center, styles.image]}>
+                <ImageIcon size='24' color={themeColor.text.toString()} />
+              </View>
             )}
           </View>
 

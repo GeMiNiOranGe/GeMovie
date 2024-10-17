@@ -33,6 +33,7 @@ import type {
 import {
   getFormattedDate,
   getFormattedFullYear,
+  getFormattedMoney,
   getFormattedVoteAverage,
 } from '@shared/utils';
 import {
@@ -115,7 +116,7 @@ class MovieDetailScreen extends React.Component<
           <Moneys size={iconSize} color={iconColor} variant={iconVariant} />
         ),
         name: 'Budget',
-        value: `${this.state.movie?.budget.toLocaleString()} USD`,
+        value: getFormattedMoney(this.state.movie?.budget),
       },
       {
         icon: (
@@ -126,7 +127,7 @@ class MovieDetailScreen extends React.Component<
           />
         ),
         name: 'Revenue',
-        value: `${this.state.movie?.revenue.toLocaleString()} USD`,
+        value: getFormattedMoney(this.state.movie?.revenue),
       },
     ];
   }
