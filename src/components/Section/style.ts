@@ -5,10 +5,11 @@ import { spacing } from '@shared/constants';
 
 const styles = StyleSheet.create({
     section: {
-        paddingHorizontal: spacing.large,
+        // paddingHorizontal: spacing.large,
         marginBottom: spacing.huge,
     },
     titleBox: {
+        paddingHorizontal: spacing.large,
         marginBottom: spacing.small,
     },
     title: {
@@ -25,11 +26,16 @@ const styles = StyleSheet.create({
     sectionDivider: {
         height: 1,
         marginVertical: spacing.small,
-        backgroundColor: themeColor.subtext,
+        marginHorizontal: spacing.large,
+        backgroundColor: themeColor.neutral,
+    },
+    sectionLabel: {
+        paddingHorizontal: spacing.large,
     },
     sectionLabelName: {
         fontSize: 16,
         color: themeColor.text,
+        marginBottom: spacing.tiny,
     },
     sectionLabelValue: {
         fontSize: 14,
@@ -38,6 +44,8 @@ const styles = StyleSheet.create({
     sectionItemName: {
         fontSize: 16,
         color: themeColor.text,
+        marginBottom: spacing.small,
+        paddingHorizontal: spacing.large,
     },
 });
 

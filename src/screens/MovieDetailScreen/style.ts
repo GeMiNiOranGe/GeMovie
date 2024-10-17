@@ -82,11 +82,17 @@ const styles = StyleSheet.create({
         color: 'black',
         paddingBottom: spacing.small,
     },
+    expandableText: {
+        paddingHorizontal: spacing.large,
+    },
     content: {
         backgroundColor: themeColor.primary,
     },
     labelBox: {
         marginBottom: spacing.huge,
+    },
+    companyContentList: {
+        paddingHorizontal: spacing.large,
     },
 });
 

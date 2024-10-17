@@ -57,6 +57,13 @@ export type SearchCardProps<T extends SearchElement> = {
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
+export type SimpleCardProps<T extends SearchElement> = {
+    item: T;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
 export type LabelProps = {
     style?: StyleProp<ViewStyle> | undefined;
     nameStyle?: StyleProp<TextStyle> | undefined;

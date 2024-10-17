@@ -11,3 +11,4 @@ export { default as Slideshow } from './SlideShow';
 export { default as SearchResultsTabBar } from './SearchResultsTabBar';
 export { default as Youtube } from './Youtube';
 export { default as Section } from './Section';
+export { default as SimpleCompanyCard } from './SimpleCompanyCard';

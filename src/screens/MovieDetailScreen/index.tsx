@@ -23,6 +23,7 @@ import { Chip } from 'react-native-paper';
 import { Adult } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
 import type {
+  CompanyElement,
   Genre,
   LabelProps,
   MovieDetailScreenState,
@@ -34,7 +35,13 @@ import {
   getFormattedFullYear,
   getFormattedVoteAverage,
 } from '@shared/utils';
-import { ExpandableText, Labels, Section, Youtube } from '@components';
+import {
+  ExpandableText,
+  Labels,
+  Section,
+  SimpleCompanyCard,
+  Youtube,
+} from '@components';
 import { layout, themeColor } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import styles from './style';
@@ -54,6 +61,7 @@ class MovieDetailScreen extends React.Component<
     };
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
+    this.renderCompanyItem = this.renderCompanyItem.bind(this);
   }
 
   public override componentDidMount(): void {
@@ -121,6 +129,20 @@ class MovieDetailScreen extends React.Component<
         value: `${this.state.movie?.revenue.toLocaleString()} USD`,
       },
     ];
+  }
+
+  private renderCompanyItem({
+    item,
+    index,
+  }: ListRenderItemInfo<CompanyElement>) {
+    return (
+      <SimpleCompanyCard
+        item={item}
+        index={index}
+        listLength={this.state.movie?.productionCompanies.length}
+        onPress={() => {}}
+      />
+    );
   }
 
   public override render(): React.JSX.Element {
@@ -211,10 +233,12 @@ class MovieDetailScreen extends React.Component<
             </View>
 
             <Section title='Storyline'>
-              <ExpandableText
-                text={`${this.state.movie?.overview}`}
-                numberOfLines={3}
-              />
+              <View style={styles.expandableText}>
+                <ExpandableText
+                  text={`${this.state.movie?.overview}`}
+                  numberOfLines={3}
+                />
+              </View>
 
               <Section.Divider />
 
@@ -280,56 +304,11 @@ class MovieDetailScreen extends React.Component<
 
               <Section.Item name='Production Companies'>
                 <FlatList
+                  contentContainerStyle={styles.companyContentList}
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   data={this.state.movie?.productionCompanies}
-                  renderItem={({ item, index }) => {
-                    const marginRight =
-                      index ===
-                      (this.state.movie?.productionCompanies.length || 0) - 1
-                        ? 0
-                        : 16;
-
-                    return (
-                      <View
-                        style={{
-                          width: 64,
-                          // backgroundColor: 'orange',
-                          marginRight,
-                        }}
-                      >
-                        <View
-                          style={[
-                            layout.flex1,
-                            layout.center,
-                            {
-                              // margin: 8,
-                              // backgroundColor: 'red',
-                            },
-                          ]}
-                        >
-                          <Image
-                            style={{
-                              width: 64,
-                              height: 64,
-                              resizeMode: 'contain',
-                              // backgroundColor: 'pink',
-                            }}
-                            source={{
-                              uri: URLBuilder.buildImageURL(
-                                'w154',
-                                item.logoPath,
-                              ),
-                            }}
-                          />
-                        </View>
-
-                        <Text style={styles.text} numberOfLines={2}>
-                          {item.name}
-                        </Text>
-                      </View>
-                    );
-                  }}
+                  renderItem={this.renderCompanyItem}
                 />
               </Section.Item>
             </Section>
