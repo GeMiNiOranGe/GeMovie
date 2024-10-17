@@ -5,16 +5,16 @@ import { TouchableRipple } from 'react-native-paper';
 
 import { URLBuilder } from '@services';
 import { layout, themeColor } from '@shared/themes';
+import { spacing } from '@shared/constants';
 import type { CompanyElement, SimpleCardProps } from '@shared/types';
 import styles from './style';
-import { spacing } from '@shared/constants';
 
 class SimpleCompanyCard extends React.PureComponent<
   SimpleCardProps<CompanyElement>
 > {
   public override render(): React.JSX.Element {
     const marginRight =
-      this.props.index === (this.props.listLength || 0) - 1 ? 0 : spacing.large;
+      this.props.index === (this.props.listLength || 0) - 1 ? 0 : spacing.small;
 
     return (
       <TouchableRipple
@@ -36,7 +36,7 @@ class SimpleCompanyCard extends React.PureComponent<
                 }}
               />
             ) : (
-              <ImageIcon size='28' color={themeColor.text.toString()} />
+              <ImageIcon size='24' color={themeColor.text.toString()} />
             )}
           </View>
 

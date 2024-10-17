@@ -7,7 +7,7 @@ import styles from './style';
 class SectionLabel extends React.PureComponent<SectionLabelProps> {
   public override render(): React.JSX.Element {
     return (
-      <View style={styles.sectionLabel}>
+      <View style={[styles.sectionLabel, this.props.style]}>
         <Text style={styles.sectionLabelName} numberOfLines={1}>
           {this.props.name}
         </Text>
