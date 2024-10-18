@@ -6,6 +6,7 @@ import type {
     FeaturedTvShow,
     KnownFor,
     Movie,
+    MovieElement,
     Person,
     TvShowElement,
 } from '@shared/types';
@@ -56,6 +57,7 @@ export type HomeScreenState = {
     people: Person[];
     upcomingMovies: any[];
     tvShow: FeaturedTvShow[];
+    topRated: FeaturedMovie[];
     isLoading: boolean;
     backgroundImageIndex: number;
 };
@@ -76,4 +78,12 @@ export type YoutubeState = {
 export type SlideshowState = {
     currentIndex: number;
     isAutoplay: boolean;
+};
+
+export type SuggestionState = {
+    recommendItem: Array<MovieElement | TvShowElement>;
+};
+
+export type TopRatedState = {
+    movie: FeaturedMovie[] | undefined;
 };

@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     content: {
         flex: 3,
         width: '100%',
-        height: '100%',
+        height: '50%',
         paddingHorizontal: 10,
         position: 'relative',
     },
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     section: {
         flex: 3.5,
         width: '100%',
-        height: '50%',
+        height: '80%',
         paddingLeft: 10,
     },
     containerSectionTitle: {
@@ -59,15 +59,16 @@ const styles = StyleSheet.create({
     sectionTitle: {
         color: 'white',
         fontSize: 18,
-        marginTop: 10,
+        marginTop: 5,
     },
     celebrityList: {
         flexDirection: 'row',
-        top: 5,
+        top: 4,
     },
     celebrityItem: {
         marginRight: 10,
         alignItems: 'center',
+        height: 100,
     },
     celebrityThumbnail: {
         width: width * 0.25,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     },
     celebrityName: {
         color: '#fff',
-        marginTop: 5,
+        marginTop: 4,
         fontSize: 15,
         textAlign: 'center',
     },
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     TvThumbnail: {
-        width: width * 0.4,
-        height: height / 3,
+        width: width * 0.3,
+        height: height / 4,
         marginRight: 10,
         borderRadius: 20,
         resizeMode: 'stretch',
@@ -110,6 +111,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#006633',
         borderColor: '#006633',
         position: 'absolute',
+    },
+    topRatedItemContainer: {
+        position: 'relative',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 10,
+    },
+    rankingIcon: {
+        position: 'absolute',
+        top: 6,
+        right: 80,
+        width: width * 0.3,
+        height: height / 4,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: -10,
+    },
+    rankingText: {
+        color: '#fff',
+        fontFamily: '',
+        fontSize: 50,
+        fontWeight: 'bold',
     },
 });
 export default styles;

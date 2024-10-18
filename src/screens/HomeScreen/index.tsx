@@ -21,9 +21,10 @@ import type {
   RootScreenProps,
   HomeScreenState,
 } from '@shared/types';
-import styles from './style';
-import { Star1, TickCircle } from 'iconsax-react-native';
+import {Star1} from 'iconsax-react-native';
 import { colors } from '@shared/themes';
+import styles from './style';
+
 
 class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScreenState> {
   public override state = {
@@ -31,6 +32,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
     people: [] as Person[],
     upcomingMovies: [] as any[],
     tvShow: [] as unknown as FeaturedTvShow[],
+    topRated: [] as FeaturedMovie[],
     isLoading: true,
     backgroundImageIndex: 0,
   };
@@ -41,18 +43,21 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
     const personUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
     const upcomingMoviesUrl = `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}`;
     const tvShowsUrl = `${TMDB_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`;
+    const topRatedUrl  = `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}`;
     Promise.all([
       fetch(url).then(response => response.json()),
       fetch(personUrl).then(response => response.json()),
       fetch(upcomingMoviesUrl).then(response => response.json()),
       fetch(tvShowsUrl).then(response => response.json()),
+      fetch(topRatedUrl).then(response => response.json()),
     ])
-      .then(([movieData, personData, upcomingMoviesData, tvShowData]) => {
+      .then(([movieData, personData, upcomingMoviesData, tvShowData, topRatedData]) => {
         this.setState({
           movies: movieData.results,
           people: personData.results,
           upcomingMovies: upcomingMoviesData.results,
           tvShow: tvShowData.results,
+          topRated: topRatedData.results,
           isLoading: false,
         });
       })
@@ -68,6 +73,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
       people,
       upcomingMovies,
       tvShow,
+      topRated,
       isLoading,
     } = this.state;
     const { navigation } = this.props;
@@ -95,20 +101,20 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
         end={{ x: 0, y: 0 }}
         colors={['#544a7d', '#ffd452']}
       >
-        <View style={styles.header}>
-          <Slideshow
-            images={upcomingMoviesImages}
-            titles={upcomingMoviesTitles}
-            releaseDates={upcomingMoviesReleaseDates}
-            movieIds={upcomingMoviesIds}
-            navigateToMovieDetail={movieId =>
-              navigation.navigate('MovieDetailScreen', {
-                movieId,
-              })
-            }
-          />
-        </View>
         <ScrollView>
+          <View style={styles.header}>
+            <Slideshow
+              images={upcomingMoviesImages}
+              titles={upcomingMoviesTitles}
+              releaseDates={upcomingMoviesReleaseDates}
+              movieIds={upcomingMoviesIds}
+              navigateToMovieDetail={movieId =>
+                navigation.navigate('MovieDetailScreen', {
+                  movieId,
+                })
+              }
+            />
+          </View>
           <View style={styles.content}>
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>Featured Today</Text>
@@ -119,7 +125,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
               </TouchableOpacity>
             </View>
             <FlatList
-              data={movies}
+              data={movies.slice(0,10)}
               horizontal
               keyExtractor={item => item.id.toString()}
               renderItem={({ item }) => {
@@ -147,49 +153,15 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
               contentContainerStyle={styles.movieList} />
           </View>
 
-          {/* Most Popular Celebrities */}
           <View style={styles.section}>
-            <View style={styles.containerSectionTitle}>
-              <Text style={styles.sectionTitle}>Most popular celebrities</Text>
-              <TouchableOpacity onPress={()=> navigation.navigate('SeeAllPersonScreen')}>
-                <Text style={styles.sectionTitle}>See All</Text>
-              </TouchableOpacity>
-            </View>
-            <FlatList
-              data={people}
-              horizontal
-              keyExtractor={item => item.id.toString()}
-              renderItem={({ item }) => {
-                const imageUrl = URLBuilder.buildImageURL(
-                  'w185',
-                  item.profile_path
-                );
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    onPress={() => navigation.navigate('PersonDetailScreen', {
-                      personId: item.id,
-                    })}
-                  >
-                    <View style={styles.celebrityItem}>
-                      <Image
-                        source={{ uri: imageUrl }}
-                        style={styles.celebrityThumbnail} />
-                      <Text style={styles.celebrityName}>{item.name} <TickCircle size={23} color={colors.neutral.toString()} variant='Bold'/></Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              } }
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.celebrityList} />
             {/* TV Show */}
             <View style={styles.containerTV}>
               <View style={styles.containerSectionTitle}>
                 <Text style={styles.sectionTitle}>TV Show</Text>
-                <Text style={styles.sectionTitle}>See All</Text>
+                <Text style={styles.sectionTitle} onPress={()=>navigation.navigate('SeeAllTV')}>See All</Text>
               </View>
               <FlatList
-                data={tvShow}
+                data={tvShow.slice(0,10)}
                 horizontal
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => {
@@ -220,6 +192,77 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.TvList} />
             </View>
+
+            <View style={styles.containerTV}>
+              <View style={styles.containerSectionTitle}>
+                <Text style={styles.sectionTitle}>Top 10 Rated</Text>
+                <TouchableOpacity onPress={()=> navigation.navigate('SeeAllTopRated')}>
+                  <Text style={styles.sectionTitle}>See All</Text>
+                </TouchableOpacity>
+              </View>
+              <FlatList data={topRated.slice(0,10)}
+                horizontal
+                keyExtractor={item => item.id.toString()}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.movieList}
+                renderItem={({item, index})=>{
+                  const imageUrl = URLBuilder.buildImageURL(
+                    'w185',
+                    item.poster_path
+                  );
+                  return(
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('MovieDetailScreen', {
+                        movieId: item.id,
+                      })}
+                    >
+                      <View style={styles.topRatedItemContainer}>
+                        <Image
+                          source={{uri: imageUrl}}
+                          style={styles.movieThumbnail}
+                        />
+                        <View style={styles.rankingIcon}>
+                          <Text style={styles.rankingText}>{index + 1}</Text>
+
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }}/>
+            </View>
+
+            <View style={styles.containerSectionTitle}>
+              <Text style={styles.sectionTitle}>Most popular celebrities</Text>
+              <TouchableOpacity onPress={()=> navigation.navigate('SeeAllPersonScreen')}>
+                <Text style={styles.sectionTitle}>See All</Text>
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={people.slice(0,10)}
+              horizontal
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item}) => {
+                const imageUrl = URLBuilder.buildImageURL(
+                  'w185',
+                  item.profile_path
+                );
+                return (
+                  <TouchableOpacity
+                    key={item.id}
+                    onPress={() => navigation.navigate('PersonDetailScreen', {
+                      personId: item.id,
+                    })}
+                  >
+                    <View style={styles.celebrityItem}>
+                      <Image
+                        source={{ uri: imageUrl }}
+                        style={styles.celebrityThumbnail} />
+                    </View>
+                  </TouchableOpacity>
+                );
+              } }
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.celebrityList} />
           </View>
         </ScrollView>
       </LinearGradient>

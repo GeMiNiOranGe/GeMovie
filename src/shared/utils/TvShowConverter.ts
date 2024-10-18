@@ -1,4 +1,4 @@
-import { TvShowElement } from '@shared/types';
+import { Genre, TvShowElement } from '@shared/types';
 
 export function toTvShowElement(val: any): TvShowElement {
     return {

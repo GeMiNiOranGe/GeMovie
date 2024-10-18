@@ -10,21 +10,21 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
-import type { FeaturedMovie, RootScreenProps } from '@shared/types';
+import type { FeaturedTvShow, RootScreenProps } from '@shared/types';
 import styles from './style';
 
-class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
+class AllTV extends React.Component<RootScreenProps<'SeeAllTV'>> {
   public override state = {
-    movies: [] as FeaturedMovie[],
+    tv: [] as FeaturedTvShow[],
     scaleAnim: new Animated.Value(1),
   };
 
   public override componentDidMount() {
-    const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
+    const url = `${TMDB_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`;
     fetch(url)
       .then(response => response.json())
-      .then(movieData => {
-        this.setState({ movies: movieData.results });
+      .then(tvData => {
+        this.setState({ tv: tvData.results });
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -32,7 +32,7 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
   }
 
   public override render() {
-    const { movies } = this.state;
+    const { tv } = this.state;
     const { navigation } = this.props;
     return (
       <LinearGradient
@@ -43,13 +43,13 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
       >
         <View style={styles.movieList}>
           <FlatList
-            data={movies}
+            data={tv}
             renderItem={({ item }) => (
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
-                  navigation.navigate('MovieDetailScreen', {
-                    movieId: item.id,
+                  navigation.navigate('TvShowDetailScreen', {
+                    tvShowId: item.id,
                   })
                 }
               >
@@ -69,4 +69,4 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
   }
 }
 
-export default AllMovies;
+export default AllTV;

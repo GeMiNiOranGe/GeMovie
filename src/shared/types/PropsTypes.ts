@@ -144,3 +144,9 @@ export type VideoProps = {
     type: 'movie' | 'tv' | 'collection';
     id: number | undefined;
 };
+
+export type SuggestionProps = {
+    type: 'movie' | 'tv';
+    id: number | undefined;
+    genre: number[];
+};

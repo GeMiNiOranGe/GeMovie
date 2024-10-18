@@ -10,6 +10,8 @@ import {
   SeeAllPerson,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
+import AllTV from 'src/screens/SeeAllTV';
+import TopRated from 'src/screens/SeeAllTopRated';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -38,6 +40,21 @@ class HomeStack extends React.Component {
           options={{
             headerShown: true,
             title: 'All',
+          }}
+        />
+        <Stack.Screen
+          name='SeeAllTV'
+          component={AllTV}
+          options={{
+            headerShown: true,
+            title: 'All',
+          }}
+        />
+        <Stack.Screen
+          name='SeeAllTopRated'
+          component={TopRated}
+          options={{
+            title: 'Ranking',
           }}
         />
         <Stack.Screen
