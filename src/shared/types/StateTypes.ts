@@ -83,3 +83,7 @@ export type SlideshowState = {
 export type SuggestionState = {
     recommendItem: Array<MovieElement | TvShowElement>;
 };
+
+export type TopRatedState = {
+    movie: FeaturedMovie[] | undefined;
+};

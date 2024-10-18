@@ -10,3 +10,4 @@ export { default as CollectionDetailScreen } from './CollectionDetailScreen';
 export { default as TrendingScreen } from './TrendingScreen';
 export { default as SeeAllPerson } from './SeeAllPerson';
 export { default as SeeAllTV } from './SeeAllTV';
+export { default as SeeAllToprated } from './SeeAllTopRated';

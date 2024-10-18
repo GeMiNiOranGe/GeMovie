@@ -21,9 +21,10 @@ import type {
   RootScreenProps,
   HomeScreenState,
 } from '@shared/types';
-import styles from './style';
 import {Star1} from 'iconsax-react-native';
 import { themeColor } from '@shared/themes';
+import styles from './style';
+
 
 class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScreenState> {
   public override state = {
@@ -191,10 +192,13 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.TvList} />
             </View>
+
             <View style={styles.containerTV}>
               <View style={styles.containerSectionTitle}>
                 <Text style={styles.sectionTitle}>Top 10 Rated</Text>
-                <Text style={styles.sectionTitle}>See All</Text>
+                <TouchableOpacity onPress={()=> navigation.navigate('SeeAllTopRated')}>
+                  <Text style={styles.sectionTitle}>See All</Text>
+                </TouchableOpacity>
               </View>
               <FlatList data={topRated.slice(0,10)}
                 horizontal
@@ -226,6 +230,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                   );
                 }}/>
             </View>
+
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>Most popular celebrities</Text>
               <TouchableOpacity onPress={()=> navigation.navigate('SeeAllPersonScreen')}>
