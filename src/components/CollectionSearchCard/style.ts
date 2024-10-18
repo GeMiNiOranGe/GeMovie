@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 
 const imageDimensions = calculateImageDimensions(120, 2, 3);
 const paddingCard = spacing.medium;
@@ -13,7 +13,7 @@ const topOffsetPercentage = '40%';
 const styles = StyleSheet.create({
     card: {
         borderRadius: outerRadius,
-        backgroundColor: themeColor.primary,
+        backgroundColor: colors.primary,
         overflow: 'hidden',
     },
     backdropImage: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         paddingTop: spacing.large,
     },
     backdropText: {
-        color: themeColor.text,
+        color: colors.text,
         fontSize: 12,
         marginLeft: spacing.tiny,
     },
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         height: 48,
     },
     imageBox: {
-        backgroundColor: themeColor.background,
+        backgroundColor: colors.background,
     },
     image: {
         ...imageDimensions,
@@ -42,16 +42,16 @@ const styles = StyleSheet.create({
     contentBox: {
         paddingVertical: paddingCard,
         paddingLeft: spacing.large,
-        backgroundColor: themeColor.primary,
+        backgroundColor: colors.primary,
     },
     title: {
-        color: themeColor.text,
+        color: colors.text,
         fontSize: 16,
         marginBottom: spacing.medium,
         marginRight: paddingCard,
     },
     text: {
-        color: themeColor.subtext,
+        color: colors.subtext,
         fontSize: 12,
         marginRight: spacing.small,
     },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderTopLeftRadius: outerRadius,
         borderBottomLeftRadius: outerRadius,
-        backgroundColor: themeColor.accent.dark,
+        backgroundColor: colors.accent.dark,
     },
 });
 

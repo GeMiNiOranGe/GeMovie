@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 
 const imageDimensions = calculateImageDimensions(72, 3, 4);
 const paddingCard = spacing.medium;
@@ -13,12 +13,12 @@ const styles = StyleSheet.create({
     card: {
         borderRadius: outerRadius,
         paddingVertical: paddingCard,
-        backgroundColor: themeColor.primary,
+        backgroundColor: colors.primary,
     },
     imageBox: {
         marginLeft: paddingCard,
         marginRight: spacing.large,
-        backgroundColor: themeColor.background,
+        backgroundColor: colors.background,
     },
     image: {
         borderRadius: innerRadius,
@@ -29,16 +29,16 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        color: themeColor.text,
+        color: colors.text,
         marginBottom: 12,
     },
     text: {
         fontSize: 12,
-        color: themeColor.text,
+        color: colors.text,
     },
     subtext: {
         fontSize: 12,
-        color: themeColor.subtext,
+        color: colors.subtext,
     },
     knownForDepartment: {
         marginBottom: spacing.tiny,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: outerRadius,
         borderBottomLeftRadius: outerRadius,
         marginVertical: '65%',
-        backgroundColor: themeColor.accent.dark,
+        backgroundColor: colors.accent.dark,
     },
 });
 

@@ -2,13 +2,13 @@ import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 
 const imageDimensions = calculateImageDimensions(160, 2, 3);
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: themeColor.primary,
+        backgroundColor: colors.primary,
     },
     backdrop: {
         height: '50%',
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         marginVertical: 16,
     },
     posterNotFound: {
-        backgroundColor: themeColor.background,
+        backgroundColor: colors.background,
     },
     poster: {
         borderRadius: 12,
@@ -30,20 +30,20 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        color: themeColor.text,
+        color: colors.text,
         textAlign: 'center',
     },
     text: {
         fontSize: 14,
-        color: themeColor.text,
+        color: colors.text,
     },
     subtext: {
         fontSize: 14,
-        color: themeColor.subtext,
+        color: colors.subtext,
     },
     notFoundText: {
         fontSize: 12,
-        color: themeColor.text,
+        color: colors.text,
         marginTop: spacing.small,
     },
     genreBox: {
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     },
     genre: {
         fontSize: 12,
-        color: themeColor.text,
+        color: colors.text,
         marginVertical: 4,
         marginLeft: 12,
         marginRight: 12,
@@ -61,14 +61,14 @@ const styles = StyleSheet.create({
     },
     genreChip: {
         borderRadius: 1000,
-        backgroundColor: themeColor.background,
+        backgroundColor: colors.background,
     },
     ratingBox: {
         marginBottom: spacing.large,
     },
     rating: {
         fontSize: 16,
-        color: themeColor.accent.dark,
+        color: colors.accent.dark,
         fontWeight: 'bold',
         marginLeft: spacing.tiny,
     },
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.large,
     },
     content: {
-        backgroundColor: themeColor.primary,
+        backgroundColor: colors.primary,
     },
     labelBox: {
         marginBottom: spacing.huge,

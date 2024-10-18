@@ -5,7 +5,7 @@ import { ArrowRight2, User } from 'iconsax-react-native';
 
 import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
-import { layout, themeColor } from '@shared/themes';
+import { layout, colors } from '@shared/themes';
 import { getFormattedGender, isMovieElement } from '@shared/utils';
 import type { PersonElement, SearchCardProps } from '@shared/types';
 import styles from './style';
@@ -89,7 +89,7 @@ class PersonSearchCard extends React.PureComponent<
             icon={this.renderNavigationIcon}
             onPress={this.props.onPress}
             size={navigationIconSize}
-            rippleColor={themeColor.accent.light}
+            rippleColor={colors.accent.light}
           />
         </View>
       </Card>

@@ -4,7 +4,7 @@ import { Image as ImageIcon } from 'iconsax-react-native';
 import { TouchableRipple } from 'react-native-paper';
 
 import { URLBuilder } from '@services';
-import { layout, themeColor } from '@shared/themes';
+import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import type { CompanyElement, SimpleCardProps } from '@shared/types';
 import styles from './style';
@@ -37,7 +37,7 @@ class SimpleCompanyCard extends React.PureComponent<
               />
             ) : (
               <View style={[layout.flex1, layout.center, styles.image]}>
-                <ImageIcon size='24' color={themeColor.text.toString()} />
+                <ImageIcon size='24' color={colors.text.toString()} />
               </View>
             )}
           </View>

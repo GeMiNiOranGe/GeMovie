@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
 import { calculateImageDimensions } from '@shared/utils';
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 
 const imageDimensions = calculateImageDimensions(64);
 const paddingCard = spacing.medium;
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         paddingVertical: paddingCard,
         paddingLeft: paddingCard,
         borderRadius: outerRadius,
-        backgroundColor: themeColor.primary,
+        backgroundColor: colors.primary,
     },
     image: {
         ...imageDimensions,
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         borderRadius: innerRadius,
     },
     notFoundImage: {
-        backgroundColor: themeColor.background,
+        backgroundColor: colors.background,
     },
     content: {
         justifyContent: 'center',
@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
     },
     title: {
         marginBottom: spacing.tiny,
-        color: themeColor.text,
+        color: colors.text,
         fontSize: 16,
     },
     text: {
         fontSize: 12,
-        color: themeColor.subtext,
+        color: colors.subtext,
     },
     navigationIconButton: {
         margin: 0,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderTopLeftRadius: outerRadius,
         borderBottomLeftRadius: outerRadius,
-        backgroundColor: themeColor.accent.dark,
+        backgroundColor: colors.accent.dark,
     },
 });
 

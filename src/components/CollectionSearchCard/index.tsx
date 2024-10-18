@@ -4,7 +4,7 @@ import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, Image as ImageIcon } from 'iconsax-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import { layout, themeColor } from '@shared/themes';
+import { layout, colors } from '@shared/themes';
 import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
 import type { CollectionElement, SearchCardProps } from '@shared/types';
@@ -76,7 +76,7 @@ class CollectionSearchCard extends React.PureComponent<
               style={styles.linearGradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
-              colors={['transparent', themeColor.primary.toString()]}
+              colors={['transparent', colors.primary.toString()]}
             />
 
             <View style={[layout.flex1, styles.contentBox]}>
@@ -96,7 +96,7 @@ class CollectionSearchCard extends React.PureComponent<
                     icon={this.renderNavigationIcon}
                     onPress={this.props.onPress}
                     size={navigationIconSize}
-                    rippleColor={themeColor.accent.light}
+                    rippleColor={colors.accent.light}
                   />
                 </View>
               </View>

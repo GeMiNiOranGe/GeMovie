@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 
 const styles = StyleSheet.create({
     container: {
@@ -9,11 +9,11 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 12,
-        color: themeColor.subtext,
+        color: colors.subtext,
     },
     value: {
         fontSize: 14,
-        color: themeColor.text,
+        color: colors.text,
     },
     icon: {
         marginRight: spacing.tiny,

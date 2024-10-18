@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 
 const styles = StyleSheet.create({
     text: {
         fontSize: 16,
-        color: themeColor.text,
+        color: colors.text,
     },
     toggleBox: {
         paddingTop: spacing.small,
@@ -14,12 +14,12 @@ const styles = StyleSheet.create({
     toggleText: {
         fontWeight: 'bold',
         fontSize: 14,
-        color: themeColor.accent.light,
+        color: colors.accent.light,
         marginRight: spacing.tiny,
     },
     toggleButton: {
         fontWeight: 'bold',
-        color: themeColor.accent.light,
+        color: colors.accent.light,
     },
 });
 

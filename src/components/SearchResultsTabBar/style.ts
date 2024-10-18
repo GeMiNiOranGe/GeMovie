@@ -1,11 +1,11 @@
 import { StyleSheet } from 'react-native';
 
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: themeColor.primary,
+        backgroundColor: colors.primary,
     },
     contentContainer: {
         paddingVertical: spacing.small,

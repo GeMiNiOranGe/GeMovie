@@ -4,7 +4,7 @@ import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, Image as ImageIcon } from 'iconsax-react-native';
 
 import { URLBuilder } from '@services';
-import { layout, themeColor } from '@shared/themes';
+import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import type { CompanyElement, SearchCardProps } from '@shared/types';
 import styles from './style';
@@ -60,7 +60,7 @@ class CompanySearchCard extends React.PureComponent<
               icon={this.renderNavigationIcon}
               onPress={this.props.onPress}
               size={navigationIconSize}
-              rippleColor={themeColor.accent.light}
+              rippleColor={colors.accent.light}
             />
           </View>
         </View>

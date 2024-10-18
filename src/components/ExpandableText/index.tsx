@@ -8,11 +8,11 @@ import type {
   ExpandableTextState,
   Variant,
 } from '@shared/types';
-import { layout, themeColor } from '@shared/themes';
+import { layout, colors } from '@shared/themes';
 import styles from './style';
 
 const iconSize = 16;
-const iconColor: string = themeColor.accent.light.toString();
+const iconColor: string = colors.accent.light.toString();
 const iconVariant: Variant = 'Bold';
 
 const seeMoreText = 'View more';

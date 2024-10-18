@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import type { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import { TouchableRipple } from 'react-native-paper';
 
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import styles from './style';
 
@@ -53,8 +53,8 @@ class SearchResultsTabBar extends React.PureComponent<MaterialTopTabBarProps> {
                   ? 0
                   : spacing.small,
               backgroundColor: isFocused
-                ? themeColor.secondary
-                : themeColor.background,
+                ? colors.secondary
+                : colors.background,
             };
 
             return (
@@ -74,8 +74,8 @@ class SearchResultsTabBar extends React.PureComponent<MaterialTopTabBarProps> {
                     styles.tagText,
                     {
                       color: isFocused
-                        ? themeColor.primary
-                        : themeColor.subtext,
+                        ? colors.primary
+                        : colors.subtext,
                     },
                   ]}
                 >{`${label}`}</Text>

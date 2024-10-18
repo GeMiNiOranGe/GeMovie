@@ -38,7 +38,7 @@ export type Spacing = {
     extraHuge: number;
 };
 
-export type ThemeColor = {
+export type Colors = {
     primary: ColorValue;
     secondary: ColorValue;
     accent: {

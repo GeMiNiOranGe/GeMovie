@@ -1,6 +1,6 @@
-import { ThemeColor } from '@shared/types';
+import { Colors } from '@shared/types';
 
-const themeColor: ThemeColor = {
+const colors: Colors = {
     primary: '#ffffff',
     secondary: '#850023',
     accent: {
@@ -13,4 +13,4 @@ const themeColor: ThemeColor = {
     neutral: '#d0d0d0',
 };
 
-export default themeColor;
+export default colors;

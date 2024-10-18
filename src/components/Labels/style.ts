@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 
 const styles = StyleSheet.create({
     labelContentList: {
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     },
     itemSeparator: {
         width: 1,
-        backgroundColor: themeColor.neutral,
+        backgroundColor: colors.neutral,
         marginVertical: spacing.small,
     },
 });

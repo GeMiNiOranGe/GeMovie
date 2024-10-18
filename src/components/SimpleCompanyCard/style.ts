@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { themeColor } from '@shared/themes';
+import { colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 
 const paddingCard = spacing.small;
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     },
     imageBox: {
         padding: paddingCard,
-        backgroundColor: themeColor.background,
+        backgroundColor: colors.background,
     },
     image: {
         width: logoSize,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 14,
-        color: themeColor.text,
+        color: colors.text,
     },
 });
 

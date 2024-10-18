@@ -43,12 +43,12 @@ import {
   SimpleCompanyCard,
   Youtube,
 } from '@components';
-import { layout, themeColor } from '@shared/themes';
+import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import styles from './style';
 
 const iconSize = 16;
-const iconColor = themeColor.subtext.toString();
+const iconColor = colors.subtext.toString();
 const iconVariant: Variant = 'Bold';
 
 class MovieDetailScreen extends React.Component<
@@ -167,7 +167,7 @@ class MovieDetailScreen extends React.Component<
             style={[layout.center]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
-            colors={['transparent', themeColor.primary.toString()]}
+            colors={['transparent', colors.primary.toString()]}
           >
             <View style={styles.posterBox}>
               {this.state.movie?.posterPath ? (
@@ -184,7 +184,7 @@ class MovieDetailScreen extends React.Component<
                 <View
                   style={[layout.center, styles.poster, styles.posterNotFound]}
                 >
-                  <ImageIcon size='48' color={themeColor.text.toString()} />
+                  <ImageIcon size='48' color={colors.text.toString()} />
                   <Text style={styles.notFoundText}>Poster not found</Text>
                 </View>
               )}
@@ -210,7 +210,7 @@ class MovieDetailScreen extends React.Component<
             <View style={[layout.row, layout.center, styles.ratingBox]}>
               <Star1
                 size='14'
-                color={themeColor.accent.dark.toString()}
+                color={colors.accent.dark.toString()}
                 variant='Bold'
               />
 

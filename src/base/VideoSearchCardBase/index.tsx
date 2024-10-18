@@ -13,7 +13,7 @@ import { Card, IconButton } from 'react-native-paper';
 
 import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
-import { layout, themeColor } from '@shared/themes';
+import { layout, colors } from '@shared/themes';
 import {
   getFormattedFullYear,
   getFormattedGenres,
@@ -144,7 +144,7 @@ abstract class VideoSearchCardBase<
                 icon={this.renderNavigationIcon}
                 onPress={this.props.onPress}
                 size={navigationIconSize}
-                rippleColor={themeColor.accent.light}
+                rippleColor={colors.accent.light}
               />
             </View>
           </View>

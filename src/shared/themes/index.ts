@@ -1,3 +1,3 @@
 export { default as layout } from './Layout';
-export { default as themeColor } from './ThemeColor';
+export { default as colors } from './Colors';
 export { default as fontSizes } from './FontSizes';
