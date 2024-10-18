@@ -5,7 +5,6 @@ import { spacing } from '@shared/constants';
 
 const styles = StyleSheet.create({
     section: {
-        // paddingHorizontal: spacing.large,
         marginBottom: spacing.huge,
     },
     titleBox: {

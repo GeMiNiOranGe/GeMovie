@@ -25,14 +25,7 @@ class Labels extends React.PureComponent<LabelsProps> {
     const marginLeft = index === 0 ? 0 : distance;
     const marginRight = index === this.props.data.length - 1 ? 0 : distance;
 
-    return (
-      <Label
-        {...item}
-        style={{ marginLeft, marginRight }}
-        name={item.name}
-        value={item.value}
-      />
-    );
+    return <Label style={{ marginLeft, marginRight }} {...item} />;
   }
 
   private renderItemSeparator(): React.JSX.Element {

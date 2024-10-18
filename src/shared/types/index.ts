@@ -51,6 +51,18 @@ export type ThemeColor = {
     neutral: ColorValue;
 };
 
+export type FontSizes = {
+    h1: number;
+    h2: number;
+    h3: number;
+    h4: number;
+    h5: number;
+    h6: number;
+    body: number;
+    small: number;
+    extraSmall: number;
+};
+
 export type SearchType =
     | 'multi'
     | 'movie'
