@@ -133,6 +133,7 @@ abstract class VideoSearchCardBase<
               <FlatList
                 style={styles.genreList}
                 horizontal
+                showsHorizontalScrollIndicator={false}
                 keyboardShouldPersistTaps='handled'
                 keyExtractor={(_item, index) => index.toString()}
                 data={this.genres}
