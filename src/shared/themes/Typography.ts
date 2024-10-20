@@ -1,6 +1,7 @@
 import { TextStyle } from 'react-native';
 
-import { fontSizes, colors } from '@shared/themes';
+import fontSizes from './FontSizes';
+import colors from './Colors';
 
 const typography = {
     title1: {
@@ -45,6 +46,10 @@ const typography = {
     },
     smallSubtext: {
         fontSize: fontSizes.small,
+        color: colors.subtext,
+    },
+    extraSmallSubtext: {
+        fontSize: fontSizes.extraSmall,
         color: colors.subtext,
     },
 } as const satisfies Record<string, TextStyle>;
