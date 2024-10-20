@@ -15,6 +15,12 @@ import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
 import { layout, colors } from '@shared/themes';
 import {
+  BronzeMedal,
+  GoldMedal,
+  NormalMedal,
+  SilverMedal,
+} from '@assets/icons';
+import {
   getFormattedFullYear,
   getFormattedGenres,
   getFormattedVoteAverage,
@@ -26,6 +32,7 @@ import type {
 } from '@shared/types';
 import styles from './style';
 
+const medalIconSize = 40;
 const navigationIconSize = 20;
 
 abstract class VideoSearchCardBase<
@@ -67,6 +74,27 @@ abstract class VideoSearchCardBase<
     );
   }
 
+  private renderMedal() {
+    return (
+      <>
+        {this.props.index + 1 === 1 ? (
+          <GoldMedal size={medalIconSize} />
+        ) : this.props.index + 1 === 2 ? (
+          <SilverMedal size={medalIconSize} />
+        ) : this.props.index + 1 === 3 ? (
+          <BronzeMedal size={medalIconSize} />
+        ) : (
+          <NormalMedal
+            size={medalIconSize}
+            color={colors.primary}
+            value={this.props.index + 1}
+            fontColor='black'
+          />
+        )}
+      </>
+    );
+  }
+
   private renderNavigationIcon() {
     return (
       <ArrowRight2 size={navigationIconSize} color='white' variant='Bold' />
@@ -96,6 +124,10 @@ abstract class VideoSearchCardBase<
             />
           ) : (
             <ImageIcon size='48' color='black' />
+          )}
+
+          {this.props.showMedal && (
+            <View style={StyleSheet.absoluteFill}>{this.renderMedal()}</View>
           )}
 
           <View style={[layout.flex1, layout.flexEnd, StyleSheet.absoluteFill]}>
