@@ -95,7 +95,6 @@ class TvShowDetailScreen extends React.Component<
 
   public override render() {
     const { tv, modalVisible } = this.state;
-    const genreIds: number[] = tv?.genreIds || [];
     if (!tv) {
       return (
         <SafeAreaView style={styles.container}>
@@ -147,7 +146,7 @@ class TvShowDetailScreen extends React.Component<
               {tv.id !== undefined && <Youtube type='tv' id={tv.id} />}
             </View>
             <View>
-              <Suggestion type='tv' id={tv.id} genre={genreIds} />
+              <Suggestion type='tv' id={tv.id} />
             </View>
           </LinearGradient>
 

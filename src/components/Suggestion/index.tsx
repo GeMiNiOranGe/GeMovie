@@ -23,16 +23,16 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
   }
 
   protected getData = async () => {
-    const { id, genre, type } = this.props;
+    const { id, type } = this.props;
     if (!id) {
       return;
     }
 
     const endpoint = type === 'movie' ? 'movie' : 'tv';
     const url = `${TMDB_BASE_URL}/${endpoint}/${id}/recommendations?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
+
     try {
       const response = await fetch(url);
-
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -41,38 +41,14 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
       if (!Array.isArray(data.results)) {
         return;
       }
-      const recommendItems: (MovieElement | TvShowElement)[] = data.results.map(
-        (item: any) => {
-          if (type === 'movie') {
-            const movieItem: MovieElement = {
-              ...item,
-              genreIds: item.genre_ids || [],
-              posterPath: item.poster_path,
-            };
-            return movieItem;
-          } else {
-            const tvItem: TvShowElement = {
-              ...item,
-              genreIds: item.genre_ids || [],
-              posterPath: item.poster_path,
-            };
-            return tvItem;
-          }
-        },
-      );
 
-      const filteredItems = recommendItems.filter((item: any) => {
-        if (!item.genreIds || !Array.isArray(item.genreIds)) {
-          return false;
-        }
-        if (genre.length === 0) {
-          return true;
-        }
+      const recommendItems = data.results.map((item: any) => ({
+        ...item,
+        posterPath: item.poster_path,
+        titleOrName: type === 'movie' ? item.title : item.name,
+      }));
 
-        return item.genreIds.some((genreId: number) => genre.includes(genreId));
-      });
-
-      this.setState({ recommendItem: filteredItems });
+      this.setState({ recommendItem: recommendItems });
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     }

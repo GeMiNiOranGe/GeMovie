@@ -219,10 +219,10 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                       <View style={styles.topRatedItemContainer}>
                         <Image
                           source={{uri: imageUrl}}
-                          style={styles.movieThumbnail}
+                          style={styles.Thumbnail}
                         />
                         <View style={styles.rankingIcon}>
-                          <Text style={styles.rankingText}>{index + 1}</Text>
+                          <Text style={[styles.rankingText, styles.textWithBorder]}>{index + 1}</Text>
 
                         </View>
                       </View>

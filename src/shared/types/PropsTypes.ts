@@ -148,5 +148,4 @@ export type VideoProps = {
 export type SuggestionProps = {
     type: 'movie' | 'tv';
     id: number | undefined;
-    genre: number[];
 };
