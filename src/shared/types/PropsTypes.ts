@@ -48,7 +48,9 @@ export type SearchResultsTopTabBaseProps = {
 };
 
 export type VideoSearchCardBaseProps<T extends VideoElementBase> =
-    SearchCardProps<T>;
+    SearchCardProps<T> & {
+        showMedal?: boolean | undefined;
+    };
 
 export type SearchCardProps<T extends SearchElement> = {
     item: T;

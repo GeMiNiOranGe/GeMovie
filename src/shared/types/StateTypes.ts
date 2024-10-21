@@ -85,5 +85,5 @@ export type SuggestionState = {
 };
 
 export type TopRatedState = {
-    movie: FeaturedMovie[] | undefined;
+    movies: MovieElement[];
 };

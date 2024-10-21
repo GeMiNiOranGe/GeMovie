@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, FlatList, Text } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { FlatList, ListRenderItemInfo } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
-import { URLBuilder } from '@services';
-import type { RootScreenProps, TopRatedState } from '@shared/types';
-import { Star } from 'iconsax-react-native';
+import { GenreService } from '@services';
+import { MovieSearchCard } from '@components';
+import { toMovieElement } from '@shared/utils';
+import type {
+  MovieElement,
+  RootScreenProps,
+  TopRatedState,
+} from '@shared/types';
 import styles from './style';
 
 class TopRated extends React.Component<
@@ -15,69 +20,58 @@ class TopRated extends React.Component<
   public constructor(props: RootScreenProps<'SeeAllTopRated'>) {
     super(props);
     this.state = {
-      movie: [],
+      movies: [],
     };
+
+    this.renderItem = this.renderItem.bind(this);
   }
 
-  public override componentDidMount() {
+  public override async componentDidMount(): Promise<void> {
+    await GenreService.instance.fetchGenres();
+
     const topRatedUrl = `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}`;
     fetch(topRatedUrl)
       .then(response => response.json())
       .then(movieData => {
-        this.setState({ movie: movieData.results });
+        this.setState({
+          movies: movieData.results.map((element: any) =>
+            toMovieElement(element),
+          ),
+        });
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
   }
 
-  public override render() {
-    const { navigation } = this.props;
+  private renderItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
     return (
-      <LinearGradient
-        style={styles.container}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        colors={['#0F2027', '#203A43']}
-      >
-        <View style={styles.containerMovie}>
-          <FlatList
-            data={this.state.movie}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity
-                key={item.id}
-                onPress={() =>
-                  navigation.navigate('MovieDetailScreen', {
-                    movieId: item.id,
-                  })
-                }
-                style={styles.outlineMovie}
-              >
-                <Image
-                  source={{
-                    uri: URLBuilder.buildImageURL('w185', item.poster_path),
-                  }}
-                  style={styles.movieCard}
-                />
-                <View style={styles.containerText}>
-                  <Text
-                    numberOfLines={1}
-                    ellipsizeMode='tail'
-                    style={styles.titleText}
-                  >
-                    {index + 1}.{item.title}
-                  </Text>
-                  <Text style={styles.dateText}>{item.release_date}</Text>
-                  <Text style={styles.voteText}>
-                    <Star size={20} color='yellow' variant='Bulk' />
-                    {item.vote_average}({item.vote_count})
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-      </LinearGradient>
+      <MovieSearchCard
+        showMedal
+        item={item}
+        index={index}
+        listLength={this.state.movies.length}
+        onPress={() => {
+          this.props.navigation.navigate('MovieDetailScreen', {
+            movieId: item.id,
+          });
+        }}
+      />
+    );
+  }
+
+  public override render(): React.JSX.Element {
+    return (
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          contentContainerStyle={styles.contentList}
+          data={this.state.movies}
+          renderItem={this.renderItem}
+        />
+      </SafeAreaView>
     );
   }
 }
