@@ -6,10 +6,12 @@ import {
   Text,
   FlatList,
   Animated,
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SlideshowProps, SlideshowState } from '@shared/types';
 import styles, { itemWidth } from '../SlideShow/style';
+import Youtube from '../Youtube';
 
 class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
   public scrollX = new Animated.Value(0);
@@ -21,6 +23,8 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
     this.state = {
       currentIndex: 0,
       isAutoplay: true,
+      isModalVisible: false,
+      selectedMovieId: null,
     };
   }
 
@@ -75,7 +79,12 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
               </Text>
             </View>
             <TouchableOpacity
-              onPress={() => props.navigateToMovieDetail(props.movieIds[index])}
+              onPress={() =>
+                this.setState({
+                  isModalVisible: true,
+                  selectedMovieId: props.movieIds[index],
+                })
+              }
             >
               <Icon
                 name='play-circle'
@@ -91,10 +100,12 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
   };
 
   public keyExtractor = (item: any, index: number) => index.toString();
-
+  public closemodal = () => {
+    this.setState({ isModalVisible: false, selectedMovieId: null });
+  };
   public override render() {
     const { images } = this.props;
-    const { currentIndex } = this.state;
+    const { currentIndex, isModalVisible, selectedMovieId } = this.state;
     const backgroundImage = images[currentIndex];
 
     return (
@@ -122,6 +133,21 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
           )}
           scrollEventThrottle={16}
         />
+        <Modal
+          animationType='slide'
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={this.closemodal}
+        >
+          <TouchableOpacity
+            style={styles.modalContainer}
+            onPress={this.closemodal}
+          >
+            <View>
+              {selectedMovieId && <Youtube type='movie' id={selectedMovieId} />}
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </View>
     );
   }

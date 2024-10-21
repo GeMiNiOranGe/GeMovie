@@ -115,7 +115,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
               }
             />
           </View>
-          <View style={styles.content}>
+          <View style={styles.section}>
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>Featured Today</Text>
               <TouchableOpacity

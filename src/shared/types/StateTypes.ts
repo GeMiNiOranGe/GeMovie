@@ -78,6 +78,8 @@ export type YoutubeState = {
 export type SlideshowState = {
     currentIndex: number;
     isAutoplay: boolean;
+    isModalVisible?: boolean;
+    selectedMovieId?: number | null;
 };
 
 export type SuggestionState = {
