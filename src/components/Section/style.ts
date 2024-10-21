@@ -46,6 +46,15 @@ const styles = StyleSheet.create({
         marginBottom: spacing.small,
         paddingHorizontal: spacing.large,
     },
+    sectionItemsName: {
+        fontSize: 16,
+        color: colors.text,
+        marginBottom: spacing.small,
+        paddingHorizontal: spacing.large,
+    },
+    sectionItemsContentList: {
+        paddingHorizontal: spacing.large,
+    },
 });
 
 export default styles;

@@ -91,9 +91,6 @@ const styles = StyleSheet.create({
     labelBox: {
         marginBottom: spacing.huge,
     },
-    companyContentList: {
-        paddingHorizontal: spacing.large,
-    },
 });
 
 export default styles;

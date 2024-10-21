@@ -107,6 +107,14 @@ export type SectionItemProps = {
     children?: React.ReactNode | undefined;
 };
 
+export type SectionItemsProps<ItemT = any> = {
+    style?: StyleProp<ViewStyle> | undefined;
+    name: string;
+    data: ArrayLike<ItemT> | null | undefined;
+    renderItem: ListRenderItem<ItemT> | null | undefined;
+    keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
+};
+
 export type IconProps = {
     size?: number | undefined;
     color?: ColorValue | number | undefined;

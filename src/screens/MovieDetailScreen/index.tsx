@@ -92,6 +92,20 @@ class MovieDetailScreen extends React.Component<
     );
   }
 
+  private renderCompanyItem({
+    item,
+    index,
+  }: ListRenderItemInfo<CompanyElement>) {
+    return (
+      <SimpleCompanyCard
+        item={item}
+        index={index}
+        listLength={this.state.movie?.productionCompanies.length}
+        onPress={() => {}}
+      />
+    );
+  }
+
   private getLabels(): LabelProps[] {
     return [
       {
@@ -130,20 +144,6 @@ class MovieDetailScreen extends React.Component<
         value: getFormattedMoney(this.state.movie?.revenue),
       },
     ];
-  }
-
-  private renderCompanyItem({
-    item,
-    index,
-  }: ListRenderItemInfo<CompanyElement>) {
-    return (
-      <SimpleCompanyCard
-        item={item}
-        index={index}
-        listLength={this.state.movie?.productionCompanies.length}
-        onPress={() => {}}
-      />
-    );
   }
 
   public override render(): React.JSX.Element {
@@ -250,11 +250,11 @@ class MovieDetailScreen extends React.Component<
 
               <Section.Divider />
 
-              <Section.Label
+              <Section.Items
                 name='Genres'
-                value={`${this.state.movie?.genres
-                  .map(genre => genre.name)
-                  .join(', ')}`}
+                keyExtractor={item => item.id.toString()}
+                data={this.state.movie?.genres}
+                renderItem={this.renderGenreItem}
               />
             </Section>
 
@@ -303,15 +303,12 @@ class MovieDetailScreen extends React.Component<
 
               <Section.Divider />
 
-              <Section.Item name='Production Companies'>
-                <FlatList
-                  contentContainerStyle={styles.companyContentList}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={this.state.movie?.productionCompanies}
-                  renderItem={this.renderCompanyItem}
-                />
-              </Section.Item>
+              <Section.Items
+                name='Production Companies'
+                keyExtractor={item => item.id.toString()}
+                data={this.state.movie?.productionCompanies}
+                renderItem={this.renderCompanyItem}
+              />
             </Section>
 
             <View>
