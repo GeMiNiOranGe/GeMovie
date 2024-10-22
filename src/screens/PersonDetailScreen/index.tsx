@@ -9,14 +9,30 @@ import {
 } from 'react-native';
 import React from 'react';
 
-import { PersonDetailScreenState, RootScreenProps } from '@shared/types';
+import {
+  LabelProps,
+  PersonDetailScreenState,
+  RootScreenProps,
+  Variant,
+} from '@shared/types';
 import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
 import { imageSize } from '@shared/constants';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import LinearGradient from 'react-native-linear-gradient';
-import { ExpandableText, Label } from '@components';
-import { URLBuilder } from '@services';
+import { ExpandableText, Labels } from '@components';
+import {
+  Building,
+  Calendar1,
+  CalendarRemove,
+  Global,
+  Personalcard,
+} from 'iconsax-react-native';
+import { getFormattedGender } from '@shared/utils';
 import styles from './style';
+import { URLBuilder } from '@services';
+
+const iconSize = 16;
+const iconColor = 'black';
+const iconVariant: Variant = 'Bold';
 
 class PersonDetailScreen extends React.Component<
   RootScreenProps<'PersonDetailScreen'>,
@@ -50,24 +66,83 @@ class PersonDetailScreen extends React.Component<
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-    this.startPulseAnimation();
   }
 
-  private startPulseAnimation(): void {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(this.pulseAnimation, {
-          toValue: 1.2,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(this.pulseAnimation, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }),
-      ]),
-    ).start();
+  private getLabels(): LabelProps[] {
+    if (this.state.person?.deathday === null) {
+      return [
+        {
+          value: `${getFormattedGender(this.state.person?.gender)}`,
+          name: 'Gender',
+          icon: (
+            <Personalcard
+              size={iconSize}
+              color={iconColor}
+              variant={iconVariant}
+            />
+          ),
+        },
+        {
+          value: `${this.state.person?.birthday}`,
+          name: 'Birthday',
+          icon: (
+            <Calendar1
+              size={iconSize}
+              color={iconColor}
+              variant={iconVariant}
+            />
+          ),
+        },
+        {
+          value: `${this.state.person?.place_of_birth}`,
+          name: 'Place of Birth',
+          icon: (
+            <Building size={iconSize} color={iconColor} variant={iconVariant} />
+          ),
+        },
+        {
+          value: `${this.state.person?.popularity}`,
+          name: 'Popularity',
+          icon: (
+            <Global size={iconSize} color={iconColor} variant={iconVariant} />
+          ),
+        },
+      ];
+    }
+    return [
+      {
+        value: `${this.state.person?.birthday}`,
+        name: 'Birthday',
+        icon: (
+          <Calendar1 size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+      },
+      {
+        value: `${this.state.person?.deathday}`,
+        name: 'Deathday',
+        icon: (
+          <CalendarRemove
+            size={iconSize}
+            color={iconColor}
+            variant={iconVariant}
+          />
+        ),
+      },
+      {
+        value: `${this.state.person?.place_of_birth}`,
+        name: 'Place of Birth',
+        icon: (
+          <Building size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+      },
+      {
+        value: `${this.state.person?.popularity}`,
+        name: 'Popularity',
+        icon: (
+          <Global size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+      },
+    ];
   }
 
   public override render(): React.JSX.Element {
@@ -76,30 +151,23 @@ class PersonDetailScreen extends React.Component<
       movies.length > 0 && movies[0]?.poster_path
         ? `${TMDB_BASE_IMAGE_URL}/w780${movies[0].poster_path}`
         : null;
-    const animatedHeart = {
-      transform: [{ scale: this.pulseAnimation }],
-    };
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.header}>
           {headerImage ? (
             <Image
               source={{ uri: headerImage }}
               style={styles.headerImage}
               resizeMode='cover'
-              blurRadius={5}
+              blurRadius={7}
             />
           ) : (
             <Text>No Image Available</Text>
           )}
         </View>
-        <LinearGradient
-          style={styles.body}
-          start={{ x: 1, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          colors={['#FFEFBA', '#FFFFFF']}
-        >
+        <View style={styles.overlay} />
+        <View style={styles.body}>
           <View style={styles.containerProfile}>
             <View>
               {person?.profile_path ? (
@@ -122,22 +190,18 @@ class PersonDetailScreen extends React.Component<
               )}
             </View>
             <Text style={styles.profileName}>{this.state.person?.name}</Text>
+            <Text style={styles.departmentText}>
+              {this.state.person?.known_for_department}
+            </Text>
             <ScrollView
               contentContainerStyle={styles.scrollContainer}
               horizontal
               showsHorizontalScrollIndicator={false}
             >
-              <Label
-                icon={
-                  <Animated.View style={animatedHeart}>
-                    <Icon name='heart' size={20} color='red' />
-                  </Animated.View>
-                }
-                value={`${this.state.person?.popularity}`}
-              />
+              <Labels data={this.getLabels()} />
             </ScrollView>
           </View>
-          <ScrollView style={styles.biography}>
+          <View style={styles.biography}>
             <Text style={styles.biographyText}>Introduction</Text>
             <ExpandableText
               text={`${this.state.person?.biography}`}
@@ -171,11 +235,12 @@ class PersonDetailScreen extends React.Component<
                     </TouchableOpacity>
                   );
                 }}
+                nestedScrollEnabled
               />
             </View>
-          </ScrollView>
-        </LinearGradient>
-      </View>
+          </View>
+        </View>
+      </ScrollView>
     );
   }
 }

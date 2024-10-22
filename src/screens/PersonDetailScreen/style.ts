@@ -10,8 +10,13 @@ const styles = StyleSheet.create({
         height: height * 0.4,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'gray',
         position: 'relative',
+    },
+    overlay: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     headerImage: {
         width: '100%',
@@ -21,7 +26,7 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 4,
-        backgroundColor: '#C0C0C0',
+        backgroundColor: 'white',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         marginTop: '-28%',
@@ -30,14 +35,17 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     profileName: {
-        fontSize: 15,
+        fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
         textAlign: 'center',
         marginTop: 60,
     },
+    departmentText: {
+        fontSize: 15,
+        textAlign: 'center',
+    },
     scrollContainer: {
-        paddingLeft: '40%',
         marginTop: 10,
         justifyContent: 'center',
     },

@@ -39,4 +39,7 @@ export type Person = {
     gender: number;
     known_for_department: string;
     known_for: KnownFor[];
+    place_of_birth?: string;
+    birthday?: string;
+    deathday?: string;
 };
