@@ -64,13 +64,16 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
     },
     ratingBox: {
-        marginBottom: spacing.large,
+        marginBottom: spacing.extraLarge,
     },
     rating: {
         fontSize: 16,
         color: colors.accent.dark,
         fontWeight: 'bold',
         marginLeft: spacing.tiny,
+    },
+    actionArea: {
+        marginBottom: spacing.large,
     },
     synopsisBox: {
         paddingHorizontal: spacing.large,

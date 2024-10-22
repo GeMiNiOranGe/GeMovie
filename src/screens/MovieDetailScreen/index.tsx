@@ -17,6 +17,7 @@ import {
   MoneyRecive,
   Image as ImageIcon,
   Star1,
+  Global,
 } from 'iconsax-react-native';
 import { Chip } from 'react-native-paper';
 
@@ -41,6 +42,7 @@ import {
   Labels,
   Section,
   SimpleCompanyCard,
+  TouchableRippleLink,
   Youtube,
 } from '@components';
 import { layout, colors } from '@shared/themes';
@@ -220,6 +222,18 @@ class MovieDetailScreen extends React.Component<
               </Text>
             </View>
 
+            <View style={[layout.center, layout.row, styles.actionArea]}>
+              <TouchableRippleLink
+                style={{
+                  backgroundColor: colors.accent.dark,
+                }}
+                url={`${this.state.movie?.homepage}`}
+                rippleColor={colors.accent.light}
+              >
+                <Global color={colors.primary.toString()} />
+              </TouchableRippleLink>
+            </View>
+
             <View style={[layout.itemsCenter, styles.labelBox]}>
               <Labels data={this.getLabels()} />
             </View>
@@ -292,13 +306,6 @@ class MovieDetailScreen extends React.Component<
                 value={`${this.state.movie?.spokenLanguages
                   .map(language => language.englishName)
                   .join(', ')}`}
-              />
-
-              <Section.Divider />
-
-              <Section.Label
-                name='Homepage'
-                value={`${this.state.movie?.homepage}`}
               />
 
               <Section.Divider />

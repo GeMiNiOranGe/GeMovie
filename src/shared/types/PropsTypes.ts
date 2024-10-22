@@ -115,6 +115,13 @@ export type SectionItemsProps<ItemT = any> = {
     keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
 };
 
+export type TouchableRippleLinkProps = {
+    url: string;
+    style?: StyleProp<ViewStyle> | undefined;
+    children?: React.ReactNode | undefined;
+    rippleColor?: ColorValue | undefined;
+};
+
 export type IconProps = {
     size?: number | undefined;
     color?: ColorValue | number | undefined;
