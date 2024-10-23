@@ -6,6 +6,8 @@ import type {
 import type {
     ColorValue,
     GestureResponderEvent,
+    ImageResizeMode,
+    ImageStyle,
     ListRenderItem,
     StyleProp,
     TextStyle,
@@ -13,6 +15,7 @@ import type {
 } from 'react-native';
 
 import type { SearchElement, VideoElementBase } from '@shared/types';
+import { imageSize } from '@shared/constants';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -120,6 +123,15 @@ export type TouchableRippleLinkProps = {
     style?: StyleProp<ViewStyle> | undefined;
     children?: React.ReactNode | undefined;
     rippleColor?: ColorValue | undefined;
+};
+
+export type TMDBImageProps = {
+    style?: StyleProp<ViewStyle> | undefined;
+    imageStyle?: StyleProp<ImageStyle> | undefined;
+    imageSize: keyof typeof imageSize;
+    imagePath: string | undefined;
+    NotFoundComponent?: React.JSX.Element;
+    resizeMode?: ImageResizeMode | undefined;
 };
 
 export type IconProps = {

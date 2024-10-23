@@ -41,6 +41,6 @@ export default class URLBuilder {
      * @param type `"movie"` | `"tv"`
      */
     public static buildGenreListURL(type: 'movie' | 'tv'): string {
-        return `https://api.themoviedb.org/3/genre/${type}/list?api_key=${TMDB_API_KEY}`;
+        return `${TMDB_BASE_URL}/genre/${type}/list?api_key=${TMDB_API_KEY}`;
     }
 }

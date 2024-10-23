@@ -42,6 +42,7 @@ import {
   Labels,
   Section,
   SimpleCompanyCard,
+  TMDBImage,
   TouchableRippleLink,
   Youtube,
 } from '@components';
@@ -171,26 +172,20 @@ class MovieDetailScreen extends React.Component<
             end={{ x: 0, y: 1 }}
             colors={['transparent', colors.primary.toString()]}
           >
-            <View style={styles.posterBox}>
-              {this.state.movie?.posterPath ? (
-                <Image
-                  style={styles.poster}
-                  source={{
-                    uri: URLBuilder.buildImageURL(
-                      'w342',
-                      this.state.movie?.posterPath,
-                    ),
-                  }}
-                />
-              ) : (
+            <TMDBImage
+              style={styles.posterBox}
+              imageStyle={styles.poster}
+              imagePath={this.state.movie?.posterPath}
+              imageSize='w342'
+              NotFoundComponent={
                 <View
                   style={[layout.center, styles.poster, styles.posterNotFound]}
                 >
                   <ImageIcon size='48' color={colors.text.toString()} />
                   <Text style={styles.notFoundText}>Poster not found</Text>
                 </View>
-              )}
-            </View>
+              }
+            />
           </LinearGradient>
 
           <View style={styles.content}>
