@@ -149,7 +149,7 @@ class CompanyDetailScreen extends React.Component<
                   return (
                     <TouchableOpacity
                       onPress={() =>
-                        navigation.navigate('MovieDetailScreen', {
+                        navigation.push('MovieDetailScreen', {
                           movieId: movie.id,
                         })
                       }

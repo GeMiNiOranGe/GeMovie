@@ -104,7 +104,11 @@ class MovieDetailScreen extends React.Component<
         item={item}
         index={index}
         listLength={this.state.movie?.productionCompanies.length}
-        onPress={() => {}}
+        onPress={() => {
+          this.props.navigation.push('CompanyDetailScreen', {
+            companyId: item.id,
+          });
+        }}
       />
     );
   }
