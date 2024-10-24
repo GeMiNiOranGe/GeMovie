@@ -21,7 +21,7 @@ import {
 } from 'iconsax-react-native';
 import { Chip } from 'react-native-paper';
 
-import { Adult } from '@assets/icons';
+import { Adult, IMDb } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
 import type {
   CompanyElement,
@@ -49,6 +49,7 @@ import {
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
+import { IMDB_BASE_URL } from '@config';
 import styles from './style';
 
 const iconSize = 16;
@@ -224,13 +225,17 @@ class MovieDetailScreen extends React.Component<
 
             <View style={[layout.center, layout.row, styles.actionArea]}>
               <TouchableRippleLink
-                style={{
-                  backgroundColor: colors.accent.dark,
-                }}
+                style={styles.homepageLink}
                 url={`${this.state.movie?.homepage}`}
                 rippleColor={colors.accent.light}
               >
                 <Global color={colors.primary.toString()} />
+              </TouchableRippleLink>
+
+              <TouchableRippleLink
+                url={`${IMDB_BASE_URL}/title/${this.state.movie?.imdbId}`}
+              >
+                <IMDb color={colors.text.toString()} />
               </TouchableRippleLink>
             </View>
 

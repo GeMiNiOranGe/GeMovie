@@ -75,6 +75,10 @@ const styles = StyleSheet.create({
     actionArea: {
         marginBottom: spacing.large,
     },
+    homepageLink: {
+        backgroundColor: colors.accent.dark,
+        marginRight: spacing.small,
+    },
     synopsisBox: {
         paddingHorizontal: spacing.large,
         marginBottom: spacing.large,
