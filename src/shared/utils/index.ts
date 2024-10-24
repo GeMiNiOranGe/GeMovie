@@ -50,6 +50,25 @@ export function getFormattedMoney(amount?: number): string {
     return amount ? `${amount.toLocaleString()} USD` : '-';
 }
 
+export function getFormattedRuntime(
+    runtime?: number,
+    timeUnit: 'hour' | 'minute' = 'hour',
+): string {
+    if (!runtime) {
+        return '-';
+    }
+
+    if (timeUnit === 'hour') {
+        const hours = Math.floor(runtime / 60);
+        const minutes = runtime % 60;
+        return `${hours}h ${minutes}m`;
+    }
+    if (timeUnit === 'minute') {
+        return runtime === 1 ? `${runtime} minute` : `${runtime} minutes`;
+    }
+    return 'Invalid time unit';
+}
+
 export function getFormattedGender(genderNumber: number): string {
     if (genderNumber === 1) {
         return 'Female';

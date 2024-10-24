@@ -35,6 +35,7 @@ import {
   getFormattedDate,
   getFormattedFullYear,
   getFormattedMoney,
+  getFormattedRuntime,
   getFormattedVoteAverage,
 } from '@shared/utils';
 import {
@@ -125,7 +126,7 @@ class MovieDetailScreen extends React.Component<
       {
         icon: <Clock size={iconSize} color={iconColor} variant={iconVariant} />,
         name: 'Length',
-        value: `${this.state.movie?.runtime} minutes`,
+        value: getFormattedRuntime(this.state.movie?.runtime, 'minute'),
       },
       {
         icon: <Adult size={iconSize} color={iconColor} />,
@@ -287,6 +288,13 @@ class MovieDetailScreen extends React.Component<
               <Section.Divider />
 
               <Section.Label
+                name='Runtime'
+                value={getFormattedRuntime(this.state.movie?.runtime)}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
                 name='Country of Origin'
                 value={`${this.state.movie?.originCountry.join(', ')}`}
               />
@@ -314,6 +322,20 @@ class MovieDetailScreen extends React.Component<
                 keyExtractor={item => item.id.toString()}
                 data={this.state.movie?.productionCompanies}
                 renderItem={this.renderCompanyItem}
+              />
+            </Section>
+
+            <Section title='Box office'>
+              <Section.Label
+                name='Budget'
+                value={getFormattedMoney(this.state.movie?.budget)}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Revenue'
+                value={getFormattedMoney(this.state.movie?.revenue)}
               />
             </Section>
 
