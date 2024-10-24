@@ -18,12 +18,18 @@ class Section extends React.PureComponent<SectionProps> {
   public override render(): React.JSX.Element {
     return (
       <View style={[styles.section, this.props.style]}>
-        <View style={[layout.row, styles.titleBox]}>
-          <View style={styles.accent} />
+        <View style={styles.titleBox}>
+          <View style={[layout.row]}>
+            <View style={styles.accent} />
 
-          <Text style={styles.title} numberOfLines={1}>
-            {this.props.title}
-          </Text>
+            <Text style={styles.title} numberOfLines={1}>
+              {this.props.title}
+            </Text>
+          </View>
+
+          {this.props.subtitle && (
+            <Text style={styles.subtitle}>{this.props.subtitle}</Text>
+          )}
         </View>
 
         <>{this.props.children}</>

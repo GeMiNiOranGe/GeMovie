@@ -95,6 +95,7 @@ export type ExpandableTextProps = {
 export type SectionProps = {
     style?: StyleProp<ViewStyle> | undefined;
     title: string;
+    subtitle?: string | undefined;
     children?: React.ReactNode | undefined;
 };
 

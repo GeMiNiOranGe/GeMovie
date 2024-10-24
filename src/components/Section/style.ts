@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 
+const accentWidth = 4;
+
 const styles = StyleSheet.create({
     section: {
         marginBottom: spacing.huge,
@@ -16,8 +18,14 @@ const styles = StyleSheet.create({
         color: colors.text,
         fontWeight: 'bold',
     },
+    subtitle: {
+        fontSize: 14,
+        color: colors.subtext,
+        marginLeft: accentWidth + spacing.small,
+        marginTop: spacing.tiny,
+    },
     accent: {
-        width: 4,
+        width: accentWidth,
         borderRadius: 1000,
         marginRight: spacing.small,
         backgroundColor: colors.secondary,
