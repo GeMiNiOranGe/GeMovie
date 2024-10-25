@@ -103,5 +103,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'black',
     },
+    titleBody: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
 });
 export default styles;

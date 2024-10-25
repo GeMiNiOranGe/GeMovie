@@ -6,18 +6,37 @@ import {
   Image,
   FlatList,
   Animated,
+  Modal,
+  Pressable,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
-import type { Person, RootScreenProps } from '@shared/types';
+import type { FeaturedMovie, Person, RootScreenProps } from '@shared/types';
 import styles from './style';
+import { Crown, Global, Information, Star } from 'iconsax-react-native';
 
 class AllPerson extends React.Component<RootScreenProps<'SeeAllPersonScreen'>> {
   public override state = {
     people: [] as Person[],
     scaleAnim: new Animated.Value(1),
+    movies: [] as unknown as FeaturedMovie[],
+    isModalVisible: false,
+    selectedPerson: '' as string,
+  };
+
+  public fetchPersonMovies = (personId: number) => {
+    const moviesUrl = `${TMDB_BASE_URL}/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}`;
+    fetch(moviesUrl)
+      .then(response => response.json())
+      .then(movieData => {
+        this.setState({
+          movies: movieData.cast,
+          isModalVisible: true,
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching person movies:', error);
+      });
   };
 
   public override componentDidMount() {
@@ -32,20 +51,20 @@ class AllPerson extends React.Component<RootScreenProps<'SeeAllPersonScreen'>> {
       });
   }
 
+  protected closeModal = () => {
+    this.setState({ isModalVisible: false });
+  };
+
   public override render() {
-    const { people } = this.state;
+    const { people, movies, isModalVisible, selectedPerson } = this.state;
     const { navigation } = this.props;
     return (
-      <LinearGradient
-        style={styles.container}
-        start={{ x: 1, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        colors={['#ff9966', '#ff5e62', '#24243e']}
-      >
+      <View style={styles.container}>
         <View style={styles.movieList}>
           <FlatList
             data={people}
-            renderItem={({ item }) => (
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item, index }) => (
               <TouchableOpacity
                 key={item.id}
                 onPress={() =>
@@ -53,6 +72,7 @@ class AllPerson extends React.Component<RootScreenProps<'SeeAllPersonScreen'>> {
                     personId: item.id,
                   })
                 }
+                style={styles.containerItem}
               >
                 <Image
                   source={{
@@ -60,6 +80,20 @@ class AllPerson extends React.Component<RootScreenProps<'SeeAllPersonScreen'>> {
                   }}
                   style={styles.movieThumbnail}
                 />
+                <View style={styles.crownOverlay}>
+                  {index === 0 && (
+                    <Crown size={25} color='gold' variant='Bold' />
+                  )}
+                  {index === 1 && (
+                    <Crown size={25} color='silver' variant='Bold' />
+                  )}
+                  {index === 2 && (
+                    <Crown size={25} color='brown' variant='Bold' />
+                  )}
+                  {index > 2 && (
+                    <Star size={25} color='yellow' variant='Bold' />
+                  )}
+                </View>
                 <View style={styles.movieItem}>
                   <Text
                     style={styles.movieTitle}
@@ -68,13 +102,66 @@ class AllPerson extends React.Component<RootScreenProps<'SeeAllPersonScreen'>> {
                   >
                     {item.name}
                   </Text>
+                  <Text
+                    style={styles.title}
+                    ellipsizeMode='tail'
+                    numberOfLines={2}
+                  >
+                    <Global size={12} color='black' variant='Linear' />
+                    {item.popularity}
+                  </Text>
                 </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({ selectedPerson: item.name });
+                    this.fetchPersonMovies(item.id);
+                  }}
+                >
+                  <Information size={15} color='gray' variant='Linear' />
+                </TouchableOpacity>
               </TouchableOpacity>
             )}
-            numColumns={2}
           />
         </View>
-      </LinearGradient>
+
+        <Modal
+          animationType='slide'
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={this.closeModal}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Movies by {selectedPerson}</Text>
+              <FlatList
+                data={movies}
+                keyExtractor={item => item.id.toString()}
+                renderItem={({ item }) => (
+                  <View style={styles.movieListItem}>
+                    <Image
+                      source={{
+                        uri: URLBuilder.buildImageURL('w185', item.poster_path),
+                      }}
+                      style={styles.Thumbnail}
+                    />
+                    <Text
+                      style={styles.movieListTitle}
+                      ellipsizeMode='tail'
+                      numberOfLines={2}
+                    >
+                      {item.title}
+                    </Text>
+                  </View>
+                )}
+                numColumns={2}
+              />
+              <Pressable onPress={this.closeModal} style={styles.closeButton}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
     );
   }
 }

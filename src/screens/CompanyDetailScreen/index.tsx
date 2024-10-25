@@ -8,17 +8,26 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Animated,
 } from 'react-native';
 
-import { CompanyDetailScreenState, RootScreenProps } from '@shared/types';
+import {
+  CompanyDetailScreenState,
+  LabelProps,
+  RootScreenProps,
+  Variant,
+} from '@shared/types';
 import { CompanyService, URLBuilder } from '@services';
 import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
 import { imageSize } from '@shared/constants';
-import { Label } from '@components';
-import LinearGradient from 'react-native-linear-gradient';
+import { Labels } from '@components';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Icons from 'react-native-vector-icons/Ionicons';
+import { Building, Building4, Flag } from 'iconsax-react-native';
 import styles from './style';
+
+const iconSize = 16;
+const iconColor = 'black';
+const iconVariant: Variant = 'Bold';
 
 class CompanyDetailScreen extends React.Component<
   RootScreenProps<'CompanyDetailScreen'>,
@@ -29,7 +38,6 @@ class CompanyDetailScreen extends React.Component<
     this.state = {
       company: undefined,
       movies: [],
-      randomMovie: undefined,
     };
   }
 
@@ -40,11 +48,8 @@ class CompanyDetailScreen extends React.Component<
     fetch(movieUrl)
       .then(response => response.json())
       .then(movieData => {
-        const movies = movieData.results;
-        const randomMovie = movies[Math.floor(Math.random() * movies.length)];
         this.setState({
           movies: movieData.results,
-          randomMovie: randomMovie,
         });
       });
 
@@ -53,34 +58,53 @@ class CompanyDetailScreen extends React.Component<
     );
   }
 
+  private getLabels(): LabelProps[] {
+    return [
+      {
+        name: 'Country',
+        value: this.state.company?.originCountry || 'N/A',
+        icon: <Flag size={iconSize} color={iconColor} variant={iconVariant} />,
+      },
+      {
+        name: 'HeadQuarters',
+        value: this.state.company?.headquarters || 'N/A',
+        icon: (
+          <Building size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+      },
+      {
+        name: 'Parent Company',
+        value: this.state.company?.parentCompany?.name || 'N/A',
+        icon: (
+          <Building4 size={iconSize} color={iconColor} variant={iconVariant} />
+        ),
+      },
+    ];
+  }
   public override render(): React.JSX.Element {
     const { navigation } = this.props;
-    const { randomMovie } = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={styles.header}>
-            {randomMovie?.poster_path ? (
+            {this.state.movies !== undefined ? (
               <Image
                 source={{
                   uri: URLBuilder.buildImageURL(
                     'w780',
-                    randomMovie.poster_path,
+                    this.state.movies[0]?.backdrop_path,
                   ),
                 }}
                 blurRadius={3}
                 style={styles.headerImage}
               />
             ) : (
-              <Text>No backdrop available</Text>
+              <View>
+                <Icon name='image' size={30} color='gray' />
+              </View>
             )}
           </View>
-          <LinearGradient
-            style={styles.body}
-            start={{ x: 1, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            colors={['#833ab4', '#fd1d1d', '#fcb045']}
-          >
+          <View style={styles.body}>
             <View>
               {this.state.company?.logoPath ? (
                 <Image
@@ -101,39 +125,12 @@ class CompanyDetailScreen extends React.Component<
                 </View>
               )}
             </View>
-            <Text style={styles.LogoContent}>{this.state.company?.name}</Text>
-            <ScrollView
-              contentContainerStyle={styles.scrollContainer}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            >
-              {this.state.company?.originCountry && (
-                <Label
-                  icon={<Icon name='flag' size={20} color='black' />}
-                  value={`${this.state.company.originCountry}`}
-                />
-              )}
-              {this.state.company?.headquarters && (
-                <Label
-                  icon={<Icons name='location' size={20} color='black' />}
-                  value={`${this.state.company.headquarters}`}
-                />
-              )}
-
-              {this.state.company?.parentCompany?.name && (
-                <Label
-                  icon={<Icon name='building' size={20} color='black' />}
-                  value={`${this.state.company.parentCompany.name}`}
-                />
-              )}
-
-              {this.state.company?.homepage && (
-                <Label
-                  icon={<Icon name='link' size={20} color='black' />}
-                  value={`${this.state.company.homepage}`}
-                />
-              )}
-            </ScrollView>
+            <Animated.View>
+              <Text style={styles.LogoContent}>{this.state.company?.name}</Text>
+            </Animated.View>
+            <View style={styles.titleBody}>
+              <Labels data={this.getLabels()} />
+            </View>
             <View style={styles.containerMovie}>
               <Text style={styles.containerMovieText}>Most Popular Movies</Text>
               <FlatList
@@ -142,10 +139,6 @@ class CompanyDetailScreen extends React.Component<
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item: movie }) => {
-                  const imageUrl = URLBuilder.buildImageURL(
-                    'w185',
-                    movie.poster_path,
-                  );
                   return (
                     <TouchableOpacity
                       onPress={() =>
@@ -155,7 +148,9 @@ class CompanyDetailScreen extends React.Component<
                       }
                     >
                       <Image
-                        source={{ uri: imageUrl }}
+                        source={{
+                          uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${movie.poster_path}`,
+                        }}
                         style={styles.movieThumbnail}
                       />
                     </TouchableOpacity>
@@ -163,7 +158,7 @@ class CompanyDetailScreen extends React.Component<
                 }}
               />
             </View>
-          </LinearGradient>
+          </View>
         </ScrollView>
       </SafeAreaView>
     );

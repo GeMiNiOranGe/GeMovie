@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
+
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
@@ -19,18 +20,21 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     LogoContent: {
-        fontSize: 15,
+        fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
         textAlign: 'center',
-        marginTop: 60,
+        marginTop: 50,
+        marginBottom: 10,
     },
     body: {
         flex: 4,
-        backgroundColor: '#C0C0C0',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        marginTop: '-28%',
+        backgroundColor: 'white',
+        marginTop: '-25%',
+    },
+    titleBody: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     scrollContainer: {
         paddingLeft: 15,

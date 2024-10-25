@@ -43,8 +43,7 @@ export type ExpandableTextState = {
 
 export type CompanyDetailScreenState = {
     company?: Company | undefined;
-    movies?: Movie[] | undefined;
-    randomMovie?: Movie | undefined;
+    movies?: FeaturedMovie[] | undefined;
 };
 
 export type PersonDetailScreenState = {

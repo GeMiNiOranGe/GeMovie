@@ -1,5 +1,4 @@
 import {
-  Animated,
   FlatList,
   Image,
   ScrollView,
@@ -38,14 +37,12 @@ class PersonDetailScreen extends React.Component<
   RootScreenProps<'PersonDetailScreen'>,
   PersonDetailScreenState
 > {
-  private pulseAnimation: Animated.Value;
   public constructor(props: RootScreenProps<'PersonDetailScreen'>) {
     super(props);
     this.state = {
       person: undefined,
       movies: [],
     };
-    this.pulseAnimation = new Animated.Value(1);
   }
 
   public override componentDidMount(): void {
@@ -83,7 +80,7 @@ class PersonDetailScreen extends React.Component<
           ),
         },
         {
-          value: `${this.state.person?.birthday}`,
+          value: this.state.person?.birthday || 'N/A',
           name: 'Birthday',
           icon: (
             <Calendar1
@@ -94,7 +91,7 @@ class PersonDetailScreen extends React.Component<
           ),
         },
         {
-          value: `${this.state.person?.place_of_birth}`,
+          value: this.state.person?.place_of_birth || 'N/A',
           name: 'Place of Birth',
           icon: (
             <Building size={iconSize} color={iconColor} variant={iconVariant} />
@@ -111,14 +108,14 @@ class PersonDetailScreen extends React.Component<
     }
     return [
       {
-        value: `${this.state.person?.birthday}`,
+        value: this.state.person?.birthday || 'N/A',
         name: 'Birthday',
         icon: (
           <Calendar1 size={iconSize} color={iconColor} variant={iconVariant} />
         ),
       },
       {
-        value: `${this.state.person?.deathday}`,
+        value: this.state.person?.deathday || 'N/A',
         name: 'Deathday',
         icon: (
           <CalendarRemove
@@ -129,7 +126,7 @@ class PersonDetailScreen extends React.Component<
         ),
       },
       {
-        value: `${this.state.person?.place_of_birth}`,
+        value: this.state.person?.place_of_birth || 'N/A',
         name: 'Place of Birth',
         icon: (
           <Building size={iconSize} color={iconColor} variant={iconVariant} />
@@ -193,13 +190,9 @@ class PersonDetailScreen extends React.Component<
             <Text style={styles.departmentText}>
               {this.state.person?.known_for_department}
             </Text>
-            <ScrollView
-              contentContainerStyle={styles.scrollContainer}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            >
+            <View style={styles.titleBody}>
               <Labels data={this.getLabels()} />
-            </ScrollView>
+            </View>
           </View>
           <View style={styles.biography}>
             <Text style={styles.biographyText}>Introduction</Text>
