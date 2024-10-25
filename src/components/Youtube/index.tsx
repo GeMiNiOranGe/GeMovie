@@ -79,7 +79,7 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
           height={300}
           width={300}
           videoId={videoKey}
-          play={true}
+          play={false}
         />
       </View>
     );

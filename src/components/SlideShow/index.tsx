@@ -7,6 +7,7 @@ import {
   FlatList,
   Animated,
   Modal,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SlideshowProps, SlideshowState } from '@shared/types';
@@ -143,9 +144,13 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
             style={styles.modalContainer}
             onPress={this.closemodal}
           >
-            <View>
-              {selectedMovieId && <Youtube type='movie' id={selectedMovieId} />}
-            </View>
+            <TouchableWithoutFeedback>
+              <View>
+                {selectedMovieId && (
+                  <Youtube type='movie' id={selectedMovieId} />
+                )}
+              </View>
+            </TouchableWithoutFeedback>
           </TouchableOpacity>
         </Modal>
       </View>
