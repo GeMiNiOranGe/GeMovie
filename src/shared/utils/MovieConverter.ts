@@ -1,6 +1,6 @@
 import { Movie, MovieElement } from '@shared/types';
 import {
-    toBelongsToCollection,
+    toSimpleCollection,
     toCompanyElement,
     toProductionCountryElement,
     toLanguage,
@@ -29,9 +29,7 @@ export function toMovie(val: any): Movie {
     return {
         adult: val.adult,
         backdropPath: val['backdrop_path'] ?? undefined,
-        belongsToCollection: toBelongsToCollection(
-            val['belongs_to_collection'],
-        ),
+        belongsToCollection: toSimpleCollection(val['belongs_to_collection']),
         budget: val.budget,
         genres: val.genres,
         homepage: val.homepage,

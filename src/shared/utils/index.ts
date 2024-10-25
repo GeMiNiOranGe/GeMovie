@@ -1,6 +1,5 @@
 import { GenreService } from '@services';
 import type {
-    BelongsToCollection,
     Genre,
     ImageDimensions,
     KnownForElement,
@@ -146,21 +145,6 @@ export function toSearchResponse<T>(val: any): SearchResponse<T> {
         results: val.results,
         totalPages: val['total_pages'],
         totalResults: val['total_results'],
-    };
-}
-
-export function toBelongsToCollection(
-    val: any,
-): BelongsToCollection | undefined {
-    if (!val) {
-        return undefined;
-    }
-
-    return {
-        id: val.id,
-        name: val.name,
-        posterPath: val['poster_path'],
-        backdropPath: val['backdrop_path'],
     };
 }
 

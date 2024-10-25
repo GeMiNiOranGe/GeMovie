@@ -4,7 +4,8 @@ import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
 
-const imageDimensions = calculateImageDimensions(160, 2, 3);
+const posterDimensions = calculateImageDimensions(160, 2, 3);
+const collectionPosterDimensions = calculateImageDimensions(64, 2, 3);
 
 const styles = StyleSheet.create({
     container: {
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     },
     poster: {
         borderRadius: 12,
-        ...imageDimensions,
+        ...posterDimensions,
     },
     titleBox: {
         alignItems: 'center',
@@ -79,15 +80,25 @@ const styles = StyleSheet.create({
         backgroundColor: colors.accent.dark,
         marginRight: spacing.small,
     },
-    synopsisBox: {
+    informationBox: {
         paddingHorizontal: spacing.large,
-        marginBottom: spacing.large,
+        marginBottom: spacing.huge,
     },
-    synopsisTitle: {
+    informationTitle: {
         fontWeight: 'bold',
         fontSize: 16,
         color: 'black',
         paddingBottom: spacing.small,
+    },
+    collectionPosterBox: {
+        marginRight: spacing.large,
+    },
+    collectionPoster: {
+        ...collectionPosterDimensions,
+    },
+    collectionTitle: {
+        fontSize: 16,
+        color: colors.primary,
     },
     expandableText: {
         paddingHorizontal: spacing.large,

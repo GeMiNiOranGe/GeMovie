@@ -1,4 +1,9 @@
-import type { VideoBase, VideoElementBase, VideoGenreIds } from '@shared/types';
+import type {
+    SimpleCollection,
+    VideoBase,
+    VideoElementBase,
+    VideoGenreIds,
+} from '@shared/types';
 
 export type MovieBase = VideoElementBase & {
     originalTitle: string;
@@ -24,15 +29,8 @@ export type Movie = VideoBase &
     MovieBase & {
         originCountry: string[];
         imdbId?: string | undefined;
-        belongsToCollection?: BelongsToCollection | undefined;
+        belongsToCollection?: SimpleCollection | undefined;
         budget: number;
         revenue: number;
         runtime: number;
     };
-
-export type BelongsToCollection = {
-    id: number;
-    name: string;
-    posterPath?: string | undefined;
-    backdropPath?: string | undefined;
-};
