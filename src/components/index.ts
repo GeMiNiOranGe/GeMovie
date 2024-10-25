@@ -13,3 +13,5 @@ export { default as Youtube } from './Youtube';
 export { default as Section } from './Section';
 export { default as SimpleCompanyCard } from './SimpleCompanyCard';
 export { default as Suggestion } from './Suggestion';
+export { default as TouchableRippleLink } from './TouchableRippleLink';
+export { default as TMDBImage } from './TMDBImage';

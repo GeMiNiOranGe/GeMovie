@@ -2,6 +2,7 @@ import React from 'react';
 import {
   FlatList,
   Image,
+  ImageBackground,
   ListRenderItemInfo,
   SafeAreaView,
   ScrollView,
@@ -17,10 +18,11 @@ import {
   MoneyRecive,
   Image as ImageIcon,
   Star1,
+  Global,
 } from 'iconsax-react-native';
-import { Chip } from 'react-native-paper';
+import { Chip, TouchableRipple } from 'react-native-paper';
 
-import { Adult } from '@assets/icons';
+import { Adult, IMDb } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
 import type {
   CompanyElement,
@@ -34,6 +36,7 @@ import {
   getFormattedDate,
   getFormattedFullYear,
   getFormattedMoney,
+  getFormattedRuntime,
   getFormattedVoteAverage,
 } from '@shared/utils';
 import {
@@ -41,10 +44,13 @@ import {
   Labels,
   Section,
   SimpleCompanyCard,
+  TMDBImage,
+  TouchableRippleLink,
   Youtube,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
+import { IMDB_BASE_URL } from '@config';
 import styles from './style';
 
 const iconSize = 16;
@@ -63,6 +69,8 @@ class MovieDetailScreen extends React.Component<
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
     this.renderCompanyItem = this.renderCompanyItem.bind(this);
+    this.pushCollectionDetailScreen =
+      this.pushCollectionDetailScreen.bind(this);
   }
 
   public override componentDidMount(): void {
@@ -92,6 +100,30 @@ class MovieDetailScreen extends React.Component<
     );
   }
 
+  private renderCompanyItem({
+    item,
+    index,
+  }: ListRenderItemInfo<CompanyElement>) {
+    return (
+      <SimpleCompanyCard
+        item={item}
+        index={index}
+        listLength={this.state.movie?.productionCompanies.length}
+        onPress={() => {
+          this.props.navigation.push('CompanyDetailScreen', {
+            companyId: item.id,
+          });
+        }}
+      />
+    );
+  }
+
+  private pushCollectionDetailScreen(): void {
+    this.props.navigation.push('CollectionDetailScreen', {
+      collectionId: this.state.movie?.belongsToCollection?.id as number,
+    });
+  }
+
   private getLabels(): LabelProps[] {
     return [
       {
@@ -104,7 +136,7 @@ class MovieDetailScreen extends React.Component<
       {
         icon: <Clock size={iconSize} color={iconColor} variant={iconVariant} />,
         name: 'Length',
-        value: `${this.state.movie?.runtime} minutes`,
+        value: getFormattedRuntime(this.state.movie?.runtime, 'minute'),
       },
       {
         icon: <Adult size={iconSize} color={iconColor} />,
@@ -132,20 +164,6 @@ class MovieDetailScreen extends React.Component<
     ];
   }
 
-  private renderCompanyItem({
-    item,
-    index,
-  }: ListRenderItemInfo<CompanyElement>) {
-    return (
-      <SimpleCompanyCard
-        item={item}
-        index={index}
-        listLength={this.state.movie?.productionCompanies.length}
-        onPress={() => {}}
-      />
-    );
-  }
-
   public override render(): React.JSX.Element {
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
@@ -169,26 +187,20 @@ class MovieDetailScreen extends React.Component<
             end={{ x: 0, y: 1 }}
             colors={['transparent', colors.primary.toString()]}
           >
-            <View style={styles.posterBox}>
-              {this.state.movie?.posterPath ? (
-                <Image
-                  style={styles.poster}
-                  source={{
-                    uri: URLBuilder.buildImageURL(
-                      'w342',
-                      this.state.movie?.posterPath,
-                    ),
-                  }}
-                />
-              ) : (
+            <TMDBImage
+              style={styles.posterBox}
+              imageStyle={styles.poster}
+              imagePath={this.state.movie?.posterPath}
+              imageSize='w342'
+              NotFoundComponent={
                 <View
                   style={[layout.center, styles.poster, styles.posterNotFound]}
                 >
                   <ImageIcon size='48' color={colors.text.toString()} />
                   <Text style={styles.notFoundText}>Poster not found</Text>
                 </View>
-              )}
-            </View>
+              }
+            />
           </LinearGradient>
 
           <View style={styles.content}>
@@ -220,18 +232,79 @@ class MovieDetailScreen extends React.Component<
               </Text>
             </View>
 
+            <View style={[layout.center, layout.row, styles.actionArea]}>
+              <TouchableRippleLink
+                style={styles.homepageLink}
+                url={`${this.state.movie?.homepage}`}
+                rippleColor={colors.accent.light}
+              >
+                <Global color={colors.primary.toString()} />
+              </TouchableRippleLink>
+
+              <TouchableRippleLink
+                url={`${IMDB_BASE_URL}/title/${this.state.movie?.imdbId}`}
+              >
+                <IMDb color={colors.text.toString()} />
+              </TouchableRippleLink>
+            </View>
+
             <View style={[layout.itemsCenter, styles.labelBox]}>
               <Labels data={this.getLabels()} />
             </View>
 
-            <View style={styles.synopsisBox}>
-              <Text style={styles.synopsisTitle}>Synopsis</Text>
+            <View style={styles.informationBox}>
+              <Text style={styles.informationTitle}>Synopsis</Text>
 
               <ExpandableText
                 text={`${this.state.movie?.overview}`}
                 seeButtonPosition='separate'
               />
             </View>
+
+            {this.state.movie?.belongsToCollection && (
+              <View style={styles.informationBox}>
+                <Text style={styles.informationTitle}>
+                  Belongs to collection
+                </Text>
+
+                <ImageBackground
+                  blurRadius={4}
+                  source={{
+                    uri: URLBuilder.buildImageURL(
+                      'w300',
+                      this.state.movie?.belongsToCollection?.backdropPath,
+                    ),
+                  }}
+                >
+                  <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                    colors={['transparent', colors.text.toString()]}
+                  >
+                    <TouchableRipple
+                      style={[layout.row, layout.itemsCenter]}
+                      rippleColor={colors.neutral}
+                      onPress={this.pushCollectionDetailScreen}
+                    >
+                      <>
+                        <TMDBImage
+                          style={styles.collectionPosterBox}
+                          imageStyle={styles.collectionPoster}
+                          imagePath={
+                            this.state.movie?.belongsToCollection?.posterPath
+                          }
+                          imageSize='w154'
+                        />
+
+                        <Text style={styles.collectionTitle} numberOfLines={1}>
+                          {this.state.movie?.belongsToCollection?.name}
+                        </Text>
+                      </>
+                    </TouchableRipple>
+                  </LinearGradient>
+                </ImageBackground>
+              </View>
+            )}
 
             <Section title='Storyline'>
               <View style={styles.expandableText}>
@@ -250,11 +323,11 @@ class MovieDetailScreen extends React.Component<
 
               <Section.Divider />
 
-              <Section.Label
+              <Section.Items
                 name='Genres'
-                value={`${this.state.movie?.genres
-                  .map(genre => genre.name)
-                  .join(', ')}`}
+                keyExtractor={item => item.id.toString()}
+                data={this.state.movie?.genres}
+                renderItem={this.renderGenreItem}
               />
             </Section>
 
@@ -269,6 +342,20 @@ class MovieDetailScreen extends React.Component<
               <Section.Label
                 name='Release Date'
                 value={getFormattedDate(this.state.movie?.releaseDate)}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Runtime'
+                value={getFormattedRuntime(this.state.movie?.runtime)}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Status'
+                value={`${this.state.movie?.status}`}
               />
 
               <Section.Divider />
@@ -297,21 +384,34 @@ class MovieDetailScreen extends React.Component<
               <Section.Divider />
 
               <Section.Label
-                name='Homepage'
-                value={`${this.state.movie?.homepage}`}
+                name='Production Countries'
+                value={`${this.state.movie?.productionCountries
+                  .map(country => country.name)
+                  .join(', ')}`}
               />
 
               <Section.Divider />
 
-              <Section.Item name='Production Companies'>
-                <FlatList
-                  contentContainerStyle={styles.companyContentList}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={this.state.movie?.productionCompanies}
-                  renderItem={this.renderCompanyItem}
-                />
-              </Section.Item>
+              <Section.Items
+                name='Production Companies'
+                keyExtractor={item => item.id.toString()}
+                data={this.state.movie?.productionCompanies}
+                renderItem={this.renderCompanyItem}
+              />
+            </Section>
+
+            <Section title='Box office'>
+              <Section.Label
+                name='Budget'
+                value={getFormattedMoney(this.state.movie?.budget)}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Revenue'
+                value={getFormattedMoney(this.state.movie?.revenue)}
+              />
             </Section>
 
             <View>

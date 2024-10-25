@@ -31,3 +31,10 @@ export type Collection = {
     backdrop_path: string | null;
     parts: Part[];
 };
+
+export type SimpleCollection = {
+    id: number;
+    name: string;
+    posterPath?: string | undefined;
+    backdropPath?: string | undefined;
+};

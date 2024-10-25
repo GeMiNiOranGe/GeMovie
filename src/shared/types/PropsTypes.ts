@@ -6,6 +6,8 @@ import type {
 import type {
     ColorValue,
     GestureResponderEvent,
+    ImageResizeMode,
+    ImageStyle,
     ListRenderItem,
     StyleProp,
     TextStyle,
@@ -13,6 +15,7 @@ import type {
 } from 'react-native';
 
 import type { SearchElement, VideoElementBase } from '@shared/types';
+import { imageSize } from '@shared/constants';
 
 export type RootStackParamList = ParamListBase & {
     HomeScreen: undefined;
@@ -92,6 +95,7 @@ export type ExpandableTextProps = {
 export type SectionProps = {
     style?: StyleProp<ViewStyle> | undefined;
     title: string;
+    subtitle?: string | undefined;
     children?: React.ReactNode | undefined;
 };
 
@@ -105,6 +109,30 @@ export type SectionItemProps = {
     style?: StyleProp<ViewStyle> | undefined;
     name: string;
     children?: React.ReactNode | undefined;
+};
+
+export type SectionItemsProps<ItemT = any> = {
+    style?: StyleProp<ViewStyle> | undefined;
+    name: string;
+    data: ArrayLike<ItemT> | null | undefined;
+    renderItem: ListRenderItem<ItemT> | null | undefined;
+    keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
+};
+
+export type TouchableRippleLinkProps = {
+    url: string;
+    style?: StyleProp<ViewStyle> | undefined;
+    children?: React.ReactNode | undefined;
+    rippleColor?: ColorValue | undefined;
+};
+
+export type TMDBImageProps = {
+    style?: StyleProp<ViewStyle> | undefined;
+    imageStyle?: StyleProp<ImageStyle> | undefined;
+    imageSize: keyof typeof imageSize;
+    imagePath: string | undefined;
+    NotFoundComponent?: React.JSX.Element;
+    resizeMode?: ImageResizeMode | undefined;
 };
 
 export type IconProps = {

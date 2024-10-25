@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Collection, CollectionElement } from '@shared/types';
+import { Collection, CollectionElement, SimpleCollection } from '@shared/types';
 
 export function toCollectionElement(val: any): CollectionElement {
     return {
@@ -38,5 +38,18 @@ export function toCollection(val: any): Collection {
             vote_average: part.vote_average,
             vote_count: part.vote_count,
         })),
+    };
+}
+
+export function toSimpleCollection(val: any): SimpleCollection | undefined {
+    if (!val) {
+        return undefined;
+    }
+
+    return {
+        id: val.id,
+        name: val.name,
+        posterPath: val['poster_path'],
+        backdropPath: val['backdrop_path'],
     };
 }

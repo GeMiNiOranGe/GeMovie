@@ -8,6 +8,8 @@ import {
   SeeAllMoviesScreen,
   TvShowDetailScreen,
   SeeAllPerson,
+  CompanyDetailScreen,
+  CollectionDetailScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
 import AllTV from 'src/screens/SeeAllTV';
@@ -76,6 +78,22 @@ class HomeStack extends React.Component {
         <Stack.Screen
           name='TvShowDetailScreen'
           component={TvShowDetailScreen}
+          options={{
+            title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='CollectionDetailScreen'
+          component={CollectionDetailScreen}
+          options={{
+            title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='CompanyDetailScreen'
+          component={CompanyDetailScreen}
           options={{
             title: 'Detail',
           }}
