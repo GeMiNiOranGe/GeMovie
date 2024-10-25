@@ -69,6 +69,8 @@ class MovieDetailScreen extends React.Component<
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
     this.renderCompanyItem = this.renderCompanyItem.bind(this);
+    this.pushCollectionDetailScreen =
+      this.pushCollectionDetailScreen.bind(this);
   }
 
   public override componentDidMount(): void {
@@ -114,6 +116,12 @@ class MovieDetailScreen extends React.Component<
         }}
       />
     );
+  }
+
+  private pushCollectionDetailScreen(): void {
+    this.props.navigation.push('CollectionDetailScreen', {
+      collectionId: this.state.movie?.belongsToCollection?.id as number,
+    });
   }
 
   private getLabels(): LabelProps[] {
@@ -276,12 +284,7 @@ class MovieDetailScreen extends React.Component<
                     <TouchableRipple
                       style={[layout.row, layout.itemsCenter]}
                       rippleColor={colors.neutral}
-                      onPress={() => {
-                        this.props.navigation.push('CollectionDetailScreen', {
-                          collectionId: this.state.movie?.belongsToCollection
-                            ?.id as number,
-                        });
-                      }}
+                      onPress={this.pushCollectionDetailScreen}
                     >
                       <>
                         <TMDBImage
@@ -351,6 +354,13 @@ class MovieDetailScreen extends React.Component<
               <Section.Divider />
 
               <Section.Label
+                name='Status'
+                value={`${this.state.movie?.status}`}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
                 name='Country of Origin'
                 value={`${this.state.movie?.originCountry.join(', ')}`}
               />
@@ -368,6 +378,15 @@ class MovieDetailScreen extends React.Component<
                 name='Language Spoken'
                 value={`${this.state.movie?.spokenLanguages
                   .map(language => language.englishName)
+                  .join(', ')}`}
+              />
+
+              <Section.Divider />
+
+              <Section.Label
+                name='Production Countries'
+                value={`${this.state.movie?.productionCountries
+                  .map(country => country.name)
                   .join(', ')}`}
               />
 
