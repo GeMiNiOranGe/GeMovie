@@ -90,11 +90,12 @@ const styles = StyleSheet.create({
         color: 'black',
         paddingBottom: spacing.small,
     },
-    collectionPosterBox: {
-        marginRight: spacing.large,
-    },
     collectionPoster: {
         ...collectionPosterDimensions,
+    },
+    collectionTitleBox: {
+        paddingLeft: spacing.large,
+        paddingRight: spacing.medium,
     },
     collectionTitle: {
         fontSize: 16,

@@ -8,6 +8,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,7 +21,7 @@ import {
   Star1,
   Global,
 } from 'iconsax-react-native';
-import { Chip, TouchableRipple } from 'react-native-paper';
+import { Chip } from 'react-native-paper';
 
 import { Adult, IMDb } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
@@ -267,42 +268,47 @@ class MovieDetailScreen extends React.Component<
                   Belongs to collection
                 </Text>
 
-                <ImageBackground
-                  blurRadius={4}
-                  source={{
-                    uri: URLBuilder.buildImageURL(
-                      'w300',
-                      this.state.movie?.belongsToCollection?.backdropPath,
-                    ),
-                  }}
+                <TouchableOpacity
+                  style={layout.row}
+                  activeOpacity={0.85}
+                  onPress={this.pushCollectionDetailScreen}
                 >
-                  <LinearGradient
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    colors={['transparent', colors.text.toString()]}
-                  >
-                    <TouchableRipple
-                      style={[layout.row, layout.itemsCenter]}
-                      rippleColor={colors.neutral}
-                      onPress={this.pushCollectionDetailScreen}
-                    >
-                      <>
-                        <TMDBImage
-                          style={styles.collectionPosterBox}
-                          imageStyle={styles.collectionPoster}
-                          imagePath={
-                            this.state.movie?.belongsToCollection?.posterPath
-                          }
-                          imageSize='w154'
-                        />
+                  <>
+                    <TMDBImage
+                      imageStyle={styles.collectionPoster}
+                      imagePath={
+                        this.state.movie?.belongsToCollection?.posterPath
+                      }
+                      imageSize='w154'
+                    />
 
-                        <Text style={styles.collectionTitle} numberOfLines={1}>
+                    <ImageBackground
+                      style={layout.flex1}
+                      blurRadius={4}
+                      source={{
+                        uri: URLBuilder.buildImageURL(
+                          'w300',
+                          this.state.movie?.belongsToCollection?.backdropPath,
+                        ),
+                      }}
+                    >
+                      <LinearGradient
+                        style={[
+                          layout.flex1,
+                          layout.justifyCenter,
+                          styles.collectionTitleBox,
+                        ]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0, y: 1 }}
+                        colors={['transparent', colors.text.toString()]}
+                      >
+                        <Text style={styles.collectionTitle} numberOfLines={2}>
                           {this.state.movie?.belongsToCollection?.name}
                         </Text>
-                      </>
-                    </TouchableRipple>
-                  </LinearGradient>
-                </ImageBackground>
+                      </LinearGradient>
+                    </ImageBackground>
+                  </>
+                </TouchableOpacity>
               </View>
             )}
 
