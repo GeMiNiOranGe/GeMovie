@@ -300,7 +300,7 @@ class MovieDetailScreen extends React.Component<
                         ]}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 0, y: 1 }}
-                        colors={['transparent', colors.text.toString()]}
+                        colors={['transparent', colors.secondary.toString()]}
                       >
                         <Text style={styles.collectionTitle} numberOfLines={2}>
                           {this.state.movie?.belongsToCollection?.name}

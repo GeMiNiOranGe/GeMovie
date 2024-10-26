@@ -17,17 +17,60 @@ export type KnownForElement =
     | ((TvShowElement | MovieElement) & Media)
     | undefined;
 
-export type PersonElement = {
+export type PersonBase = {
     adult: boolean;
     gender: number;
     id: number;
     knownForDepartment: string;
     name: string;
-    originalName: string;
     popularity: number;
     profilePath: string;
+};
+
+export type PersonElementBase = PersonBase & {
+    originalName: string;
+};
+
+export type PersonElement = PersonElementBase & {
     knownFor: KnownForElement[];
 };
+
+export type Cast = PersonElementBase & {
+    creditId: string;
+    castId: number;
+    character: string;
+    order: number;
+};
+
+export type Crew = PersonElementBase & {
+    creditId: string;
+    department: string;
+    job: string;
+};
+
+export type Credits = {
+    cast: Cast[];
+    crew: Crew[];
+};
+
+/*
+export type Person = {
+    adult: boolean;
+    alsoKnownAs: string[];
+    biography: string;
+    birthday: Date;
+    deathday: null;
+    gender: number;
+    homepage: string;
+    id: number;
+    imdbId: string;
+    knownForDepartment: string;
+    name: string;
+    placeOfBirth: string;
+    popularity: number;
+    profilePath: string;
+};
+*/
 
 export type Person = {
     id: number;
