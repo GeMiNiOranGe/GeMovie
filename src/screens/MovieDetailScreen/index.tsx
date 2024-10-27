@@ -21,7 +21,7 @@ import {
   Star1,
   Global,
 } from 'iconsax-react-native';
-import { Chip } from 'react-native-paper';
+import { ActivityIndicator, Chip } from 'react-native-paper';
 
 import { Adult, IMDb } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
@@ -45,6 +45,7 @@ import {
   Labels,
   Section,
   SimpleCompanyCard,
+  Suggestion,
   TMDBImage,
   TouchableRippleLink,
   Youtube,
@@ -312,13 +313,21 @@ class MovieDetailScreen extends React.Component<
               </View>
             )}
 
+            <Section title='Recommended for you'>
+              {this.state.movie?.id ? (
+                <Suggestion type='movie' id={this.state.movie?.id} />
+              ) : (
+                <ActivityIndicator size='small' />
+              )}
+            </Section>
+
             <Section title='Storyline'>
-              <View style={styles.expandableText}>
+              <Section.Item name='Overview'>
                 <ExpandableText
+                  style={styles.expandableText}
                   text={`${this.state.movie?.overview}`}
-                  numberOfLines={3}
                 />
-              </View>
+              </Section.Item>
 
               <Section.Divider />
 

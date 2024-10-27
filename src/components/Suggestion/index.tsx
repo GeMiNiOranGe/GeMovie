@@ -1,3 +1,6 @@
+import React from 'react';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+
 import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
 import {
   MovieElement,
@@ -5,10 +8,9 @@ import {
   SuggestionState,
   TvShowElement,
 } from '@shared/types';
-import React from 'react';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
-import styles from './styles';
 import { imageSize } from '@shared/constants';
+import { toMovieElement, toTvShowElement } from '@shared/utils';
+import styles from './styles';
 
 class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
   public constructor(props: SuggestionProps) {
@@ -42,11 +44,9 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
         return;
       }
 
-      const recommendItems = data.results.map((item: any) => ({
-        ...item,
-        posterPath: item.poster_path,
-        titleOrName: type === 'movie' ? item.title : item.name,
-      }));
+      const recommendItems = data.results.map((item: any) =>
+        'original_title' in item ? toMovieElement(item) : toTvShowElement(item),
+      );
 
       this.setState({ recommendItem: recommendItems });
     } catch (error) {
@@ -101,21 +101,20 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
   public override render() {
     const { recommendItem } = this.state;
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>Recommendations</Text>
+      <>
         {recommendItem.length > 0 ? (
           <FlatList
+            contentContainerStyle={styles.listContent}
+            horizontal
+            keyExtractor={item => item.id.toString()}
+            showsHorizontalScrollIndicator={false}
             data={recommendItem}
             renderItem={this.renderItem}
-            keyExtractor={item => item.id.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.listContainer}
           />
         ) : (
           <Text style={styles.noDataText}>No recommendations available.</Text>
         )}
-      </View>
+      </>
     );
   }
 }

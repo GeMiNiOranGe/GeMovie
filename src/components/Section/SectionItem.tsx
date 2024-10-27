@@ -7,7 +7,7 @@ import styles from './style';
 class SectionItem extends React.PureComponent<SectionItemProps> {
   public override render(): React.JSX.Element {
     return (
-      <View style={this.props.style}>
+      <View style={[styles.sectionItem, this.props.style]}>
         <Text style={styles.sectionItemName} numberOfLines={1}>
           {this.props.name}
         </Text>

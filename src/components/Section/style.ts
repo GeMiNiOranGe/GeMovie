@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     },
     titleBox: {
         paddingHorizontal: spacing.large,
-        marginBottom: spacing.small,
+        marginBottom: spacing.large,
     },
     title: {
         fontSize: 18,
@@ -48,11 +48,13 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: colors.subtext,
     },
+    sectionItem: {
+        paddingHorizontal: spacing.large,
+    },
     sectionItemName: {
         fontSize: 16,
         color: colors.text,
-        marginBottom: spacing.small,
-        paddingHorizontal: spacing.large,
+        marginBottom: spacing.tiny,
     },
     sectionItemsName: {
         fontSize: 16,

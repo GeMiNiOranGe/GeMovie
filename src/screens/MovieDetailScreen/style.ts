@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         color: colors.primary,
     },
     expandableText: {
-        paddingHorizontal: spacing.large,
+        color: colors.subtext,
     },
     content: {
         backgroundColor: colors.primary,

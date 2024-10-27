@@ -8,7 +8,7 @@ class SectionItems extends React.PureComponent<SectionItemsProps> {
   public override render(): React.JSX.Element {
     return (
       <View style={this.props.style}>
-        <Text style={styles.sectionItemName} numberOfLines={1}>
+        <Text style={styles.sectionItemsName} numberOfLines={1}>
           {this.props.name}
         </Text>
 

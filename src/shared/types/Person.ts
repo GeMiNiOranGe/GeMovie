@@ -49,6 +49,7 @@ export type Crew = PersonElementBase & {
 };
 
 export type Credits = {
+    id: number;
     cast: Cast[];
     crew: Crew[];
 };

@@ -1,28 +1,27 @@
-import { Dimensions, StyleSheet } from 'react-native';
-const { width, height } = Dimensions.get('screen');
+import { StyleSheet } from 'react-native';
+
+import { spacing } from '@shared/constants';
+import { calculateImageDimensions } from '@shared/utils';
+import { colors } from '@shared/themes';
+
+const posterDimensions = calculateImageDimensions(144, 2, 3);
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 20,
-    },
-    heading: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginLeft: 10,
-        marginBottom: 10,
-    },
-    listContainer: {
-        paddingHorizontal: 10,
+    listContent: {
+        paddingHorizontal: spacing.large,
     },
     itemContainer: {
-        marginRight: 15,
-        width: 120,
-        alignItems: 'center',
+        marginRight: spacing.small,
     },
     itemImage: {
-        width: width * 0.3,
-        height: height / 4,
+        ...posterDimensions,
         borderRadius: 8,
+    },
+    itemText: {
+        marginTop: 5,
+        fontSize: 14,
+        color: colors.text,
+        textAlign: 'center',
     },
     placeholderImage: {
         width: 100,
@@ -35,12 +34,6 @@ const styles = StyleSheet.create({
     placeholderText: {
         color: '#fff',
         fontSize: 12,
-    },
-    itemText: {
-        marginTop: 5,
-        fontSize: 14,
-        color: '#333',
-        textAlign: 'center',
     },
     noDataText: {
         fontSize: 14,

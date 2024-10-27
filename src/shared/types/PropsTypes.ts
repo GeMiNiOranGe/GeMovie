@@ -87,6 +87,7 @@ export type LabelsProps = {
 };
 
 export type ExpandableTextProps = {
+    style?: StyleProp<TextStyle>;
     seeButtonPosition?: 'withText' | 'separate';
     text: string;
     numberOfLines?: number | undefined;
