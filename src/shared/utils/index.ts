@@ -2,7 +2,7 @@ import { GenreService } from '@services';
 import type {
     Genre,
     ImageDimensions,
-    KnownForElement,
+    MediaElement,
     Media,
     MovieElement,
     MultiSearchElement,
@@ -117,7 +117,7 @@ export function calculateImageDimensions(
 }
 
 export function isMovieElement(
-    element: KnownForElement,
+    element: MediaElement,
 ): element is MovieElement & Media;
 
 export function isMovieElement(
@@ -170,7 +170,7 @@ export function toLanguage(val: any): Language {
     };
 }
 
-export function toKnownForElement(val: any): KnownForElement {
+export function toMediaElement(val: any): MediaElement {
     const elementValue: MovieElement | TvShowElement =
         val['media_type'] === 'movie'
             ? toMovieElement(val)

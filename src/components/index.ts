@@ -11,6 +11,7 @@ export { default as Slideshow } from './SlideShow';
 export { default as SearchResultsTabBar } from './SearchResultsTabBar';
 export { default as Youtube } from './Youtube';
 export { default as Section } from './Section';
+export { default as CompactMovieCard } from './CompactMovieCard';
 export { default as SimpleCompanyCard } from './SimpleCompanyCard';
 export { default as Suggestion } from './Suggestion';
 export { default as TouchableRippleLink } from './TouchableRippleLink';

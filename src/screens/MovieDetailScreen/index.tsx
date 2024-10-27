@@ -315,7 +315,11 @@ class MovieDetailScreen extends React.Component<
 
             <Section title='Recommended for you'>
               {this.state.movie?.id ? (
-                <Suggestion type='movie' id={this.state.movie?.id} />
+                <Suggestion
+                  type='movie'
+                  id={this.state.movie?.id}
+                  navigation={this.props.navigation}
+                />
               ) : (
                 <ActivityIndicator size='small' />
               )}

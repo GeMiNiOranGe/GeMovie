@@ -1,23 +1,32 @@
 import React from 'react';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  type ListRenderItemInfo,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
-import {
-  MovieElement,
+import type {
+  MediaElement,
   SuggestionProps,
   SuggestionState,
-  TvShowElement,
 } from '@shared/types';
 import { imageSize } from '@shared/constants';
-import { toMovieElement, toTvShowElement } from '@shared/utils';
+import { isMovieElement, toMediaElement } from '@shared/utils';
+import { CompactMovieCard } from '@components';
 import styles from './styles';
 
 class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
   public constructor(props: SuggestionProps) {
     super(props);
     this.state = {
-      recommendItem: [],
+      recommendItems: [],
     };
+
+    this.renderItem = this.renderItem.bind(this);
   }
 
   public override componentDidMount(): void {
@@ -45,61 +54,53 @@ class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
       }
 
       const recommendItems = data.results.map((item: any) =>
-        'original_title' in item ? toMovieElement(item) : toTvShowElement(item),
+        toMediaElement(item),
       );
 
-      this.setState({ recommendItem: recommendItems });
+      this.setState({ recommendItems });
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     }
   };
 
-  public renderItem = ({ item }: { item: MovieElement | TvShowElement }) => {
-    if ('originalTitle' in item) {
+  public renderItem({ item, index }: ListRenderItemInfo<MediaElement>) {
+    if (isMovieElement(item)) {
       return (
-        <TouchableOpacity key={item.id} style={styles.itemContainer}>
-          {item.posterPath ? (
-            <Image
-              source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${item.posterPath}`,
-              }}
-              style={styles.itemImage}
-            />
-          ) : (
-            <View style={styles.placeholderImage}>
-              <Text style={styles.placeholderText}>No Image</Text>
-            </View>
-          )}
-          <Text style={styles.itemText} numberOfLines={2}>
-            {item.title}
-          </Text>
-        </TouchableOpacity>
-      );
-    } else {
-      return (
-        <TouchableOpacity key={item.id} style={styles.itemContainer}>
-          {item.posterPath ? (
-            <Image
-              source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${item.posterPath}`,
-              }}
-              style={styles.itemImage}
-            />
-          ) : (
-            <View style={styles.placeholderImage}>
-              <Text style={styles.placeholderText}>No Image</Text>
-            </View>
-          )}
-          <Text style={styles.itemText} numberOfLines={2}>
-            {item.name}
-          </Text>
-        </TouchableOpacity>
+        <CompactMovieCard
+          item={item}
+          index={index}
+          listLength={this.state.recommendItems.length}
+          onPress={() => {
+            this.props.navigation.push('MovieDetailScreen', {
+              movieId: item.id,
+            });
+          }}
+        />
       );
     }
-  };
+    return (
+      <TouchableOpacity key={item.id} style={styles.itemContainer}>
+        {item.posterPath ? (
+          <Image
+            source={{
+              uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${item.posterPath}`,
+            }}
+            style={styles.itemImage}
+          />
+        ) : (
+          <View style={styles.placeholderImage}>
+            <Text style={styles.placeholderText}>No Image</Text>
+          </View>
+        )}
+        <Text style={styles.itemText} numberOfLines={2}>
+          {item.name}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
 
   public override render() {
-    const { recommendItem } = this.state;
+    const { recommendItems: recommendItem } = this.state;
     return (
       <>
         {recommendItem.length > 0 ? (

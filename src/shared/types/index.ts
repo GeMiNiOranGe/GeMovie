@@ -106,9 +106,9 @@ export type SearchResponse<T> = {
     totalResults: number;
 };
 
-export type SearchElement = MediaElement | PersonElement | CompanyElement;
+export type SearchElement = MediaElementBase | PersonElement | CompanyElement;
 
-export type MediaElement = {
+export type MediaElementBase = {
     adult: boolean;
     backdropPath?: string | undefined;
     id: number;
@@ -116,6 +116,8 @@ export type MediaElement = {
     overview: string;
     posterPath?: string | undefined;
 };
+
+export type MediaElement = (TvShowElement | MovieElement) & Media;
 
 export type VideoGenreIds = {
     genreIds: number[];
@@ -131,7 +133,7 @@ export type VideoBase = {
     tagline: string;
 };
 
-export type VideoElementBase = MediaElement & {
+export type VideoElementBase = MediaElementBase & {
     voteAverage: number;
     voteCount: number;
     popularity: number;

@@ -146,7 +146,11 @@ class TvShowDetailScreen extends React.Component<
               {tv.id !== undefined && <Youtube type='tv' id={tv.id} />}
             </View>
             <View>
-              <Suggestion type='tv' id={tv.id} />
+              <Suggestion
+                type='tv'
+                id={tv.id}
+                navigation={this.props.navigation}
+              />
             </View>
           </LinearGradient>
 

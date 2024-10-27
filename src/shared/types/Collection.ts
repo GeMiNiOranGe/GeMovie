@@ -1,6 +1,6 @@
-import type { MediaElement } from '@shared/types';
+import type { MediaElementBase } from '@shared/types';
 
-export type CollectionElement = MediaElement & {
+export type CollectionElement = MediaElementBase & {
     originalName: string;
     name: string;
 };

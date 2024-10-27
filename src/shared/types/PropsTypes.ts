@@ -62,6 +62,13 @@ export type SearchCardProps<T extends SearchElement> = {
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
+export type CompactCardProps<T extends SearchElement> = {
+    item: T;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
 export type SimpleCardProps<T extends SearchElement> = {
     item: T;
     index: number;
@@ -179,4 +186,5 @@ export type VideoProps = {
 export type SuggestionProps = {
     type: 'movie' | 'tv';
     id: number | undefined;
+    navigation: NativeStackNavigationProp<ParamListBase>;
 };

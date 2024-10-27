@@ -1,5 +1,5 @@
 import type { PersonElement } from '@shared/types';
-import { toKnownForElement } from '@shared/utils';
+import { toMediaElement } from '@shared/utils';
 
 export function toPersonElement(val: any): PersonElement {
     return {
@@ -12,7 +12,7 @@ export function toPersonElement(val: any): PersonElement {
         popularity: val.popularity,
         profilePath: val['profile_path'],
         knownFor: Array.from(val['known_for']).map(element =>
-            toKnownForElement(element),
+            toMediaElement(element),
         ),
     };
 }
