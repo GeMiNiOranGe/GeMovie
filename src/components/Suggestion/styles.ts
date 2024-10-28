@@ -9,6 +9,7 @@ const posterDimensions = calculateImageDimensions(144, 2, 3);
 const styles = StyleSheet.create({
     listContent: {
         paddingHorizontal: spacing.large,
+        paddingTop: spacing.small,
         paddingBottom: spacing.large,
     },
     itemContainer: {

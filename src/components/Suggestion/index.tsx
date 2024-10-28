@@ -19,7 +19,7 @@ import { isMovieElement, toMediaElement } from '@shared/utils';
 import { CompactMovieCard } from '@components';
 import styles from './styles';
 
-class Suggestion extends React.Component<SuggestionProps, SuggestionState> {
+class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
   public constructor(props: SuggestionProps) {
     super(props);
     this.state = {

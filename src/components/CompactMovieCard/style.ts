@@ -19,13 +19,30 @@ const styles = StyleSheet.create({
     poster: {
         ...posterDimensions,
     },
+    ratingBox: {
+        backgroundColor: colors.secondary,
+        borderRadius: 4,
+        marginBottom: spacing.small,
+        marginLeft: spacing.small,
+        paddingHorizontal: spacing.small,
+        paddingVertical: spacing.tiny,
+    },
+    ratingText: {
+        color: colors.primary,
+        fontSize: 12,
+        marginLeft: spacing.tiny,
+    },
     content: {
         paddingHorizontal: spacing.small,
         paddingBottom: spacing.small,
     },
-    title: {
+    text: {
         fontSize: 14,
         color: colors.text,
+    },
+    subtext: {
+        fontSize: 14,
+        color: colors.subtext,
     },
 });
 
