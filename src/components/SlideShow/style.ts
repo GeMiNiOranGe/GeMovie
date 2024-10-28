@@ -1,43 +1,49 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 export const sliderWidth = width;
-export const itemWidth = width * 0.65;
+export const itemWidth = width * 0.75;
 
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: '#121212',
         position: 'relative',
     },
     carouselContainer: {
-        marginTop: 10,
-    },
-    carouselContentContainer: {
-        alignItems: 'center',
+        marginTop: 20,
     },
     slide: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingLeft: 30,
     },
     image: {
         width: itemWidth * 0.9,
-        height: height / 2,
+        height: height * 0.5,
         resizeMode: 'cover',
-        borderRadius: 10,
+        borderRadius: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        elevation: 8,
     },
     backgroundImage: {
         position: 'absolute',
         width: '100%',
         height: '100%',
         resizeMode: 'cover',
+        opacity: 0.8,
     },
     contentContainer: {
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 10,
-        left: 5,
+        bottom: 15,
+        left: 10,
         alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        padding: 5,
+        borderRadius: 8,
     },
     textContainer: {
         maxWidth: width * 0.4,
@@ -62,19 +68,27 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 20,
     },
     closeButton: {
-        marginTop: 15,
-        backgroundColor: '#2196F3',
-        borderRadius: 10,
+        marginTop: 20,
+        backgroundColor: '#FF4757',
+        borderRadius: 12,
         paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 30,
     },
     closeButtonText: {
         color: 'white',
         fontSize: 16,
+        fontWeight: '600',
+    },
+    gradientOverlay: {
+        ...StyleSheet.absoluteFillObject,
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
 });
-
 export default styles;

@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, { PureComponent } from 'react';
 import {
   View,
   Image,
@@ -13,11 +14,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { SlideshowProps, SlideshowState } from '@shared/types';
 import styles, { itemWidth } from '../SlideShow/style';
 import Youtube from '../Youtube';
+import LinearGradient from 'react-native-linear-gradient';
 
-class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
+class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
   public scrollX = new Animated.Value(0);
   private flatListRef = React.createRef<FlatList<any>>();
-  private autoplayTimer: NodeJS.Timeout | null = null;
 
   public constructor(props: SlideshowProps) {
     super(props);
@@ -52,13 +53,13 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
 
     const scale = scrollX.interpolate({
       inputRange,
-      outputRange: [0.9, 1, 0.9],
+      outputRange: [0.95, 1, 0.95],
       extrapolate: 'clamp',
     });
 
     const opacity = scrollX.interpolate({
       inputRange,
-      outputRange: [0.7, 1, 0.7],
+      outputRange: [0.5, 1, 0.5],
       extrapolate: 'clamp',
     });
 
@@ -66,10 +67,19 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => props.navigateToMovieDetail(props.movieIds[index])}
-        style={styles.slide}
+        style={{ width: itemWidth, alignItems: 'center' }}
       >
         <Animated.View style={{ transform: [{ scale }], opacity }}>
-          <Image source={{ uri: props.images[index] }} style={styles.image} />
+          <Animated.Image
+            source={{ uri: props.images[index] }}
+            style={[
+              styles.image,
+              {
+                transform: [{ scale }],
+                opacity,
+              },
+            ]}
+          />
           <View style={styles.contentContainer}>
             <View style={styles.textContainer}>
               <Text style={styles.title} numberOfLines={2} ellipsizeMode='tail'>
@@ -108,6 +118,11 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
     const { images } = this.props;
     const { currentIndex, isModalVisible, selectedMovieId } = this.state;
     const backgroundImage = images[currentIndex];
+    const overlayOpacity = this.scrollX.interpolate({
+      inputRange: [0, images.length * itemWidth],
+      outputRange: [0.6, 0.9],
+      extrapolate: 'extend',
+    });
 
     return (
       <View style={styles.wrapper}>
@@ -116,6 +131,13 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
           blurRadius={10}
           style={styles.backgroundImage}
         />
+        <LinearGradient
+          colors={['rgba(0, 0, 0, 0.6)', 'transparent']}
+          style={styles.gradientOverlay}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 0, y: 0 }}
+        />
+        <Animated.View style={[styles.overlay, { opacity: overlayOpacity }]} />
         <Animated.FlatList
           ref={this.flatListRef}
           data={images}
@@ -133,6 +155,7 @@ class Slideshow extends React.Component<SlideshowProps, SlideshowState> {
             { useNativeDriver: false },
           )}
           scrollEventThrottle={16}
+          contentContainerStyle={{ alignItems: 'center' }}
         />
         <Modal
           animationType='slide'
