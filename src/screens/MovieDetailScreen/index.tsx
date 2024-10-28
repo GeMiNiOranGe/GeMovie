@@ -184,16 +184,15 @@ class MovieDetailScreen extends React.Component<
 
         <ScrollView style={StyleSheet.absoluteFill}>
           <LinearGradient
-            style={[layout.center]}
+            style={[layout.center, styles.posterBox]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
             colors={['transparent', colors.primary.toString()]}
           >
             <TMDBImage
-              style={styles.posterBox}
-              imageStyle={styles.poster}
-              imagePath={this.state.movie?.posterPath}
-              imageSize='w342'
+              style={styles.poster}
+              path={this.state.movie?.posterPath}
+              size='w342'
               NotFoundComponent={
                 <View
                   style={[layout.center, styles.poster, styles.posterNotFound]}
@@ -276,11 +275,9 @@ class MovieDetailScreen extends React.Component<
                 >
                   <>
                     <TMDBImage
-                      imageStyle={styles.collectionPoster}
-                      imagePath={
-                        this.state.movie?.belongsToCollection?.posterPath
-                      }
-                      imageSize='w154'
+                      style={styles.collectionPoster}
+                      path={this.state.movie?.belongsToCollection?.posterPath}
+                      size='w154'
                     />
 
                     <ImageBackground

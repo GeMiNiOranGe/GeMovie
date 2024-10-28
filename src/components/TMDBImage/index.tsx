@@ -10,36 +10,31 @@ import styles from './style';
 class TMDBImage extends React.PureComponent<TMDBImageProps> {
   private renderImageNotFound(): React.JSX.Element {
     return (
-      <View
-        style={[layout.center, styles.imageNotFoundBox, this.props.imageStyle]}
-      >
-        <ImageIcon color={colors.text.toString()} />
+      <View style={[layout.center, styles.imageNotFoundBox, this.props.style]}>
+        <ImageIcon
+          color={colors.text.toString()}
+          {...this.props.notFoundIcon}
+        />
       </View>
     );
   }
 
   public override render(): React.JSX.Element {
+    if (!this.props.path) {
+      return this.props.NotFoundComponent
+        ? this.props.NotFoundComponent
+        : this.renderImageNotFound();
+    }
+
     return (
-      <View style={this.props.style}>
-        {this.props.imagePath ? (
-          <Image
-            style={this.props.imageStyle}
-            resizeMode={this.props.resizeMode}
-            source={{
-              uri: URLBuilder.buildImageURL(
-                this.props.imageSize,
-                this.props.imagePath,
-              ),
-            }}
-          />
-        ) : (
-          <>
-            {this.props.NotFoundComponent
-              ? this.props.NotFoundComponent
-              : this.renderImageNotFound()}
-          </>
-        )}
-      </View>
+      <Image
+        style={this.props.style}
+        blurRadius={this.props.blurRadius}
+        resizeMode={this.props.resizeMode}
+        source={{
+          uri: URLBuilder.buildImageURL(this.props.size, this.props.path),
+        }}
+      />
     );
   }
 }

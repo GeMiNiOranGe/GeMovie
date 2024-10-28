@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         height: '50%',
     },
     posterBox: {
-        marginVertical: 16,
+        paddingVertical: 16,
     },
     posterNotFound: {
         backgroundColor: colors.background,

@@ -16,12 +16,13 @@ class CompactMovieCard extends React.PureComponent<
 
     return (
       <Card style={[styles.card, { marginRight }]} onPress={this.props.onPress}>
-        <TMDBImage
-          style={styles.posterBox}
-          imageStyle={styles.poster}
-          imagePath={this.props.item.posterPath}
-          imageSize='w342'
-        />
+        <View style={styles.posterBox}>
+          <TMDBImage
+            style={styles.poster}
+            path={this.props.item.posterPath}
+            size='w342'
+          />
+        </View>
 
         <View style={styles.content}>
           <Text style={styles.title} numberOfLines={2}>

@@ -13,6 +13,7 @@ import type {
     TextStyle,
     ViewStyle,
 } from 'react-native';
+import type { IconProps as IconsaxProps } from 'iconsax-react-native';
 
 import type { SearchElement, VideoElementBase } from '@shared/types';
 import { imageSize } from '@shared/constants';
@@ -135,12 +136,13 @@ export type TouchableRippleLinkProps = {
 };
 
 export type TMDBImageProps = {
-    style?: StyleProp<ViewStyle> | undefined;
-    imageStyle?: StyleProp<ImageStyle> | undefined;
-    imageSize: keyof typeof imageSize;
-    imagePath: string | undefined;
+    style?: StyleProp<ImageStyle> | undefined;
+    size: keyof typeof imageSize;
+    path: string | undefined;
     NotFoundComponent?: React.JSX.Element;
     resizeMode?: ImageResizeMode | undefined;
+    blurRadius?: number | undefined;
+    notFoundIcon?: IconsaxProps | undefined;
 };
 
 export type IconProps = {
