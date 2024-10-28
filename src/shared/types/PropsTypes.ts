@@ -108,6 +108,10 @@ export type SectionProps = {
     children?: React.ReactNode | undefined;
 };
 
+export type SectionContentProps = {
+    children?: React.ReactNode | undefined;
+};
+
 export type SectionLabelProps = {
     style?: StyleProp<ViewStyle> | undefined;
     name: string;

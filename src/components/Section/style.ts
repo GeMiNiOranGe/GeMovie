@@ -7,11 +7,12 @@ const accentWidth = 4;
 
 const styles = StyleSheet.create({
     section: {
-        marginBottom: spacing.huge,
+        marginTop: spacing.large,
+        marginBottom: spacing.small,
     },
     titleBox: {
         paddingHorizontal: spacing.large,
-        marginBottom: spacing.large,
+        marginBottom: spacing.small,
     },
     title: {
         fontSize: 18,
@@ -35,6 +36,10 @@ const styles = StyleSheet.create({
         marginVertical: spacing.small,
         marginHorizontal: spacing.large,
         backgroundColor: colors.neutral,
+    },
+    sectionContent: {
+        marginTop: spacing.small,
+        marginBottom: spacing.large,
     },
     sectionLabel: {
         paddingHorizontal: spacing.large,

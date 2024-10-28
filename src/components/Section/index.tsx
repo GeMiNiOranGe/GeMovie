@@ -5,6 +5,7 @@ import SectionDivider from './SectionDivider';
 import SectionLabel from './SectionLabel';
 import SectionItem from './SectionItem';
 import SectionItems from './SectionItems';
+import SectionContent from './SectionContent';
 import { layout } from '@shared/themes';
 import type { SectionProps } from '@shared/types';
 import styles from './style';
@@ -14,6 +15,7 @@ class Section extends React.PureComponent<SectionProps> {
   public static Label: typeof SectionLabel;
   public static Item: typeof SectionItem;
   public static Items: typeof SectionItems;
+  public static Content: typeof SectionContent;
 
   public override render(): React.JSX.Element {
     return (
@@ -42,5 +44,6 @@ Section.Divider = SectionDivider;
 Section.Label = SectionLabel;
 Section.Item = SectionItem;
 Section.Items = SectionItems;
+Section.Content = SectionContent;
 
 export default Section;

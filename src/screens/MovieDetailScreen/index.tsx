@@ -323,111 +323,117 @@ class MovieDetailScreen extends React.Component<
             </Section>
 
             <Section title='Storyline'>
-              <Section.Item name='Overview'>
-                <ExpandableText
-                  style={styles.expandableText}
-                  text={`${this.state.movie?.overview}`}
+              <Section.Content>
+                <Section.Item name='Overview'>
+                  <ExpandableText
+                    style={styles.expandableText}
+                    text={`${this.state.movie?.overview}`}
+                  />
+                </Section.Item>
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Tagline'
+                  value={`${this.state.movie?.tagline}`}
                 />
-              </Section.Item>
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Tagline'
-                value={`${this.state.movie?.tagline}`}
-              />
-
-              <Section.Divider />
-
-              <Section.Items
-                name='Genres'
-                keyExtractor={item => item.id.toString()}
-                data={this.state.movie?.genres}
-                renderItem={this.renderGenreItem}
-              />
+                <Section.Items
+                  name='Genres'
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.movie?.genres}
+                  renderItem={this.renderGenreItem}
+                />
+              </Section.Content>
             </Section>
 
             <Section title='Details'>
-              <Section.Label
-                name='Original Title'
-                value={`${this.state.movie?.originalTitle}`}
-              />
+              <Section.Content>
+                <Section.Label
+                  name='Original Title'
+                  value={`${this.state.movie?.originalTitle}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Release Date'
-                value={getFormattedDate(this.state.movie?.releaseDate)}
-              />
+                <Section.Label
+                  name='Release Date'
+                  value={getFormattedDate(this.state.movie?.releaseDate)}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Runtime'
-                value={getFormattedRuntime(this.state.movie?.runtime)}
-              />
+                <Section.Label
+                  name='Runtime'
+                  value={getFormattedRuntime(this.state.movie?.runtime)}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Status'
-                value={`${this.state.movie?.status}`}
-              />
+                <Section.Label
+                  name='Status'
+                  value={`${this.state.movie?.status}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Country of Origin'
-                value={`${this.state.movie?.originCountry.join(', ')}`}
-              />
+                <Section.Label
+                  name='Country of Origin'
+                  value={`${this.state.movie?.originCountry.join(', ')}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Original Language'
-                value={`${this.state.movie?.originalLanguage}`}
-              />
+                <Section.Label
+                  name='Original Language'
+                  value={`${this.state.movie?.originalLanguage}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Language Spoken'
-                value={`${this.state.movie?.spokenLanguages
-                  .map(language => language.englishName)
-                  .join(', ')}`}
-              />
+                <Section.Label
+                  name='Language Spoken'
+                  value={`${this.state.movie?.spokenLanguages
+                    .map(language => language.englishName)
+                    .join(', ')}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Production Countries'
-                value={`${this.state.movie?.productionCountries
-                  .map(country => country.name)
-                  .join(', ')}`}
-              />
+                <Section.Label
+                  name='Production Countries'
+                  value={`${this.state.movie?.productionCountries
+                    .map(country => country.name)
+                    .join(', ')}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Items
-                name='Production Companies'
-                keyExtractor={item => item.id.toString()}
-                data={this.state.movie?.productionCompanies}
-                renderItem={this.renderCompanyItem}
-              />
+                <Section.Items
+                  name='Production Companies'
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.movie?.productionCompanies}
+                  renderItem={this.renderCompanyItem}
+                />
+              </Section.Content>
             </Section>
 
             <Section title='Box office'>
-              <Section.Label
-                name='Budget'
-                value={getFormattedMoney(this.state.movie?.budget)}
-              />
+              <Section.Content>
+                <Section.Label
+                  name='Budget'
+                  value={getFormattedMoney(this.state.movie?.budget)}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Revenue'
-                value={getFormattedMoney(this.state.movie?.revenue)}
-              />
+                <Section.Label
+                  name='Revenue'
+                  value={getFormattedMoney(this.state.movie?.revenue)}
+                />
+              </Section.Content>
             </Section>
 
             <View>
