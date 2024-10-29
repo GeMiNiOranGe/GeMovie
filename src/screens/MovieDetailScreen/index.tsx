@@ -310,6 +310,8 @@ class MovieDetailScreen extends React.Component<
               </View>
             )}
 
+            <Section.Separator />
+
             <Section title='Recommended for you'>
               {this.state.movie?.id ? (
                 <Suggestion
@@ -321,6 +323,8 @@ class MovieDetailScreen extends React.Component<
                 <ActivityIndicator size='small' />
               )}
             </Section>
+
+            <Section.Separator />
 
             <Section title='Storyline'>
               <Section.Content>
@@ -348,6 +352,8 @@ class MovieDetailScreen extends React.Component<
                 />
               </Section.Content>
             </Section>
+
+            <Section.Separator />
 
             <Section title='Details'>
               <Section.Content>
@@ -419,6 +425,8 @@ class MovieDetailScreen extends React.Component<
                 />
               </Section.Content>
             </Section>
+
+            <Section.Separator />
 
             <Section title='Box office'>
               <Section.Content>

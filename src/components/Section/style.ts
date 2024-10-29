@@ -31,6 +31,10 @@ const styles = StyleSheet.create({
         marginRight: spacing.small,
         backgroundColor: colors.secondary,
     },
+    sectionSeparator: {
+        height: 16,
+        backgroundColor: colors.background,
+    },
     sectionDivider: {
         height: 1,
         marginVertical: spacing.small,

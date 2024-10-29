@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     },
     informationBox: {
         paddingHorizontal: spacing.large,
-        marginBottom: spacing.huge,
+        marginBottom: spacing.extraLarge,
     },
     informationTitle: {
         fontWeight: 'bold',
