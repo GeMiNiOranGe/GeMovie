@@ -1,29 +1,34 @@
 import React from 'react';
 import {
+  FlatList,
   Image,
+  ListRenderItemInfo,
   Modal,
   SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
-
 import {
   RootScreenProps,
   TvShowDetailScreenState,
   LabelProps,
   Variant,
+  Genre,
 } from '@shared/types';
 import { TvShowService } from '@services';
 import { TMDB_BASE_IMAGE_URL } from '@config';
-import { imageSize } from '@shared/constants';
+import { imageSize, spacing } from '@shared/constants';
 import { ExpandableText, Labels, Suggestion, Youtube } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
-import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native'; // Thêm các icon cần thiết
+import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native';
 import { Adult } from '@assets/icons';
 import { getFormattedDate } from '@shared/utils';
 import styles from './style';
+import { layout } from '@shared/themes';
+import { Chip } from 'react-native-paper';
 
 const iconSize = 16;
 const iconColor = '#000';
@@ -39,20 +44,55 @@ class TvShowDetailScreen extends React.Component<
       tv: undefined,
       modalVisible: false,
     };
+    this.renderGenreItem = this.renderGenreItem.bind(this);
   }
 
   public override componentDidMount() {
     const { tvShowId } = this.props.route.params;
-    TvShowService.getDetailAsync(tvShowId).then(data =>
+    TvShowService.getDetailAsync(tvShowId).then(data => {
       this.setState({ tv: data }, () => {
         this.props.navigation.setOptions({ title: data.name });
-      }),
-    );
+      });
+    });
   }
 
   public toggleModal = () => {
     this.setState(prevState => ({ modalVisible: !prevState.modalVisible }));
   };
+
+  public closemodal = () => {
+    this.setState({ modalVisible: false });
+  };
+
+  private renderGenreItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Genre>): React.JSX.Element {
+    const marginRight =
+      index === (this.state.tv?.genres.length || 0) - 1 ? 0 : spacing.small;
+
+    return (
+      <Chip
+        style={[styles.genreChip, { marginRight }]}
+        textStyle={styles.genre}
+      >
+        {item.name}
+      </Chip>
+    );
+  }
+
+  private renderStars(voteAverage: number): React.JSX.Element {
+    const starCount = Math.round(voteAverage / 2);
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <Text key={i} style={styles.star}>
+          {i <= starCount ? '★' : '☆'}
+        </Text>,
+      );
+    }
+    return <View style={styles.starContainer}>{stars}</View>;
+  }
 
   private getLabels(): LabelProps[] {
     const { tv } = this.state;
@@ -95,9 +135,10 @@ class TvShowDetailScreen extends React.Component<
 
   public override render() {
     const { tv, modalVisible } = this.state;
+
     if (!tv) {
       return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[layout.flex1, styles.container]}>
           <Text>Loading...</Text>
         </SafeAreaView>
       );
@@ -105,73 +146,71 @@ class TvShowDetailScreen extends React.Component<
 
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.headerContainer}>
             <Image
               style={styles.backgroundImage}
-              blurRadius={5}
               source={{
                 uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w1280}${tv.backdropPath}`,
               }}
             />
-            <View style={styles.head}>
-              <TouchableOpacity onPress={this.toggleModal}>
-                <Image
-                  style={styles.posterImage}
-                  source={{
-                    uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${tv.posterPath}`,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
+            <LinearGradient
+              style={styles.gradientOverlay}
+              colors={['rgba(0,0,0,0.2)', 'transparent']}
+            />
+            <TouchableOpacity
+              style={styles.playButton}
+              onPress={this.toggleModal}
+            >
+              <Text style={styles.playButtonText}>▶</Text>
+            </TouchableOpacity>
           </View>
-          <LinearGradient
-            style={styles.body}
-            start={{ x: 1, y: 1 }}
-            end={{ x: 0, y: 0 }}
-            colors={['#FFEFBA', '#FFFFFF']}
-          >
+          <View style={styles.bodyOverlay} />
+          <View style={styles.body}>
             <Text style={styles.titleText}>{tv?.name}</Text>
+            <View style={[layout.center, styles.genreBox]}>
+              <FlatList
+                contentContainerStyle={styles.genreContentList}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={item => item.id.toString()}
+                data={tv?.genres || []}
+                renderItem={this.renderGenreItem}
+              />
+            </View>
+            {tv.voteAverage && this.renderStars(tv.voteAverage)}
+
             <View style={styles.titleBody}>
               <Labels data={this.getLabels()} />
             </View>
-            <View style={styles.contentBody}>
+
+            <View style={styles.descriptionContainer}>
               <Text style={styles.introText}>Introduction</Text>
               <ExpandableText
                 text={tv.overview || 'No overview available.'}
                 numberOfLines={3}
               />
             </View>
-            <View style={styles.youtubeContainer}>
-              {tv.id !== undefined && <Youtube type='tv' id={tv.id} />}
-            </View>
-            <View>
-              <Suggestion type='tv' id={tv.id} />
-            </View>
-          </LinearGradient>
+            <Suggestion type='tv' id={tv.id} />
+          </View>
 
+          {/* Modal */}
           <Modal
             animationType='slide'
             transparent={true}
             visible={modalVisible}
-            onRequestClose={this.toggleModal}
+            onRequestClose={this.closemodal}
           >
-            <View style={styles.modalContainer}>
-              <View style={styles.modalView}>
-                <Image
-                  style={styles.modalImage}
-                  source={{
-                    uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w500}${tv.posterPath}`,
-                  }}
-                />
-                <TouchableOpacity
-                  style={styles.closeButton}
-                  onPress={this.toggleModal}
-                >
-                  <Text style={styles.closeButtonText}>Close</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <TouchableOpacity
+              style={styles.modalContainer}
+              onPress={this.closemodal}
+            >
+              <TouchableWithoutFeedback>
+                <View>
+                  <Youtube type='movie' id={tv?.id} />
+                </View>
+              </TouchableWithoutFeedback>
+            </TouchableOpacity>
           </Modal>
         </ScrollView>
       </SafeAreaView>

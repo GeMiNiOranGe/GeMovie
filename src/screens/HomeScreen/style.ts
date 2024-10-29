@@ -4,7 +4,8 @@ const styles = StyleSheet.create({
     loadingContainer: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: 'black',
+        alignItems: 'center',
+        backgroundColor: '#000',
     },
     horizontal: {
         flexDirection: 'row',
@@ -16,6 +17,8 @@ const styles = StyleSheet.create({
     },
     header: {
         height: height * 0.55,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
     },
     content: {
         flex: 3,
@@ -49,7 +52,7 @@ const styles = StyleSheet.create({
         flex: 3.5,
         width: '100%',
         height: '80%',
-        paddingLeft: 10,
+        paddingHorizontal: 10,
     },
     containerSectionTitle: {
         flexDirection: 'row',

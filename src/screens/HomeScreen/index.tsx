@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   Image,
   ScrollView,
@@ -36,7 +37,8 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
     isLoading: true,
     backgroundImageIndex: 0,
   };
-
+  public fadeAnim = new Animated.Value(0);
+  public scaleAnim = new Animated.Value(1);
 
   public override componentDidMount() {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
@@ -60,6 +62,11 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
           topRated: topRatedData.results,
           isLoading: false,
         });
+        Animated.timing(this.fadeAnim, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -102,66 +109,31 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
         colors={['#544a7d', '#ffd452']}
       >
         <ScrollView>
-          <View style={styles.header}>
-            <Slideshow
-              images={upcomingMoviesImages}
-              titles={upcomingMoviesTitles}
-              releaseDates={upcomingMoviesReleaseDates}
-              movieIds={upcomingMoviesIds}
-              navigateToMovieDetail={movieId =>
-                navigation.navigate('MovieDetailScreen', {
-                  movieId,
-                })
-              }
-            />
-          </View>
-          <View style={styles.section}>
-            <View style={styles.containerSectionTitle}>
-              <Text style={styles.sectionTitle}>Featured Today</Text>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('SeeAllMovieScreen')}
-              >
-                <Text style={styles.sectionTitle}>See All</Text>
-              </TouchableOpacity>
+          <Animated.View style={{ opacity: this.fadeAnim }}>
+            <View style={styles.header}>
+              <Slideshow
+                images={upcomingMoviesImages}
+                titles={upcomingMoviesTitles}
+                releaseDates={upcomingMoviesReleaseDates}
+                movieIds={upcomingMoviesIds}
+                navigateToMovieDetail={movieId =>
+                  navigation.navigate('MovieDetailScreen', {
+                    movieId,
+                  })
+                }
+              />
             </View>
-            <FlatList
-              data={movies.slice(0,10)}
-              horizontal
-              keyExtractor={item => item.id.toString()}
-              renderItem={({ item }) => {
-                const imageUrl = URLBuilder.buildImageURL(
-                  'w185',
-                  item.poster_path
-                );
-                return (
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('MovieDetailScreen', {
-                      movieId: item.id,
-                    })}
-                  >
-                    <Image
-                      source={{ uri: imageUrl }}
-                      style={styles.movieThumbnail}
-                    />
-                    <View style={styles.percentVote}>
-                      <Star1 size={23} color={colors.neutral.toString()} variant='Bold'/>
-                    </View>
-                  </TouchableOpacity>
-                );
-              } }
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.movieList} />
-          </View>
-
-          <View style={styles.section}>
-            {/* TV Show */}
-            <View style={styles.containerTV}>
+            <View style={styles.section}>
               <View style={styles.containerSectionTitle}>
-                <Text style={styles.sectionTitle}>TV Show</Text>
-                <Text style={styles.sectionTitle} onPress={()=>navigation.navigate('SeeAllTV')}>See All</Text>
+                <Text style={styles.sectionTitle}>Featured Today</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('SeeAllMovieScreen')}
+                >
+                  <Text style={styles.sectionTitle}>See All</Text>
+                </TouchableOpacity>
               </View>
               <FlatList
-                data={tvShow.slice(0,10)}
+                data={movies.slice(0,10)}
                 horizontal
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => {
@@ -171,99 +143,138 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                   );
                   return (
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('TvShowDetailScreen', {
-                        tvShowId: item.id,
+                      onPress={() => navigation.navigate('MovieDetailScreen', {
+                        movieId: item.id,
                       })}
                     >
                       <Image
                         source={{ uri: imageUrl }}
-                        style={styles.TvThumbnail}
+                        style={styles.movieThumbnail}
                       />
                       <View style={styles.percentVote}>
-                        <Star1
-                          size='24'
-                          color={colors.neutral.toString()}
-                          variant='Bold'
-                        />
+                        <Star1 size={23} color={colors.neutral.toString()} variant='Bold'/>
                       </View>
                     </TouchableOpacity>
                   );
                 } }
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.TvList} />
+                contentContainerStyle={styles.movieList} />
             </View>
 
-            <View style={styles.containerTV}>
+            <View style={styles.section}>
+              {/* TV Show */}
+              <View style={styles.containerTV}>
+                <View style={styles.containerSectionTitle}>
+                  <Text style={styles.sectionTitle}>TV Show</Text>
+                  <Text style={styles.sectionTitle} onPress={()=>navigation.navigate('SeeAllTV')}>See All</Text>
+                </View>
+                <FlatList
+                  data={tvShow.slice(0,10)}
+                  horizontal
+                  keyExtractor={item => item.id.toString()}
+                  renderItem={({ item }) => {
+                    const imageUrl = URLBuilder.buildImageURL(
+                      'w185',
+                      item.poster_path
+                    );
+                    return (
+                      <Animated.View style={{ transform: [{ scale: this.scaleAnim }] }}>
+                        <TouchableOpacity
+                          onPress={() => navigation.navigate('TvShowDetailScreen', {
+                            tvShowId: item.id,
+                          })}
+                        >
+                          <Image
+                            source={{ uri: imageUrl }}
+                            style={styles.TvThumbnail}
+                          />
+                          <View style={styles.percentVote}>
+                            <Star1
+                              size='24'
+                              color={colors.neutral.toString()}
+                              variant='Bold'
+                            />
+                          </View>
+                        </TouchableOpacity>
+                      </Animated.View>
+                    );
+                  } }
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.TvList} />
+              </View>
+
+              <View style={styles.containerTV}>
+                <View style={styles.containerSectionTitle}>
+                  <Text style={styles.sectionTitle}>Top 10 Rated</Text>
+                  <TouchableOpacity onPress={()=> navigation.navigate('SeeAllTopRated')}>
+                    <Text style={styles.sectionTitle}>See All</Text>
+                  </TouchableOpacity>
+                </View>
+                <FlatList data={topRated.slice(0,10)}
+                  horizontal
+                  keyExtractor={item => item.id.toString()}
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.movieList}
+                  renderItem={({item, index})=>{
+                    const imageUrl = URLBuilder.buildImageURL(
+                      'w185',
+                      item.poster_path
+                    );
+                    return(
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('MovieDetailScreen', {
+                          movieId: item.id,
+                        })}
+                      >
+                        <View style={styles.topRatedItemContainer}>
+                          <Image
+                            source={{uri: imageUrl}}
+                            style={styles.Thumbnail}
+                          />
+                          <View style={styles.rankingIcon}>
+                            <Text style={[styles.rankingText, styles.textWithBorder]}>{index + 1}</Text>
+
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  }}/>
+              </View>
+
               <View style={styles.containerSectionTitle}>
-                <Text style={styles.sectionTitle}>Top 10 Rated</Text>
-                <TouchableOpacity onPress={()=> navigation.navigate('SeeAllTopRated')}>
+                <Text style={styles.sectionTitle}>Most popular celebrities</Text>
+                <TouchableOpacity onPress={()=> navigation.navigate('SeeAllPersonScreen')}>
                   <Text style={styles.sectionTitle}>See All</Text>
                 </TouchableOpacity>
               </View>
-              <FlatList data={topRated.slice(0,10)}
+              <FlatList
+                data={people.slice(0,10)}
                 horizontal
                 keyExtractor={item => item.id.toString()}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.movieList}
-                renderItem={({item, index})=>{
+                renderItem={({ item}) => {
                   const imageUrl = URLBuilder.buildImageURL(
                     'w185',
-                    item.poster_path
+                    item.profile_path
                   );
-                  return(
+                  return (
                     <TouchableOpacity
-                      onPress={() => navigation.navigate('MovieDetailScreen', {
-                        movieId: item.id,
+                      key={item.id}
+                      onPress={() => navigation.navigate('PersonDetailScreen', {
+                        personId: item.id,
                       })}
                     >
-                      <View style={styles.topRatedItemContainer}>
+                      <View style={styles.celebrityItem}>
                         <Image
-                          source={{uri: imageUrl}}
-                          style={styles.Thumbnail}
-                        />
-                        <View style={styles.rankingIcon}>
-                          <Text style={[styles.rankingText, styles.textWithBorder]}>{index + 1}</Text>
-
-                        </View>
+                          source={{ uri: imageUrl }}
+                          style={styles.celebrityThumbnail} />
                       </View>
                     </TouchableOpacity>
                   );
-                }}/>
+                } }
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.celebrityList} />
             </View>
-
-            <View style={styles.containerSectionTitle}>
-              <Text style={styles.sectionTitle}>Most popular celebrities</Text>
-              <TouchableOpacity onPress={()=> navigation.navigate('SeeAllPersonScreen')}>
-                <Text style={styles.sectionTitle}>See All</Text>
-              </TouchableOpacity>
-            </View>
-            <FlatList
-              data={people.slice(0,10)}
-              horizontal
-              keyExtractor={item => item.id.toString()}
-              renderItem={({ item}) => {
-                const imageUrl = URLBuilder.buildImageURL(
-                  'w185',
-                  item.profile_path
-                );
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    onPress={() => navigation.navigate('PersonDetailScreen', {
-                      personId: item.id,
-                    })}
-                  >
-                    <View style={styles.celebrityItem}>
-                      <Image
-                        source={{ uri: imageUrl }}
-                        style={styles.celebrityThumbnail} />
-                    </View>
-                  </TouchableOpacity>
-                );
-              } }
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.celebrityList} />
-          </View>
+          </Animated.View>
         </ScrollView>
       </LinearGradient>
     );

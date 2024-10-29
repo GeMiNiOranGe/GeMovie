@@ -1,22 +1,18 @@
 // style.js
-import { calculateImageDimensions } from '@shared/utils';
+import { spacing } from '@shared/constants';
+import { colors } from '@shared/themes';
 import { StyleSheet } from 'react-native';
-
-const imageDimensions = calculateImageDimensions(170, 2, 3);
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: colors.primary,
     },
     headerContainer: {
         height: 300,
-        alignItems: 'center',
-        backgroundColor: 'white',
-    },
-    backgroundImage: {
-        height: '100%',
+        position: 'absolute',
+        overflow: 'hidden',
         width: '100%',
-        justifyContent: 'flex-start',
     },
     head: {
         position: 'absolute',
@@ -24,23 +20,53 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    scrollContent: {
+        paddingTop: 300,
+    },
+    bodyOverlay: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 260,
+        height: 40,
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        zIndex: 1,
+    },
+    backgroundImage: {
+        height: '100%',
+        width: '100%',
+        position: 'relative',
+        zIndex: 1,
+    },
     body: {
-        padding: 20,
+        position: 'relative',
+        padding: 10,
+        backgroundColor: 'rgba(255, 255, 255, 1)',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        zIndex: 3,
+        marginTop: -25,
     },
     titleText: {
-        textAlign: 'center',
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
+        textAlign: 'center',
         color: 'black',
-        bottom: 5,
+        marginVertical: 15,
     },
     titleBody: {
         flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'space-around',
+        marginVertical: 10,
     },
-    contentBody: {
-        marginTop: 10,
-        padding: 5,
+    labelText: {
+        fontSize: 14,
+        color: 'white',
+    },
+    descriptionContainer: {
+        marginTop: 20,
     },
     text: {
         fontSize: 14,
@@ -55,49 +81,34 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     posterImage: {
-        borderRadius: 12,
-        ...imageDimensions,
-        marginLeft: 20,
-        marginBottom: 20,
+        width: 150,
+        height: 225,
+        borderRadius: 10,
+        marginBottom: -50,
+        zIndex: 1,
     },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    },
-    modalView: {
-        width: '80%',
-        backgroundColor: 'black',
-        borderRadius: 20,
-        padding: 10,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    modalImage: {
-        width: 290,
-        height: 450,
-        borderRadius: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 20,
     },
     closeButton: {
-        marginTop: 15,
-        backgroundColor: '#2196F3',
-        borderRadius: 10,
+        marginTop: 20,
+        backgroundColor: '#FF4757',
+        borderRadius: 12,
         paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 30,
     },
     closeButtonText: {
         color: 'white',
         fontSize: 16,
+        fontWeight: '600',
     },
     youtubeContainer: {
-        marginTop: 20,
+        marginTop: 30,
         alignItems: 'center',
-        justifyContent: 'center',
     },
     loadingContainer: {
         marginTop: 20,
@@ -108,6 +119,60 @@ const styles = StyleSheet.create({
         marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    playButton: {
+        position: 'absolute',
+        alignSelf: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        paddingTop: 4,
+        borderRadius: 70,
+        height: 50,
+        width: 50,
+        transform: [{ translateY: -25 }],
+        zIndex: 3,
+        top: '50%',
+    },
+    playButtonText: {
+        fontSize: 30,
+        color: 'red',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    gradientOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 2,
+    },
+    genreBox: {
+        marginBottom: spacing.small,
+    },
+    genre: {
+        fontSize: 12,
+        color: colors.text,
+        marginVertical: 4,
+        marginLeft: 12,
+        marginRight: 12,
+    },
+    genreContentList: {
+        paddingHorizontal: spacing.large,
+    },
+    genreChip: {
+        borderRadius: 1000,
+        backgroundColor: colors.background,
+    },
+    starContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: spacing.small,
+    },
+    star: {
+        fontSize: 25,
+        color: '#FFD700',
+        textAlign: 'center',
     },
 });
 

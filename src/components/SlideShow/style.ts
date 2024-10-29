@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 export const sliderWidth = width;
-export const itemWidth = width * 0.75;
+export const itemWidth = width * 0.6;
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
     },
 });
 export default styles;
