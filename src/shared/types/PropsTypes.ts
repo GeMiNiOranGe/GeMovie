@@ -15,7 +15,7 @@ import type {
 } from 'react-native';
 import type { IconProps as IconsaxProps } from 'iconsax-react-native';
 
-import type { SearchElement, VideoElementBase } from '@shared/types';
+import type { SearchElement, VideoElement } from '@shared/types';
 import { imageSize } from '@shared/constants';
 
 export type RootStackParamList = ParamListBase & {
@@ -51,10 +51,9 @@ export type SearchResultsTopTabBaseProps = {
     searchContent: string;
 };
 
-export type VideoSearchCardBaseProps<T extends VideoElementBase> =
-    SearchCardProps<T> & {
-        showMedal?: boolean | undefined;
-    };
+export type VideoCardBaseProps<E extends VideoElement> = SearchCardProps<E> & {
+    showMedal?: boolean | undefined;
+};
 
 export type SearchCardProps<T extends SearchElement> = {
     item: T;

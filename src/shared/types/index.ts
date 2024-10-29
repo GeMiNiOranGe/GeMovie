@@ -119,10 +119,6 @@ export type MediaElementBase = {
 
 export type MediaElement = (TvShowElement | MovieElement) & Media;
 
-export type VideoGenreIds = {
-    genreIds: number[];
-};
-
 export type VideoBase = {
     genres: Genre[];
     homepage: string;
@@ -138,6 +134,12 @@ export type VideoElementBase = MediaElementBase & {
     voteCount: number;
     popularity: number;
 };
+
+export type VideoGenreIds = {
+    genreIds: number[];
+};
+
+export type VideoElement = VideoElementBase & VideoGenreIds;
 
 export type MultiSearchElement = (
     | MovieElement

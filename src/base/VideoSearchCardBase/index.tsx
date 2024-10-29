@@ -15,56 +15,33 @@ import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
 import { layout, colors } from '@shared/themes';
 import {
-  BronzeMedal,
-  GoldMedal,
-  NormalMedal,
-  SilverMedal,
-} from '@assets/icons';
-import {
   getFormattedFullYear,
   getFormattedGenres,
   getFormattedVoteAverage,
 } from '@shared/utils';
-import type {
-  VideoElementBase,
-  VideoGenreIds,
-  VideoSearchCardBaseProps,
-} from '@shared/types';
+import type { VideoElement, VideoCardBaseProps } from '@shared/types';
+import VideoCardBase from '../VideoCardBase';
 import styles from './style';
 
-const medalIconSize = 40;
+const medalIconSize = 32;
 const navigationIconSize = 20;
 
 abstract class VideoSearchCardBase<
-  T extends VideoElementBase & VideoGenreIds,
-> extends React.PureComponent<VideoSearchCardBaseProps<T>> {
-  private genres: (string | undefined)[] = getFormattedGenres(
-    this.props.item.genreIds,
-  );
+  E extends VideoElement,
+> extends VideoCardBase<E> {
+  private readonly genres: (string | undefined)[];
 
-  public constructor(props: VideoSearchCardBaseProps<T>) {
+  public constructor(props: VideoCardBaseProps<E>) {
     super(props);
+    this.genres = getFormattedGenres(this.props.item.genreIds);
 
     this.renderGenreTagItem = this.renderGenreTagItem.bind(this);
-  }
-
-  protected abstract get originalName(): string;
-  protected abstract get name(): string;
-  protected abstract get airDate(): Date;
-  protected abstract get mediaType(): string;
-
-  protected get video(): boolean {
-    return false;
-  }
-
-  protected get originCountry(): string[] {
-    return [];
   }
 
   private renderGenreTagItem({
     item,
     index,
-  }: ListRenderItemInfo<string | undefined>) {
+  }: ListRenderItemInfo<string | undefined>): React.JSX.Element {
     const marginRight = index === this.genres.length - 1 ? 0 : spacing.small;
 
     return (
@@ -74,28 +51,7 @@ abstract class VideoSearchCardBase<
     );
   }
 
-  private renderMedal() {
-    return (
-      <>
-        {this.props.index + 1 === 1 ? (
-          <GoldMedal size={medalIconSize} />
-        ) : this.props.index + 1 === 2 ? (
-          <SilverMedal size={medalIconSize} />
-        ) : this.props.index + 1 === 3 ? (
-          <BronzeMedal size={medalIconSize} />
-        ) : (
-          <NormalMedal
-            size={medalIconSize}
-            color={colors.primary}
-            value={this.props.index + 1}
-            fontColor='black'
-          />
-        )}
-      </>
-    );
-  }
-
-  private renderNavigationIcon() {
+  private renderNavigationIcon(): React.JSX.Element {
     return (
       <ArrowRight2 size={navigationIconSize} color='white' variant='Bold' />
     );
@@ -127,7 +83,9 @@ abstract class VideoSearchCardBase<
           )}
 
           {this.props.showMedal && (
-            <View style={StyleSheet.absoluteFill}>{this.renderMedal()}</View>
+            <View style={StyleSheet.absoluteFill}>
+              {super.renderMedalIcon(medalIconSize)}
+            </View>
           )}
 
           <View style={[layout.flex1, layout.flexEnd, StyleSheet.absoluteFill]}>
