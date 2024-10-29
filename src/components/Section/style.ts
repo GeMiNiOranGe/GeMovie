@@ -25,6 +25,14 @@ const styles = StyleSheet.create({
         marginLeft: accentWidth + spacing.small,
         marginTop: spacing.tiny,
     },
+    moreButton: {
+        marginLeft: spacing.small,
+    },
+    moreButtonText: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: colors.accent.light,
+    },
     accent: {
         width: accentWidth,
         borderRadius: 1000,

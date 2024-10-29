@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import SectionSeparator from './SectionSeparator';
 import SectionDivider from './SectionDivider';
@@ -26,9 +26,32 @@ class Section extends React.PureComponent<SectionProps> {
           <View style={layout.row}>
             <View style={styles.accent} />
 
-            <Text style={styles.title} numberOfLines={1}>
-              {this.props.title}
-            </Text>
+            {this.props.moreButtonText ? (
+              <View
+                style={[
+                  layout.flex1,
+                  layout.spaceBetweenRow,
+                  layout.itemsCenter,
+                ]}
+              >
+                <Text style={[layout.flex1, styles.title]} numberOfLines={1}>
+                  {this.props.title}
+                </Text>
+
+                <TouchableOpacity
+                  style={styles.moreButton}
+                  onPress={this.props.onMoreButtonPress}
+                >
+                  <Text style={styles.moreButtonText}>
+                    {this.props.moreButtonText}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <Text style={[layout.flex1, styles.title]} numberOfLines={1}>
+                {this.props.title}
+              </Text>
+            )}
           </View>
 
           {this.props.subtitle && (

@@ -105,6 +105,8 @@ export type SectionProps = {
     style?: StyleProp<ViewStyle> | undefined;
     title: string;
     subtitle?: string | undefined;
+    moreButtonText?: string | undefined;
+    onMoreButtonPress?: ((event: GestureResponderEvent) => void) | undefined;
     children?: React.ReactNode | undefined;
 };
 

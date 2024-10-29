@@ -312,7 +312,7 @@ class MovieDetailScreen extends React.Component<
 
             <Section.Separator />
 
-            <Section title='Recommended for you'>
+            <Section title='Recommendations'>
               {this.state.movie?.id ? (
                 <Suggestion
                   type='movie'
