@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { GenreService } from '@services';
-import { MovieSearchCard } from '@components';
+import { MovieDetailCard } from '@components';
 import { toMovieElement } from '@shared/utils';
 import type {
   MovieElement,
@@ -49,7 +49,7 @@ class TopRated extends React.Component<
     index,
   }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
     return (
-      <MovieSearchCard
+      <MovieDetailCard
         showMedal
         item={item}
         index={index}

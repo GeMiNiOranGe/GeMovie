@@ -3,9 +3,9 @@ import { ListRenderItem } from 'react-native';
 
 import { SearchResultsTopTabBase } from '@base';
 import {
-  MovieSearchCard,
+  MovieDetailCard,
   PersonSearchCard,
-  TvShowSearchCard,
+  TvShowDetailCard,
 } from '@components';
 import { SearchService, type SearchResponseWrapper } from '@services';
 import type {
@@ -44,7 +44,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElemen
   }) => {
     if (isMovieElement(item)) {
       return (
-        <MovieSearchCard
+        <MovieDetailCard
           item={item}
           index={index}
           listLength={this.state.results?.length}
@@ -58,7 +58,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElemen
     }
     if (isTvShowElement(item)) {
       return (
-        <TvShowSearchCard
+        <TvShowDetailCard
           item={item}
           index={index}
           listLength={this.state.results?.length}

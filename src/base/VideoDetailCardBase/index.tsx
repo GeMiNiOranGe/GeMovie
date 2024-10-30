@@ -26,7 +26,7 @@ import styles from './style';
 const medalIconSize = 32;
 const navigationIconSize = 20;
 
-abstract class VideoSearchCardBase<
+abstract class VideoDetailCardBase<
   E extends VideoElement,
 > extends VideoCardBase<E> {
   private readonly genres: (string | undefined)[];
@@ -151,4 +151,4 @@ abstract class VideoSearchCardBase<
   }
 }
 
-export default VideoSearchCardBase;
+export default VideoDetailCardBase;

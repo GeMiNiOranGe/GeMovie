@@ -2,7 +2,7 @@ import React from 'react';
 import { ListRenderItem } from 'react-native';
 
 import { SearchResultsTopTabBase } from '@base';
-import { TvShowSearchCard } from '@components';
+import { TvShowDetailCard } from '@components';
 import { TvShowService } from '@services';
 import type {
   SearchResultsTopTabBaseProps,
@@ -26,7 +26,7 @@ class TvShowSearchResultsTopTab extends SearchResultsTopTabBase<TvShowElement> {
     item,
     index,
   }) => (
-    <TvShowSearchCard
+    <TvShowDetailCard
       item={item}
       index={index}
       listLength={this.state.results?.length}

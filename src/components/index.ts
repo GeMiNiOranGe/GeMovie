@@ -1,11 +1,11 @@
-export { default as MovieSearchCard } from './MovieSearchCard';
+export { default as MovieDetailCard } from './MovieDetailCard';
 export { default as Label } from './Label';
 export { default as Labels } from './Labels';
 export { default as ExpandableText } from './ExpandableText';
 export { default as CollectionSearchCard } from './CollectionSearchCard';
 export { default as CompanySearchCard } from './CompanySearchCard';
 export { default as SearchResultsList } from './SearchResultsList';
-export { default as TvShowSearchCard } from './TvShowSearchCard';
+export { default as TvShowDetailCard } from './TvShowDetailCard';
 export { default as PersonSearchCard } from './PersonSearchCard';
 export { default as Slideshow } from './SlideShow';
 export { default as SearchResultsTabBar } from './SearchResultsTabBar';
