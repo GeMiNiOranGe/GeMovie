@@ -15,7 +15,7 @@ import type {
 } from 'react-native';
 import type { IconProps as IconsaxProps } from 'iconsax-react-native';
 
-import type { SearchElement, VideoElement } from '@shared/types';
+import type { CardElement, VideoElement } from '@shared/types';
 import { imageSize } from '@shared/constants';
 
 export type RootStackParamList = ParamListBase & {
@@ -51,29 +51,21 @@ export type SearchResultsTopTabBaseProps = {
     searchContent: string;
 };
 
-export type VideoCardBaseProps<E extends VideoElement> = DetailCardProps<E> & {
+export type CardBaseProps<E extends CardElement> = {
+    item: E;
+    index: number;
+    listLength?: number | undefined;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
+
+export type DetailCardProps<E extends CardElement> = CardBaseProps<E>;
+
+export type CompactCardProps<E extends CardElement> = CardBaseProps<E>;
+
+export type SimpleCardProps<E extends CardElement> = CardBaseProps<E>;
+
+export type VideoCardBaseProps<E extends VideoElement> = CardBaseProps<E> & {
     showMedal?: boolean | undefined;
-};
-
-export type DetailCardProps<T extends SearchElement> = {
-    item: T;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type CompactCardProps<T extends SearchElement> = {
-    item: T;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
-};
-
-export type SimpleCardProps<T extends SearchElement> = {
-    item: T;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
 export type LabelProps = {

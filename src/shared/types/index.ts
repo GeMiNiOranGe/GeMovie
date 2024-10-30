@@ -106,7 +106,7 @@ export type SearchResponse<T> = {
     totalResults: number;
 };
 
-export type SearchElement = MediaElementBase | PersonElement | CompanyElement;
+export type CardElement = MediaElementBase | PersonElement | CompanyElement;
 
 export type MediaElementBase = {
     adult: boolean;
