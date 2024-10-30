@@ -4,7 +4,7 @@ import { ListRenderItem } from 'react-native';
 import { SearchResultsTopTabBase } from '@base';
 import {
   MovieDetailCard,
-  PersonSearchCard,
+  PersonDetailCard,
   TvShowDetailCard,
 } from '@components';
 import { SearchService, type SearchResponseWrapper } from '@services';
@@ -71,7 +71,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElemen
       );
     }
     return (
-      <PersonSearchCard
+      <PersonDetailCard
         item={item}
         index={index}
         listLength={this.state.results?.length}

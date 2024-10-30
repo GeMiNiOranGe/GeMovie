@@ -7,13 +7,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import { layout, colors } from '@shared/themes';
 import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
-import type { CollectionElement, SearchCardProps } from '@shared/types';
+import type { CollectionElement, DetailCardProps } from '@shared/types';
 import styles from './style';
 
 const navigationIconSize = 20;
 
-class CollectionSearchCard extends React.PureComponent<
-  SearchCardProps<CollectionElement>
+class CollectionDetailCard extends React.PureComponent<
+  DetailCardProps<CollectionElement>
 > {
   private renderNavigationIcon() {
     return (
@@ -108,4 +108,4 @@ class CollectionSearchCard extends React.PureComponent<
   }
 }
 
-export default CollectionSearchCard;
+export default CollectionDetailCard;

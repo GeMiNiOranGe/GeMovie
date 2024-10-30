@@ -7,13 +7,13 @@ import { URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
 import { layout, colors } from '@shared/themes';
 import { getFormattedGender, isMovieElement } from '@shared/utils';
-import type { PersonElement, SearchCardProps } from '@shared/types';
+import type { PersonElement, DetailCardProps } from '@shared/types';
 import styles from './style';
 
 const navigationIconSize = 20;
 
-class PersonSearchCard extends React.PureComponent<
-  SearchCardProps<PersonElement>
+class PersonDetailCard extends React.PureComponent<
+  DetailCardProps<PersonElement>
 > {
   private renderNavigationIcon() {
     return (
@@ -97,4 +97,4 @@ class PersonSearchCard extends React.PureComponent<
   }
 }
 
-export default PersonSearchCard;
+export default PersonDetailCard;

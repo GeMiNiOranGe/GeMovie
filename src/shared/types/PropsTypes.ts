@@ -51,11 +51,11 @@ export type SearchResultsTopTabBaseProps = {
     searchContent: string;
 };
 
-export type VideoCardBaseProps<E extends VideoElement> = SearchCardProps<E> & {
+export type VideoCardBaseProps<E extends VideoElement> = DetailCardProps<E> & {
     showMedal?: boolean | undefined;
 };
 
-export type SearchCardProps<T extends SearchElement> = {
+export type DetailCardProps<T extends SearchElement> = {
     item: T;
     index: number;
     listLength?: number | undefined;
