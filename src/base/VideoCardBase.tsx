@@ -27,7 +27,7 @@ abstract class VideoCardBase<
 
   protected renderMedalIcon(
     size: number | undefined = undefined,
-  ): React.ReactNode {
+  ): React.JSX.Element {
     const position = this.props.index + 1;
 
     return (
