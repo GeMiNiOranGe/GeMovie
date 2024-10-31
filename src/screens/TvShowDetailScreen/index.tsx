@@ -26,9 +26,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native';
 import { Adult } from '@assets/icons';
 import { getFormattedDate } from '@shared/utils';
-import styles from './style';
 import { layout } from '@shared/themes';
 import { Chip } from 'react-native-paper';
+import styles from './style';
 
 const iconSize = 16;
 const iconColor = '#000';
@@ -57,7 +57,10 @@ class TvShowDetailScreen extends React.Component<
   }
 
   public toggleModal = () => {
-    this.setState(prevState => ({ modalVisible: !prevState.modalVisible }));
+    this.setState(prevState => ({
+      modalVisible: !prevState.modalVisible,
+      isLoading: true,
+    }));
   };
 
   public closemodal = () => {

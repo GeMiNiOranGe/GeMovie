@@ -10,6 +10,7 @@ import {
   SeeAllPerson,
   CompanyDetailScreen,
   CollectionDetailScreen,
+  TrendingScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
 import AllTV from 'src/screens/SeeAllTV';
@@ -96,6 +97,14 @@ class HomeStack extends React.Component {
           component={CompanyDetailScreen}
           options={{
             title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='TrendingScreen'
+          component={TrendingScreen}
+          options={{
+            title: 'Trending',
           }}
         />
       </Stack.Navigator>

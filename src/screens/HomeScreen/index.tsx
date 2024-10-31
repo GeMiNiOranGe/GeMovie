@@ -34,6 +34,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
     upcomingMovies: [] as any[],
     tvShow: [] as unknown as FeaturedTvShow[],
     topRated: [] as FeaturedMovie[],
+    trend: [] as FeaturedMovie[],
     isLoading: true,
     backgroundImageIndex: 0,
   };
@@ -46,20 +47,23 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
     const upcomingMoviesUrl = `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}`;
     const tvShowsUrl = `${TMDB_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`;
     const topRatedUrl  = `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}`;
+    const trendUrl = `${TMDB_BASE_URL}/trending/all/day?api_key=${TMDB_API_KEY}&language=en-US`;
     Promise.all([
       fetch(url).then(response => response.json()),
       fetch(personUrl).then(response => response.json()),
       fetch(upcomingMoviesUrl).then(response => response.json()),
       fetch(tvShowsUrl).then(response => response.json()),
       fetch(topRatedUrl).then(response => response.json()),
+      fetch(trendUrl).then(response => response.json()),
     ])
-      .then(([movieData, personData, upcomingMoviesData, tvShowData, topRatedData]) => {
+      .then(([movieData, personData, upcomingMoviesData, tvShowData, topRatedData,trendData]) => {
         this.setState({
           movies: movieData.results,
           people: personData.results,
           upcomingMovies: upcomingMoviesData.results,
           tvShow: tvShowData.results,
           topRated: topRatedData.results,
+          trend: trendData.results,
           isLoading: false,
         });
         Animated.timing(this.fadeAnim, {
@@ -81,6 +85,7 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
       upcomingMovies,
       tvShow,
       topRated,
+      trend,
       isLoading,
     } = this.state;
     const { navigation } = this.props;
@@ -239,6 +244,45 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                       </TouchableOpacity>
                     );
                   }}/>
+              </View>
+
+              <View style={styles.containerTV}>
+                <View style={styles.containerSectionTitle}>
+                  <Text style={styles.sectionTitle}>Trending</Text>
+                  <TouchableOpacity onPress={()=> navigation.navigate('TrendingScreen')}>
+                    <Text style={styles.sectionTitle}>See All</Text>
+                  </TouchableOpacity>
+                </View>
+                <FlatList
+                  data={trend}
+                  horizontal
+                  keyExtractor={item => item.id.toString()}
+                  renderItem={({ item }) => {
+                    const imageUrl = URLBuilder.buildImageURL(
+                      'w185',
+                      item.poster_path
+                    );
+                    const mediaTypeLabel = item.media_type === 'movie' ? 'Movie' : 'TV Show';
+                    return (
+                      <Animated.View style={{ transform: [{ scale: this.scaleAnim }] }}>
+                        <TouchableOpacity
+                          onPress={() => navigation.navigate('TvShowDetailScreen', {
+                            tvShowId: item.id,
+                          })}
+                        >
+                          <View style={styles.genreTag}>
+                            <Text style={styles.mediaType}>{mediaTypeLabel}</Text>
+                          </View>
+                          <Image
+                            source={{ uri: imageUrl }}
+                            style={styles.TvThumbnail}
+                          />
+                        </TouchableOpacity>
+                      </Animated.View>
+                    );
+                  } }
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.TvList} />
               </View>
 
               <View style={styles.containerSectionTitle}>

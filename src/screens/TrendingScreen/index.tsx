@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   Text,
   Image,
-  ImageBackground,
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
@@ -20,6 +19,7 @@ import { MasonryFlashList } from '@shopify/flash-list';
 import { URLBuilder } from '@services';
 import { getRandomHeight } from '@shared/utils';
 import styles from './style';
+import LinearGradient from 'react-native-linear-gradient';
 
 class TrendingScreen extends React.Component<
   RootScreenProps<'TrendingScreen'>,
@@ -50,15 +50,11 @@ class TrendingScreen extends React.Component<
           (item: FeaturedTvShow) => item.media_type === 'tv',
         );
 
-        this.setState(
-          {
-            trendingMovies,
-            trendingTvShows,
-            isLoading: false,
-          },
-          this.updateRandomBackgroundImage,
-        );
-        this.intervalId = setInterval(this.updateRandomBackgroundImage, 10000);
+        this.setState({
+          trendingMovies,
+          trendingTvShows,
+          isLoading: false,
+        });
       })
       .catch(error => {
         console.error('Error fetching trending data:', error);
@@ -71,21 +67,6 @@ class TrendingScreen extends React.Component<
       clearInterval(this.intervalId);
     }
   }
-
-  private updateRandomBackgroundImage = () => {
-    const randomItem = this.getRandomTrendingItem();
-    if (randomItem) {
-      const imagePath = randomItem.backdrop_path || randomItem.poster_path;
-      const backgroundImageUrl = imagePath
-        ? URLBuilder.buildImageURL('w1280', imagePath)
-        : null;
-      this.setState({
-        backgroundImage: backgroundImageUrl
-          ? { uri: backgroundImageUrl }
-          : undefined,
-      });
-    }
-  };
 
   public renderMovieItem = ({ item }: { item: FeaturedMovie }) => {
     const imageUrl = URLBuilder.buildImageURL('w500', item.poster_path);
@@ -158,13 +139,8 @@ class TrendingScreen extends React.Component<
   };
 
   public override render() {
-    const {
-      isLoading,
-      trendingMovies,
-      trendingTvShows,
-      backgroundImage,
-      selectedCategory,
-    } = this.state;
+    const { isLoading, trendingMovies, trendingTvShows, selectedCategory } =
+      this.state;
 
     if (isLoading) {
       return (
@@ -174,64 +150,50 @@ class TrendingScreen extends React.Component<
       );
     }
     return (
-      <View style={styles.container}>
-        {backgroundImage ? (
-          <ImageBackground
-            source={backgroundImage}
-            style={styles.background}
-            blurRadius={5}
-          >
-            <View style={styles.overlay}>
-              <View style={styles.category}>
-                <TouchableOpacity
-                  style={styles.btnCategory}
-                  onPress={() => this.handleCategory('movie')}
-                >
-                  <Text style={styles.textCategory}>Movies</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.btnCategory}
-                  onPress={() => this.handleCategory('tv')}
-                >
-                  <Text style={styles.textCategory}>TV</Text>
-                </TouchableOpacity>
-              </View>
-
-              <Text style={styles.sectionTitle}>
-                {selectedCategory === 'movie'
-                  ? 'Trending Movies'
-                  : 'Trending TV Shows'}
-              </Text>
-              <MasonryFlashList
-                data={
-                  selectedCategory === 'movie'
-                    ? trendingMovies
-                    : trendingTvShows
-                }
-                renderItem={
-                  selectedCategory === 'movie'
-                    ? this.renderMovieItem
-                    : this.renderTvShowItem
-                }
-                keyExtractor={item => item.id.toString()}
-                numColumns={3}
-                estimatedItemSize={200}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.listContent}
-              />
-            </View>
-          </ImageBackground>
-        ) : (
-          <View style={styles.container}>
-            <Icon
-              name='film'
-              size={60}
-              color='black'
-              style={styles.movieThumbnail}
-            />
+      <LinearGradient
+        style={styles.container}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={['#0F2027', '#203A43', '#2C5364']}
+      >
+        <View style={styles.overlay}>
+          <View style={styles.category}>
+            <TouchableOpacity
+              style={styles.btnCategory}
+              onPress={() => this.handleCategory('movie')}
+            >
+              <Text style={styles.textCategory}>Movies</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnCategory}
+              onPress={() => this.handleCategory('tv')}
+            >
+              <Text style={styles.textCategory}>TV</Text>
+            </TouchableOpacity>
           </View>
-        )}
-      </View>
+
+          <Text style={styles.sectionTitle}>
+            {selectedCategory === 'movie'
+              ? 'Trending Movies'
+              : 'Trending TV Shows'}
+          </Text>
+          <MasonryFlashList
+            data={
+              selectedCategory === 'movie' ? trendingMovies : trendingTvShows
+            }
+            renderItem={
+              selectedCategory === 'movie'
+                ? this.renderMovieItem
+                : this.renderTvShowItem
+            }
+            keyExtractor={item => item.id.toString()}
+            numColumns={3}
+            estimatedItemSize={200}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.listContent}
+          />
+        </View>
+      </LinearGradient>
     );
   }
 }

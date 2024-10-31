@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Text, View, ActivityIndicator } from 'react-native';
 import React from 'react';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
@@ -20,37 +20,33 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
 
   public override componentDidUpdate(prevProps: VideoProps): void {
     if (prevProps.id !== this.props.id || prevProps.type !== this.props.type) {
-      this.getVideo();
+      this.setState({ loading: true }, this.getVideo);
     }
   }
 
   private getVideo = async () => {
     const { type, id } = this.props;
-    let endpoint = '';
-    if (type === 'movie') {
-      endpoint = 'movie';
-    } else if (type === 'tv') {
-      endpoint = 'tv';
-    } else {
-      endpoint = 'collection';
-    }
+    let endpoint =
+      type === 'movie' ? 'movie' : type === 'tv' ? 'tv' : 'collection';
 
     try {
       const response = await fetch(
         `${TMDB_BASE_URL}/${endpoint}/${id}/videos?api_key=${TMDB_API_KEY}`,
       );
       const data = await response.json();
-      if (data.results && data.results.length > 0) {
+
+      // Brief delay to allow loading indicator to show before rendering
+      setTimeout(() => {
         this.setState({
-          videoKey: data.results[0].key,
+          videoKey: data.results?.[0]?.key || null,
           loading: false,
         });
-      } else {
-        this.setState({ loading: false });
-      }
+      }, 500); // Adjust delay as needed
     } catch (error) {
       console.error(`Error fetching ${type} video:`, error);
-      this.setState({ loading: false });
+      setTimeout(() => {
+        this.setState({ loading: false });
+      }, 500);
     }
   };
 
@@ -59,8 +55,8 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
 
     if (loading) {
       return (
-        <View>
-          <Text>Loading...</Text>
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size='large' color='#0000ff' />
         </View>
       );
     }
@@ -68,7 +64,7 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
     if (!videoKey) {
       return (
         <View>
-          <Text>No Video Available</Text>
+          <Text style={styles.text}>No Video Available</Text>
         </View>
       );
     }

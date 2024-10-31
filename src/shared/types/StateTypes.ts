@@ -57,6 +57,7 @@ export type HomeScreenState = {
     upcomingMovies: any[];
     tvShow: FeaturedTvShow[];
     topRated: FeaturedMovie[];
+    trend: FeaturedMovie[];
     isLoading: boolean;
     backgroundImageIndex: number;
 };

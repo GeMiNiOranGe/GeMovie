@@ -4,7 +4,7 @@ import { Global, Home, SearchNormal1 } from 'iconsax-react-native';
 
 import { activeIcon, normalIcon } from '@shared/constants';
 import { TabBarIconProps } from '@shared/types';
-import { HomeStack, SearchStack, TrendingStack } from '@navigation';
+import { HomeStack, SearchStack } from '@navigation';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -74,15 +74,6 @@ class MainBottomTab extends React.Component {
           options={{
             title: 'Search',
             tabBarIcon: this.renderSearchIcon,
-          }}
-        />
-
-        <BottomTab.Screen
-          name='TrendingStack'
-          component={TrendingStack}
-          options={{
-            title: 'Trend',
-            tabBarIcon: this.renderTrendIcon,
           }}
         />
       </BottomTab.Navigator>

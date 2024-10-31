@@ -7,5 +7,15 @@ const styles = StyleSheet.create({
         marginTop: 20,
         alignItems: 'center',
     },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    text: {
+        color: 'white',
+        fontSize: 15,
+        textAlign: 'center',
+    },
 });
 export default styles;

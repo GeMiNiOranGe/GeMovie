@@ -114,6 +114,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#006633',
         borderColor: '#006633',
         position: 'absolute',
+        marginTop: 5,
+    },
+    genreTag: {
+        position: 'absolute',
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fdfefe',
+        paddingHorizontal: 8,
+        paddingVertical: 3,
+        borderRadius: 6,
+        zIndex: 1,
+    },
+    tagIcon: {
+        marginRight: 4,
+    },
+    mediaType: {
+        fontSize: 10,
+        color: 'black',
+        fontWeight: 'bold',
     },
     topRatedItemContainer: {
         position: 'relative',
