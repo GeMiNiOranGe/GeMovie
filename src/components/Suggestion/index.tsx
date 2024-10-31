@@ -1,22 +1,14 @@
 import React from 'react';
-import {
-  FlatList,
-  Image,
-  type ListRenderItemInfo,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, type ListRenderItemInfo, Text } from 'react-native';
 
-import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
+import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import type {
   MediaElement,
   SuggestionProps,
   SuggestionState,
 } from '@shared/types';
-import { imageSize } from '@shared/constants';
 import { isMovieElement, toMediaElement } from '@shared/utils';
-import { CompactMovieCard } from '@components';
+import { CompactMovieCard, CompactTvShowCard } from '@components';
 import styles from './styles';
 
 class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
@@ -78,24 +70,18 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
         />
       );
     }
+
     return (
-      <TouchableOpacity key={item.id} style={styles.itemContainer}>
-        {item.posterPath ? (
-          <Image
-            source={{
-              uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w342}${item.posterPath}`,
-            }}
-            style={styles.itemImage}
-          />
-        ) : (
-          <View style={styles.placeholderImage}>
-            <Text style={styles.placeholderText}>No Image</Text>
-          </View>
-        )}
-        <Text style={styles.itemText} numberOfLines={2}>
-          {item.name}
-        </Text>
-      </TouchableOpacity>
+      <CompactTvShowCard
+        item={item}
+        index={index}
+        listLength={this.state.recommendItems.length}
+        onPress={() => {
+          this.props.navigation.push('TvShowDetailScreen', {
+            tvShowId: item.id,
+          });
+        }}
+      />
     );
   }
 
@@ -113,7 +99,9 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
             renderItem={this.renderItem}
           />
         ) : (
-          <Text style={styles.noDataText}>No recommendations available.</Text>
+          <Text style={styles.noRecommendationText}>
+            No recommendations available.
+          </Text>
         )}
       </>
     );
