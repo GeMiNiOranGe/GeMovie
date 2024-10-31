@@ -1,5 +1,6 @@
 import React from 'react';
 import { FlatList, type ListRenderItemInfo, Text } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import type {
@@ -16,6 +17,7 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
     super(props);
     this.state = {
       recommendItems: [],
+      isFetching: true,
     };
 
     this.renderItem = this.renderItem.bind(this);
@@ -27,9 +29,6 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
 
   protected getData = async () => {
     const { id, type } = this.props;
-    if (!id) {
-      return;
-    }
 
     const endpoint = type === 'movie' ? 'movie' : 'tv';
     const url = `${TMDB_BASE_URL}/${endpoint}/${id}/recommendations?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
@@ -49,9 +48,9 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
         toMediaElement(item),
       );
 
-      this.setState({ recommendItems });
-    } catch (error) {
-      console.error('Error fetching recommendations:', error);
+      this.setState({ recommendItems, isFetching: false });
+    } catch (error: unknown) {
+      console.error(`Error: ${error}`);
     }
   };
 
@@ -85,25 +84,31 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
     );
   }
 
-  public override render() {
-    const { recommendItems: recommendItem } = this.state;
+  private renderListEmpty(): React.JSX.Element {
     return (
-      <>
-        {recommendItem.length > 0 ? (
-          <FlatList
-            contentContainerStyle={styles.listContent}
-            horizontal
-            keyExtractor={item => item.id.toString()}
-            showsHorizontalScrollIndicator={false}
-            data={recommendItem}
-            renderItem={this.renderItem}
-          />
-        ) : (
-          <Text style={styles.noRecommendationText}>
-            No recommendations available.
-          </Text>
-        )}
-      </>
+      <Text style={styles.noRecommendationText}>
+        No recommendations available.
+      </Text>
+    );
+  }
+
+  public override render(): React.JSX.Element {
+    if (this.state.isFetching) {
+      return (
+        <ActivityIndicator style={styles.activityIndicator} size='small' />
+      );
+    }
+
+    return (
+      <FlatList
+        contentContainerStyle={styles.listContent}
+        horizontal
+        keyExtractor={item => item.id.toString()}
+        showsHorizontalScrollIndicator={false}
+        ListEmptyComponent={this.renderListEmpty}
+        data={this.state.recommendItems}
+        renderItem={this.renderItem}
+      />
     );
   }
 }

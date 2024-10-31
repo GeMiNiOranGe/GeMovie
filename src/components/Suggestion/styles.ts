@@ -12,7 +12,10 @@ const styles = StyleSheet.create({
     noRecommendationText: {
         fontSize: 14,
         color: colors.text,
-        marginTop: 10,
+    },
+    activityIndicator: {
+        marginTop: spacing.small,
+        marginBottom: spacing.large,
     },
 });
 export default styles;

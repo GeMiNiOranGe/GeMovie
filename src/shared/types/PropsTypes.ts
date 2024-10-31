@@ -183,7 +183,7 @@ export type VideoProps = {
 };
 
 export type SuggestionProps = {
+    id: number;
     type: 'movie' | 'tv';
-    id: number | undefined;
     navigation: NativeStackNavigationProp<ParamListBase>;
 };

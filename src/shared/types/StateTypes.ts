@@ -84,6 +84,7 @@ export type SlideshowState = {
 
 export type SuggestionState = {
     recommendItems: MediaElement[];
+    isFetching: boolean;
 };
 
 export type TopRatedState = {

@@ -21,7 +21,7 @@ import {
   Star1,
   Global,
 } from 'iconsax-react-native';
-import { ActivityIndicator, Chip } from 'react-native-paper';
+import { Chip } from 'react-native-paper';
 
 import { Adult, IMDb } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
@@ -242,11 +242,13 @@ class MovieDetailScreen extends React.Component<
                 <Global color={colors.primary.toString()} />
               </TouchableRippleLink>
 
-              <TouchableRippleLink
-                url={`${IMDB_BASE_URL}/title/${this.state.movie?.imdbId}`}
-              >
-                <IMDb color={colors.text.toString()} />
-              </TouchableRippleLink>
+              {this.state.movie?.imdbId && (
+                <TouchableRippleLink
+                  url={`${IMDB_BASE_URL}/title/${this.state.movie?.imdbId}`}
+                >
+                  <IMDb color={colors.text.toString()} />
+                </TouchableRippleLink>
+              )}
             </View>
 
             <View style={[layout.itemsCenter, styles.labelBox]}>
@@ -313,14 +315,12 @@ class MovieDetailScreen extends React.Component<
             <Section.Separator />
 
             <Section title='Recommendations'>
-              {this.state.movie?.id ? (
+              {this.state.movie?.id && (
                 <Suggestion
-                  type='movie'
                   id={this.state.movie?.id}
+                  type='movie'
                   navigation={this.props.navigation}
                 />
-              ) : (
-                <ActivityIndicator size='small' />
               )}
             </Section>
 
