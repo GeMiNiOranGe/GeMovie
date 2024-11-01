@@ -190,7 +190,7 @@ export type VideoProps = {
     id: number | undefined;
 };
 
-export type SuggestionProps = {
+export type RecommendationProps = {
     id: number;
     type: VideoType;
     navigation: NativeStackNavigationProp<ParamListBase>;

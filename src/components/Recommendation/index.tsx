@@ -3,15 +3,18 @@ import { type ListRenderItemInfo } from 'react-native';
 
 import type {
   MediaElement,
-  SuggestionProps,
-  SuggestionState,
+  RecommendationProps,
+  RecommendationState,
 } from '@shared/types';
 import { VideoService } from '@services';
 import { isMovieElement, toMediaElement } from '@shared/utils';
 import { CompactMovieCard, CompactTvShowCard, Section } from '@components';
 
-class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
-  public constructor(props: SuggestionProps) {
+class Recommendation extends React.PureComponent<
+  RecommendationProps,
+  RecommendationState
+> {
+  public constructor(props: RecommendationProps) {
     super(props);
     this.state = {
       recommendItems: [],
@@ -80,4 +83,4 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
   }
 }
 
-export default Suggestion;
+export default Recommendation;

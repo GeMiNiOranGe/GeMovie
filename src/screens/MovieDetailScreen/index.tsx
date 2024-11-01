@@ -45,7 +45,7 @@ import {
   Labels,
   Section,
   SimpleCompanyCard,
-  Suggestion,
+  Recommendation,
   TMDBImage,
   TouchableRippleLink,
   Youtube,
@@ -316,7 +316,7 @@ class MovieDetailScreen extends React.Component<
 
             <Section title='Recommendations'>
               {this.state.movie?.id && (
-                <Suggestion
+                <Recommendation
                   id={this.state.movie?.id}
                   type='movie'
                   navigation={this.props.navigation}

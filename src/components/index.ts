@@ -14,6 +14,6 @@ export { default as Section } from './Section';
 export { default as CompactMovieCard } from './CompactMovieCard';
 export { default as CompactTvShowCard } from './CompactTvShowCard';
 export { default as SimpleCompanyCard } from './SimpleCompanyCard';
-export { default as Suggestion } from './Suggestion';
+export { default as Recommendation } from './Recommendation';
 export { default as TouchableRippleLink } from './TouchableRippleLink';
 export { default as TMDBImage } from './TMDBImage';

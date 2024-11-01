@@ -18,7 +18,7 @@ import {
 import { TvShowService } from '@services';
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { imageSize } from '@shared/constants';
-import { ExpandableText, Labels, Suggestion, Youtube } from '@components';
+import { ExpandableText, Labels, Recommendation, Youtube } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native'; // Thêm các icon cần thiết
 import { Adult } from '@assets/icons';
@@ -146,7 +146,7 @@ class TvShowDetailScreen extends React.Component<
               {tv.id !== undefined && <Youtube type='tv' id={tv.id} />}
             </View>
             <View>
-              <Suggestion
+              <Recommendation
                 type='tv'
                 id={tv.id}
                 navigation={this.props.navigation}

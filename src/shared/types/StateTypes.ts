@@ -82,7 +82,7 @@ export type SlideshowState = {
     selectedMovieId?: number | null;
 };
 
-export type SuggestionState = {
+export type RecommendationState = {
     recommendItems: MediaElement[];
     isFetching: boolean;
 };
