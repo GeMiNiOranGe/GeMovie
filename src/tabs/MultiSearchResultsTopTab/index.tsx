@@ -7,7 +7,7 @@ import {
   PersonDetailCard,
   TvShowDetailCard,
 } from '@components';
-import { SearchService, type SearchResponseWrapper } from '@services';
+import { SearchService, type PaginationResponseWrapper } from '@services';
 import type {
   MultiSearchElement,
   SearchResultsTopTabBaseProps,
@@ -21,7 +21,7 @@ import {
 async function searchMultiAsync(
   text: string,
   page: number = 1,
-): Promise<SearchResponseWrapper<MultiSearchElement>> {
+): Promise<PaginationResponseWrapper<MultiSearchElement>> {
   const params = new URLSearchParams({
     query: text,
     page: `${page}`,

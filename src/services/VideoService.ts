@@ -1,6 +1,6 @@
-import { APIHandler, SearchResponseWrapper, URLBuilder } from '@services';
-import { toSearchResponse } from '@shared/utils';
-import type { SearchResponse, VideoType } from '@shared/types';
+import { APIHandler, PaginationResponseWrapper, URLBuilder } from '@services';
+import { toPaginationResponse } from '@shared/utils';
+import type { PaginationResponse, VideoType } from '@shared/types';
 
 export default class VideoService {
     /**
@@ -13,14 +13,14 @@ export default class VideoService {
         id: number,
         elementConvertFn: (val: any) => T,
         page: number = 1,
-    ): Promise<SearchResponseWrapper<T>> {
+    ): Promise<PaginationResponseWrapper<T>> {
         const params = new URLSearchParams({
             page: `${page}`,
         });
         const url = URLBuilder.buildRecommendationsURL(type, id, params);
         const json = await APIHandler.fetchJSON(url);
-        const searchResponse: SearchResponse<T> = toSearchResponse(json);
+        const response: PaginationResponse<T> = toPaginationResponse(json);
 
-        return new SearchResponseWrapper(searchResponse, elementConvertFn);
+        return new PaginationResponseWrapper(response, elementConvertFn);
     }
 }

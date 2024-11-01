@@ -7,7 +7,7 @@ import type {
     MovieElement,
     MultiSearchElement,
     ProductionCountryElement,
-    SearchResponse,
+    PaginationResponse,
     Language,
     TvShowElement,
 } from '@shared/types';
@@ -139,7 +139,7 @@ export function isTvShowElement(
     return element?.mediaType === 'tv';
 }
 
-export function toSearchResponse<T>(val: any): SearchResponse<T> {
+export function toPaginationResponse<T>(val: any): PaginationResponse<T> {
     return {
         page: val.page,
         results: val.results,

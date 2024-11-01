@@ -52,9 +52,7 @@ class SearchResultsTabBar extends React.PureComponent<MaterialTopTabBarProps> {
                 index === this.props.state.routes.length - 1
                   ? 0
                   : spacing.small,
-              backgroundColor: isFocused
-                ? colors.secondary
-                : colors.background,
+              backgroundColor: isFocused ? colors.secondary : colors.background,
             };
 
             return (
@@ -73,9 +71,7 @@ class SearchResultsTabBar extends React.PureComponent<MaterialTopTabBarProps> {
                   style={[
                     styles.tagText,
                     {
-                      color: isFocused
-                        ? colors.primary
-                        : colors.subtext,
+                      color: isFocused ? colors.primary : colors.subtext,
                     },
                   ]}
                 >{`${label}`}</Text>

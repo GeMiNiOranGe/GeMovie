@@ -1,4 +1,8 @@
-import { DetailService, SearchResponseWrapper, SearchService } from '@services';
+import {
+    DetailService,
+    PaginationResponseWrapper,
+    SearchService,
+} from '@services';
 import { toCompany, toCompanyElement } from '@shared/utils';
 import type { Company, CompanyElement } from '@shared/types';
 
@@ -11,7 +15,7 @@ export default class CompanyService {
     public static async searchAsync(
         text: string,
         page: number = 1,
-    ): Promise<SearchResponseWrapper<CompanyElement>> {
+    ): Promise<PaginationResponseWrapper<CompanyElement>> {
         const params = new URLSearchParams({
             query: text,
             page: `${page}`,

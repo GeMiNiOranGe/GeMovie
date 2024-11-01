@@ -1,4 +1,8 @@
-import { DetailService, SearchResponseWrapper, SearchService } from '@services';
+import {
+    DetailService,
+    PaginationResponseWrapper,
+    SearchService,
+} from '@services';
 import { toMovie, toMovieElement } from '@shared/utils';
 import type { Movie, MovieElement } from '@shared/types';
 
@@ -11,7 +15,7 @@ export default class MovieService {
     public static async searchAsync(
         text: string,
         page: number = 1,
-    ): Promise<SearchResponseWrapper<MovieElement>> {
+    ): Promise<PaginationResponseWrapper<MovieElement>> {
         const params = new URLSearchParams({
             query: text,
             page: `${page}`,

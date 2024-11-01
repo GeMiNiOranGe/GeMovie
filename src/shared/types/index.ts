@@ -1,7 +1,7 @@
 import type { ColorValue } from 'react-native';
 import type { DebouncedFunc } from 'lodash';
 
-import type { SearchResponseWrapper } from '@services';
+import type { PaginationResponseWrapper } from '@services';
 import type {
     CompanyElement,
     PersonElement,
@@ -93,7 +93,7 @@ export type Variant =
 export type SearchAsync<T> = (
     content: string,
     page?: number,
-) => Promise<SearchResponseWrapper<T>>;
+) => Promise<PaginationResponseWrapper<T>>;
 
 export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 
@@ -101,7 +101,7 @@ export type Media = {
     mediaType: string;
 };
 
-export type SearchResponse<T> = {
+export type PaginationResponse<T> = {
     page: number;
     results: T[];
     totalPages: number;
