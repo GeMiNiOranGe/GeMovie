@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList, type ListRenderItemInfo, Text } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
+import { type ListRenderItemInfo } from 'react-native';
 
 import type {
   MediaElement,
@@ -9,8 +8,7 @@ import type {
 } from '@shared/types';
 import { VideoService } from '@services';
 import { isMovieElement, toMediaElement } from '@shared/utils';
-import { CompactMovieCard, CompactTvShowCard } from '@components';
-import styles from './styles';
+import { CompactMovieCard, CompactTvShowCard, Section } from '@components';
 
 class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
   public constructor(props: SuggestionProps) {
@@ -69,28 +67,12 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
     );
   }
 
-  private renderListEmpty(): React.JSX.Element {
-    return (
-      <Text style={styles.noRecommendationText}>
-        No recommendations available.
-      </Text>
-    );
-  }
-
   public override render(): React.JSX.Element {
-    if (this.state.isFetching) {
-      return (
-        <ActivityIndicator style={styles.activityIndicator} size='small' />
-      );
-    }
-
     return (
-      <FlatList
-        contentContainerStyle={styles.listContent}
-        horizontal
+      <Section.HorizontalList
+        loading={this.state.isFetching}
+        noResultText='No recommendations available.'
         keyExtractor={item => item.id.toString()}
-        showsHorizontalScrollIndicator={false}
-        ListEmptyComponent={this.renderListEmpty}
         data={this.state.recommendItems}
         renderItem={this.renderItem}
       />

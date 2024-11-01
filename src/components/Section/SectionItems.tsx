@@ -4,7 +4,9 @@ import { View, Text, FlatList } from 'react-native';
 import { SectionItemsProps } from '@shared/types';
 import styles from './style';
 
-class SectionItems extends React.PureComponent<SectionItemsProps> {
+class SectionItems<ItemT = any> extends React.PureComponent<
+  SectionItemsProps<ItemT>
+> {
   public override render(): React.JSX.Element {
     return (
       <View style={this.props.style}>

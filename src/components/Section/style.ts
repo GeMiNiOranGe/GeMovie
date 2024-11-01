@@ -82,6 +82,19 @@ const styles = StyleSheet.create({
     sectionItemsContentList: {
         paddingHorizontal: spacing.large,
     },
+    sectionHorizontalListContent: {
+        paddingHorizontal: spacing.large,
+        paddingTop: spacing.small,
+        paddingBottom: spacing.large,
+    },
+    sectionHorizontalListNoResultText: {
+        fontSize: 14,
+        color: colors.text,
+    },
+    sectionHorizontalListActivityIndicator: {
+        marginTop: spacing.small,
+        marginBottom: spacing.large,
+    },
 });
 
 export default styles;

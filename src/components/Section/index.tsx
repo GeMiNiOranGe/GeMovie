@@ -7,6 +7,7 @@ import SectionContent from './SectionContent';
 import SectionLabel from './SectionLabel';
 import SectionItem from './SectionItem';
 import SectionItems from './SectionItems';
+import SectionHorizontalList from './SectionHorizontalList';
 import { layout } from '@shared/themes';
 import type { SectionProps } from '@shared/types';
 import styles from './style';
@@ -18,6 +19,7 @@ class Section extends React.PureComponent<SectionProps> {
   public static Label: typeof SectionLabel;
   public static Item: typeof SectionItem;
   public static Items: typeof SectionItems;
+  public static HorizontalList: typeof SectionHorizontalList;
 
   public override render(): React.JSX.Element {
     return (
@@ -71,5 +73,6 @@ Section.Content = SectionContent;
 Section.Label = SectionLabel;
 Section.Item = SectionItem;
 Section.Items = SectionItems;
+Section.HorizontalList = SectionHorizontalList;
 
 export default Section;

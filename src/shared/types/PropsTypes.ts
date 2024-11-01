@@ -117,9 +117,17 @@ export type SectionItemProps = {
     children?: React.ReactNode | undefined;
 };
 
-export type SectionItemsProps<ItemT = any> = {
+export type SectionItemsProps<ItemT> = {
     style?: StyleProp<ViewStyle> | undefined;
     name: string;
+    data: ArrayLike<ItemT> | null | undefined;
+    renderItem: ListRenderItem<ItemT> | null | undefined;
+    keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
+};
+
+export type SectionHorizontalListProps<ItemT> = {
+    loading?: boolean | undefined;
+    noResultText?: string | undefined;
     data: ArrayLike<ItemT> | null | undefined;
     renderItem: ListRenderItem<ItemT> | null | undefined;
     keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
