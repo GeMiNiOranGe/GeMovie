@@ -11,7 +11,7 @@ import {
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { CollectionService } from '@services';
 import { imageSize } from '@shared/constants';
-import { ExpandableText, Labels, Youtube } from '@components';
+import { ExpandableText, Labels } from '@components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Calendar, LanguageCircle, Star1 } from 'iconsax-react-native'; // Thêm các icon cần thiết
 import { Adult } from '@assets/icons';
@@ -146,11 +146,6 @@ class CollectionDetailScreen extends React.Component<
                   text={firstPart?.overview || 'No overview available.'}
                   numberOfLines={3}
                 />
-              </View>
-            )}
-            {hasParts && (
-              <View>
-                <Youtube type='collection' id={collection?.id} />
               </View>
             )}
           </View>

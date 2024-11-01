@@ -34,6 +34,7 @@ export type CollectionDetailState = {
 export type TvShowDetailScreenState = {
     tv?: TvShowElement | undefined;
     modalVisible: boolean;
+    isloading: boolean;
 };
 
 export type ExpandableTextState = {

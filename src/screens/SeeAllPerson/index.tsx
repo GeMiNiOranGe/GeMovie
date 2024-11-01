@@ -14,6 +14,7 @@ import { URLBuilder } from '@services';
 import type { FeaturedMovie, Person, RootScreenProps } from '@shared/types';
 import styles from './style';
 import { Crown, Global, Information, Star } from 'iconsax-react-native';
+import { getFormattedGender } from '@shared/utils';
 
 class AllPerson extends React.Component<RootScreenProps<'SeeAllPersonScreen'>> {
   public override state = {
@@ -102,8 +103,12 @@ class AllPerson extends React.Component<RootScreenProps<'SeeAllPersonScreen'>> {
                   >
                     {item.name}
                   </Text>
+                  <Text style={styles.text}>
+                    {item.known_for_department} -{' '}
+                    {getFormattedGender(item.gender)}
+                  </Text>
                   <Text
-                    style={styles.title}
+                    style={styles.text}
                     ellipsizeMode='tail'
                     numberOfLines={2}
                   >

@@ -1,3 +1,4 @@
+import { colors } from '@shared/themes';
 import { Dimensions, StyleSheet } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -113,6 +114,11 @@ const styles = StyleSheet.create({
     closeButtonText: {
         color: 'white',
         textAlign: 'center',
+    },
+    text: {
+        fontSize: 12,
+        color: colors.text,
+        padding: 5,
     },
 });
 

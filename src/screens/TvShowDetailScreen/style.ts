@@ -8,6 +8,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.primary,
     },
+    loading: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    },
     headerContainer: {
         height: 300,
         position: 'absolute',

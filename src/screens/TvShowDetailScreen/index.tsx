@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ListRenderItemInfo,
@@ -43,6 +44,7 @@ class TvShowDetailScreen extends React.Component<
     this.state = {
       tv: undefined,
       modalVisible: false,
+      isloading: false,
     };
     this.renderGenreItem = this.renderGenreItem.bind(this);
   }
@@ -50,6 +52,7 @@ class TvShowDetailScreen extends React.Component<
   public override componentDidMount() {
     const { tvShowId } = this.props.route.params;
     TvShowService.getDetailAsync(tvShowId).then(data => {
+      console.log(data); // Check if `genres` is present and an array
       this.setState({ tv: data }, () => {
         this.props.navigation.setOptions({ title: data.name });
       });
@@ -59,8 +62,11 @@ class TvShowDetailScreen extends React.Component<
   public toggleModal = () => {
     this.setState(prevState => ({
       modalVisible: !prevState.modalVisible,
-      isLoading: true,
+      isloading: true,
     }));
+    setTimeout(() => {
+      this.setState({ modalVisible: true, isloading: false });
+    }, 1000);
   };
 
   public closemodal = () => {
@@ -137,18 +143,23 @@ class TvShowDetailScreen extends React.Component<
   }
 
   public override render() {
-    const { tv, modalVisible } = this.state;
+    const { tv, modalVisible, isloading } = this.state;
 
     if (!tv) {
       return (
         <SafeAreaView style={[layout.flex1, styles.container]}>
-          <Text>Loading...</Text>
+          <ActivityIndicator size='large' color='#0000ff' />
         </SafeAreaView>
       );
     }
 
     return (
       <SafeAreaView style={styles.container}>
+        {isloading && (
+          <View style={[layout.flex1, styles.loading]}>
+            <ActivityIndicator size='large' color='#0000ff' />
+          </View>
+        )}
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.headerContainer}>
             <Image
@@ -171,7 +182,7 @@ class TvShowDetailScreen extends React.Component<
           <View style={styles.bodyOverlay} />
           <View style={styles.body}>
             <Text style={styles.titleText}>{tv?.name}</Text>
-            <View style={[layout.center, styles.genreBox]}>
+            {/* <View style={[layout.center, styles.genreBox]}>
               <FlatList
                 contentContainerStyle={styles.genreContentList}
                 horizontal
@@ -180,7 +191,7 @@ class TvShowDetailScreen extends React.Component<
                 data={tv?.genres || []}
                 renderItem={this.renderGenreItem}
               />
-            </View>
+            </View> */}
             {tv.voteAverage && this.renderStars(tv.voteAverage)}
 
             <View style={styles.titleBody}>
