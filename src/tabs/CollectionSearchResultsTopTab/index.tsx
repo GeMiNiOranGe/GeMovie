@@ -2,7 +2,7 @@ import React from 'react';
 import { ListRenderItem } from 'react-native';
 
 import { SearchResultsTopTabBase } from '@base';
-import { CollectionSearchCard } from '@components';
+import { CollectionDetailCard } from '@components';
 import { CollectionService } from '@services';
 import type {
   CollectionElement,
@@ -26,7 +26,7 @@ class CollectionSearchResultsTopTab extends SearchResultsTopTabBase<CollectionEl
     item,
     index,
   }) => (
-    <CollectionSearchCard
+    <CollectionDetailCard
       item={item}
       index={index}
       listLength={this.state.results?.length}

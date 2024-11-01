@@ -5,6 +5,7 @@ import type {
     FeaturedMovie,
     FeaturedTvShow,
     KnownFor,
+    MediaElement,
     Movie,
     MovieElement,
     Person,
@@ -83,8 +84,9 @@ export type SlideshowState = {
     selectedMovieId?: number | null;
 };
 
-export type SuggestionState = {
-    recommendItem: Array<MovieElement | TvShowElement>;
+export type RecommendationState = {
+    recommendItems: MediaElement[];
+    isFetching: boolean;
 };
 
 export type TopRatedState = {

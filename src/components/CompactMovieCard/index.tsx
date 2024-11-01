@@ -1,7 +1,7 @@
-import { VideoSearchCardBase } from '@base';
+import { CompactVideoCardBase } from '@base';
 import type { MovieElement } from '@shared/types';
 
-class MovieSearchCard extends VideoSearchCardBase<MovieElement> {
+class CompactMovieCard extends CompactVideoCardBase<MovieElement> {
   protected override get originalName(): string {
     return this.props.item.originalTitle;
   }
@@ -23,4 +23,4 @@ class MovieSearchCard extends VideoSearchCardBase<MovieElement> {
   }
 }
 
-export default MovieSearchCard;
+export default CompactMovieCard;

@@ -3,11 +3,11 @@ import { ListRenderItem } from 'react-native';
 
 import { SearchResultsTopTabBase } from '@base';
 import {
-  MovieSearchCard,
-  PersonSearchCard,
-  TvShowSearchCard,
+  MovieDetailCard,
+  PersonDetailCard,
+  TvShowDetailCard,
 } from '@components';
-import { SearchService, type SearchResponseWrapper } from '@services';
+import { SearchService, type PaginationResponseWrapper } from '@services';
 import type {
   MultiSearchElement,
   SearchResultsTopTabBaseProps,
@@ -21,7 +21,7 @@ import {
 async function searchMultiAsync(
   text: string,
   page: number = 1,
-): Promise<SearchResponseWrapper<MultiSearchElement>> {
+): Promise<PaginationResponseWrapper<MultiSearchElement>> {
   const params = new URLSearchParams({
     query: text,
     page: `${page}`,
@@ -44,7 +44,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElemen
   }) => {
     if (isMovieElement(item)) {
       return (
-        <MovieSearchCard
+        <MovieDetailCard
           item={item}
           index={index}
           listLength={this.state.results?.length}
@@ -58,7 +58,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElemen
     }
     if (isTvShowElement(item)) {
       return (
-        <TvShowSearchCard
+        <TvShowDetailCard
           item={item}
           index={index}
           listLength={this.state.results?.length}
@@ -71,7 +71,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElemen
       );
     }
     return (
-      <PersonSearchCard
+      <PersonDetailCard
         item={item}
         index={index}
         listLength={this.state.results?.length}

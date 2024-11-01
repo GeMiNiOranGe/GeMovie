@@ -2,12 +2,12 @@ import { GenreService } from '@services';
 import type {
     Genre,
     ImageDimensions,
-    KnownForElement,
+    MediaElement,
     Media,
     MovieElement,
     MultiSearchElement,
     ProductionCountryElement,
-    SearchResponse,
+    PaginationResponse,
     Language,
     TvShowElement,
 } from '@shared/types';
@@ -117,7 +117,7 @@ export function calculateImageDimensions(
 }
 
 export function isMovieElement(
-    element: KnownForElement,
+    element: MediaElement,
 ): element is MovieElement & Media;
 
 export function isMovieElement(
@@ -139,7 +139,7 @@ export function isTvShowElement(
     return element?.mediaType === 'tv';
 }
 
-export function toSearchResponse<T>(val: any): SearchResponse<T> {
+export function toPaginationResponse<T>(val: any): PaginationResponse<T> {
     return {
         page: val.page,
         results: val.results,
@@ -170,7 +170,7 @@ export function toLanguage(val: any): Language {
     };
 }
 
-export function toKnownForElement(val: any): KnownForElement {
+export function toMediaElement(val: any): MediaElement {
     const elementValue: MovieElement | TvShowElement =
         val['media_type'] === 'movie'
             ? toMovieElement(val)

@@ -1,14 +1,14 @@
-import { SearchResponse } from '@shared/types';
+import { PaginationResponse } from '@shared/types';
 
-class SearchResponseWrapper<T> {
-    private searchResponse: SearchResponse<T>;
+class PaginationResponseWrapper<T> {
+    private searchResponse: PaginationResponse<T>;
     private elementConvertFn: (element: any) => T;
 
     public constructor(
-        searchResponse: SearchResponse<T>,
+        response: PaginationResponse<T>,
         elementConvertFn: (val: any) => T,
     ) {
-        this.searchResponse = searchResponse;
+        this.searchResponse = response;
         this.elementConvertFn = elementConvertFn;
     }
 
@@ -31,4 +31,4 @@ class SearchResponseWrapper<T> {
     }
 }
 
-export default SearchResponseWrapper;
+export default PaginationResponseWrapper;

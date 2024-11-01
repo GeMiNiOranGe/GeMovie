@@ -2,7 +2,7 @@ import React from 'react';
 import { ListRenderItem } from 'react-native';
 
 import { SearchResultsTopTabBase } from '@base';
-import { CompanySearchCard } from '@components';
+import { CompanyDetailCard } from '@components';
 import { CompanyService } from '@services';
 import type {
   CompanyElement,
@@ -26,7 +26,7 @@ class CompanySearchResultsTopTab extends SearchResultsTopTabBase<CompanyElement>
     item,
     index,
   }) => (
-    <CompanySearchCard
+    <CompanyDetailCard
       item={item}
       index={index}
       listLength={this.state.results?.length}

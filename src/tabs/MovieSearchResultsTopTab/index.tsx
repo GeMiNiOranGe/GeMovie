@@ -2,7 +2,7 @@ import React from 'react';
 import { ListRenderItem } from 'react-native';
 
 import { SearchResultsTopTabBase } from '@base';
-import { MovieSearchCard } from '@components';
+import { MovieDetailCard } from '@components';
 import { MovieService } from '@services';
 import type { SearchResultsTopTabBaseProps, MovieElement } from '@shared/types';
 
@@ -23,7 +23,7 @@ class MovieSearchResultsTopTab extends SearchResultsTopTabBase<MovieElement> {
     item,
     index,
   }) => (
-    <MovieSearchCard
+    <MovieDetailCard
       item={item}
       index={index}
       listLength={this.state.results?.length}

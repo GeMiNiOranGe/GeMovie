@@ -1,7 +1,7 @@
 import type { ColorValue } from 'react-native';
 import type { DebouncedFunc } from 'lodash';
 
-import type { SearchResponseWrapper } from '@services';
+import type { PaginationResponseWrapper } from '@services';
 import type {
     CompanyElement,
     PersonElement,
@@ -80,6 +80,8 @@ export type DetailType =
     | 'collection'
     | 'keyword';
 
+export type VideoType = 'movie' | 'tv';
+
 export type Variant =
     | 'Linear'
     | 'Outline'
@@ -91,7 +93,7 @@ export type Variant =
 export type SearchAsync<T> = (
     content: string,
     page?: number,
-) => Promise<SearchResponseWrapper<T>>;
+) => Promise<PaginationResponseWrapper<T>>;
 
 export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 
@@ -99,16 +101,16 @@ export type Media = {
     mediaType: string;
 };
 
-export type SearchResponse<T> = {
+export type PaginationResponse<T> = {
     page: number;
     results: T[];
     totalPages: number;
     totalResults: number;
 };
 
-export type SearchElement = MediaElement | PersonElement | CompanyElement;
+export type CardElement = MediaElementBase | PersonElement | CompanyElement;
 
-export type MediaElement = {
+export type MediaElementBase = {
     adult: boolean;
     backdropPath?: string | undefined;
     id: number;
@@ -117,9 +119,7 @@ export type MediaElement = {
     posterPath?: string | undefined;
 };
 
-export type VideoGenreIds = {
-    genreIds: number[];
-};
+export type MediaElement = (TvShowElement | MovieElement) & Media;
 
 export type VideoBase = {
     genres: Genre[];
@@ -131,11 +131,17 @@ export type VideoBase = {
     tagline: string;
 };
 
-export type VideoElementBase = MediaElement & {
+export type VideoElementBase = MediaElementBase & {
     voteAverage: number;
     voteCount: number;
     popularity: number;
 };
+
+export type VideoGenreIds = {
+    genreIds: number[];
+};
+
+export type VideoElement = VideoElementBase & VideoGenreIds;
 
 export type MultiSearchElement = (
     | MovieElement

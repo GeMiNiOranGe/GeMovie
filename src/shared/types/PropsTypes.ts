@@ -13,8 +13,9 @@ import type {
     TextStyle,
     ViewStyle,
 } from 'react-native';
+import type { IconProps as IconsaxProps } from 'iconsax-react-native';
 
-import type { SearchElement, VideoElementBase } from '@shared/types';
+import type { CardElement, VideoElement, VideoType } from '@shared/types';
 import { imageSize } from '@shared/constants';
 
 export type RootStackParamList = ParamListBase & {
@@ -50,23 +51,21 @@ export type SearchResultsTopTabBaseProps = {
     searchContent: string;
 };
 
-export type VideoSearchCardBaseProps<T extends VideoElementBase> =
-    SearchCardProps<T> & {
-        showMedal?: boolean | undefined;
-    };
-
-export type SearchCardProps<T extends SearchElement> = {
-    item: T;
+export type CardBaseProps<E extends CardElement> = {
+    item: E;
     index: number;
     listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
-export type SimpleCardProps<T extends SearchElement> = {
-    item: T;
-    index: number;
-    listLength?: number | undefined;
-    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+export type DetailCardProps<E extends CardElement> = CardBaseProps<E>;
+
+export type CompactCardProps<E extends CardElement> = CardBaseProps<E>;
+
+export type SimpleCardProps<E extends CardElement> = CardBaseProps<E>;
+
+export type VideoCardBaseProps<E extends VideoElement> = CardBaseProps<E> & {
+    showMedal?: boolean | undefined;
 };
 
 export type LabelProps = {
@@ -87,6 +86,7 @@ export type LabelsProps = {
 };
 
 export type ExpandableTextProps = {
+    style?: StyleProp<TextStyle>;
     seeButtonPosition?: 'withText' | 'separate';
     text: string;
     numberOfLines?: number | undefined;
@@ -96,6 +96,12 @@ export type SectionProps = {
     style?: StyleProp<ViewStyle> | undefined;
     title: string;
     subtitle?: string | undefined;
+    moreButtonText?: string | undefined;
+    onMoreButtonPress?: ((event: GestureResponderEvent) => void) | undefined;
+    children?: React.ReactNode | undefined;
+};
+
+export type SectionContentProps = {
     children?: React.ReactNode | undefined;
 };
 
@@ -111,9 +117,17 @@ export type SectionItemProps = {
     children?: React.ReactNode | undefined;
 };
 
-export type SectionItemsProps<ItemT = any> = {
+export type SectionItemsProps<ItemT> = {
     style?: StyleProp<ViewStyle> | undefined;
     name: string;
+    data: ArrayLike<ItemT> | null | undefined;
+    renderItem: ListRenderItem<ItemT> | null | undefined;
+    keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
+};
+
+export type SectionHorizontalListProps<ItemT> = {
+    loading?: boolean | undefined;
+    noResultText?: string | undefined;
     data: ArrayLike<ItemT> | null | undefined;
     renderItem: ListRenderItem<ItemT> | null | undefined;
     keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
@@ -127,12 +141,13 @@ export type TouchableRippleLinkProps = {
 };
 
 export type TMDBImageProps = {
-    style?: StyleProp<ViewStyle> | undefined;
-    imageStyle?: StyleProp<ImageStyle> | undefined;
-    imageSize: keyof typeof imageSize;
-    imagePath: string | undefined;
+    style?: StyleProp<ImageStyle> | undefined;
+    size: keyof typeof imageSize;
+    path: string | undefined;
     NotFoundComponent?: React.JSX.Element;
     resizeMode?: ImageResizeMode | undefined;
+    blurRadius?: number | undefined;
+    notFoundIcon?: IconsaxProps | undefined;
 };
 
 export type IconProps = {
@@ -175,7 +190,8 @@ export type VideoProps = {
     id: number | undefined;
 };
 
-export type SuggestionProps = {
-    type: 'movie' | 'tv';
-    id: number | undefined;
+export type RecommendationProps = {
+    id: number;
+    type: VideoType;
+    navigation: NativeStackNavigationProp<ParamListBase>;
 };

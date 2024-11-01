@@ -6,13 +6,13 @@ import { ArrowRight2, Image as ImageIcon } from 'iconsax-react-native';
 import { URLBuilder } from '@services';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
-import type { CompanyElement, SearchCardProps } from '@shared/types';
+import type { CompanyElement, DetailCardProps } from '@shared/types';
 import styles from './style';
 
 const navigationIconSize = 20;
 
-class CompanySearchCard extends React.PureComponent<
-  SearchCardProps<CompanyElement>
+class CompanyDetailCard extends React.PureComponent<
+  DetailCardProps<CompanyElement>
 > {
   private renderNavigationIcon() {
     return (
@@ -69,4 +69,4 @@ class CompanySearchCard extends React.PureComponent<
   }
 }
 
-export default CompanySearchCard;
+export default CompanyDetailCard;

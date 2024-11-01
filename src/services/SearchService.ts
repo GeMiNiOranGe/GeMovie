@@ -1,6 +1,6 @@
-import { APIHandler, SearchResponseWrapper, URLBuilder } from '@services';
-import { toSearchResponse } from '@shared/utils';
-import type { SearchResponse, SearchType } from '@shared/types';
+import { APIHandler, PaginationResponseWrapper, URLBuilder } from '@services';
+import { toPaginationResponse } from '@shared/utils';
+import type { PaginationResponse, SearchType } from '@shared/types';
 
 export default class SearchService {
     /**
@@ -13,11 +13,11 @@ export default class SearchService {
         type: SearchType,
         params: URLSearchParams,
         elementConvertFn: (val: any) => T,
-    ): Promise<SearchResponseWrapper<T>> {
+    ): Promise<PaginationResponseWrapper<T>> {
         const url = URLBuilder.buildSearchURL(type, params);
         const json = await APIHandler.fetchJSON(url);
-        const searchResponse: SearchResponse<T> = toSearchResponse(json);
+        const response: PaginationResponse<T> = toPaginationResponse(json);
 
-        return new SearchResponseWrapper(searchResponse, elementConvertFn);
+        return new PaginationResponseWrapper(response, elementConvertFn);
     }
 }

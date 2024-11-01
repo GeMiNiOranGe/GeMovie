@@ -2,7 +2,7 @@ import React from 'react';
 import { ListRenderItem } from 'react-native';
 
 import { SearchResultsTopTabBase } from '@base';
-import { PersonSearchCard } from '@components';
+import { PersonDetailCard } from '@components';
 import { PersonService } from '@services';
 import type {
   PersonElement,
@@ -26,7 +26,7 @@ class PersonSearchResultsTopTab extends SearchResultsTopTabBase<PersonElement> {
     item,
     index,
   }) => (
-    <PersonSearchCard
+    <PersonDetailCard
       item={item}
       index={index}
       listLength={this.state.results?.length}

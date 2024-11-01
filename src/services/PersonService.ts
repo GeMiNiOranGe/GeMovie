@@ -1,5 +1,5 @@
 import type { PersonElement } from '@shared/types';
-import { SearchResponseWrapper, SearchService } from '@services';
+import { PaginationResponseWrapper, SearchService } from '@services';
 import { toPersonElement } from '@shared/utils';
 
 export default class PersonService {
@@ -11,7 +11,7 @@ export default class PersonService {
     public static async searchAsync(
         text: string,
         page: number = 1,
-    ): Promise<SearchResponseWrapper<PersonElement>> {
+    ): Promise<PaginationResponseWrapper<PersonElement>> {
         const params = new URLSearchParams({
             query: text,
             page: `${page}`,

@@ -83,7 +83,7 @@ class ExpandableText extends React.PureComponent<
       return (
         <>
           <ReadMore
-            style={styles.text}
+            style={[styles.text, this.props.style]}
             numberOfLines={this.props.numberOfLines}
             collapsed={this.state.isExpand}
             seeMoreText=''
@@ -106,7 +106,7 @@ class ExpandableText extends React.PureComponent<
 
     return (
       <ReadMore
-        style={styles.text}
+        style={[styles.text, this.props.style]}
         numberOfLines={this.props.numberOfLines}
         collapsed={this.state.isExpand}
         seeMoreText={seeMoreText}

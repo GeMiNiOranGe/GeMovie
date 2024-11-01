@@ -7,7 +7,8 @@ const accentWidth = 4;
 
 const styles = StyleSheet.create({
     section: {
-        marginBottom: spacing.huge,
+        marginTop: spacing.large,
+        marginBottom: spacing.small,
     },
     titleBox: {
         paddingHorizontal: spacing.large,
@@ -24,17 +25,33 @@ const styles = StyleSheet.create({
         marginLeft: accentWidth + spacing.small,
         marginTop: spacing.tiny,
     },
+    moreButton: {
+        marginLeft: spacing.small,
+    },
+    moreButtonText: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: colors.accent.light,
+    },
     accent: {
         width: accentWidth,
         borderRadius: 1000,
         marginRight: spacing.small,
         backgroundColor: colors.secondary,
     },
+    sectionSeparator: {
+        height: 16,
+        backgroundColor: colors.background,
+    },
     sectionDivider: {
         height: 1,
         marginVertical: spacing.small,
         marginHorizontal: spacing.large,
         backgroundColor: colors.neutral,
+    },
+    sectionContent: {
+        marginTop: spacing.small,
+        marginBottom: spacing.large,
     },
     sectionLabel: {
         paddingHorizontal: spacing.large,
@@ -48,11 +65,13 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: colors.subtext,
     },
+    sectionItem: {
+        paddingHorizontal: spacing.large,
+    },
     sectionItemName: {
         fontSize: 16,
         color: colors.text,
-        marginBottom: spacing.small,
-        paddingHorizontal: spacing.large,
+        marginBottom: spacing.tiny,
     },
     sectionItemsName: {
         fontSize: 16,
@@ -62,6 +81,19 @@ const styles = StyleSheet.create({
     },
     sectionItemsContentList: {
         paddingHorizontal: spacing.large,
+    },
+    sectionHorizontalListContent: {
+        paddingHorizontal: spacing.large,
+        paddingTop: spacing.small,
+        paddingBottom: spacing.large,
+    },
+    sectionHorizontalListNoResultText: {
+        fontSize: 14,
+        color: colors.text,
+    },
+    sectionHorizontalListActivityIndicator: {
+        marginTop: spacing.small,
+        marginBottom: spacing.large,
     },
 });
 

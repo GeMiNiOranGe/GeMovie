@@ -1,4 +1,8 @@
-import { DetailService, SearchResponseWrapper, SearchService } from '@services';
+import {
+    DetailService,
+    PaginationResponseWrapper,
+    SearchService,
+} from '@services';
 import type { TvShowElement } from '@shared/types';
 import { toTvShowElement } from '@shared/utils';
 
@@ -11,7 +15,7 @@ export default class TvShowService {
     public static async searchAsync(
         text: string,
         page: number = 1,
-    ): Promise<SearchResponseWrapper<TvShowElement>> {
+    ): Promise<PaginationResponseWrapper<TvShowElement>> {
         const params = new URLSearchParams({
             query: text,
             page: `${page}`,

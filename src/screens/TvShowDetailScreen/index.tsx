@@ -21,8 +21,8 @@ import {
 } from '@shared/types';
 import { TvShowService } from '@services';
 import { TMDB_BASE_IMAGE_URL } from '@config';
-import { imageSize, spacing } from '@shared/constants';
-import { ExpandableText, Labels, Suggestion, Youtube } from '@components';
+import { imageSize } from '@shared/constants';
+import { ExpandableText, Labels, Recommendation, Youtube } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native';
 import { Adult } from '@assets/icons';
@@ -205,8 +205,17 @@ class TvShowDetailScreen extends React.Component<
                 numberOfLines={3}
               />
             </View>
-            <Suggestion type='tv' id={tv.id} />
-          </View>
+            <View style={styles.youtubeContainer}>
+              {tv.id !== undefined && <Youtube type='tv' id={tv.id} />}
+            </View>
+            <View>
+              <Recommendation
+                type='tv'
+                id={tv.id}
+                navigation={this.props.navigation}
+              />
+            </View>
+          </LinearGradient>
 
           {/* Modal */}
           <Modal

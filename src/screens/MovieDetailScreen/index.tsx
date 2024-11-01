@@ -8,6 +8,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,7 +21,7 @@ import {
   Star1,
   Global,
 } from 'iconsax-react-native';
-import { Chip, TouchableRipple } from 'react-native-paper';
+import { Chip } from 'react-native-paper';
 
 import { Adult, IMDb } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
@@ -44,6 +45,7 @@ import {
   Labels,
   Section,
   SimpleCompanyCard,
+  Recommendation,
   TMDBImage,
   TouchableRippleLink,
   Youtube,
@@ -182,16 +184,15 @@ class MovieDetailScreen extends React.Component<
 
         <ScrollView style={StyleSheet.absoluteFill}>
           <LinearGradient
-            style={[layout.center]}
+            style={[layout.center, styles.posterBox]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
             colors={['transparent', colors.primary.toString()]}
           >
             <TMDBImage
-              style={styles.posterBox}
-              imageStyle={styles.poster}
-              imagePath={this.state.movie?.posterPath}
-              imageSize='w342'
+              style={styles.poster}
+              path={this.state.movie?.posterPath}
+              size='w342'
               NotFoundComponent={
                 <View
                   style={[layout.center, styles.poster, styles.posterNotFound]}
@@ -241,11 +242,13 @@ class MovieDetailScreen extends React.Component<
                 <Global color={colors.primary.toString()} />
               </TouchableRippleLink>
 
-              <TouchableRippleLink
-                url={`${IMDB_BASE_URL}/title/${this.state.movie?.imdbId}`}
-              >
-                <IMDb color={colors.text.toString()} />
-              </TouchableRippleLink>
+              {this.state.movie?.imdbId && (
+                <TouchableRippleLink
+                  url={`${IMDB_BASE_URL}/title/${this.state.movie?.imdbId}`}
+                >
+                  <IMDb color={colors.text.toString()} />
+                </TouchableRippleLink>
+              )}
             </View>
 
             <View style={[layout.itemsCenter, styles.labelBox]}>
@@ -267,151 +270,178 @@ class MovieDetailScreen extends React.Component<
                   Belongs to collection
                 </Text>
 
-                <ImageBackground
-                  blurRadius={4}
-                  source={{
-                    uri: URLBuilder.buildImageURL(
-                      'w300',
-                      this.state.movie?.belongsToCollection?.backdropPath,
-                    ),
-                  }}
+                <TouchableOpacity
+                  style={layout.row}
+                  activeOpacity={0.85}
+                  onPress={this.pushCollectionDetailScreen}
                 >
-                  <LinearGradient
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    colors={['transparent', colors.text.toString()]}
-                  >
-                    <TouchableRipple
-                      style={[layout.row, layout.itemsCenter]}
-                      rippleColor={colors.neutral}
-                      onPress={this.pushCollectionDetailScreen}
-                    >
-                      <>
-                        <TMDBImage
-                          style={styles.collectionPosterBox}
-                          imageStyle={styles.collectionPoster}
-                          imagePath={
-                            this.state.movie?.belongsToCollection?.posterPath
-                          }
-                          imageSize='w154'
-                        />
+                  <>
+                    <TMDBImage
+                      style={styles.collectionPoster}
+                      path={this.state.movie?.belongsToCollection?.posterPath}
+                      size='w154'
+                    />
 
-                        <Text style={styles.collectionTitle} numberOfLines={1}>
+                    <ImageBackground
+                      style={layout.flex1}
+                      blurRadius={4}
+                      source={{
+                        uri: URLBuilder.buildImageURL(
+                          'w300',
+                          this.state.movie?.belongsToCollection?.backdropPath,
+                        ),
+                      }}
+                    >
+                      <LinearGradient
+                        style={[
+                          layout.flex1,
+                          layout.justifyCenter,
+                          styles.collectionTitleBox,
+                        ]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0, y: 1 }}
+                        colors={['transparent', colors.secondary.toString()]}
+                      >
+                        <Text style={styles.collectionTitle} numberOfLines={2}>
                           {this.state.movie?.belongsToCollection?.name}
                         </Text>
-                      </>
-                    </TouchableRipple>
-                  </LinearGradient>
-                </ImageBackground>
+                      </LinearGradient>
+                    </ImageBackground>
+                  </>
+                </TouchableOpacity>
               </View>
             )}
 
-            <Section title='Storyline'>
-              <View style={styles.expandableText}>
-                <ExpandableText
-                  text={`${this.state.movie?.overview}`}
-                  numberOfLines={3}
+            <Section.Separator />
+
+            <Section title='Recommendations'>
+              {this.state.movie?.id && (
+                <Recommendation
+                  id={this.state.movie?.id}
+                  type='movie'
+                  navigation={this.props.navigation}
                 />
-              </View>
-
-              <Section.Divider />
-
-              <Section.Label
-                name='Tagline'
-                value={`${this.state.movie?.tagline}`}
-              />
-
-              <Section.Divider />
-
-              <Section.Items
-                name='Genres'
-                keyExtractor={item => item.id.toString()}
-                data={this.state.movie?.genres}
-                renderItem={this.renderGenreItem}
-              />
+              )}
             </Section>
+
+            <Section.Separator />
+
+            <Section title='Storyline'>
+              <Section.Content>
+                <Section.Item name='Overview'>
+                  <ExpandableText
+                    style={styles.expandableText}
+                    text={`${this.state.movie?.overview}`}
+                  />
+                </Section.Item>
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Tagline'
+                  value={`${this.state.movie?.tagline}`}
+                />
+
+                <Section.Divider />
+
+                <Section.Items
+                  name='Genres'
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.movie?.genres}
+                  renderItem={this.renderGenreItem}
+                />
+              </Section.Content>
+            </Section>
+
+            <Section.Separator />
 
             <Section title='Details'>
-              <Section.Label
-                name='Original Title'
-                value={`${this.state.movie?.originalTitle}`}
-              />
+              <Section.Content>
+                <Section.Label
+                  name='Original Title'
+                  value={`${this.state.movie?.originalTitle}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Release Date'
-                value={getFormattedDate(this.state.movie?.releaseDate)}
-              />
+                <Section.Label
+                  name='Release Date'
+                  value={getFormattedDate(this.state.movie?.releaseDate)}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Runtime'
-                value={getFormattedRuntime(this.state.movie?.runtime)}
-              />
+                <Section.Label
+                  name='Runtime'
+                  value={getFormattedRuntime(this.state.movie?.runtime)}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Status'
-                value={`${this.state.movie?.status}`}
-              />
+                <Section.Label
+                  name='Status'
+                  value={`${this.state.movie?.status}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Country of Origin'
-                value={`${this.state.movie?.originCountry.join(', ')}`}
-              />
+                <Section.Label
+                  name='Country of Origin'
+                  value={`${this.state.movie?.originCountry.join(', ')}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Original Language'
-                value={`${this.state.movie?.originalLanguage}`}
-              />
+                <Section.Label
+                  name='Original Language'
+                  value={`${this.state.movie?.originalLanguage}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Language Spoken'
-                value={`${this.state.movie?.spokenLanguages
-                  .map(language => language.englishName)
-                  .join(', ')}`}
-              />
+                <Section.Label
+                  name='Language Spoken'
+                  value={`${this.state.movie?.spokenLanguages
+                    .map(language => language.englishName)
+                    .join(', ')}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Production Countries'
-                value={`${this.state.movie?.productionCountries
-                  .map(country => country.name)
-                  .join(', ')}`}
-              />
+                <Section.Label
+                  name='Production Countries'
+                  value={`${this.state.movie?.productionCountries
+                    .map(country => country.name)
+                    .join(', ')}`}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Items
-                name='Production Companies'
-                keyExtractor={item => item.id.toString()}
-                data={this.state.movie?.productionCompanies}
-                renderItem={this.renderCompanyItem}
-              />
+                <Section.Items
+                  name='Production Companies'
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.movie?.productionCompanies}
+                  renderItem={this.renderCompanyItem}
+                />
+              </Section.Content>
             </Section>
 
+            <Section.Separator />
+
             <Section title='Box office'>
-              <Section.Label
-                name='Budget'
-                value={getFormattedMoney(this.state.movie?.budget)}
-              />
+              <Section.Content>
+                <Section.Label
+                  name='Budget'
+                  value={getFormattedMoney(this.state.movie?.budget)}
+                />
 
-              <Section.Divider />
+                <Section.Divider />
 
-              <Section.Label
-                name='Revenue'
-                value={getFormattedMoney(this.state.movie?.revenue)}
-              />
+                <Section.Label
+                  name='Revenue'
+                  value={getFormattedMoney(this.state.movie?.revenue)}
+                />
+              </Section.Content>
             </Section>
 
             <View>

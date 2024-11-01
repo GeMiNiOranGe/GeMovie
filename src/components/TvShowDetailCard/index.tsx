@@ -1,7 +1,7 @@
-import { VideoSearchCardBase } from '@base';
+import { VideoDetailCardBase } from '@base';
 import type { TvShowElement } from '@shared/types';
 
-class TvShowSearchCard extends VideoSearchCardBase<TvShowElement> {
+class TvShowDetailCard extends VideoDetailCardBase<TvShowElement> {
   protected override get originalName(): string {
     return this.props.item.originalName;
   }
@@ -23,4 +23,4 @@ class TvShowSearchCard extends VideoSearchCardBase<TvShowElement> {
   }
 }
 
-export default TvShowSearchCard;
+export default TvShowDetailCard;

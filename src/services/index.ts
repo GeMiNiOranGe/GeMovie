@@ -7,5 +7,6 @@ export { default as TvShowService } from './TvShowService';
 export { default as PersonService } from './PersonService';
 export { default as CompanyService } from './CompanyService';
 export { default as CollectionService } from './CollectionService';
-export { default as SearchResponseWrapper } from './SearchResponseWrapper';
+export { default as PaginationResponseWrapper } from './PaginationResponseWrapper';
 export { default as GenreService } from './GenreService';
+export { default as VideoService } from './VideoService';

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         height: '50%',
     },
     posterBox: {
-        marginVertical: 16,
+        paddingVertical: 16,
     },
     posterNotFound: {
         backgroundColor: colors.background,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     },
     informationBox: {
         paddingHorizontal: spacing.large,
-        marginBottom: spacing.huge,
+        marginBottom: spacing.extraLarge,
     },
     informationTitle: {
         fontWeight: 'bold',
@@ -90,18 +90,19 @@ const styles = StyleSheet.create({
         color: 'black',
         paddingBottom: spacing.small,
     },
-    collectionPosterBox: {
-        marginRight: spacing.large,
-    },
     collectionPoster: {
         ...collectionPosterDimensions,
+    },
+    collectionTitleBox: {
+        paddingLeft: spacing.large,
+        paddingRight: spacing.medium,
     },
     collectionTitle: {
         fontSize: 16,
         color: colors.primary,
     },
     expandableText: {
-        paddingHorizontal: spacing.large,
+        color: colors.subtext,
     },
     content: {
         backgroundColor: colors.primary,
