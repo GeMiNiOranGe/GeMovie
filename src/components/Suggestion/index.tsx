@@ -2,12 +2,12 @@ import React from 'react';
 import { FlatList, type ListRenderItemInfo, Text } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
-import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import type {
   MediaElement,
   SuggestionProps,
   SuggestionState,
 } from '@shared/types';
+import { VideoService } from '@services';
 import { isMovieElement, toMediaElement } from '@shared/utils';
 import { CompactMovieCard, CompactTvShowCard } from '@components';
 import styles from './styles';
@@ -23,36 +23,21 @@ class Suggestion extends React.PureComponent<SuggestionProps, SuggestionState> {
     this.renderItem = this.renderItem.bind(this);
   }
 
-  public override componentDidMount(): void {
-    this.getData();
-  }
-
-  protected getData = async () => {
-    const { id, type } = this.props;
-
-    const endpoint = type === 'movie' ? 'movie' : 'tv';
-    const url = `${TMDB_BASE_URL}/${endpoint}/${id}/recommendations?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
-
+  public override async componentDidMount(): Promise<void> {
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      if (!Array.isArray(data.results)) {
-        return;
-      }
-
-      const recommendItems = data.results.map((item: any) =>
-        toMediaElement(item),
+      const response = await VideoService.getRecommendationsAsync(
+        this.props.type,
+        this.props.id,
+        toMediaElement,
       );
+
+      const recommendItems = response.getResults();
 
       this.setState({ recommendItems, isFetching: false });
     } catch (error: unknown) {
       console.error(`Error: ${error}`);
     }
-  };
+  }
 
   public renderItem({ item, index }: ListRenderItemInfo<MediaElement>) {
     if (isMovieElement(item)) {

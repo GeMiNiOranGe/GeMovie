@@ -15,7 +15,7 @@ import type {
 } from 'react-native';
 import type { IconProps as IconsaxProps } from 'iconsax-react-native';
 
-import type { CardElement, VideoElement } from '@shared/types';
+import type { CardElement, VideoElement, VideoType } from '@shared/types';
 import { imageSize } from '@shared/constants';
 
 export type RootStackParamList = ParamListBase & {
@@ -184,6 +184,6 @@ export type VideoProps = {
 
 export type SuggestionProps = {
     id: number;
-    type: 'movie' | 'tv';
+    type: VideoType;
     navigation: NativeStackNavigationProp<ParamListBase>;
 };

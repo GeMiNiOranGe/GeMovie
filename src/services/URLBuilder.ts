@@ -1,8 +1,20 @@
 import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
 import { imageSize } from '@shared/constants';
-import type { DetailType, SearchType } from '@shared/types';
+import type { DetailType, SearchType, VideoType } from '@shared/types';
 
 export default class URLBuilder {
+    /**
+     * Build an image url.
+     * @param size size of image
+     * @param path image path
+     */
+    public static buildImageURL(
+        size: keyof typeof imageSize,
+        path: string | undefined,
+    ): string {
+        return `${TMDB_BASE_IMAGE_URL}/${imageSize[size]}${path}`;
+    }
+
     /**
      * Build a search url string.
      * @param type movie, tv series, person, company, collection,...
@@ -25,15 +37,17 @@ export default class URLBuilder {
     }
 
     /**
-     * Build an image url.
-     * @param size size of image
-     * @param path image path
+     * Build a recommendations url
+     * @param type `"movie"` | `"tv"`
+     * @param id movie id or tv series id
+     * @param params
      */
-    public static buildImageURL(
-        size: keyof typeof imageSize,
-        path: string | undefined,
+    public static buildRecommendationsURL(
+        type: VideoType,
+        id: number,
+        params: URLSearchParams,
     ): string {
-        return `${TMDB_BASE_IMAGE_URL}/${imageSize[size]}${path}`;
+        return `${TMDB_BASE_URL}/${type}/${id}/recommendations?api_key=${TMDB_API_KEY}&${params}`;
     }
 
     /**

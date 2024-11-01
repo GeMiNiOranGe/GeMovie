@@ -80,6 +80,8 @@ export type DetailType =
     | 'collection'
     | 'keyword';
 
+export type VideoType = 'movie' | 'tv';
+
 export type Variant =
     | 'Linear'
     | 'Outline'
