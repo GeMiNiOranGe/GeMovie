@@ -21,7 +21,7 @@ import {
 } from '@shared/types';
 import { TvShowService } from '@services';
 import { TMDB_BASE_IMAGE_URL } from '@config';
-import { imageSize } from '@shared/constants';
+import { imageSize, spacing } from '@shared/constants';
 import { ExpandableText, Labels, Recommendation, Youtube } from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native';
@@ -78,7 +78,7 @@ class TvShowDetailScreen extends React.Component<
     index,
   }: ListRenderItemInfo<Genre>): React.JSX.Element {
     const marginRight =
-      index === (this.state.tv?.genres.length || 0) - 1 ? 0 : spacing.small;
+      index === (this.state.tv?.genreIds.length || 0) - 1 ? 0 : spacing.small;
 
     return (
       <Chip
@@ -215,7 +215,7 @@ class TvShowDetailScreen extends React.Component<
                 navigation={this.props.navigation}
               />
             </View>
-          </LinearGradient>
+          </View>
 
           {/* Modal */}
           <Modal
