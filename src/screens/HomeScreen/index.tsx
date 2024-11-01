@@ -266,9 +266,13 @@ class HomeScreen extends React.Component<RootScreenProps<'HomeScreen'>, HomeScre
                     return (
                       <Animated.View style={{ transform: [{ scale: this.scaleAnim }] }}>
                         <TouchableOpacity
-                          onPress={() => navigation.navigate('TvShowDetailScreen', {
-                            tvShowId: item.id,
-                          })}
+                          onPress={() => {
+                            if (item.media_type === 'movie') {
+                              navigation.navigate('MovieDetailScreen', { movieId: item.id });
+                            } else {
+                              navigation.navigate('TvShowDetailScreen', { tvShowId: item.id });
+                            }
+                          }}
                         >
                           <View style={styles.genreTag}>
                             <Text style={styles.mediaType}>{mediaTypeLabel}</Text>
