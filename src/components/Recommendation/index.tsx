@@ -19,6 +19,7 @@ class Recommendation extends React.PureComponent<
     this.state = {
       recommendItems: [],
       isFetching: true,
+      errorComponent: undefined,
     };
 
     this.renderItem = this.renderItem.bind(this);
@@ -36,7 +37,13 @@ class Recommendation extends React.PureComponent<
 
       this.setState({ recommendItems, isFetching: false });
     } catch (error: unknown) {
-      console.error(`Error: ${error}`);
+      if (error instanceof Error) {
+        this.setState({
+          errorComponent: (
+            <Section.Label name={error.name} value={error.message} />
+          ),
+        });
+      }
     }
   }
 
@@ -71,6 +78,10 @@ class Recommendation extends React.PureComponent<
   }
 
   public override render(): React.JSX.Element {
+    if (this.state.errorComponent) {
+      return <Section.Content>{this.state.errorComponent}</Section.Content>;
+    }
+
     return (
       <Section.HorizontalList
         loading={this.state.isFetching}
