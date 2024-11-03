@@ -73,6 +73,8 @@ class MovieDetailScreen extends React.Component<
     this.renderCompanyItem = this.renderCompanyItem.bind(this);
     this.pushCollectionDetailScreen =
       this.pushCollectionDetailScreen.bind(this);
+    this.navigateToContentListScreen =
+      this.navigateToContentListScreen.bind(this);
   }
 
   public override componentDidMount(): void {
@@ -124,6 +126,10 @@ class MovieDetailScreen extends React.Component<
     this.props.navigation.push('CollectionDetailScreen', {
       collectionId: this.state.movie?.belongsToCollection?.id as number,
     });
+  }
+
+  private navigateToContentListScreen(): void {
+    this.props.navigation.navigate('ContentListScreen');
   }
 
   private getLabels(): LabelProps[] {
@@ -314,7 +320,11 @@ class MovieDetailScreen extends React.Component<
 
             <Section.Separator />
 
-            <Section title='Recommendations'>
+            <Section
+              title='Recommendations'
+              moreButtonText='See all'
+              onMoreButtonPress={this.navigateToContentListScreen}
+            >
               {this.state.movie?.id && (
                 <Recommendation
                   id={this.state.movie?.id}

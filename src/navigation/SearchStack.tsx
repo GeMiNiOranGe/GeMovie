@@ -10,6 +10,7 @@ import {
   TvShowDetailScreen,
   CollectionDetailScreen,
   PersonDetailScreen,
+  ContentListScreen,
 } from '@screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -32,6 +33,14 @@ class SearchStack extends React.Component {
           component={SearchSuggestionScreen}
           options={{
             title: 'Suggestion',
+          }}
+        />
+
+        <Stack.Screen
+          name='ContentListScreen'
+          component={ContentListScreen}
+          options={{
+            title: 'Content list',
           }}
         />
 

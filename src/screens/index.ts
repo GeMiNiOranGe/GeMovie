@@ -11,3 +11,4 @@ export { default as TrendingScreen } from './TrendingScreen';
 export { default as SeeAllPerson } from './SeeAllPerson';
 export { default as SeeAllTV } from './SeeAllTV';
 export { default as SeeAllToprated } from './SeeAllTopRated';
+export { default as ContentListScreen } from './ContentListScreen';

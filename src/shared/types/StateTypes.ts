@@ -87,7 +87,7 @@ export type SlideshowState = {
 export type RecommendationState = {
     recommendItems: MediaElement[];
     isFetching: boolean;
-    errorComponent: React.JSX.Element | undefined;
+    error: Error | undefined;
 };
 
 export type TopRatedState = {
