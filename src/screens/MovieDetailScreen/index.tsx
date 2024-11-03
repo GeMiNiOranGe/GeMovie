@@ -129,7 +129,9 @@ class MovieDetailScreen extends React.Component<
   }
 
   private navigateToContentListScreen(): void {
-    this.props.navigation.navigate('ContentListScreen');
+    this.props.navigation.push('ContentListScreen', {
+      id: this.state.movie?.id as number,
+    });
   }
 
   private getLabels(): LabelProps[] {

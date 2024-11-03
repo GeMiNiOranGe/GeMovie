@@ -21,6 +21,11 @@ export type SearchResultsTopTabBaseState<T> = {
     isFetchingNextPage: boolean;
 };
 
+export type ContentListScreenState = {
+    results: MediaElement[];
+    error: Error | undefined;
+};
+
 export type MovieDetailScreenState = {
     movie?: Movie | undefined;
 };

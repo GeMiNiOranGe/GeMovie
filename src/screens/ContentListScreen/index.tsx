@@ -1,14 +1,112 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, Text, type ListRenderItemInfo } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 
+import type {
+  ContentListScreenState,
+  MediaElement,
+  RootScreenProps,
+} from '@shared/types';
+import { isMovieElement, toMediaElement } from '@shared/utils';
+import { VideoService } from '@services';
+import {
+  CompactMovieCard,
+  CompactTvShowCard,
+  SearchResultsList,
+} from '@components';
 import { layout } from '@shared/themes';
 import styles from './style';
 
-class ContentListScreen extends React.PureComponent {
-  public override render(): React.JSX.Element {
+class ContentListScreen extends React.PureComponent<
+  RootScreenProps<'ContentListScreen'>,
+  ContentListScreenState
+> {
+  private totalResults = 0;
+
+  public constructor(props: RootScreenProps<'ContentListScreen'>) {
+    super(props);
+    this.state = {
+      results: [],
+      error: undefined,
+    };
+
+    this.renderItem = this.renderItem.bind(this);
+  }
+
+  public override async componentDidMount(): Promise<void> {
+    try {
+      const [page1, page2] = await Promise.all([
+        VideoService.getRecommendationsAsync(
+          'movie',
+          this.props.route.params.id,
+          toMediaElement,
+        ),
+        VideoService.getRecommendationsAsync(
+          'movie',
+          this.props.route.params.id,
+          toMediaElement,
+          2,
+        ),
+      ]);
+
+      this.totalResults = page1.getTotalResults();
+
+      this.setState({
+        results: [...page1.getResults(), ...page2.getResults()],
+      });
+    } catch (error: unknown) {
+      this.setState({ error: error as Error });
+    }
+  }
+
+  public renderItem({ item, index }: ListRenderItemInfo<MediaElement>) {
+    if (isMovieElement(item)) {
+      return (
+        <CompactMovieCard
+          item={item}
+          index={index}
+          listLength={this.state.results.length}
+          onPress={() => {
+            this.props.navigation.push('MovieDetailScreen', {
+              movieId: item.id,
+            });
+          }}
+        />
+      );
+    }
+
     return (
-      <SafeAreaView style={[layout.flex1, layout.center]}>
-        <Text style={styles.text}>Content list screen</Text>
+      <CompactTvShowCard
+        item={item}
+        index={index}
+        listLength={this.state.results.length}
+        onPress={() => {
+          this.props.navigation.push('TvShowDetailScreen', {
+            tvShowId: item.id,
+          });
+        }}
+      />
+    );
+  }
+
+  public override render(): React.JSX.Element {
+    if (this.state.error) {
+      return (
+        <SafeAreaView style={[layout.flex1, layout.center]}>
+          <Text style={styles.text}>{this.state.error.message}</Text>
+        </SafeAreaView>
+      );
+    }
+
+    return (
+      <SafeAreaView style={layout.flex1}>
+        <SearchResultsList
+          listEmptyComponent={<ActivityIndicator size='small' />}
+          totalResults={this.totalResults}
+          keyExtractor={item => item.id.toString()}
+          data={this.state.results}
+          renderItem={this.renderItem}
+        />
       </SafeAreaView>
     );
   }
