@@ -5,6 +5,7 @@ import { calculateImageDimensions } from '@shared/utils';
 import { colors } from '@shared/themes';
 
 const posterDimensions = calculateImageDimensions(144, 2, 3);
+const horizontalPoster = calculateImageDimensions(80, 2, 3);
 
 const styles = StyleSheet.create({
     card: {
@@ -43,6 +44,47 @@ const styles = StyleSheet.create({
     subtext: {
         fontSize: 14,
         color: colors.subtext,
+    },
+});
+
+export const horizontal = StyleSheet.create({
+    card: {
+        borderRadius: spacing.medium,
+        overflow: 'hidden',
+        backgroundColor: colors.primary,
+    },
+    posterBox: {
+        marginRight: spacing.medium,
+    },
+    poster: {
+        ...horizontalPoster,
+    },
+    title: {
+        fontSize: 16,
+        color: colors.text,
+        marginBottom: spacing.tiny,
+    },
+    subtext: {
+        fontSize: 14,
+        color: colors.subtext,
+        marginBottom: spacing.tiny,
+    },
+    content: {
+        marginRight: spacing.small,
+    },
+    ratingText: {
+        fontSize: 14,
+        color: colors.text,
+        marginLeft: spacing.tiny,
+    },
+    navigationIconButton: {
+        flex: 1,
+        margin: 0,
+        borderRadius: 0,
+        borderTopLeftRadius: spacing.medium,
+        borderBottomLeftRadius: spacing.medium,
+        marginVertical: '100%',
+        backgroundColor: colors.accent.dark,
     },
 });
 

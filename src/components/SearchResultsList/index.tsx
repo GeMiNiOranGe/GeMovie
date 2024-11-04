@@ -19,8 +19,7 @@ class SearchResultsList<ItemT = any> extends React.PureComponent<
   private renderListHeader() {
     return (
       <Text style={styles.headerText}>
-        {this.props.totalResults} result{this.props.totalResults !== 1 && 's'}{' '}
-        found
+        {this.props.totalResults} result{this.props.totalResults !== 1 && 's'}
       </Text>
     );
   }

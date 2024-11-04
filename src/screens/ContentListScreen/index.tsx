@@ -34,6 +34,7 @@ class ContentListScreen extends React.PureComponent<
   }
 
   public override async componentDidMount(): Promise<void> {
+    this.props.navigation.setOptions({ title: 'Recommendations' });
     try {
       const [page1, page2] = await Promise.all([
         VideoService.getRecommendationsAsync(
@@ -65,6 +66,7 @@ class ContentListScreen extends React.PureComponent<
         <CompactMovieCard
           item={item}
           index={index}
+          horizontal
           listLength={this.state.results.length}
           onPress={() => {
             this.props.navigation.push('MovieDetailScreen', {
@@ -79,6 +81,7 @@ class ContentListScreen extends React.PureComponent<
       <CompactTvShowCard
         item={item}
         index={index}
+        horizontal
         listLength={this.state.results.length}
         onPress={() => {
           this.props.navigation.push('TvShowDetailScreen', {
