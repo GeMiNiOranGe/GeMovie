@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert, ListRenderItem } from 'react-native';
 import debounce from 'lodash/debounce';
 
-import { SearchResultsList } from '@components';
+import { PaginatedResultsList } from '@components';
 import type {
   DebouncedSearch,
   SearchAsync,
@@ -119,7 +119,7 @@ abstract class SearchResultsTopTabBase<
 
   public override render(): React.JSX.Element {
     return (
-      <SearchResultsList
+      <PaginatedResultsList
         onEndReached={this.searchNextPage}
         keyExtractor={this.keyExtractor}
         isFooterLoading={this.state.isFetchingNextPage}

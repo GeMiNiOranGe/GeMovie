@@ -12,7 +12,7 @@ import { VideoService } from '@services';
 import {
   CompactMovieCard,
   CompactTvShowCard,
-  SearchResultsList,
+  PaginatedResultsList,
 } from '@components';
 import { layout } from '@shared/themes';
 import styles from './style';
@@ -103,7 +103,7 @@ class ContentListScreen extends React.PureComponent<
 
     return (
       <SafeAreaView style={layout.flex1}>
-        <SearchResultsList
+        <PaginatedResultsList
           listEmptyComponent={<ActivityIndicator size='small' />}
           totalResults={this.totalResults}
           keyExtractor={item => item.id.toString()}

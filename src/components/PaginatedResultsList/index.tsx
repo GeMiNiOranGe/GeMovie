@@ -4,13 +4,13 @@ import { ActivityIndicator } from 'react-native-paper';
 import { EmojiSad } from 'iconsax-react-native';
 
 import { layout } from '@shared/themes';
-import { SearchResultsListProps } from '@shared/types';
+import { PaginatedResultsListProps } from '@shared/types';
 import styles from './style';
 
-class SearchResultsList<ItemT = any> extends React.PureComponent<
-  SearchResultsListProps<ItemT>
+class PaginatedResultsList<ItemT = any> extends React.PureComponent<
+  PaginatedResultsListProps<ItemT>
 > {
-  public constructor(props: SearchResultsListProps<ItemT>) {
+  public constructor(props: PaginatedResultsListProps<ItemT>) {
     super(props);
 
     this.renderListHeader = this.renderListHeader.bind(this);
@@ -81,4 +81,4 @@ class SearchResultsList<ItemT = any> extends React.PureComponent<
   }
 }
 
-export default SearchResultsList;
+export default PaginatedResultsList;

@@ -4,7 +4,7 @@ export { default as Labels } from './Labels';
 export { default as ExpandableText } from './ExpandableText';
 export { default as CollectionDetailCard } from './CollectionDetailCard';
 export { default as CompanyDetailCard } from './CompanyDetailCard';
-export { default as SearchResultsList } from './SearchResultsList';
+export { default as PaginatedResultsList } from './PaginatedResultsList';
 export { default as TvShowDetailCard } from './TvShowDetailCard';
 export { default as PersonDetailCard } from './PersonDetailCard';
 export { default as Slideshow } from './SlideShow';

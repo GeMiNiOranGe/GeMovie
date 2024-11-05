@@ -165,7 +165,7 @@ export type TabBarIconProps = {
     size: number;
 };
 
-export type SearchResultsListProps<ItemT> = {
+export type PaginatedResultsListProps<ItemT> = {
     data: ArrayLike<ItemT> | null | undefined;
     renderItem: ListRenderItem<ItemT> | null | undefined;
     isFooterLoading?: boolean | undefined;
