@@ -20,7 +20,7 @@ export type PersonBase = {
     knownForDepartment: string;
     name: string;
     popularity: number;
-    profilePath: string;
+    profilePath: string | undefined;
 };
 
 export type PersonElementBase = PersonBase & {

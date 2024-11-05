@@ -49,6 +49,7 @@ import {
   TMDBImage,
   TouchableRippleLink,
   Youtube,
+  Credit,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -271,6 +272,16 @@ class MovieDetailScreen extends React.Component<
                 seeButtonPosition='separate'
               />
             </View>
+
+            <Section title='Cast'>
+              {this.state.movie?.id && (
+                <Credit
+                  id={this.state.movie?.id}
+                  type='movie'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
 
             {this.state.movie?.belongsToCollection && (
               <View style={styles.informationBox}>

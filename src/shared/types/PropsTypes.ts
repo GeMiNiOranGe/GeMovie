@@ -203,3 +203,9 @@ export type RecommendationProps = {
     type: VideoType;
     navigation: NativeStackNavigationProp<ParamListBase>;
 };
+
+export type CreditProps = {
+    id: number;
+    type: VideoType;
+    navigation: NativeStackNavigationProp<ParamListBase>;
+};

@@ -51,6 +51,15 @@ export default class URLBuilder {
     }
 
     /**
+     * Build a credits url
+     * @param type `"movie"` | `"tv"`
+     * @param id movie id or tv series id
+     */
+    public static buildCreditsURL(type: VideoType, id: number): string {
+        return `${TMDB_BASE_URL}/${type}/${id}/credits?api_key=${TMDB_API_KEY}`;
+    }
+
+    /**
      * Build a genre list url
      * @param type `"movie"` | `"tv"`
      */

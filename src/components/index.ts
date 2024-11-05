@@ -15,5 +15,6 @@ export { default as CompactMovieCard } from './CompactMovieCard';
 export { default as CompactTvShowCard } from './CompactTvShowCard';
 export { default as SimpleCompanyCard } from './SimpleCompanyCard';
 export { default as Recommendation } from './Recommendation';
+export { default as Credit } from './Credit';
 export { default as TouchableRippleLink } from './TouchableRippleLink';
 export { default as TMDBImage } from './TMDBImage';

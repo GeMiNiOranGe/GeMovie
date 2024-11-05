@@ -1,6 +1,6 @@
 import { APIHandler, PaginationResponseWrapper, URLBuilder } from '@services';
-import { toPaginationResponse } from '@shared/utils';
-import type { PaginationResponse, VideoType } from '@shared/types';
+import { toCredits, toPaginationResponse } from '@shared/utils';
+import type { Credits, PaginationResponse, VideoType } from '@shared/types';
 
 export default class VideoService {
     /**
@@ -22,5 +22,18 @@ export default class VideoService {
         const response: PaginationResponse<T> = toPaginationResponse(json);
 
         return new PaginationResponseWrapper(response, elementConvertFn);
+    }
+
+    /**
+     * @param type `"movie"` | `"tv"`
+     * @param id movie id
+     */
+    public static async getCreditsAsync(
+        type: VideoType,
+        id: number,
+    ): Promise<Credits> {
+        const url = URLBuilder.buildCreditsURL(type, id);
+        const json = await APIHandler.fetchJSON(url);
+        return toCredits(json);
     }
 }

@@ -2,6 +2,7 @@ import type {
     Collection,
     CollectionElement,
     Company,
+    Credits,
     FeaturedMovie,
     FeaturedTvShow,
     KnownFor,
@@ -91,6 +92,12 @@ export type SlideshowState = {
 
 export type RecommendationState = {
     recommendItems: MediaElement[];
+    isFetching: boolean;
+    error: Error | undefined;
+};
+
+export type CreditState = {
+    credits: Credits | undefined;
     isFetching: boolean;
     error: Error | undefined;
 };
