@@ -1,6 +1,7 @@
 import React from 'react';
-import { SafeAreaView, Text, type ListRenderItemInfo } from 'react-native';
+import { Text, type ListRenderItemInfo } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type {
   ContentListScreenState,
@@ -92,6 +93,10 @@ class ContentListScreen extends React.PureComponent<
     );
   }
 
+  private renderListEmpty(): React.JSX.Element {
+    return <ActivityIndicator size='small' />;
+  }
+
   public override render(): React.JSX.Element {
     if (this.state.error) {
       return (
@@ -104,7 +109,7 @@ class ContentListScreen extends React.PureComponent<
     return (
       <SafeAreaView style={layout.flex1}>
         <PaginatedResultsList
-          listEmptyComponent={<ActivityIndicator size='small' />}
+          ListEmptyComponent={this.renderListEmpty}
           totalResults={this.totalResults}
           keyExtractor={item => item.id.toString()}
           data={this.state.results}

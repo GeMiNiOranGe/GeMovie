@@ -166,6 +166,17 @@ export type ProductionCountryElement = {
     name: string;
 };
 
+export type PropsComponent =
+    | React.ComponentType<any>
+    | React.ReactElement
+    | null
+    | undefined;
+
+export type OnEndReached =
+    | ((info: { distanceFromEnd: number }) => void)
+    | null
+    | undefined;
+
 export * from './PropsTypes';
 export * from './StateTypes';
 export * from './Movie';

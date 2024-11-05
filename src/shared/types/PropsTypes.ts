@@ -15,7 +15,13 @@ import type {
 } from 'react-native';
 import type { IconProps as IconsaxProps } from 'iconsax-react-native';
 
-import type { CardElement, VideoElement, VideoType } from '@shared/types';
+import type {
+    CardElement,
+    OnEndReached,
+    PropsComponent,
+    VideoElement,
+    VideoType,
+} from '@shared/types';
 import { imageSize } from '@shared/constants';
 
 export type RootStackParamList = ParamListBase & {
@@ -72,6 +78,7 @@ export type VideoCardBaseProps<E extends VideoElement> = CardBaseProps<E> & {
     showMedal?: boolean | undefined;
 };
 
+// TODO: rename `icon` to `Icon`
 export type LabelProps = {
     style?: StyleProp<ViewStyle> | undefined;
     nameStyle?: StyleProp<TextStyle> | undefined;
@@ -79,7 +86,7 @@ export type LabelProps = {
     iconStyle?: StyleProp<ViewStyle> | undefined;
     name: string;
     value: string;
-    icon?: JSX.Element | undefined;
+    icon?: PropsComponent;
 };
 
 export type LabelsProps = {
@@ -170,14 +177,11 @@ export type PaginatedResultsListProps<ItemT> = {
     renderItem: ListRenderItem<ItemT> | null | undefined;
     isFooterLoading?: boolean | undefined;
     totalResults?: number | undefined;
-    listEmptyComponent?: React.JSX.Element | undefined;
+    ListEmptyComponent?: PropsComponent;
     noResultsIcon?: React.JSX.Element | undefined;
     noResultsText?: string | undefined;
     noResultsSubtext?: string | undefined;
-    onEndReached?:
-        | ((info: { distanceFromEnd: number }) => void)
-        | null
-        | undefined;
+    onEndReached?: OnEndReached;
     keyExtractor?: ((item: ItemT, index: number) => string) | undefined;
 };
 

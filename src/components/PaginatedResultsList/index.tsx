@@ -32,8 +32,12 @@ class PaginatedResultsList<ItemT = any> extends React.PureComponent<
     if (this.props.data && this.props.data.length === 0) {
       return (
         <View style={[layout.flex1, layout.center]}>
-          {this.props.listEmptyComponent ? (
-            this.props.listEmptyComponent
+          {this.props.ListEmptyComponent ? (
+            typeof this.props.ListEmptyComponent === 'function' ? (
+              <this.props.ListEmptyComponent />
+            ) : (
+              this.props.ListEmptyComponent
+            )
           ) : (
             <View style={[layout.itemsCenter, styles.noResultsBox]}>
               <View style={styles.iconBox}>

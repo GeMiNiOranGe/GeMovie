@@ -14,7 +14,11 @@ class Label extends React.PureComponent<LabelProps> {
             <View
               style={[layout.justifyCenter, styles.icon, this.props.iconStyle]}
             >
-              {this.props.icon}
+              {typeof this.props.icon === 'function' ? (
+                <this.props.icon />
+              ) : (
+                this.props.icon
+              )}
             </View>
           )}
 
