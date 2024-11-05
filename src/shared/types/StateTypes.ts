@@ -9,8 +9,10 @@ import type {
     Movie,
     MovieElement,
     Person,
+    PersonImage,
     TvShowElement,
 } from '@shared/types';
+import { Animated } from 'react-native';
 
 export type SearchScreenState = {
     searchContent: string;
@@ -51,6 +53,12 @@ export type CompanyDetailScreenState = {
 export type PersonDetailScreenState = {
     person?: Person | undefined;
     movies: KnownFor[];
+    personImages?: PersonImage[];
+    isModalVisible: boolean;
+    selectedImage: string | null;
+    animations: Animated.Value[];
+    introAnim: Animated.Value;
+    labelsAnim: Animated.Value;
 };
 
 export type HomeScreenState = {
