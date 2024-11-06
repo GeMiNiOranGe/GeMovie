@@ -60,6 +60,15 @@ export default class URLBuilder {
     }
 
     /**
+     * Build a images url
+     * @param type `"movie"` | `"tv"`
+     * @param id movie id or tv series id
+     */
+    public static buildImagesURL(type: VideoType, id: number): string {
+        return `${TMDB_BASE_URL}/${type}/${id}/images?api_key=${TMDB_API_KEY}`;
+    }
+
+    /**
      * Build a genre list url
      * @param type `"movie"` | `"tv"`
      */

@@ -5,6 +5,7 @@ import type {
     Credits,
     FeaturedMovie,
     FeaturedTvShow,
+    Images,
     KnownFor,
     MediaElement,
     Movie,
@@ -98,6 +99,12 @@ export type RecommendationState = {
 
 export type CreditState = {
     credits: Credits | undefined;
+    isFetching: boolean;
+    error: Error | undefined;
+};
+
+export type PhotoState = {
+    images: Images | undefined;
     isFetching: boolean;
     error: Error | undefined;
 };

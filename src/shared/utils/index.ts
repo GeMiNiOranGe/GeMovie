@@ -10,6 +10,8 @@ import type {
     PaginationResponse,
     Language,
     TvShowElement,
+    Images,
+    MediaImage,
 } from '@shared/types';
 import {
     toMovieElement,
@@ -197,6 +199,29 @@ export function toMultiSearchElement(val: any): MultiSearchElement {
     return {
         mediaType: val['media_type'],
         ...toPersonElement(val),
+    };
+}
+
+export function toImages(val: any): Images {
+    return {
+        id: val.id,
+        backdrops: Array.from(val.backdrops).map(element =>
+            toMediaImage(element),
+        ),
+        logos: Array.from(val.logos).map(element => toMediaImage(element)),
+        posters: Array.from(val.posters).map(element => toMediaImage(element)),
+    };
+}
+
+export function toMediaImage(val: any): MediaImage {
+    return {
+        aspectRatio: val['aspect_ratio'],
+        height: val.height,
+        iso_639_1: val['iso_639_1'] ?? undefined,
+        filePath: val['file_path'],
+        voteAverage: val['vote_average'],
+        voteCount: val['vote_count'],
+        width: val.width,
     };
 }
 

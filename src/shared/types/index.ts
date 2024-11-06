@@ -97,6 +97,17 @@ export type SearchAsync<T> = (
 
 export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 
+export type PropsComponent =
+    | React.ComponentType<any>
+    | React.ReactElement
+    | null
+    | undefined;
+
+export type OnEndReached =
+    | ((info: { distanceFromEnd: number }) => void)
+    | null
+    | undefined;
+
 export type Media = {
     mediaType: string;
 };
@@ -166,16 +177,22 @@ export type ProductionCountryElement = {
     name: string;
 };
 
-export type PropsComponent =
-    | React.ComponentType<any>
-    | React.ReactElement
-    | null
-    | undefined;
+export type Images = {
+    id: number;
+    backdrops: MediaImage[];
+    logos: MediaImage[];
+    posters: MediaImage[];
+};
 
-export type OnEndReached =
-    | ((info: { distanceFromEnd: number }) => void)
-    | null
-    | undefined;
+export type MediaImage = {
+    aspectRatio: number;
+    height: number;
+    iso_639_1: string | undefined;
+    filePath: string;
+    voteAverage: number;
+    voteCount: number;
+    width: number;
+};
 
 export * from './PropsTypes';
 export * from './StateTypes';

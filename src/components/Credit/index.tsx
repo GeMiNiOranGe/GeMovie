@@ -9,9 +9,11 @@ import { spacing } from '@shared/constants';
 import { layout } from '@shared/themes';
 import styles from './style';
 
-const endPosition = 15;
+const numberOfCast = 15;
 
 class Credit extends React.PureComponent<CreditProps, CreditState> {
+  private cast: Cast[] | undefined;
+
   public constructor(props: CreditProps) {
     super(props);
     this.state = {
@@ -30,6 +32,8 @@ class Credit extends React.PureComponent<CreditProps, CreditState> {
         this.props.id,
       );
 
+      this.cast = credits.cast.slice(0, numberOfCast);
+
       this.setState({ credits, isFetching: false });
     } catch (error: unknown) {
       this.setState({ error: error as Error });
@@ -38,9 +42,7 @@ class Credit extends React.PureComponent<CreditProps, CreditState> {
 
   public renderItem({ item, index }: ListRenderItemInfo<Cast>) {
     const marginRight: number =
-      index === (this.state.credits?.cast.slice(0, endPosition).length || 0) - 1
-        ? 0
-        : spacing.large;
+      index === (this.cast?.length || 0) - 1 ? 0 : spacing.large;
 
     return (
       <TouchableRipple
@@ -91,7 +93,7 @@ class Credit extends React.PureComponent<CreditProps, CreditState> {
           loading={this.state.isFetching}
           noResultText='No one found.'
           keyExtractor={item => item.id.toString()}
-          data={this.state.credits?.cast.slice(0, endPosition)}
+          data={this.cast}
           renderItem={this.renderItem}
         />
 

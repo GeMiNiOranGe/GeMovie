@@ -50,6 +50,7 @@ import {
   TouchableRippleLink,
   Youtube,
   Credit,
+  Photo,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -342,6 +343,18 @@ class MovieDetailScreen extends React.Component<
             >
               {this.state.movie?.id && (
                 <Recommendation
+                  id={this.state.movie?.id}
+                  type='movie'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Photos'>
+              {this.state.movie?.id && (
+                <Photo
                   id={this.state.movie?.id}
                   type='movie'
                   navigation={this.props.navigation}
