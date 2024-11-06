@@ -216,7 +216,7 @@ class PersonDetailScreen extends React.Component<
                   return (
                     <TouchableOpacity
                       onPress={() =>
-                        this.props.navigation.navigate('MovieDetailScreen', {
+                        this.props.navigation.push('MovieDetailScreen', {
                           movieId: movie.id,
                         })
                       }

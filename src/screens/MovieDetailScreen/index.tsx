@@ -273,16 +273,6 @@ class MovieDetailScreen extends React.Component<
               />
             </View>
 
-            <Section title='Cast'>
-              {this.state.movie?.id && (
-                <Credit
-                  id={this.state.movie?.id}
-                  type='movie'
-                  navigation={this.props.navigation}
-                />
-              )}
-            </Section>
-
             {this.state.movie?.belongsToCollection && (
               <View style={styles.informationBox}>
                 <Text style={styles.informationTitle}>
@@ -330,6 +320,18 @@ class MovieDetailScreen extends React.Component<
                 </TouchableOpacity>
               </View>
             )}
+
+            <Section.Separator />
+
+            <Section title='Cast'>
+              {this.state.movie?.id && (
+                <Credit
+                  id={this.state.movie?.id}
+                  type='movie'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
 
             <Section.Separator />
 
