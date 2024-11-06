@@ -1,12 +1,17 @@
 import { StyleSheet } from 'react-native';
 
-import { calculateImageDimensions } from '@shared/utils';
-
-const imageDimensions = calculateImageDimensions(96, 2, 3);
+import { spacing } from '@shared/constants';
+import { colors } from '@shared/themes';
 
 const styles = StyleSheet.create({
-    image: {
-        ...imageDimensions,
+    activityIndicator: {
+        marginTop: spacing.small,
+        marginBottom: spacing.large,
+    },
+    noResultText: {
+        fontSize: 14,
+        color: colors.text,
+        paddingHorizontal: spacing.large,
     },
 });
 

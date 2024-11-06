@@ -155,7 +155,9 @@ export type TMDBImageProps = {
     style?: StyleProp<ImageStyle> | undefined;
     size: keyof typeof imageSize;
     path: string | undefined;
-    NotFoundComponent?: React.JSX.Element;
+    width?: number | undefined;
+    height?: number | undefined;
+    NotFoundComponent?: PropsComponent;
     resizeMode?: ImageResizeMode | undefined;
     blurRadius?: number | undefined;
     notFoundIcon?: IconsaxProps | undefined;

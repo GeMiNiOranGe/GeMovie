@@ -20,22 +20,30 @@ class TMDBImage extends React.PureComponent<TMDBImageProps> {
   }
 
   public override render(): React.JSX.Element {
-    if (!this.props.path) {
-      return this.props.NotFoundComponent
-        ? this.props.NotFoundComponent
-        : this.renderImageNotFound();
+    if (this.props.path) {
+      return (
+        <Image
+          style={this.props.style}
+          blurRadius={this.props.blurRadius}
+          resizeMode={this.props.resizeMode}
+          width={this.props.width}
+          height={this.props.height}
+          source={{
+            uri: URLBuilder.buildImageURL(this.props.size, this.props.path),
+          }}
+        />
+      );
     }
 
-    return (
-      <Image
-        style={this.props.style}
-        blurRadius={this.props.blurRadius}
-        resizeMode={this.props.resizeMode}
-        source={{
-          uri: URLBuilder.buildImageURL(this.props.size, this.props.path),
-        }}
-      />
-    );
+    if (!this.props.NotFoundComponent) {
+      return this.renderImageNotFound();
+    }
+
+    if (typeof this.props.NotFoundComponent === 'function') {
+      return <this.props.NotFoundComponent />;
+    }
+
+    return this.props.NotFoundComponent;
   }
 }
 
