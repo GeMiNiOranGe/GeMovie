@@ -8,8 +8,8 @@ import type {
   PhotoState,
 } from '@shared/types';
 import { Section, TMDBImage } from '@components';
-import { APIHandler, URLBuilder } from '@services';
-import { calculateImageDimensions, toImages } from '@shared/utils';
+import { VideoService } from '@services';
+import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
 import styles from './style';
 import { ActivityIndicator } from 'react-native-paper';
@@ -43,9 +43,10 @@ class Photo extends React.PureComponent<PhotoProps, PhotoState> {
 
   public override async componentDidMount(): Promise<void> {
     try {
-      const url = URLBuilder.buildImagesURL('movie', this.props.id);
-      const json = await APIHandler.fetchJSON(url);
-      const images = toImages(json);
+      const images = await VideoService.getImagesAsync(
+        this.props.type,
+        this.props.id,
+      );
 
       this.backdropDimensions = images.backdrops.reduce(getMinDimension, {
         width: this.backdropDimensions.width,
