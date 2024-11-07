@@ -4,6 +4,7 @@ import {
     toCompanyElement,
     toProductionCountryElement,
     toLanguage,
+    toKeyword,
 } from '@shared/utils';
 
 export function toMovieElement(val: any): MovieElement {
@@ -59,5 +60,10 @@ export function toMovie(val: any): Movie {
         video: val.video,
         voteAverage: val['vote_average'],
         voteCount: val['vote_count'],
+        keywords: {
+            keywords: Array.from(val.keywords.keywords).map(element =>
+                toKeyword(element),
+            ),
+        },
     };
 }

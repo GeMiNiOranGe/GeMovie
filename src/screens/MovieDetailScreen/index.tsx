@@ -28,6 +28,7 @@ import { MovieService, URLBuilder } from '@services';
 import type {
   CompanyElement,
   Genre,
+  Keyword,
   LabelProps,
   MovieDetailScreenState,
   RootScreenProps,
@@ -73,6 +74,7 @@ class MovieDetailScreen extends React.Component<
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
     this.renderCompanyItem = this.renderCompanyItem.bind(this);
+    this.renderKeywordItem = this.renderKeywordItem.bind(this);
     this.pushCollectionDetailScreen =
       this.pushCollectionDetailScreen.bind(this);
     this.navigateToContentListScreen =
@@ -97,10 +99,7 @@ class MovieDetailScreen extends React.Component<
       index === (this.state.movie?.genres.length || 0) - 1 ? 0 : spacing.small;
 
     return (
-      <Chip
-        style={[styles.genreChip, { marginRight }]}
-        textStyle={styles.genre}
-      >
+      <Chip style={[styles.chip, { marginRight }]} textStyle={styles.chipText}>
         {item.name}
       </Chip>
     );
@@ -121,6 +120,22 @@ class MovieDetailScreen extends React.Component<
           });
         }}
       />
+    );
+  }
+
+  private renderKeywordItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Keyword>): React.JSX.Element {
+    const marginRight =
+      index === (this.state.movie?.keywords.keywords.length || 0) - 1
+        ? 0
+        : spacing.small;
+
+    return (
+      <Chip style={[styles.chip, { marginRight }]} textStyle={styles.chipText}>
+        {item.name}
+      </Chip>
     );
   }
 
@@ -254,6 +269,7 @@ class MovieDetailScreen extends React.Component<
 
               {this.state.movie?.imdbId && (
                 <TouchableRippleLink
+                  style={styles.imdbLink}
                   url={`${IMDB_BASE_URL}/title/${this.state.movie?.imdbId}`}
                 >
                   <IMDb color={colors.text.toString()} />
@@ -389,6 +405,15 @@ class MovieDetailScreen extends React.Component<
                   renderItem={this.renderGenreItem}
                 />
               </Section.Content>
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Keywords'>
+              <Section.HorizontalList
+                data={this.state.movie?.keywords.keywords}
+                renderItem={this.renderKeywordItem}
+              />
             </Section>
 
             <Section.Separator />

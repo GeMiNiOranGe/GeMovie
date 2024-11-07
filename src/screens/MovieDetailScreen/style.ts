@@ -50,19 +50,19 @@ const styles = StyleSheet.create({
     genreBox: {
         marginBottom: spacing.small,
     },
-    genre: {
+    genreContentList: {
+        paddingHorizontal: spacing.large,
+    },
+    chip: {
+        borderRadius: 1000,
+        backgroundColor: colors.background,
+    },
+    chipText: {
         fontSize: 12,
         color: colors.text,
         marginVertical: 4,
         marginLeft: 12,
         marginRight: 12,
-    },
-    genreContentList: {
-        paddingHorizontal: spacing.large,
-    },
-    genreChip: {
-        borderRadius: 1000,
-        backgroundColor: colors.background,
     },
     ratingBox: {
         marginBottom: spacing.extraLarge,
@@ -78,7 +78,9 @@ const styles = StyleSheet.create({
     },
     homepageLink: {
         backgroundColor: colors.accent.dark,
-        marginRight: spacing.small,
+    },
+    imdbLink: {
+        marginLeft: spacing.small,
     },
     informationBox: {
         paddingHorizontal: spacing.large,

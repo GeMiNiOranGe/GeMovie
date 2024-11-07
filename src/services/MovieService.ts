@@ -1,7 +1,8 @@
 import {
-    DetailService,
+    APIHandler,
     PaginationResponseWrapper,
     SearchService,
+    URLBuilder,
 } from '@services';
 import { toMovie, toMovieElement } from '@shared/utils';
 import type { Movie, MovieElement } from '@shared/types';
@@ -28,6 +29,10 @@ export default class MovieService {
      * @param id movie id
      */
     public static async getDetailAsync(id: number): Promise<Movie> {
-        return await DetailService.getDetailAsync(id, 'movie', toMovie);
+        const url =
+            URLBuilder.buildDetailURL('movie', id) +
+            '&append_to_response=keywords';
+        const json = await APIHandler.fetchJSON(url);
+        return toMovie(json);
     }
 }

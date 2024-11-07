@@ -1,4 +1,5 @@
 import type {
+    Keyword,
     SimpleCollection,
     VideoBase,
     VideoElementBase,
@@ -33,4 +34,7 @@ export type Movie = VideoBase &
         budget: number;
         revenue: number;
         runtime: number;
+        keywords: {
+            keywords: Keyword[];
+        };
     };

@@ -194,6 +194,11 @@ export type MediaImage = {
     width: number;
 };
 
+export type Keyword = {
+    id: number;
+    name: string;
+};
+
 export * from './PropsTypes';
 export * from './StateTypes';
 export * from './Movie';

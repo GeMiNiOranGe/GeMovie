@@ -12,6 +12,7 @@ import type {
     TvShowElement,
     Images,
     MediaImage,
+    Keyword,
 } from '@shared/types';
 import {
     toMovieElement,
@@ -222,6 +223,13 @@ export function toMediaImage(val: any): MediaImage {
         voteAverage: val['vote_average'],
         voteCount: val['vote_count'],
         width: val.width,
+    };
+}
+
+export function toKeyword(val: any): Keyword {
+    return {
+        id: val.id,
+        name: val.name,
     };
 }
 
