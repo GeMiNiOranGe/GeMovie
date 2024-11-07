@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: '#FF9933',
-        paddingTop: 5,
+        padding: 5,
     },
     containerMovie: {
         flex: 4,

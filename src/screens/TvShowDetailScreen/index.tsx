@@ -52,7 +52,6 @@ class TvShowDetailScreen extends React.Component<
   public override componentDidMount() {
     const { tvShowId } = this.props.route.params;
     TvShowService.getDetailAsync(tvShowId).then(data => {
-      console.log(data); // Check if `genres` is present and an array
       this.setState({ tv: data }, () => {
         this.props.navigation.setOptions({ title: data.name });
       });
@@ -205,9 +204,6 @@ class TvShowDetailScreen extends React.Component<
                 numberOfLines={3}
               />
             </View>
-            <View style={styles.youtubeContainer}>
-              {tv.id !== undefined && <Youtube type='tv' id={tv.id} />}
-            </View>
             <View>
               <Recommendation
                 type='tv'
@@ -230,7 +226,7 @@ class TvShowDetailScreen extends React.Component<
             >
               <TouchableWithoutFeedback>
                 <View>
-                  <Youtube type='movie' id={tv?.id} />
+                  <Youtube type='tv' id={tv.id} />
                 </View>
               </TouchableWithoutFeedback>
             </TouchableOpacity>

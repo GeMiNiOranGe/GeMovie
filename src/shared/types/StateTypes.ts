@@ -61,6 +61,15 @@ export type PersonDetailScreenState = {
     labelsAnim: Animated.Value;
 };
 
+export type SeeAllPersonState = {
+    people?: Person[] | undefined;
+    scaleAnim: Animated.Value[];
+    movies: FeaturedMovie[];
+    isModalVisible: boolean;
+    selectedPerson: string;
+    scrollY: Animated.Value;
+};
+
 export type HomeScreenState = {
     movies: FeaturedMovie[];
     people: Person[];

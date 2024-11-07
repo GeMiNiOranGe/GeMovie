@@ -66,7 +66,6 @@ class PersonDetailScreen extends React.Component<
     const url = `${TMDB_BASE_URL}/person/${personId}?api_key=${TMDB_API_KEY}&language=en-US`;
     const movieUrl = `${TMDB_BASE_URL}/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}&language=en-US`;
     const imagesUrl = `${TMDB_BASE_URL}/person/${personId}/images?api_key=${TMDB_API_KEY}`;
-    console.log(personId);
     Promise.all([
       fetch(url).then(response => response.json()),
       fetch(movieUrl).then(response => response.json()),
@@ -178,21 +177,19 @@ class PersonDetailScreen extends React.Component<
     const { animations, introAnim, labelsAnim } = this.state;
     const introAnimation = Animated.timing(introAnim, {
       toValue: 1,
-      duration: 500,
+      duration: 400,
       useNativeDriver: true,
     });
     const labelsAnimation = Animated.timing(labelsAnim, {
       toValue: 1,
-      duration: 500,
-      delay: 200,
+      duration: 400,
       useNativeDriver: true,
     });
 
     const movieAnimations = animations.map((anim, index) =>
       Animated.timing(anim, {
         toValue: 1,
-        duration: 500,
-        delay: index * 150 + 600,
+        duration: 400,
         useNativeDriver: true,
       }),
     );
