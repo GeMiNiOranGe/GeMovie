@@ -54,4 +54,25 @@ export default class VideoService {
         const json = await APIHandler.fetchJSON(url);
         return toImages(json);
     }
+
+    /**
+     * Get a list ordered by popularity.
+     * @param type `"movie"` | `"tv"`
+     * @param page page number
+     */
+    public static async getPopularListAsync<T>(
+        type: VideoType,
+        elementConvertFn: (val: any) => T,
+        page: number = 1,
+    ): Promise<PaginationResponseWrapper<T>> {
+        const params = new URLSearchParams({
+            page: `${page}`,
+        });
+
+        const url = URLBuilder.buildPopularURL(type, params);
+        const json = await APIHandler.fetchJSON(url);
+        const response: PaginationResponse<T> = toPaginationResponse(json);
+
+        return new PaginationResponseWrapper(response, elementConvertFn);
+    }
 }

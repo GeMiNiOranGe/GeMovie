@@ -5,16 +5,8 @@ import { colors } from '@shared/themes';
 const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    loading: {
         backgroundColor: '#000',
-    },
-    horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10,
     },
     container: {
         flex: 1,

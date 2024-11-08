@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ActivityIndicator,
   FlatList,
   Image,
   ScrollView,
@@ -9,12 +8,15 @@ import {
   View,
 } from 'react-native';
 import { Star1 } from 'iconsax-react-native';
+import { ActivityIndicator } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
-import { URLBuilder } from '@services';
+import { PersonService, URLBuilder, VideoService } from '@services';
 import { Slideshow } from '@components';
 import type { RootScreenProps, HomeScreenState } from '@shared/types';
-import { colors } from '@shared/themes';
+import { colors, layout } from '@shared/themes';
+import { toMovieElement, toTvShowElement } from '@shared/utils';
 import styles from './style';
 
 class HomeScreen extends React.Component<
@@ -28,49 +30,48 @@ class HomeScreen extends React.Component<
       movies: [],
       people: [],
       upcomingMovies: [],
-      tvShow: [],
+      tvShows: [],
       topRated: [],
       trend: [],
       isLoading: true,
-      backgroundImageIndex: 0,
     };
   }
 
-  public override componentDidMount() {
-    const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
-    const personUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
+  public override async componentDidMount() {
     const upcomingMoviesUrl = `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}`;
-    const tvShowsUrl = `${TMDB_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`;
     const topRatedUrl = `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}`;
     const trendUrl = `${TMDB_BASE_URL}/trending/all/day?api_key=${TMDB_API_KEY}&language=en-US`;
+
+    try {
+      const [movies, tvShows, people] = await Promise.all([
+        VideoService.getPopularListAsync('movie', toMovieElement),
+        VideoService.getPopularListAsync('tv', toTvShowElement),
+        PersonService.getPopularListAsync(),
+      ]);
+
+      this.setState({
+        movies: movies.getResults(),
+        tvShows: tvShows.getResults(),
+        people: people.getResults(),
+        // isLoading: false,
+      });
+    } catch (error) {
+      this.setState({ isLoading: false });
+    }
+
     Promise.all([
-      fetch(url).then(response => response.json()),
-      fetch(personUrl).then(response => response.json()),
       fetch(upcomingMoviesUrl).then(response => response.json()),
-      fetch(tvShowsUrl).then(response => response.json()),
       fetch(topRatedUrl).then(response => response.json()),
       fetch(trendUrl).then(response => response.json()),
     ])
-      .then(
-        ([
-          movieData,
-          personData,
-          upcomingMoviesData,
-          tvShowData,
-          topRatedData,
-          trendData,
-        ]) => {
-          this.setState({
-            movies: movieData.results,
-            people: personData.results,
-            upcomingMovies: upcomingMoviesData.results,
-            tvShow: tvShowData.results,
-            topRated: topRatedData.results,
-            trend: trendData.results,
-            isLoading: false,
-          });
-        },
-      )
+      .then(([upcomingMoviesData, topRatedData, trendData]) => {
+        this.setState({
+          upcomingMovies: upcomingMoviesData.results,
+          topRated: topRatedData.results,
+          trend: trendData.results,
+          isLoading: false,
+        });
+      })
       .catch(error => {
         console.error('Error fetching data:', error);
         this.setState({ isLoading: false });
@@ -78,33 +79,25 @@ class HomeScreen extends React.Component<
   }
 
   public override render() {
-    const {
-      movies,
-      people,
-      upcomingMovies,
-      tvShow,
-      topRated,
-      trend,
-      isLoading,
-    } = this.state;
-    const { navigation } = this.props;
-    if (isLoading) {
+    if (this.state.isLoading) {
       return (
-        <View style={[styles.loadingContainer, styles.horizontal]}>
+        <SafeAreaView style={[layout.flex1, layout.center, styles.loading]}>
           <ActivityIndicator size='large' />
-        </View>
+        </SafeAreaView>
       );
     }
-    const upcomingMoviesImages = upcomingMovies.map(movie =>
+
+    const upcomingMoviesImages = this.state.upcomingMovies.map(movie =>
       URLBuilder.buildImageURL('w780', movie.backdrop_path),
     );
-    const upcomingMoviesTitles = upcomingMovies.map(movie => movie.title);
-
-    const upcomingMoviesReleaseDates = upcomingMovies.map(
+    const upcomingMoviesTitles = this.state.upcomingMovies.map(
+      movie => movie.title,
+    );
+    const upcomingMoviesReleaseDates = this.state.upcomingMovies.map(
       movie => movie.release_date,
     );
+    const upcomingMoviesIds = this.state.upcomingMovies.map(movie => movie.id);
 
-    const upcomingMoviesIds = upcomingMovies.map(movie => movie.id);
     return (
       <ScrollView style={styles.container}>
         <View style={styles.header}>
@@ -114,34 +107,38 @@ class HomeScreen extends React.Component<
             releaseDates={upcomingMoviesReleaseDates}
             movieIds={upcomingMoviesIds}
             navigateToMovieDetail={movieId =>
-              navigation.navigate('MovieDetailScreen', {
+              this.props.navigation.navigate('MovieDetailScreen', {
                 movieId,
               })
             }
           />
         </View>
+
         <View style={styles.section}>
           <View style={styles.containerSectionTitle}>
             <Text style={styles.sectionTitle}>Featured Today</Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SeeAllMovieScreen')}
+              onPress={() =>
+                this.props.navigation.navigate('SeeAllMovieScreen')
+              }
             >
               <Text style={styles.sectionTitle}>See All</Text>
             </TouchableOpacity>
           </View>
+
           <FlatList
-            data={movies.slice(0, 10)}
+            data={this.state.movies.slice(0, 10)}
             horizontal
             keyExtractor={item => item.id.toString()}
             renderItem={({ item }) => {
               const imageUrl = URLBuilder.buildImageURL(
                 'w185',
-                item.poster_path,
+                item.posterPath,
               );
               return (
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate('MovieDetailScreen', {
+                    this.props.navigation.navigate('MovieDetailScreen', {
                       movieId: item.id,
                     })
                   }
@@ -164,31 +161,32 @@ class HomeScreen extends React.Component<
             contentContainerStyle={styles.movieList}
           />
         </View>
+
         <View style={styles.section}>
-          {/* TV Show */}
           <View style={styles.containerTV}>
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>TV Show</Text>
               <Text
                 style={styles.sectionTitle}
-                onPress={() => navigation.navigate('SeeAllTV')}
+                onPress={() => this.props.navigation.navigate('SeeAllTV')}
               >
                 See All
               </Text>
             </View>
+
             <FlatList
-              data={tvShow.slice(0, 10)}
+              data={this.state.tvShows.slice(0, 10)}
               horizontal
               keyExtractor={item => item.id.toString()}
               renderItem={({ item }) => {
                 const imageUrl = URLBuilder.buildImageURL(
                   'w185',
-                  item.poster_path,
+                  item.posterPath,
                 );
                 return (
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate('TvShowDetailScreen', {
+                      this.props.navigation.navigate('TvShowDetailScreen', {
                         tvShowId: item.id,
                       })
                     }
@@ -216,13 +214,14 @@ class HomeScreen extends React.Component<
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>Top 10 Rated</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate('SeeAllTopRated')}
+                onPress={() => this.props.navigation.navigate('SeeAllTopRated')}
               >
                 <Text style={styles.sectionTitle}>See All</Text>
               </TouchableOpacity>
             </View>
+
             <FlatList
-              data={topRated.slice(0, 10)}
+              data={this.state.topRated.slice(0, 10)}
               horizontal
               keyExtractor={item => item.id.toString()}
               showsHorizontalScrollIndicator={false}
@@ -235,7 +234,7 @@ class HomeScreen extends React.Component<
                 return (
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate('MovieDetailScreen', {
+                      this.props.navigation.navigate('MovieDetailScreen', {
                         movieId: item.id,
                       })
                     }
@@ -263,13 +262,14 @@ class HomeScreen extends React.Component<
             <View style={styles.containerSectionTitle}>
               <Text style={styles.sectionTitle}>Trending</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate('TrendingScreen')}
+                onPress={() => this.props.navigation.navigate('TrendingScreen')}
               >
                 <Text style={styles.sectionTitle}>See All</Text>
               </TouchableOpacity>
             </View>
+
             <FlatList
-              data={trend}
+              data={this.state.trend}
               horizontal
               keyExtractor={item => item.id.toString()}
               renderItem={({ item }) => {
@@ -283,11 +283,11 @@ class HomeScreen extends React.Component<
                   <TouchableOpacity
                     onPress={() => {
                       if (item.media_type === 'movie') {
-                        navigation.navigate('MovieDetailScreen', {
+                        this.props.navigation.navigate('MovieDetailScreen', {
                           movieId: item.id,
                         });
                       } else {
-                        navigation.navigate('TvShowDetailScreen', {
+                        this.props.navigation.navigate('TvShowDetailScreen', {
                           tvShowId: item.id,
                         });
                       }
@@ -311,25 +311,28 @@ class HomeScreen extends React.Component<
           <View style={styles.containerSectionTitle}>
             <Text style={styles.sectionTitle}>Most popular celebrities</Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate('SeeAllPersonScreen')}
+              onPress={() =>
+                this.props.navigation.navigate('SeeAllPersonScreen')
+              }
             >
               <Text style={styles.sectionTitle}>See All</Text>
             </TouchableOpacity>
           </View>
+
           <FlatList
-            data={people.slice(0, 10)}
+            data={this.state.people.slice(0, 10)}
             horizontal
             keyExtractor={item => item.id.toString()}
             renderItem={({ item }) => {
               const imageUrl = URLBuilder.buildImageURL(
                 'w185',
-                item.profile_path,
+                item.profilePath,
               );
               return (
                 <TouchableOpacity
                   key={item.id}
                   onPress={() =>
-                    navigation.navigate('PersonDetailScreen', {
+                    this.props.navigation.navigate('PersonDetailScreen', {
                       personId: item.id,
                     })
                   }

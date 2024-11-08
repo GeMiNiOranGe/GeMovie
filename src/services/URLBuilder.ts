@@ -1,6 +1,11 @@
 import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
 import { imageSize } from '@shared/constants';
-import type { DetailType, SearchType, VideoType } from '@shared/types';
+import type {
+    DetailType,
+    PopularType,
+    SearchType,
+    VideoType,
+} from '@shared/types';
 
 export default class URLBuilder {
     /**
@@ -66,6 +71,18 @@ export default class URLBuilder {
      */
     public static buildImagesURL(type: VideoType, id: number): string {
         return `${TMDB_BASE_URL}/${type}/${id}/images?api_key=${TMDB_API_KEY}`;
+    }
+
+    /**
+     * Build popular movie list url
+     * @param type `"movie"` | `"tv"` | `"person"`
+     * @param params
+     */
+    public static buildPopularURL(
+        type: PopularType,
+        params: URLSearchParams,
+    ): string {
+        return `${TMDB_BASE_URL}/${type}/popular?api_key=${TMDB_API_KEY}&${params}`;
     }
 
     /**

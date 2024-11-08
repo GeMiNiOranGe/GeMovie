@@ -11,6 +11,7 @@ import type {
     Movie,
     MovieElement,
     Person,
+    PersonElement,
     TvShowElement,
 } from '@shared/types';
 
@@ -61,14 +62,13 @@ export type PersonDetailScreenState = {
 };
 
 export type HomeScreenState = {
-    movies: FeaturedMovie[];
-    people: Person[];
+    movies: MovieElement[];
+    people: PersonElement[];
     upcomingMovies: any[];
-    tvShow: FeaturedTvShow[];
+    tvShows: TvShowElement[];
     topRated: FeaturedMovie[];
     trend: FeaturedMovie[];
     isLoading: boolean;
-    backgroundImageIndex: number;
 };
 
 export type TrendScreenState = {

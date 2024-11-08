@@ -82,6 +82,8 @@ export type DetailType =
 
 export type VideoType = 'movie' | 'tv';
 
+export type PopularType = 'movie' | 'tv' | 'person';
+
 export type Variant =
     | 'Linear'
     | 'Outline'
