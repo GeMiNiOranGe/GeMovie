@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   ActivityIndicator,
-  Animated,
   FlatList,
   Image,
   ScrollView,
@@ -9,19 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import { Star1 } from 'iconsax-react-native';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
 import { Slideshow } from '@components';
-import type {
-  Person,
-  FeaturedMovie,
-  FeaturedTvShow,
-  RootScreenProps,
-  HomeScreenState,
-} from '@shared/types';
+import type { RootScreenProps, HomeScreenState } from '@shared/types';
 import { colors } from '@shared/themes';
 import styles from './style';
 
@@ -29,18 +21,20 @@ class HomeScreen extends React.Component<
   RootScreenProps<'HomeScreen'>,
   HomeScreenState
 > {
-  public override state = {
-    movies: [] as FeaturedMovie[],
-    people: [] as Person[],
-    upcomingMovies: [] as any[],
-    tvShow: [] as unknown as FeaturedTvShow[],
-    topRated: [] as FeaturedMovie[],
-    trend: [] as FeaturedMovie[],
-    isLoading: true,
-    backgroundImageIndex: 0,
-  };
-  public fadeAnim = new Animated.Value(0);
-  public scaleAnim = new Animated.Value(1);
+  public constructor(props: RootScreenProps<'HomeScreen'>) {
+    super(props);
+
+    this.state = {
+      movies: [],
+      people: [],
+      upcomingMovies: [],
+      tvShow: [],
+      topRated: [],
+      trend: [],
+      isLoading: true,
+      backgroundImageIndex: 0,
+    };
+  }
 
   public override componentDidMount() {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
@@ -75,11 +69,6 @@ class HomeScreen extends React.Component<
             trend: trendData.results,
             isLoading: false,
           });
-          Animated.timing(this.fadeAnim, {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: true,
-          }).start();
         },
       )
       .catch(error => {
@@ -117,273 +106,248 @@ class HomeScreen extends React.Component<
 
     const upcomingMoviesIds = upcomingMovies.map(movie => movie.id);
     return (
-      <LinearGradient
-        style={styles.container}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        colors={['#544a7d', '#ffd452']}
-      >
-        <ScrollView>
-          <Animated.View style={{ opacity: this.fadeAnim }}>
-            <View style={styles.header}>
-              <Slideshow
-                images={upcomingMoviesImages}
-                titles={upcomingMoviesTitles}
-                releaseDates={upcomingMoviesReleaseDates}
-                movieIds={upcomingMoviesIds}
-                navigateToMovieDetail={movieId =>
-                  navigation.navigate('MovieDetailScreen', {
-                    movieId,
-                  })
-                }
-              />
-            </View>
-            <View style={styles.section}>
-              <View style={styles.containerSectionTitle}>
-                <Text style={styles.sectionTitle}>Featured Today</Text>
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Slideshow
+            images={upcomingMoviesImages}
+            titles={upcomingMoviesTitles}
+            releaseDates={upcomingMoviesReleaseDates}
+            movieIds={upcomingMoviesIds}
+            navigateToMovieDetail={movieId =>
+              navigation.navigate('MovieDetailScreen', {
+                movieId,
+              })
+            }
+          />
+        </View>
+        <View style={styles.section}>
+          <View style={styles.containerSectionTitle}>
+            <Text style={styles.sectionTitle}>Featured Today</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SeeAllMovieScreen')}
+            >
+              <Text style={styles.sectionTitle}>See All</Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={movies.slice(0, 10)}
+            horizontal
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => {
+              const imageUrl = URLBuilder.buildImageURL(
+                'w185',
+                item.poster_path,
+              );
+              return (
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('SeeAllMovieScreen')}
+                  onPress={() =>
+                    navigation.navigate('MovieDetailScreen', {
+                      movieId: item.id,
+                    })
+                  }
                 >
-                  <Text style={styles.sectionTitle}>See All</Text>
+                  <Image
+                    source={{ uri: imageUrl }}
+                    style={styles.movieThumbnail}
+                  />
+                  <View style={styles.percentVote}>
+                    <Star1
+                      size={23}
+                      color={colors.neutral.toString()}
+                      variant='Bold'
+                    />
+                  </View>
                 </TouchableOpacity>
-              </View>
-              <FlatList
-                data={movies.slice(0, 10)}
-                horizontal
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item }) => {
-                  const imageUrl = URLBuilder.buildImageURL(
-                    'w185',
-                    item.poster_path,
-                  );
-                  return (
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate('MovieDetailScreen', {
-                          movieId: item.id,
-                        })
-                      }
-                    >
+              );
+            }}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.movieList}
+          />
+        </View>
+        <View style={styles.section}>
+          {/* TV Show */}
+          <View style={styles.containerTV}>
+            <View style={styles.containerSectionTitle}>
+              <Text style={styles.sectionTitle}>TV Show</Text>
+              <Text
+                style={styles.sectionTitle}
+                onPress={() => navigation.navigate('SeeAllTV')}
+              >
+                See All
+              </Text>
+            </View>
+            <FlatList
+              data={tvShow.slice(0, 10)}
+              horizontal
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => {
+                const imageUrl = URLBuilder.buildImageURL(
+                  'w185',
+                  item.poster_path,
+                );
+                return (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('TvShowDetailScreen', {
+                        tvShowId: item.id,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: imageUrl }}
+                      style={styles.TvThumbnail}
+                    />
+                    <View style={styles.percentVote}>
+                      <Star1
+                        size='24'
+                        color={colors.neutral.toString()}
+                        variant='Bold'
+                      />
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.TvList}
+            />
+          </View>
+
+          <View style={styles.containerTV}>
+            <View style={styles.containerSectionTitle}>
+              <Text style={styles.sectionTitle}>Top 10 Rated</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SeeAllTopRated')}
+              >
+                <Text style={styles.sectionTitle}>See All</Text>
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={topRated.slice(0, 10)}
+              horizontal
+              keyExtractor={item => item.id.toString()}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.movieList}
+              renderItem={({ item, index }) => {
+                const imageUrl = URLBuilder.buildImageURL(
+                  'w185',
+                  item.poster_path,
+                );
+                return (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('MovieDetailScreen', {
+                        movieId: item.id,
+                      })
+                    }
+                  >
+                    <View style={styles.topRatedItemContainer}>
                       <Image
                         source={{ uri: imageUrl }}
-                        style={styles.movieThumbnail}
+                        style={styles.Thumbnail}
                       />
-                      <View style={styles.percentVote}>
-                        <Star1
-                          size={23}
-                          color={colors.neutral.toString()}
-                          variant='Bold'
-                        />
+                      <View style={styles.rankingIcon}>
+                        <Text
+                          style={[styles.rankingText, styles.textWithBorder]}
+                        >
+                          {index + 1}
+                        </Text>
                       </View>
-                    </TouchableOpacity>
-                  );
-                }}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.movieList}
-              />
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+
+          <View style={styles.containerTV}>
+            <View style={styles.containerSectionTitle}>
+              <Text style={styles.sectionTitle}>Trending</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('TrendingScreen')}
+              >
+                <Text style={styles.sectionTitle}>See All</Text>
+              </TouchableOpacity>
             </View>
-
-            <View style={styles.section}>
-              {/* TV Show */}
-              <View style={styles.containerTV}>
-                <View style={styles.containerSectionTitle}>
-                  <Text style={styles.sectionTitle}>TV Show</Text>
-                  <Text
-                    style={styles.sectionTitle}
-                    onPress={() => navigation.navigate('SeeAllTV')}
-                  >
-                    See All
-                  </Text>
-                </View>
-                <FlatList
-                  data={tvShow.slice(0, 10)}
-                  horizontal
-                  keyExtractor={item => item.id.toString()}
-                  renderItem={({ item }) => {
-                    const imageUrl = URLBuilder.buildImageURL(
-                      'w185',
-                      item.poster_path,
-                    );
-                    return (
-                      <Animated.View
-                        style={{ transform: [{ scale: this.scaleAnim }] }}
-                      >
-                        <TouchableOpacity
-                          onPress={() =>
-                            navigation.navigate('TvShowDetailScreen', {
-                              tvShowId: item.id,
-                            })
-                          }
-                        >
-                          <Image
-                            source={{ uri: imageUrl }}
-                            style={styles.TvThumbnail}
-                          />
-                          <View style={styles.percentVote}>
-                            <Star1
-                              size='24'
-                              color={colors.neutral.toString()}
-                              variant='Bold'
-                            />
-                          </View>
-                        </TouchableOpacity>
-                      </Animated.View>
-                    );
-                  }}
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.TvList}
-                />
-              </View>
-
-              <View style={styles.containerTV}>
-                <View style={styles.containerSectionTitle}>
-                  <Text style={styles.sectionTitle}>Top 10 Rated</Text>
+            <FlatList
+              data={trend}
+              horizontal
+              keyExtractor={item => item.id.toString()}
+              renderItem={({ item }) => {
+                const imageUrl = URLBuilder.buildImageURL(
+                  'w185',
+                  item.poster_path,
+                );
+                const mediaTypeLabel =
+                  item.media_type === 'movie' ? 'Movie' : 'TV Show';
+                return (
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('SeeAllTopRated')}
-                  >
-                    <Text style={styles.sectionTitle}>See All</Text>
-                  </TouchableOpacity>
-                </View>
-                <FlatList
-                  data={topRated.slice(0, 10)}
-                  horizontal
-                  keyExtractor={item => item.id.toString()}
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.movieList}
-                  renderItem={({ item, index }) => {
-                    const imageUrl = URLBuilder.buildImageURL(
-                      'w185',
-                      item.poster_path,
-                    );
-                    return (
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate('MovieDetailScreen', {
-                            movieId: item.id,
-                          })
-                        }
-                      >
-                        <View style={styles.topRatedItemContainer}>
-                          <Image
-                            source={{ uri: imageUrl }}
-                            style={styles.Thumbnail}
-                          />
-                          <View style={styles.rankingIcon}>
-                            <Text
-                              style={[
-                                styles.rankingText,
-                                styles.textWithBorder,
-                              ]}
-                            >
-                              {index + 1}
-                            </Text>
-                          </View>
-                        </View>
-                      </TouchableOpacity>
-                    );
-                  }}
-                />
-              </View>
-
-              <View style={styles.containerTV}>
-                <View style={styles.containerSectionTitle}>
-                  <Text style={styles.sectionTitle}>Trending</Text>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('TrendingScreen')}
-                  >
-                    <Text style={styles.sectionTitle}>See All</Text>
-                  </TouchableOpacity>
-                </View>
-                <FlatList
-                  data={trend}
-                  horizontal
-                  keyExtractor={item => item.id.toString()}
-                  renderItem={({ item }) => {
-                    const imageUrl = URLBuilder.buildImageURL(
-                      'w185',
-                      item.poster_path,
-                    );
-                    const mediaTypeLabel =
-                      item.media_type === 'movie' ? 'Movie' : 'TV Show';
-                    return (
-                      <Animated.View
-                        style={{ transform: [{ scale: this.scaleAnim }] }}
-                      >
-                        <TouchableOpacity
-                          onPress={() => {
-                            if (item.media_type === 'movie') {
-                              navigation.navigate('MovieDetailScreen', {
-                                movieId: item.id,
-                              });
-                            } else {
-                              navigation.navigate('TvShowDetailScreen', {
-                                tvShowId: item.id,
-                              });
-                            }
-                          }}
-                        >
-                          <View style={styles.genreTag}>
-                            <Text style={styles.mediaType}>
-                              {mediaTypeLabel}
-                            </Text>
-                          </View>
-                          <Image
-                            source={{ uri: imageUrl }}
-                            style={styles.TvThumbnail}
-                          />
-                        </TouchableOpacity>
-                      </Animated.View>
-                    );
-                  }}
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.TvList}
-                />
-              </View>
-
-              <View style={styles.containerSectionTitle}>
-                <Text style={styles.sectionTitle}>
-                  Most popular celebrities
-                </Text>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('SeeAllPersonScreen')}
-                >
-                  <Text style={styles.sectionTitle}>See All</Text>
-                </TouchableOpacity>
-              </View>
-              <FlatList
-                data={people.slice(0, 10)}
-                horizontal
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item }) => {
-                  const imageUrl = URLBuilder.buildImageURL(
-                    'w185',
-                    item.profile_path,
-                  );
-                  return (
-                    <TouchableOpacity
-                      key={item.id}
-                      onPress={() =>
-                        navigation.navigate('PersonDetailScreen', {
-                          personId: item.id,
-                        })
+                    onPress={() => {
+                      if (item.media_type === 'movie') {
+                        navigation.navigate('MovieDetailScreen', {
+                          movieId: item.id,
+                        });
+                      } else {
+                        navigation.navigate('TvShowDetailScreen', {
+                          tvShowId: item.id,
+                        });
                       }
-                    >
-                      <View style={styles.celebrityItem}>
-                        <Image
-                          source={{ uri: imageUrl }}
-                          style={styles.celebrityThumbnail}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  );
-                }}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.celebrityList}
-              />
-            </View>
-          </Animated.View>
-        </ScrollView>
-      </LinearGradient>
+                    }}
+                  >
+                    <View style={styles.genreTag}>
+                      <Text style={styles.mediaType}>{mediaTypeLabel}</Text>
+                    </View>
+                    <Image
+                      source={{ uri: imageUrl }}
+                      style={styles.TvThumbnail}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.TvList}
+            />
+          </View>
+
+          <View style={styles.containerSectionTitle}>
+            <Text style={styles.sectionTitle}>Most popular celebrities</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SeeAllPersonScreen')}
+            >
+              <Text style={styles.sectionTitle}>See All</Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={people.slice(0, 10)}
+            horizontal
+            keyExtractor={item => item.id.toString()}
+            renderItem={({ item }) => {
+              const imageUrl = URLBuilder.buildImageURL(
+                'w185',
+                item.profile_path,
+              );
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  onPress={() =>
+                    navigation.navigate('PersonDetailScreen', {
+                      personId: item.id,
+                    })
+                  }
+                >
+                  <View style={styles.celebrityItem}>
+                    <Image
+                      source={{ uri: imageUrl }}
+                      style={styles.celebrityThumbnail}
+                    />
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.celebrityList}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }

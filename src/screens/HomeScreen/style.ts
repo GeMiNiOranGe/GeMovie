@@ -1,5 +1,9 @@
 import { Dimensions, StyleSheet } from 'react-native';
+
+import { colors } from '@shared/themes';
+
 const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     loadingContainer: {
         flex: 1,
@@ -14,6 +18,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        backgroundColor: colors.primary,
     },
     header: {
         height: height * 0.55,
@@ -60,7 +65,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
     },
     sectionTitle: {
-        color: 'white',
+        color: colors.text,
         fontSize: 18,
         marginTop: 5,
     },
