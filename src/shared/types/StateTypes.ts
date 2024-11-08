@@ -12,9 +12,11 @@ import type {
     MovieElement,
     MultiSearchElement,
     Person,
+    PersonImage,
     PersonElement,
     TvShowElement,
 } from '@shared/types';
+import { Animated } from 'react-native';
 
 export type SearchScreenState = {
     searchContent: string;
@@ -45,6 +47,10 @@ export type TvShowDetailScreenState = {
     tv?: TvShowElement | undefined;
     modalVisible: boolean;
     isloading: boolean;
+    animatedOpacity: Animated.Value;
+    animatedTranslateY: Animated.Value;
+    animatedOpacityImage: Animated.Value;
+    animatedTranslateYImage: Animated.Value;
 };
 
 export type ExpandableTextState = {
@@ -60,6 +66,21 @@ export type CompanyDetailScreenState = {
 export type PersonDetailScreenState = {
     person?: Person | undefined;
     movies: KnownFor[];
+    personImages?: PersonImage[];
+    isModalVisible: boolean;
+    selectedImage: string | null;
+    animations: Animated.Value[];
+    introAnim: Animated.Value;
+    labelsAnim: Animated.Value;
+};
+
+export type SeeAllPersonState = {
+    people?: Person[] | undefined;
+    scaleAnim: Animated.Value[];
+    movies: FeaturedMovie[];
+    isModalVisible: boolean;
+    selectedPerson: string;
+    scrollY: Animated.Value;
 };
 
 export type HomeScreenState = {

@@ -82,4 +82,12 @@ export type Person = {
     place_of_birth?: string;
     birthday?: string;
     deathday?: string;
+    imdb_id?: string | null;
+};
+
+export type PersonImage = {
+    file_path: string;
+    width: number;
+    height: number;
+    aspect_ratio: number;
 };

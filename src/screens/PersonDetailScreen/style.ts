@@ -7,16 +7,17 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-        height: height * 0.4,
+        height: height * 0.3,
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
+        backgroundColor: 'white',
     },
     overlay: {
         position: 'absolute',
         width: '100%',
         height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
     },
     headerImage: {
         width: '100%',
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        marginTop: '-28%',
+        marginTop: '-23%',
     },
     containerProfile: {
         flex: 1,
@@ -57,6 +58,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         color: '#FF9933',
+        padding: 5,
     },
     containerMovie: {
         flex: 4,
@@ -71,15 +73,15 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     backdropImage: {
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
         borderRadius: 300,
         borderWidth: 4,
         borderColor: '#fff',
         position: 'absolute',
         bottom: -48,
-        left: '50%',
-        backgroundColor: 'white',
+        left: '45%',
+        backgroundColor: 'lightgray',
         transform: [{ translateX: -48 }],
     },
     iconCircle: {
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 4,
+        borderWidth: 5,
         borderColor: '#fff',
         position: 'absolute',
         bottom: -48,
@@ -106,6 +108,21 @@ const styles = StyleSheet.create({
     titleBody: {
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContainer: {
+        width: '90%',
+        height: '80%',
+    },
+    modalImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 10,
     },
 });
 export default styles;

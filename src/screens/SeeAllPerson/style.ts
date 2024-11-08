@@ -1,66 +1,55 @@
+import { StyleSheet } from 'react-native';
+import { calculateImageDimensions } from '@shared/utils';
+import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
-import { Dimensions, StyleSheet } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
-const itemWidth = (width - 60) / 2;
+const imageDimensions = calculateImageDimensions(72, 3, 4);
+const paddingCard = spacing.medium;
+const innerRadius = 4;
+const outerRadius = innerRadius + paddingCard;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        padding: 20,
+        backgroundColor: colors.background,
+        paddingHorizontal: spacing.large,
+    },
+    movieList: {
+        paddingVertical: spacing.medium,
     },
     containerItem: {
         flexDirection: 'row',
-        borderWidth: 1,
-        borderRadius: 10,
-        marginBottom: 10,
-        width: 310,
-        height: 90,
-        paddingHorizontal: 10,
         alignItems: 'center',
-        backgroundColor: 'white',
-        borderColor: 'white',
-        justifyContent: 'space-between',
+        borderRadius: outerRadius,
+        paddingVertical: paddingCard,
+        marginBottom: spacing.large,
+        backgroundColor: colors.primary,
+    },
+    movieThumbnail: {
+        ...imageDimensions,
+        borderRadius: innerRadius,
+        marginLeft: paddingCard,
+        opacity: 0.9,
     },
     crownOverlay: {
         position: 'absolute',
-        left: '26%',
-        bottom: 15,
-        transform: [{ translateX: -9 }],
-        zIndex: 1,
-    },
-    movieThumbnail: {
-        width: 70,
-        height: 70,
-        borderRadius: 35,
-        marginRight: 15,
-        shadowOpacity: 0.5,
-        shadowRadius: 4.65,
-        elevation: 8,
-        borderColor: '#7CB9E8',
-        borderWidth: 3,
-        padding: 3,
-        backgroundColor: 'transparent',
-    },
-    movieList: {
-        width: '100%',
-        paddingTop: 10,
+        top: 85,
+        left: 70,
     },
     movieItem: {
+        flex: 1,
+        marginLeft: spacing.medium,
         justifyContent: 'center',
-        width: itemWidth - 30,
     },
     movieTitle: {
-        color: 'black',
-        fontSize: 15,
-        fontWeight: 'bold',
-        width: '100%',
+        fontSize: 16,
+        color: colors.text,
+        marginBottom: spacing.tiny,
     },
-    title: {
-        color: 'black',
-        fontSize: 13,
-        marginTop: 5,
+    text: {
+        fontSize: 12,
+        color: colors.subtext,
+        marginHorizontal: 5,
     },
     modalContainer: {
         flex: 1,
@@ -69,55 +58,51 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalContent: {
-        width: 300,
-        height: height * 0.8,
-        padding: 20,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        alignItems: 'center',
+        width: '85%',
+        padding: spacing.large,
+        borderRadius: outerRadius,
+        backgroundColor: colors.background,
     },
     modalTitle: {
         fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
+        color: colors.text,
+        marginBottom: spacing.medium,
+        textAlign: 'center',
     },
     movieListItem: {
-        marginVertical: 10,
-        flexShrink: 2,
-        maxWidth: width * 0.4,
-        paddingHorizontal: 5,
-    },
-    movieListTitle: {
-        fontSize: 14,
-        textAlign: 'center',
-        width: '100%',
-        color: 'black',
-        fontWeight: 'bold',
-        lineHeight: 18,
+        width: '50%',
+        padding: paddingCard / 2,
+        alignItems: 'center',
     },
     Thumbnail: {
-        width: width * 0.3,
-        height: height / 4,
-        marginRight: 20,
-        borderRadius: 20,
-        resizeMode: 'cover',
+        ...imageDimensions,
+        borderRadius: innerRadius,
     },
-    closeButton: {
-        marginTop: 20,
-        padding: 10,
-        backgroundColor: 'black',
-        borderRadius: 5,
-        height: 50,
-        width: 100,
-        justifyContent: 'center',
-    },
-    closeButtonText: {
-        color: 'white',
-        textAlign: 'center',
-    },
-    text: {
+    movieListTitle: {
         fontSize: 12,
         color: colors.text,
+        marginTop: spacing.tiny,
+        textAlign: 'center',
+    },
+    closeButton: {
+        marginTop: spacing.large,
+        borderRadius: innerRadius,
+        padding: spacing.small,
+        backgroundColor: colors.accent.dark,
+        alignItems: 'center',
+    },
+    closeButtonText: {
+        fontSize: 14,
+        color: colors.text,
+    },
+    globalIcon: {
+        marginTop: 3,
+    },
+    informIcon: {
+        marginRight: 5,
+    },
+    containerText: {
+        flexDirection: 'row',
         padding: 5,
     },
 });
