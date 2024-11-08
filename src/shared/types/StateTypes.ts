@@ -38,6 +38,10 @@ export type TvShowDetailScreenState = {
     tv?: TvShowElement | undefined;
     modalVisible: boolean;
     isloading: boolean;
+    animatedOpacity: Animated.Value;
+    animatedTranslateY: Animated.Value;
+    animatedOpacityImage: Animated.Value;
+    animatedTranslateYImage: Animated.Value;
 };
 
 export type ExpandableTextState = {

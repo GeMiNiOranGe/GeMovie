@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   Image,
   ListRenderItemInfo,
@@ -45,6 +46,10 @@ class TvShowDetailScreen extends React.Component<
       tv: undefined,
       modalVisible: false,
       isloading: false,
+      animatedOpacity: new Animated.Value(0),
+      animatedTranslateY: new Animated.Value(20),
+      animatedOpacityImage: new Animated.Value(0),
+      animatedTranslateYImage: new Animated.Value(0),
     };
     this.renderGenreItem = this.renderGenreItem.bind(this);
   }
@@ -54,6 +59,29 @@ class TvShowDetailScreen extends React.Component<
     TvShowService.getDetailAsync(tvShowId).then(data => {
       this.setState({ tv: data }, () => {
         this.props.navigation.setOptions({ title: data.name });
+        this.state.animatedTranslateYImage.setValue(30);
+        Animated.parallel([
+          Animated.timing(this.state.animatedOpacity, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+          Animated.timing(this.state.animatedTranslateY, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+          Animated.timing(this.state.animatedOpacityImage, {
+            toValue: 1,
+            duration: 700,
+            useNativeDriver: true,
+          }),
+          Animated.timing(this.state.animatedTranslateYImage, {
+            toValue: 0,
+            duration: 700,
+            useNativeDriver: true,
+          }),
+        ]).start();
       });
     });
   }
@@ -142,7 +170,15 @@ class TvShowDetailScreen extends React.Component<
   }
 
   public override render() {
-    const { tv, modalVisible, isloading } = this.state;
+    const {
+      tv,
+      modalVisible,
+      isloading,
+      animatedOpacity,
+      animatedTranslateY,
+      animatedOpacityImage,
+      animatedTranslateYImage,
+    } = this.state;
 
     if (!tv) {
       return (
@@ -160,7 +196,15 @@ class TvShowDetailScreen extends React.Component<
           </View>
         )}
         <ScrollView contentContainerStyle={styles.scrollContent}>
-          <View style={styles.headerContainer}>
+          <Animated.View
+            style={[
+              styles.headerContainer,
+              {
+                opacity: animatedOpacityImage,
+                transform: [{ translateY: animatedTranslateYImage }],
+              },
+            ]}
+          >
             <Image
               style={styles.backgroundImage}
               source={{
@@ -177,9 +221,17 @@ class TvShowDetailScreen extends React.Component<
             >
               <Text style={styles.playButtonText}>▶</Text>
             </TouchableOpacity>
-          </View>
+          </Animated.View>
           <View style={styles.bodyOverlay} />
-          <View style={styles.body}>
+          <Animated.View
+            style={[
+              styles.body,
+              {
+                opacity: animatedOpacity,
+                transform: [{ translateY: animatedTranslateY }],
+              },
+            ]}
+          >
             <Text style={styles.titleText}>{tv?.name}</Text>
             {/* <View style={[layout.center, styles.genreBox]}>
               <FlatList
@@ -211,7 +263,7 @@ class TvShowDetailScreen extends React.Component<
                 navigation={this.props.navigation}
               />
             </View>
-          </View>
+          </Animated.View>
 
           {/* Modal */}
           <Modal

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         zIndex: 3,
-        marginTop: -25,
+        marginTop: -27,
     },
     titleText: {
         fontSize: 24,
