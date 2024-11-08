@@ -19,6 +19,7 @@ import {
     toTvShowElement,
     toPersonElement,
 } from '@shared/utils';
+import { toPersonElementBase } from './PersonConverter';
 
 export function getFormattedDate(date?: Date): string {
     if (!date) {
@@ -197,9 +198,15 @@ export function toMultiSearchElement(val: any): MultiSearchElement {
             ...toTvShowElement(val),
         };
     }
+    if ('known_for' in val) {
+        return {
+            mediaType: val['media_type'],
+            ...toPersonElement(val),
+        };
+    }
     return {
         mediaType: val['media_type'],
-        ...toPersonElement(val),
+        ...toPersonElementBase(val),
     };
 }
 

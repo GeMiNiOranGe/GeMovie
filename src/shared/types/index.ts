@@ -5,6 +5,7 @@ import type { PaginationResponseWrapper } from '@services';
 import type {
     CompanyElement,
     PersonElement,
+    PersonElementBase,
     MovieElement,
     TvShowElement,
 } from '@shared/types';
@@ -84,6 +85,10 @@ export type VideoType = 'movie' | 'tv';
 
 export type PopularType = 'movie' | 'tv' | 'person';
 
+export type TrendingType = 'all' | 'movie' | 'tv' | 'person';
+
+export type TimeWindow = 'day' | 'week';
+
 export type Variant =
     | 'Linear'
     | 'Outline'
@@ -160,6 +165,7 @@ export type MultiSearchElement = (
     | MovieElement
     | TvShowElement
     | PersonElement
+    | PersonElementBase
 ) &
     Media;
 

@@ -1,4 +1,10 @@
-import type { Cast, Credits, Crew, PersonElement } from '@shared/types';
+import type {
+    Cast,
+    Credits,
+    Crew,
+    PersonElement,
+    PersonElementBase,
+} from '@shared/types';
 import { toMediaElement } from '@shared/utils';
 
 export function toPersonElement(val: any): PersonElement {
@@ -14,6 +20,19 @@ export function toPersonElement(val: any): PersonElement {
         knownFor: Array.from(val['known_for']).map(element =>
             toMediaElement(element),
         ),
+    };
+}
+
+export function toPersonElementBase(val: any): PersonElementBase {
+    return {
+        adult: val.adult,
+        gender: val.gender,
+        id: val.id,
+        knownForDepartment: val['known_for_department'],
+        name: val.name,
+        originalName: val['original_name'],
+        popularity: val.popularity,
+        profilePath: val['profile_path'] ?? undefined,
     };
 }
 

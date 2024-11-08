@@ -4,6 +4,8 @@ import type {
     DetailType,
     PopularType,
     SearchType,
+    TimeWindow,
+    TrendingType,
     VideoType,
 } from '@shared/types';
 
@@ -74,7 +76,7 @@ export default class URLBuilder {
     }
 
     /**
-     * Build popular movie list url
+     * Build popular list url
      * @param type `"movie"` | `"tv"` | `"person"`
      * @param params
      */
@@ -83,6 +85,40 @@ export default class URLBuilder {
         params: URLSearchParams,
     ): string {
         return `${TMDB_BASE_URL}/${type}/popular?api_key=${TMDB_API_KEY}&${params}`;
+    }
+
+    /**
+     * Build a film rating list url
+     * @param type `"movie"` | `"tv"` | `"person"`
+     * @param params
+     */
+    public static buildTopRatedURL(
+        type: VideoType,
+        params: URLSearchParams,
+    ): string {
+        return `${TMDB_BASE_URL}/${type}/top_rated?api_key=${TMDB_API_KEY}&${params}`;
+    }
+
+    /**
+     * Build trending list url
+     * @param type `"all"` | `"movie"` | `"tv"` | `"person"`
+     * @param timeWindow `"day"` | `"week"`
+     * @param params
+     */
+    public static buildTrendingURL(
+        type: TrendingType,
+        timeWindow: TimeWindow,
+        params: URLSearchParams,
+    ): string {
+        return `${TMDB_BASE_URL}/trending/${type}/${timeWindow}?api_key=${TMDB_API_KEY}&${params}`;
+    }
+
+    /**
+     * Build upcoming movies list url
+     * @param params
+     */
+    public static buildUpcomingURL(params: URLSearchParams): string {
+        return `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}&${params}`;
     }
 
     /**

@@ -11,12 +11,24 @@ import { Star1 } from 'iconsax-react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
-import { PersonService, URLBuilder, VideoService } from '@services';
+import {
+  MediaService,
+  MovieService,
+  PersonService,
+  URLBuilder,
+  VideoService,
+} from '@services';
 import { Slideshow } from '@components';
 import type { RootScreenProps, HomeScreenState } from '@shared/types';
 import { colors, layout } from '@shared/themes';
-import { toMovieElement, toTvShowElement } from '@shared/utils';
+import {
+  getFormattedDate,
+  isMovieElement,
+  isTvShowElement,
+  toMovieElement,
+  toMultiSearchElement,
+  toTvShowElement,
+} from '@shared/utils';
 import styles from './style';
 
 class HomeScreen extends React.Component<
@@ -38,44 +50,30 @@ class HomeScreen extends React.Component<
   }
 
   public override async componentDidMount() {
-    const upcomingMoviesUrl = `${TMDB_BASE_URL}/movie/upcoming?api_key=${TMDB_API_KEY}`;
-    const topRatedUrl = `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}`;
-    const trendUrl = `${TMDB_BASE_URL}/trending/all/day?api_key=${TMDB_API_KEY}&language=en-US`;
-
     try {
-      const [movies, tvShows, people] = await Promise.all([
-        VideoService.getPopularListAsync('movie', toMovieElement),
-        VideoService.getPopularListAsync('tv', toTvShowElement),
-        PersonService.getPopularListAsync(),
-      ]);
+      const [movies, tvShows, people, topRated, trend, upcomingMovies] =
+        await Promise.all([
+          VideoService.getPopularListAsync('movie', toMovieElement),
+          VideoService.getPopularListAsync('tv', toTvShowElement),
+          PersonService.getPopularListAsync(),
+          VideoService.getTopRatedAsync('movie', toMovieElement),
+          MediaService.getTrendingAsync('all', 'day', toMultiSearchElement),
+          MovieService.getUpcomingAsync(),
+        ]);
 
       this.setState({
         movies: movies.getResults(),
         tvShows: tvShows.getResults(),
         people: people.getResults(),
-        // isLoading: false,
+        topRated: topRated.getResults(),
+        trend: trend.getResults(),
+        upcomingMovies: upcomingMovies.getResults(),
+        isLoading: false,
       });
     } catch (error) {
+      console.error('Error fetching data:', error);
       this.setState({ isLoading: false });
     }
-
-    Promise.all([
-      fetch(upcomingMoviesUrl).then(response => response.json()),
-      fetch(topRatedUrl).then(response => response.json()),
-      fetch(trendUrl).then(response => response.json()),
-    ])
-      .then(([upcomingMoviesData, topRatedData, trendData]) => {
-        this.setState({
-          upcomingMovies: upcomingMoviesData.results,
-          topRated: topRatedData.results,
-          trend: trendData.results,
-          isLoading: false,
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        this.setState({ isLoading: false });
-      });
   }
 
   public override render() {
@@ -88,13 +86,13 @@ class HomeScreen extends React.Component<
     }
 
     const upcomingMoviesImages = this.state.upcomingMovies.map(movie =>
-      URLBuilder.buildImageURL('w780', movie.backdrop_path),
+      URLBuilder.buildImageURL('w780', movie.backdropPath),
     );
     const upcomingMoviesTitles = this.state.upcomingMovies.map(
       movie => movie.title,
     );
-    const upcomingMoviesReleaseDates = this.state.upcomingMovies.map(
-      movie => movie.release_date,
+    const upcomingMoviesReleaseDates = this.state.upcomingMovies.map(movie =>
+      getFormattedDate(movie.releaseDate),
     );
     const upcomingMoviesIds = this.state.upcomingMovies.map(movie => movie.id);
 
@@ -229,7 +227,7 @@ class HomeScreen extends React.Component<
               renderItem={({ item, index }) => {
                 const imageUrl = URLBuilder.buildImageURL(
                   'w185',
-                  item.poster_path,
+                  item.posterPath,
                 );
                 return (
                   <TouchableOpacity
@@ -273,16 +271,19 @@ class HomeScreen extends React.Component<
               horizontal
               keyExtractor={item => item.id.toString()}
               renderItem={({ item }) => {
-                const imageUrl = URLBuilder.buildImageURL(
-                  'w185',
-                  item.poster_path,
-                );
+                let imageUrl: string = '';
+
+                if (isMovieElement(item) || isTvShowElement(item)) {
+                  imageUrl = URLBuilder.buildImageURL('w185', item.posterPath);
+                }
+
                 const mediaTypeLabel =
-                  item.media_type === 'movie' ? 'Movie' : 'TV Show';
+                  item.mediaType === 'movie' ? 'Movie' : 'TV Show';
+
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      if (item.media_type === 'movie') {
+                      if (item.mediaType === 'movie') {
                         this.props.navigation.navigate('MovieDetailScreen', {
                           movieId: item.id,
                         });

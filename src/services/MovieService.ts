@@ -4,8 +4,8 @@ import {
     SearchService,
     URLBuilder,
 } from '@services';
-import { toMovie, toMovieElement } from '@shared/utils';
-import type { Movie, MovieElement } from '@shared/types';
+import { toMovie, toMovieElement, toPaginationResponse } from '@shared/utils';
+import type { Movie, MovieElement, PaginationResponse } from '@shared/types';
 
 export default class MovieService {
     /**
@@ -34,5 +34,23 @@ export default class MovieService {
             '&append_to_response=keywords';
         const json = await APIHandler.fetchJSON(url);
         return toMovie(json);
+    }
+
+    /**
+     * Get a list of movies that are being released soon.
+     * @param id movie id
+     */
+    public static async getUpcomingAsync(
+        page: number = 1,
+    ): Promise<PaginationResponseWrapper<MovieElement>> {
+        const params = new URLSearchParams({
+            page: `${page}`,
+        });
+        const url = URLBuilder.buildUpcomingURL(params);
+        const json = await APIHandler.fetchJSON(url);
+        const response: PaginationResponse<MovieElement> =
+            toPaginationResponse(json);
+
+        return new PaginationResponseWrapper(response, toMovieElement);
     }
 }

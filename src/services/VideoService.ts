@@ -75,4 +75,25 @@ export default class VideoService {
 
         return new PaginationResponseWrapper(response, elementConvertFn);
     }
+
+    /**
+     * Get a list of movies ordered by rating.
+     * @param type `"movie"` | `"tv"`
+     * @param page page number
+     */
+    public static async getTopRatedAsync<T>(
+        type: VideoType,
+        elementConvertFn: (val: any) => T,
+        page: number = 1,
+    ): Promise<PaginationResponseWrapper<T>> {
+        const params = new URLSearchParams({
+            page: `${page}`,
+        });
+
+        const url = URLBuilder.buildTopRatedURL(type, params);
+        const json = await APIHandler.fetchJSON(url);
+        const response: PaginationResponse<T> = toPaginationResponse(json);
+
+        return new PaginationResponseWrapper(response, elementConvertFn);
+    }
 }
