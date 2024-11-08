@@ -71,32 +71,16 @@ class AllPerson extends React.Component<
     this.setState({ isModalVisible: false });
   };
 
-  protected handleMouseEnter = (index: number) => {
-    Animated.timing(this.state.scaleAnim[index], {
-      toValue: 1.1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  protected handleMouseLeave = (index: number) => {
-    Animated.timing(this.state.scaleAnim[index], {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  };
-
   public renderItem = ({ item, index }: { item: Person; index: number }) => {
-    const opacity = this.state.scrollY.interpolate({
-      inputRange: [(index - 1) * 100, index * 100, (index + 1) * 100],
-      outputRange: [1, 0.3, 0.4],
-      extrapolate: 'clamp',
-    });
-
+    const CARD_HEIGHT = 120;
+    const inputRange = [
+      (index - 1) * CARD_HEIGHT,
+      index * CARD_HEIGHT,
+      (index + 1) * CARD_HEIGHT,
+    ];
     const animatedScale = this.state.scrollY.interpolate({
-      inputRange: [(index - 1) * 100, index * 100, (index + 1) * 100],
-      outputRange: [1, 0.8, 1],
+      inputRange,
+      outputRange: [0.9, 1.1, 0.9],
       extrapolate: 'clamp',
     });
 
@@ -109,8 +93,6 @@ class AllPerson extends React.Component<
           })
         }
         style={styles.containerItem}
-        onPressIn={() => this.handleMouseEnter(index)}
-        onPressOut={() => this.handleMouseLeave(index)}
       >
         <Animated.Image
           source={{
@@ -120,7 +102,6 @@ class AllPerson extends React.Component<
             styles.movieThumbnail,
             {
               transform: [{ scale: animatedScale }],
-              opacity,
             },
           ]}
         />

@@ -22,13 +22,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: outerRadius,
         paddingVertical: paddingCard,
-        marginBottom: spacing.medium,
+        marginBottom: spacing.large,
         backgroundColor: colors.primary,
     },
     movieThumbnail: {
         ...imageDimensions,
         borderRadius: innerRadius,
         marginLeft: paddingCard,
+        opacity: 0.9,
     },
     crownOverlay: {
         position: 'absolute',
