@@ -215,7 +215,7 @@ class HomeScreen extends React.Component<
     if (this.state.isLoading) {
       return (
         <ActivityIndicator
-          style={[layout.flex1, layout.center, styles.loading]}
+          style={[layout.flex1, layout.center, styles.activityIndicator]}
           size='large'
         />
       );
@@ -234,7 +234,7 @@ class HomeScreen extends React.Component<
 
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.header}>
+        <View style={styles.slideshow}>
           <Slideshow
             images={upcomingMoviesImages}
             titles={upcomingMoviesTitles}
@@ -257,7 +257,7 @@ class HomeScreen extends React.Component<
         >
           <Section.HorizontalList
             keyExtractor={item => item.id.toString()}
-            data={this.state.trend.slice(0, 10)}
+            data={this.state.trend}
             renderItem={this.renderTrendingItem}
           />
         </Section>
@@ -329,4 +329,5 @@ class HomeScreen extends React.Component<
     );
   }
 }
+
 export default HomeScreen;

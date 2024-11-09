@@ -9,6 +9,7 @@ const profileDimensions = calculateImageDimensions(128, 3, 4);
 const styles = StyleSheet.create({
     card: {
         width: profileDimensions.width,
+        borderRadius: 8,
         backgroundColor: colors.background,
         overflow: 'hidden',
     },

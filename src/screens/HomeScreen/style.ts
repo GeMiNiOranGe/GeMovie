@@ -7,13 +7,13 @@ const height = Dimensions.get('window').height;
 const thumbnail = calculateImageDimensions(144, 2, 3);
 
 const styles = StyleSheet.create({
-    loading: {
+    activityIndicator: {
         backgroundColor: colors.primary,
     },
     container: {
         backgroundColor: colors.primary,
     },
-    header: {
+    slideshow: {
         height: height * 0.55,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,

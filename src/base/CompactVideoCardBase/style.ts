@@ -10,7 +10,7 @@ const horizontalPoster = calculateImageDimensions(80, 2, 3);
 const styles = StyleSheet.create({
     card: {
         width: posterDimensions.width,
-        borderRadius: spacing.small,
+        borderRadius: 8,
         overflow: 'hidden',
         backgroundColor: colors.background,
     },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
 export const horizontal = StyleSheet.create({
     card: {
-        borderRadius: spacing.medium,
+        borderRadius: 12,
         overflow: 'hidden',
         backgroundColor: colors.primary,
     },
