@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 import { colors } from '@shared/themes';
 import { calculateImageDimensions } from '@shared/utils';
 
-const { width, height } = Dimensions.get('window');
+const height = Dimensions.get('window').height;
 const thumbnail = calculateImageDimensions(144, 2, 3);
 
 const styles = StyleSheet.create({
@@ -17,16 +17,6 @@ const styles = StyleSheet.create({
         height: height * 0.55,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
-    },
-    celebrityItem: {
-        marginRight: 10,
-        alignItems: 'center',
-        height: 100,
-    },
-    celebrityThumbnail: {
-        width: width * 0.25,
-        height: height * 0.15,
-        borderRadius: 60,
     },
     genreTag: {
         position: 'absolute',

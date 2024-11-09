@@ -57,8 +57,8 @@ class PersonDetailCard extends React.PureComponent<
             numberOfLines={1}
           >
             {this.props.item.knownForDepartment}
-            {' - '}
             <Text style={styles.subtext}>
+              {' - '}
               {getFormattedGender(this.props.item.gender)}
             </Text>
           </Text>

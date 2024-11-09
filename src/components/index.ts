@@ -13,6 +13,7 @@ export { default as Youtube } from './Youtube';
 export { default as Section } from './Section';
 export { default as CompactMovieCard } from './CompactMovieCard';
 export { default as CompactTvShowCard } from './CompactTvShowCard';
+export { default as CompactPersonCard } from './CompactPersonCard';
 export { default as SimpleCompanyCard } from './SimpleCompanyCard';
 export { default as Recommendation } from './Recommendation';
 export { default as Credit } from './Credit';

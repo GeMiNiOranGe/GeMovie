@@ -18,6 +18,7 @@ import {
 } from '@services';
 import {
   CompactMovieCard,
+  CompactPersonCard,
   CompactTvShowCard,
   Section,
   Slideshow,
@@ -130,21 +131,19 @@ class HomeScreen extends React.Component<
 
   private renderPopularPersonItem({
     item,
+    index,
   }: ListRenderItemInfo<PersonElement>): React.JSX.Element {
-    const imageUrl = URLBuilder.buildImageURL('w185', item.profilePath);
     return (
-      <TouchableOpacity
-        key={item.id}
+      <CompactPersonCard
+        item={item}
+        index={index}
+        listLength={this.state.people.length}
         onPress={() =>
           this.props.navigation.navigate('PersonDetailScreen', {
             personId: item.id,
           })
         }
-      >
-        <View style={styles.celebrityItem}>
-          <Image source={{ uri: imageUrl }} style={styles.celebrityThumbnail} />
-        </View>
-      </TouchableOpacity>
+      />
     );
   }
 
@@ -306,7 +305,7 @@ class HomeScreen extends React.Component<
         >
           <Section.HorizontalList
             keyExtractor={item => item.id.toString()}
-            data={this.state.people.slice(0, 10)}
+            data={this.state.people}
             renderItem={this.renderPopularPersonItem}
           />
         </Section>
