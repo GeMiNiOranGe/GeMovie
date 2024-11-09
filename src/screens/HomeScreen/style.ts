@@ -1,69 +1,22 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
 import { colors } from '@shared/themes';
+import { calculateImageDimensions } from '@shared/utils';
 
 const { width, height } = Dimensions.get('window');
+const thumbnail = calculateImageDimensions(144, 2, 3);
 
 const styles = StyleSheet.create({
     loading: {
-        backgroundColor: '#000',
+        backgroundColor: colors.primary,
     },
     container: {
-        flex: 1,
         backgroundColor: colors.primary,
     },
     header: {
         height: height * 0.55,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
-    },
-    content: {
-        flex: 3,
-        width: '100%',
-        height: '50%',
-        paddingHorizontal: 10,
-        position: 'relative',
-    },
-    movieList: {
-        flexDirection: 'row',
-        paddingTop: 10,
-    },
-    movieThumbnail: {
-        width: width * 0.3,
-        height: height / 4,
-        marginRight: 20,
-        borderRadius: 20,
-        resizeMode: 'cover',
-    },
-    movieItem: {
-        alignItems: 'center',
-    },
-    movieTitle: {
-        color: '#fff',
-        marginTop: 5,
-        fontSize: 15,
-        textAlign: 'center',
-        marginRight: 10,
-    },
-    section: {
-        flex: 3.5,
-        width: '100%',
-        height: '80%',
-        paddingHorizontal: 10,
-    },
-    containerSectionTitle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 5,
-    },
-    sectionTitle: {
-        color: colors.text,
-        fontSize: 18,
-        marginTop: 5,
-    },
-    celebrityList: {
-        flexDirection: 'row',
-        top: 4,
     },
     celebrityItem: {
         marginRight: 10,
@@ -75,56 +28,15 @@ const styles = StyleSheet.create({
         height: height * 0.15,
         borderRadius: 60,
     },
-    celebrityName: {
-        color: '#fff',
-        marginTop: 4,
-        fontSize: 15,
-        textAlign: 'center',
-    },
-    scrollContent: {
-        flex: 1,
-        paddingBottom: 20,
-    },
-    containerTV: {
-        flex: 1,
-        marginTop: 15,
-        marginBottom: 10,
-        position: 'relative',
-    },
-    TvList: {
-        flexDirection: 'row',
-        paddingTop: 10,
-    },
-    TvThumbnail: {
-        width: width * 0.3,
-        height: height / 4,
-        marginRight: 10,
-        borderRadius: 20,
-        resizeMode: 'stretch',
-    },
-    percentVote: {
-        height: 30,
-        width: 30,
-        borderRadius: 20,
-        borderWidth: 1,
-        alignItems: 'center',
-        backgroundColor: '#006633',
-        borderColor: '#006633',
-        position: 'absolute',
-        marginTop: 5,
-    },
     genreTag: {
         position: 'absolute',
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#fdfefe',
+        backgroundColor: colors.neutral,
         paddingHorizontal: 8,
         paddingVertical: 3,
-        borderRadius: 6,
+        borderRadius: 8,
         zIndex: 1,
-    },
-    tagIcon: {
-        marginRight: 4,
     },
     mediaType: {
         fontSize: 10,
@@ -134,31 +46,24 @@ const styles = StyleSheet.create({
     topRatedItemContainer: {
         position: 'relative',
         flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 30,
+        marginLeft: 24,
     },
     Thumbnail: {
-        width: width * 0.4,
-        height: height / 3,
-        marginRight: 20,
-        borderRadius: 20,
+        ...thumbnail,
+        borderRadius: 8,
         resizeMode: 'cover',
     },
     rankingIcon: {
         position: 'absolute',
-        top: 6,
-        right: 105,
-        width: width * 0.3,
-        height: height / 3,
+        left: -24,
+        ...thumbnail,
         justifyContent: 'flex-end',
-        alignItems: 'center',
     },
     rankingText: {
         color: '#000000',
         fontFamily: '',
-        fontSize: 80,
+        fontSize: 88,
         fontWeight: 'bold',
-        borderColor: 'black',
     },
     textWithBorder: {
         textShadowColor: '#fff',
