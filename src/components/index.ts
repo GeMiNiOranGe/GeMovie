@@ -12,6 +12,7 @@ export { default as SearchResultsTabBar } from './SearchResultsTabBar';
 export { default as Youtube } from './Youtube';
 export { default as Section } from './Section';
 export { default as CompactMovieCard } from './CompactMovieCard';
+export { default as CompactMovieRankCard } from './CompactMovieRankCard';
 export { default as CompactTvShowCard } from './CompactTvShowCard';
 export { default as CompactPersonCard } from './CompactPersonCard';
 export { default as SimpleCompanyCard } from './SimpleCompanyCard';

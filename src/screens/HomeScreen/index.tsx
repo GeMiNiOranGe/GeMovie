@@ -18,6 +18,7 @@ import {
 } from '@services';
 import {
   CompactMovieCard,
+  CompactMovieRankCard,
   CompactPersonCard,
   CompactTvShowCard,
   Section,
@@ -151,6 +152,20 @@ class HomeScreen extends React.Component<
     item,
     index,
   }: ListRenderItemInfo<MultiSearchElement>): React.JSX.Element {
+    if (isMovieElement(item)) {
+      return (
+        <CompactMovieRankCard
+          item={item}
+          index={index}
+          listLength={this.state.trend.length}
+          onPress={() =>
+            this.props.navigation.navigate('MovieDetailScreen', {
+              movieId: item.id,
+            })
+          }
+        />
+      );
+    }
     let imageUrl: string = '';
 
     if (isMovieElement(item) || isTvShowElement(item)) {
