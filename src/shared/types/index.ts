@@ -126,7 +126,7 @@ export type PaginationResponse<T> = {
     totalResults: number;
 };
 
-export type CardElement = MediaElementBase | PersonElement | CompanyElement;
+export type CardElement = MediaElementBase | PersonElementBase | CompanyElement;
 
 export type MediaElementBase = {
     adult: boolean;

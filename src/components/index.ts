@@ -16,6 +16,7 @@ export { default as CompactMovieRankCard } from './CompactMovieRankCard';
 export { default as CompactTvShowCard } from './CompactTvShowCard';
 export { default as CompactTvShowRankCard } from './CompactTvShowRankCard';
 export { default as CompactPersonCard } from './CompactPersonCard';
+export { default as CompactPersonRankCard } from './CompactPersonRankCard';
 export { default as SimpleCompanyCard } from './SimpleCompanyCard';
 export { default as Recommendation } from './Recommendation';
 export { default as Credit } from './Credit';

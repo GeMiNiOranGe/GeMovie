@@ -14,10 +14,19 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     profileBox: {
-        marginBottom: spacing.tiny,
+        marginBottom: spacing.extraLarge,
     },
     profile: {
         ...profileDimensions,
+    },
+    rankBox: {
+        bottom: -32,
+        marginLeft: spacing.small,
+    },
+    rank: {
+        color: colors.text,
+        fontSize: 56,
+        fontWeight: 'bold',
     },
     content: {
         paddingHorizontal: spacing.small,
@@ -30,6 +39,11 @@ const styles = StyleSheet.create({
     subtext: {
         fontSize: 14,
         color: colors.subtext,
+    },
+    textWithBorder: {
+        textShadowColor: '#fff',
+        textShadowOffset: { width: -1, height: 1 },
+        textShadowRadius: 10,
     },
 });
 

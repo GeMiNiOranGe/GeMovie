@@ -1,5 +1,5 @@
 import React from 'react';
-import { type ListRenderItemInfo, ScrollView, Text, View } from 'react-native';
+import { type ListRenderItemInfo, ScrollView, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
 import {
@@ -13,6 +13,7 @@ import {
   CompactMovieCard,
   CompactMovieRankCard,
   CompactPersonCard,
+  CompactPersonRankCard,
   CompactTvShowCard,
   CompactTvShowRankCard,
   Section,
@@ -174,7 +175,18 @@ class HomeScreen extends React.Component<
         />
       );
     }
-    return <Text>Compact person rank card</Text>;
+    return (
+      <CompactPersonRankCard
+        item={item}
+        index={index}
+        listLength={this.state.trend.length}
+        onPress={() =>
+          this.props.navigation.navigate('PersonDetailScreen', {
+            personId: item.id,
+          })
+        }
+      />
+    );
   }
 
   private renderTopRatedItem({
