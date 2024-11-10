@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  type ListRenderItemInfo,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { type ListRenderItemInfo, ScrollView, Text, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
 import {
@@ -21,6 +14,7 @@ import {
   CompactMovieRankCard,
   CompactPersonCard,
   CompactTvShowCard,
+  CompactTvShowRankCard,
   Section,
   Slideshow,
 } from '@components';
@@ -166,46 +160,21 @@ class HomeScreen extends React.Component<
         />
       );
     }
-    let imageUrl: string = '';
-
-    if (isMovieElement(item) || isTvShowElement(item)) {
-      imageUrl = URLBuilder.buildImageURL('w185', item.posterPath);
-    }
-
-    const mediaTypeLabel = item.mediaType === 'movie' ? 'Movie' : 'TV Show';
-
-    const marginRight =
-      index === this.state.trend.slice(0, 10).length - 1 ? 0 : 8;
-
-    return (
-      <TouchableOpacity
-        style={{ marginRight }}
-        onPress={() => {
-          if (item.mediaType === 'movie') {
-            this.props.navigation.navigate('MovieDetailScreen', {
-              movieId: item.id,
-            });
-          } else {
+    if (isTvShowElement(item)) {
+      return (
+        <CompactTvShowRankCard
+          item={item}
+          index={index}
+          listLength={this.state.trend.length}
+          onPress={() =>
             this.props.navigation.navigate('TvShowDetailScreen', {
               tvShowId: item.id,
-            });
+            })
           }
-        }}
-      >
-        <View style={styles.topRatedItemContainer}>
-          <Image source={{ uri: imageUrl }} style={styles.Thumbnail} />
-          <View style={styles.rankingIcon}>
-            <Text style={[styles.rankingText, styles.textWithBorder]}>
-              {index + 1}
-            </Text>
-          </View>
-        </View>
-
-        <View style={[styles.topRatedItemContainer, styles.genreTag]}>
-          <Text style={styles.mediaType}>{mediaTypeLabel}</Text>
-        </View>
-      </TouchableOpacity>
-    );
+        />
+      );
+    }
+    return <Text>Compact person rank card</Text>;
   }
 
   private renderTopRatedItem({
