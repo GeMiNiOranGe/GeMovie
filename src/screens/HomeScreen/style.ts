@@ -16,5 +16,9 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
     },
+    text: {
+        fontSize: 14,
+        color: colors.text,
+    },
 });
 export default styles;

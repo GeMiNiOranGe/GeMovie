@@ -10,7 +10,7 @@ import type {
     MediaElement,
     Movie,
     MovieElement,
-    MultiSearchElement,
+    MultiMediaElement,
     Person,
     PersonImage,
     PersonElement,
@@ -89,7 +89,7 @@ export type HomeScreenState = {
     upcomingMovies: MovieElement[];
     tvShows: TvShowElement[];
     topRated: MovieElement[];
-    trend: MultiSearchElement[];
+    trend: MultiMediaElement[];
     isLoading: boolean;
 };
 

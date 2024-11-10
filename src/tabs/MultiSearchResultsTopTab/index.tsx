@@ -9,36 +9,37 @@ import {
 } from '@components';
 import { SearchService, type PaginationResponseWrapper } from '@services';
 import type {
-  MultiSearchElement,
+  MultiMediaElement,
   SearchResultsTopTabBaseProps,
 } from '@shared/types';
 import {
   isMovieElement,
+  isPersonElement,
   isTvShowElement,
-  toMultiSearchElement,
+  toMultiMediaElement,
 } from '@shared/utils';
 
 async function searchMultiAsync(
   text: string,
   page: number = 1,
-): Promise<PaginationResponseWrapper<MultiSearchElement>> {
+): Promise<PaginationResponseWrapper<MultiMediaElement>> {
   const params = new URLSearchParams({
     query: text,
     page: `${page}`,
   });
-  return await SearchService.searchAsync('multi', params, toMultiSearchElement);
+  return await SearchService.searchAsync('multi', params, toMultiMediaElement);
 }
 
-class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElement> {
+class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiMediaElement> {
   public constructor(props: SearchResultsTopTabBaseProps) {
     super(props, searchMultiAsync);
   }
 
-  protected override keyExtractor(item: MultiSearchElement): string {
+  protected override keyExtractor(item: MultiMediaElement): string {
     return item.id.toString();
   }
 
-  protected override renderItem: ListRenderItem<MultiSearchElement> = ({
+  protected override renderItem: ListRenderItem<MultiMediaElement> = ({
     item,
     index,
   }) => {
@@ -56,6 +57,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElemen
         />
       );
     }
+
     if (isTvShowElement(item)) {
       return (
         <TvShowDetailCard
@@ -70,18 +72,23 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiSearchElemen
         />
       );
     }
-    return (
-      <PersonDetailCard
-        item={item}
-        index={index}
-        listLength={this.state.results?.length}
-        onPress={() => {
-          this.props.navigation.navigate('PersonDetailScreen', {
-            personId: item.id,
-          });
-        }}
-      />
-    );
+
+    if (isPersonElement(item)) {
+      return (
+        <PersonDetailCard
+          item={item}
+          index={index}
+          listLength={this.state.results?.length}
+          onPress={() => {
+            this.props.navigation.navigate('PersonDetailScreen', {
+              personId: item.id,
+            });
+          }}
+        />
+      );
+    }
+
+    return null;
   };
 }
 

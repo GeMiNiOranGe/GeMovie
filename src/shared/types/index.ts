@@ -4,7 +4,6 @@ import type { DebouncedFunc } from 'lodash';
 import type { PaginationResponseWrapper } from '@services';
 import type {
     CompanyElement,
-    PersonElement,
     PersonElementBase,
     MovieElement,
     TvShowElement,
@@ -161,13 +160,7 @@ export type VideoGenreIds = {
 
 export type VideoElement = VideoElementBase & VideoGenreIds;
 
-export type MultiSearchElement = (
-    | MovieElement
-    | TvShowElement
-    | PersonElement
-    | PersonElementBase
-) &
-    Media;
+export type MultiMediaElement = (VideoElementBase | PersonElementBase) & Media;
 
 export type Genre = {
     id: number;

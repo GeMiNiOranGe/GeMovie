@@ -1,5 +1,5 @@
 import React from 'react';
-import { type ListRenderItemInfo, ScrollView, View } from 'react-native';
+import { type ListRenderItemInfo, ScrollView, Text, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
 import {
@@ -24,16 +24,17 @@ import type {
   HomeScreenState,
   MovieElement,
   TvShowElement,
-  MultiSearchElement,
+  MultiMediaElement,
   PersonElement,
 } from '@shared/types';
 import { layout } from '@shared/themes';
 import {
   getFormattedDate,
   isMovieElement,
+  isPersonElement,
   isTvShowElement,
   toMovieElement,
-  toMultiSearchElement,
+  toMultiMediaElement,
   toTvShowElement,
 } from '@shared/utils';
 import styles from './style';
@@ -70,7 +71,7 @@ class HomeScreen extends React.Component<
           VideoService.getPopularListAsync('tv', toTvShowElement),
           PersonService.getPopularListAsync(),
           VideoService.getTopRatedAsync('movie', toMovieElement),
-          MediaService.getTrendingAsync('all', 'day', toMultiSearchElement),
+          MediaService.getTrendingAsync('all', 'day', toMultiMediaElement),
           MovieService.getUpcomingAsync(),
         ]);
 
@@ -146,7 +147,7 @@ class HomeScreen extends React.Component<
   private renderTrendingItem({
     item,
     index,
-  }: ListRenderItemInfo<MultiSearchElement>): React.JSX.Element {
+  }: ListRenderItemInfo<MultiMediaElement>): React.JSX.Element {
     if (isMovieElement(item)) {
       return (
         <CompactMovieRankCard
@@ -161,6 +162,7 @@ class HomeScreen extends React.Component<
         />
       );
     }
+
     if (isTvShowElement(item)) {
       return (
         <CompactTvShowRankCard
@@ -175,18 +177,23 @@ class HomeScreen extends React.Component<
         />
       );
     }
-    return (
-      <CompactPersonRankCard
-        item={item}
-        index={index}
-        listLength={this.state.trend.length}
-        onPress={() =>
-          this.props.navigation.navigate('PersonDetailScreen', {
-            personId: item.id,
-          })
-        }
-      />
-    );
+
+    if (isPersonElement(item)) {
+      return (
+        <CompactPersonRankCard
+          item={item}
+          index={index}
+          listLength={this.state.trend.length}
+          onPress={() =>
+            this.props.navigation.navigate('PersonDetailScreen', {
+              personId: item.id,
+            })
+          }
+        />
+      );
+    }
+
+    return <Text style={styles.text}>No matching element</Text>;
   }
 
   private renderTopRatedItem({

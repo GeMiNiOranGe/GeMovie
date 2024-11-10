@@ -5,7 +5,7 @@ import type {
     MediaElement,
     Media,
     MovieElement,
-    MultiSearchElement,
+    MultiMediaElement,
     ProductionCountryElement,
     PaginationResponse,
     Language,
@@ -13,6 +13,7 @@ import type {
     Images,
     MediaImage,
     Keyword,
+    PersonElement,
 } from '@shared/types';
 import {
     toMovieElement,
@@ -125,7 +126,7 @@ export function isMovieElement(
 ): element is MovieElement & Media;
 
 export function isMovieElement(
-    element: MultiSearchElement,
+    element: MultiMediaElement,
 ): element is MovieElement & Media;
 
 export function isMovieElement(
@@ -138,9 +139,15 @@ export function isMovieElement(
 }
 
 export function isTvShowElement(
-    element: MultiSearchElement,
+    element: MultiMediaElement,
 ): element is TvShowElement & Media {
     return element?.mediaType === 'tv';
+}
+
+export function isPersonElement(
+    element: MultiMediaElement,
+): element is PersonElement & Media {
+    return element?.mediaType === 'person';
 }
 
 export function toPaginationResponse<T>(val: any): PaginationResponse<T> {
@@ -185,7 +192,7 @@ export function toMediaElement(val: any): MediaElement {
     };
 }
 
-export function toMultiSearchElement(val: any): MultiSearchElement {
+export function toMultiMediaElement(val: any): MultiMediaElement {
     if (val['media_type'] === 'movie') {
         return {
             mediaType: val['media_type'],
@@ -198,7 +205,7 @@ export function toMultiSearchElement(val: any): MultiSearchElement {
             ...toTvShowElement(val),
         };
     }
-    if ('known_for' in val) {
+    if (val['media_type'] === 'person' && 'known_for' in val) {
         return {
             mediaType: val['media_type'],
             ...toPersonElement(val),

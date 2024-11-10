@@ -4,7 +4,7 @@ import { calculateImageDimensions } from '@shared/utils';
 import { colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 
-const profileDimensions = calculateImageDimensions(144, 3, 4);
+const profileDimensions = calculateImageDimensions(144, 2, 3);
 
 const styles = StyleSheet.create({
     card: {
