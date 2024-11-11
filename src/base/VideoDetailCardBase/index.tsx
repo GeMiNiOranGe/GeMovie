@@ -82,7 +82,7 @@ abstract class VideoDetailCardBase<
             <ImageIcon size='48' color='black' />
           )}
 
-          {this.props.showMedal && (
+          {this.props.showRank && (
             <View style={StyleSheet.absoluteFill}>
               {super.renderMedalIcon(medalIconSize)}
             </View>

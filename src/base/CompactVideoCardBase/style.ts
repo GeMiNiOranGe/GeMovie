@@ -6,32 +6,32 @@ import { colors } from '@shared/themes';
 
 const posterDimensions = calculateImageDimensions(144, 2, 3);
 const horizontalPoster = calculateImageDimensions(80, 2, 3);
+const cardRadius = 8;
 
 const styles = StyleSheet.create({
     card: {
         width: posterDimensions.width,
-        borderRadius: 8,
+        borderRadius: cardRadius,
         overflow: 'hidden',
         backgroundColor: colors.background,
-    },
-    posterBox: {
-        marginBottom: spacing.small,
     },
     poster: {
         ...posterDimensions,
     },
-    ratingBox: {
-        backgroundColor: colors.secondary,
-        borderRadius: 4,
-        marginBottom: spacing.small,
+    rankBox: {
         marginLeft: spacing.small,
+        bottom: -32,
+    },
+    mediaTypeBox: {
+        borderBottomLeftRadius: cardRadius,
+        backgroundColor: colors.neutral,
         paddingHorizontal: spacing.small,
         paddingVertical: spacing.tiny,
+        elevation: 4,
     },
-    ratingText: {
-        color: colors.primary,
-        fontSize: 12,
-        marginLeft: spacing.tiny,
+    mediaTypeText: {
+        fontSize: 10,
+        color: colors.text,
     },
     content: {
         paddingHorizontal: spacing.small,

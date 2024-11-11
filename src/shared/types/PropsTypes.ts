@@ -75,7 +75,9 @@ export type CompactCardProps<E extends CardElement> = CardBaseProps<E>;
 export type SimpleCardProps<E extends CardElement> = CardBaseProps<E>;
 
 export type VideoCardBaseProps<E extends VideoElement> = CardBaseProps<E> & {
-    showMedal?: boolean | undefined;
+    showMediaType?: boolean | undefined;
+    showRank?: boolean | undefined;
+    rankType?: 'icon-medal' | 'number';
 };
 
 // TODO: rename `icon` to `Icon`

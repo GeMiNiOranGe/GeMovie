@@ -11,11 +11,9 @@ import {
 } from '@services';
 import {
   CompactMovieCard,
-  CompactMovieRankCard,
   CompactPersonCard,
   CompactPersonRankCard,
   CompactTvShowCard,
-  CompactTvShowRankCard,
   Section,
   Slideshow,
 } from '@components';
@@ -150,7 +148,9 @@ class HomeScreen extends React.Component<
   }: ListRenderItemInfo<MultiMediaElement>): React.JSX.Element {
     if (isMovieElement(item)) {
       return (
-        <CompactMovieRankCard
+        <CompactMovieCard
+          showRank
+          showMediaType
           item={item}
           index={index}
           listLength={this.state.trend.length}
@@ -165,7 +165,9 @@ class HomeScreen extends React.Component<
 
     if (isTvShowElement(item)) {
       return (
-        <CompactTvShowRankCard
+        <CompactTvShowCard
+          showRank
+          showMediaType
           item={item}
           index={index}
           listLength={this.state.trend.length}

@@ -4,7 +4,7 @@ import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, Star1 } from 'iconsax-react-native';
 
 import type { VideoElement } from '@shared/types';
-import { TMDBImage } from '@components';
+import { RankText, TMDBImage, VoteLabel } from '@components';
 import { getFormattedFullYear, getFormattedVoteAverage } from '@shared/utils';
 import { colors, layout } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -81,15 +81,32 @@ abstract class CompactVideoCardBase<
 
     const marginRight =
       this.props.index === (this.props.listLength || 0) - 1 ? 0 : spacing.small;
+    const posterMarginBottom = this.props.showRank
+      ? spacing.extraLarge
+      : spacing.small;
 
     return (
       <Card style={[styles.card, { marginRight }]} onPress={this.props.onPress}>
-        <View style={styles.posterBox}>
+        <View style={{ marginBottom: posterMarginBottom }}>
           <TMDBImage
             style={styles.poster}
             path={this.props.item.posterPath}
             size='w342'
           />
+
+          {this.props.showMediaType && (
+            <View style={[layout.itemsEnd, StyleSheet.absoluteFill]}>
+              <View style={styles.mediaTypeBox}>
+                <Text style={styles.mediaTypeText}>{this.mediaType}</Text>
+              </View>
+            </View>
+          )}
+
+          {this.props.showRank && (
+            <View style={[layout.flexEnd, StyleSheet.absoluteFill]}>
+              <VoteLabel value={this.props.item.voteAverage} />
+            </View>
+          )}
 
           <View
             style={[
@@ -98,13 +115,13 @@ abstract class CompactVideoCardBase<
               StyleSheet.absoluteFill,
             ]}
           >
-            <View style={[styles.ratingBox, layout.center, layout.row]}>
-              <Star1 size='14' color='white' variant='Bold' />
-
-              <Text style={styles.ratingText}>
-                {getFormattedVoteAverage(this.props.item.voteAverage)}
-              </Text>
-            </View>
+            {this.props.showRank ? (
+              <View style={styles.rankBox}>
+                <RankText text={(this.props.index + 1).toString()} />
+              </View>
+            ) : (
+              <VoteLabel value={this.props.item.voteAverage} />
+            )}
           </View>
         </View>
 

@@ -50,7 +50,7 @@ class TopRated extends React.Component<
   }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
     return (
       <MovieDetailCard
-        showMedal
+        showRank
         item={item}
         index={index}
         listLength={this.state.movies.length}
