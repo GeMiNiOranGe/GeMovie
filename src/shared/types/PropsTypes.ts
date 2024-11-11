@@ -221,3 +221,7 @@ export type PhotoProps = {
 export type RankTextProps = {
     text: string;
 };
+
+export type VoteLabelProps = {
+    value: number;
+};
