@@ -3,11 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
 
 import type { CompactCardProps, PersonElementBase } from '@shared/types';
-import { TMDBImage } from '@components';
+import { RankText, TMDBImage } from '@components';
 import { spacing } from '@shared/constants';
 import { getFormattedGender } from '@shared/utils';
-import styles from './style';
 import { layout } from '@shared/themes';
+import styles from './style';
 
 class CompactPersonRankCard extends React.PureComponent<
   CompactCardProps<PersonElementBase>
@@ -33,9 +33,7 @@ class CompactPersonRankCard extends React.PureComponent<
             ]}
           >
             <View style={styles.rankBox}>
-              <Text style={[styles.rank, styles.textWithBorder]}>
-                {this.props.index + 1}
-              </Text>
+              <RankText text={(this.props.index + 1).toString()} />
             </View>
           </View>
         </View>

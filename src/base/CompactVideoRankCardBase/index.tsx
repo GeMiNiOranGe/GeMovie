@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Card } from 'react-native-paper';
 
 import type { VideoElement } from '@shared/types';
-import { TMDBImage } from '@components';
+import { RankText, TMDBImage } from '@components';
 import { spacing } from '@shared/constants';
 import { layout } from '@shared/themes';
 import { getFormattedFullYear } from '@shared/utils';
@@ -26,6 +26,12 @@ abstract class CompactVideoRankCardBase<
             size='w342'
           />
 
+          <View style={[layout.itemsEnd, StyleSheet.absoluteFill]}>
+            <View style={styles.mediaTypeBox}>
+              <Text style={styles.mediaTypeText}>{this.mediaType}</Text>
+            </View>
+          </View>
+
           <View
             style={[
               layout.justifyEnd,
@@ -34,15 +40,7 @@ abstract class CompactVideoRankCardBase<
             ]}
           >
             <View style={styles.rankBox}>
-              <Text style={[styles.rank, styles.textWithBorder]}>
-                {this.props.index + 1}
-              </Text>
-            </View>
-          </View>
-
-          <View style={[layout.itemsEnd, StyleSheet.absoluteFill]}>
-            <View style={styles.mediaTypeBox}>
-              <Text style={styles.mediaTypeText}>{this.mediaType}</Text>
+              <RankText text={(this.props.index + 1).toString()} />
             </View>
           </View>
         </View>

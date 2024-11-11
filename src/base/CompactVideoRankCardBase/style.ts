@@ -24,11 +24,6 @@ const styles = StyleSheet.create({
         bottom: -32,
         marginLeft: spacing.small,
     },
-    rank: {
-        color: colors.text,
-        fontSize: 56,
-        fontWeight: 'bold',
-    },
     mediaTypeBox: {
         borderBottomLeftRadius: cardRadius,
         backgroundColor: colors.neutral,
@@ -51,11 +46,6 @@ const styles = StyleSheet.create({
     subtext: {
         fontSize: 14,
         color: colors.subtext,
-    },
-    textWithBorder: {
-        textShadowColor: '#fff',
-        textShadowOffset: { width: -1, height: 1 },
-        textShadowRadius: 10,
     },
 });
 

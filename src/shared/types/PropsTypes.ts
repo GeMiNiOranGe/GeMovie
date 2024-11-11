@@ -217,3 +217,7 @@ export type PhotoProps = {
     type: VideoType;
     navigation: NativeStackNavigationProp<ParamListBase>;
 };
+
+export type RankTextProps = {
+    text: string;
+};
