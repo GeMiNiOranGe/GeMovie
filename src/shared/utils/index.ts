@@ -14,6 +14,7 @@ import type {
     MediaImage,
     Keyword,
     PersonElement,
+    PersonElementBase,
 } from '@shared/types';
 import {
     toMovieElement,
@@ -147,6 +148,12 @@ export function isTvShowElement(
 export function isPersonElement(
     element: MultiMediaElement,
 ): element is PersonElement & Media {
+    return element?.mediaType === 'person' && 'knownFor' in element;
+}
+
+export function isPersonElementBase(
+    element: MultiMediaElement,
+): element is PersonElementBase & Media {
     return element?.mediaType === 'person';
 }
 

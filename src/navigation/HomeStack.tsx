@@ -30,30 +30,31 @@ class HomeStack extends React.Component {
             headerShown: false,
           }}
         />
+
         <Stack.Screen
           name='SeeAllMovieScreen'
           component={SeeAllMoviesScreen}
           options={{
-            headerShown: true,
-            title: 'All',
+            title: 'Popular Movies',
           }}
         />
+
         <Stack.Screen
           name='SeeAllPersonScreen'
           component={SeeAllPerson}
           options={{
-            headerShown: true,
-            title: 'All',
+            title: 'Popular People',
           }}
         />
+
         <Stack.Screen
           name='SeeAllTV'
           component={AllTV}
           options={{
-            headerShown: true,
-            title: 'All',
+            title: 'Popular TV Shows',
           }}
         />
+
         <Stack.Screen
           name='SeeAllTopRated'
           component={TopRated}

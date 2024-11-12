@@ -29,7 +29,7 @@ import { layout } from '@shared/themes';
 import {
   getFormattedDate,
   isMovieElement,
-  isPersonElement,
+  isPersonElementBase,
   isTvShowElement,
   toMovieElement,
   toMultiMediaElement,
@@ -180,7 +180,7 @@ class HomeScreen extends React.Component<
       );
     }
 
-    if (isPersonElement(item)) {
+    if (isPersonElementBase(item)) {
       return (
         <CompactPersonRankCard
           item={item}
