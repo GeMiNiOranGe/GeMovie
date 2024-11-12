@@ -26,5 +26,5 @@ export const spacing: Spacing = {
 
 export const defaultIconSize: number = 12;
 
-export const activeIcon: Variant = 'Bulk';
+export const activeIcon: Variant = 'Bold';
 export const normalIcon: Variant = 'Linear';
