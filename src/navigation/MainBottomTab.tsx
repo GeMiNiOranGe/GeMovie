@@ -1,12 +1,16 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  AnimatedTabBarNavigator,
+  DotSize,
+} from 'react-native-animated-nav-tab-bar';
 import { Home, SearchNormal1 } from 'iconsax-react-native';
 
 import { activeIcon, normalIcon } from '@shared/constants';
 import { TabBarIconProps } from '@shared/types';
 import { HomeStack, SearchStack } from '@navigation';
+import { colors } from '@shared/themes';
 
-const BottomTab = createBottomTabNavigator();
+const BottomTab = AnimatedTabBarNavigator();
 
 class MainBottomTab extends React.Component {
   private renderHomeIcon({
@@ -43,6 +47,14 @@ class MainBottomTab extends React.Component {
         initialRouteName='HomeStack'
         screenOptions={{
           headerShown: false,
+        }}
+        tabBarOptions={{
+          activeTintColor: '#ffffff',
+          inactiveTintColor: 'gray',
+          activeBackgroundColor: colors.secondary,
+        }}
+        appearance={{
+          dotSize: DotSize.SMALL,
         }}
       >
         <BottomTab.Screen
