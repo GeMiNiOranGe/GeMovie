@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 14,
         color: colors.accent.light,
+        marginRight: spacing.tiny,
     },
     accent: {
         width: accentWidth,

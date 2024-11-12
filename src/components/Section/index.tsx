@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { ArrowRight2 } from 'iconsax-react-native';
 
 import SectionSeparator from './SectionSeparator';
 import SectionDivider from './SectionDivider';
@@ -8,7 +9,7 @@ import SectionLabel from './SectionLabel';
 import SectionItem from './SectionItem';
 import SectionItems from './SectionItems';
 import SectionHorizontalList from './SectionHorizontalList';
-import { layout } from '@shared/themes';
+import { colors, layout } from '@shared/themes';
 import type { SectionProps } from '@shared/types';
 import styles from './style';
 
@@ -41,12 +42,18 @@ class Section extends React.PureComponent<SectionProps> {
                 </Text>
 
                 <TouchableOpacity
-                  style={styles.moreButton}
+                  style={[layout.row, layout.itemsCenter, styles.moreButton]}
                   onPress={this.props.onMoreButtonPress}
                 >
                   <Text style={styles.moreButtonText}>
                     {this.props.moreButtonText}
                   </Text>
+
+                  <ArrowRight2
+                    size='14'
+                    color={colors.accent.light.toString()}
+                    variant='Bold'
+                  />
                 </TouchableOpacity>
               </View>
             ) : (

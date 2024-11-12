@@ -15,8 +15,8 @@ const iconSize = 16;
 const iconColor: string = colors.accent.light.toString();
 const iconVariant: Variant = 'Bold';
 
-const seeMoreText = 'View more';
-const seeLessText = 'View less';
+const seeMoreText = 'Read more';
+const seeLessText = 'Read less';
 
 class ExpandableText extends React.PureComponent<
   ExpandableTextProps,
