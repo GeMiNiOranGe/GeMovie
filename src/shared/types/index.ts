@@ -207,6 +207,13 @@ export type Keyword = {
     name: string;
 };
 
+export type NetworkElement = {
+    id: number;
+    logoPath: string | null;
+    name: string;
+    originCountry: string;
+};
+
 export * from './PropsTypes';
 export * from './StateTypes';
 export * from './Movie';
