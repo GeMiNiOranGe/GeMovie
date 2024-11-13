@@ -214,6 +214,12 @@ export type CreditProps = {
     navigation: NativeStackNavigationProp<ParamListBase>;
 };
 
+export type ReviewProps = {
+    id: number;
+    type: VideoType;
+    navigation: NativeStackNavigationProp<ParamListBase>;
+};
+
 export type PhotoProps = {
     id: number;
     type: VideoType;

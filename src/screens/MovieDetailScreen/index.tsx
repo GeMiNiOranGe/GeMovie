@@ -52,6 +52,7 @@ import {
   Youtube,
   Credit,
   Photo,
+  Review,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -370,6 +371,18 @@ class MovieDetailScreen extends React.Component<
             <Section title='Photos'>
               {this.state.movie?.id && (
                 <Photo
+                  id={this.state.movie?.id}
+                  type='movie'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='User reviews'>
+              {this.state.movie?.id && (
+                <Review
                   id={this.state.movie?.id}
                   type='movie'
                   navigation={this.props.navigation}

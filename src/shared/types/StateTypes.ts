@@ -15,6 +15,7 @@ import type {
     PersonImage,
     PersonElement,
     TvShowElement,
+    Reviews,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
@@ -121,6 +122,12 @@ export type RecommendationState = {
 
 export type CreditState = {
     credits: Credits | undefined;
+    isFetching: boolean;
+    error: Error | undefined;
+};
+
+export type ReviewState = {
+    reviews: Reviews | undefined;
     isFetching: boolean;
     error: Error | undefined;
 };
