@@ -200,6 +200,27 @@ export type Keyword = {
     name: string;
 };
 
+export type Reviews = PaginationResponse<Review> & {
+    id: number;
+};
+
+export type Review = {
+    author: string;
+    authorDetails: AuthorDetails;
+    content: string;
+    createdAt: Date;
+    id: string;
+    updatedAt: Date;
+    url: string;
+};
+
+export type AuthorDetails = {
+    name: string;
+    username: string;
+    avatarPath: string | undefined;
+    rating: number | undefined;
+};
+
 export * from './PropsTypes';
 export * from './StateTypes';
 export * from './Movie';

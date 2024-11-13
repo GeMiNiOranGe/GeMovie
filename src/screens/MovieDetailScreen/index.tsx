@@ -81,14 +81,13 @@ class MovieDetailScreen extends React.Component<
       this.navigateToContentListScreen.bind(this);
   }
 
-  public override componentDidMount(): void {
+  public override async componentDidMount(): Promise<void> {
     const { movieId } = this.props.route.params;
 
-    MovieService.getDetailAsync(movieId).then(data =>
-      this.setState({ movie: data }, () => {
-        this.props.navigation.setOptions({ title: data.title });
-      }),
-    );
+    const movie = await MovieService.getDetailAsync(movieId);
+    this.setState({ movie });
+
+    this.props.navigation.setOptions({ title: movie.title });
   }
 
   private renderGenreItem({

@@ -58,6 +58,20 @@ export default class URLBuilder {
     }
 
     /**
+     * Build a reviews url
+     * @param type `"movie"` | `"tv"`
+     * @param id movie id or tv series id
+     * @param params
+     */
+    public static buildReviewsURL(
+        type: VideoType,
+        id: number,
+        params: URLSearchParams,
+    ): string {
+        return `${TMDB_BASE_URL}/${type}/${id}/reviews?api_key=${TMDB_API_KEY}&${params}`;
+    }
+
+    /**
      * Build a credits url
      * @param type `"movie"` | `"tv"`
      * @param id movie id or tv series id

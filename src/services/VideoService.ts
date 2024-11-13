@@ -1,9 +1,15 @@
 import { APIHandler, PaginationResponseWrapper, URLBuilder } from '@services';
-import { toCredits, toImages, toPaginationResponse } from '@shared/utils';
+import {
+    toCredits,
+    toImages,
+    toPaginationResponse,
+    toReviews,
+} from '@shared/utils';
 import type {
     Credits,
     Images,
     PaginationResponse,
+    Reviews,
     VideoType,
 } from '@shared/types';
 
@@ -53,6 +59,24 @@ export default class VideoService {
         const url = URLBuilder.buildImagesURL(type, id);
         const json = await APIHandler.fetchJSON(url);
         return toImages(json);
+    }
+
+    /**
+     * @param type `"movie"` | `"tv"`
+     * @param id movie id
+     * @param page page number
+     */
+    public static async getReviewsAsync(
+        type: VideoType,
+        id: number,
+        page: number = 1,
+    ): Promise<Reviews> {
+        const params = new URLSearchParams({
+            page: `${page}`,
+        });
+        const url = URLBuilder.buildReviewsURL(type, id, params);
+        const json = await APIHandler.fetchJSON(url);
+        return toReviews(json);
     }
 
     /**
