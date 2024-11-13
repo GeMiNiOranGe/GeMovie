@@ -231,5 +231,9 @@ export type RankTextProps = {
 };
 
 export type VoteLabelProps = {
+    style?: StyleProp<ViewStyle>;
+    valueStyle?: StyleProp<TextStyle>;
     value: number;
+    type?: 'round' | 'absolute';
+    showThreshold?: boolean | undefined;
 };

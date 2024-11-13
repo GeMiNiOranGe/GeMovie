@@ -1,13 +1,17 @@
 import React from 'react';
-import { Text, type ListRenderItemInfo } from 'react-native';
+import { Text, View, type ListRenderItemInfo } from 'react-native';
+import { TouchableRipple } from 'react-native-paper';
 
 import type {
   Review as ReviewType,
   ReviewProps,
   ReviewState,
 } from '@shared/types';
-import { Section } from '@components';
+import { Section, VoteLabel } from '@components';
 import { VideoService } from '@services';
+import { spacing } from '@shared/constants';
+import { getFormattedDate } from '@shared/utils';
+import { layout } from '@shared/themes';
 import styles from './style';
 
 class Review extends React.PureComponent<ReviewProps, ReviewState> {
@@ -36,10 +40,44 @@ class Review extends React.PureComponent<ReviewProps, ReviewState> {
   }
 
   public renderItem({ item, index }: ListRenderItemInfo<ReviewType>) {
+    const marginRight: number =
+      index === (this.state.reviews?.results.length || 0) - 1
+        ? 0
+        : spacing.large;
+
     return (
-      <Text style={styles.content} numberOfLines={8}>
-        {item.content}
-      </Text>
+      <TouchableRipple
+        style={[styles.card, { marginRight }]}
+        borderless
+        onPress={() => {
+          this.props.navigation.push('ReviewDetailScreen', {
+            reviewId: item.id,
+          });
+        }}
+      >
+        <>
+          <View style={[layout.row, layout.itemsCenter, styles.authorBox]}>
+            {item.authorDetails.rating && (
+              <VoteLabel
+                style={styles.rating}
+                valueStyle={styles.ratingValue}
+                value={item.authorDetails.rating}
+                type='absolute'
+                showThreshold
+              />
+            )}
+
+            <Text style={[layout.flex1, styles.author]}>
+              A review written on {getFormattedDate(item.createdAt)} by{' '}
+              <Text style={styles.authorName}>{item.author}</Text>
+            </Text>
+          </View>
+
+          <Text style={styles.content} numberOfLines={8}>
+            {item.content}
+          </Text>
+        </>
+      </TouchableRipple>
     );
   }
 

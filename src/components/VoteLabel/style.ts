@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginLeft: spacing.tiny,
     },
+    threshold: {
+        fontSize: 10,
+        color: colors.neutral,
+    },
 });
 
 export default styles;

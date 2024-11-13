@@ -10,11 +10,17 @@ import styles from './style';
 class VoteLabel extends React.PureComponent<VoteLabelProps> {
   public override render(): React.JSX.Element {
     return (
-      <View style={[styles.vote, layout.center, layout.row]}>
+      <View style={[styles.vote, layout.center, layout.row, this.props.style]}>
         <Star1 size='14' color={colors.primary.toString()} variant='Bold' />
 
-        <Text style={styles.value}>
-          {getFormattedVoteAverage(this.props.value)}
+        <Text style={[styles.value, this.props.valueStyle]}>
+          {this.props.type === 'absolute'
+            ? this.props.value
+            : getFormattedVoteAverage(this.props.value)}
+
+          {this.props.showThreshold && (
+            <Text style={styles.threshold}>/10</Text>
+          )}
         </Text>
       </View>
     );
