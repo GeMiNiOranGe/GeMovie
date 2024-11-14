@@ -5,9 +5,6 @@ import { colors } from '@shared/themes';
 const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
-    activityIndicator: {
-        backgroundColor: colors.primary,
-    },
     container: {
         backgroundColor: colors.primary,
     },

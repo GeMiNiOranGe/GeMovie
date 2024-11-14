@@ -1,6 +1,5 @@
 import React from 'react';
 import { type ListRenderItemInfo, ScrollView, Text, View } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
 
 import {
   MediaService,
@@ -14,6 +13,7 @@ import {
   CompactPersonCard,
   CompactPersonRankCard,
   CompactTvShowCard,
+  FullScreenLoader,
   Section,
   Slideshow,
 } from '@components';
@@ -25,7 +25,6 @@ import type {
   MultiMediaElement,
   PersonElement,
 } from '@shared/types';
-import { layout } from '@shared/themes';
 import {
   getFormattedDate,
   isMovieElement,
@@ -218,12 +217,7 @@ class HomeScreen extends React.Component<
 
   public override render() {
     if (this.state.isLoading) {
-      return (
-        <ActivityIndicator
-          style={[layout.flex1, layout.center, styles.activityIndicator]}
-          size='large'
-        />
-      );
+      return <FullScreenLoader />;
     }
 
     const upcomingMoviesImages = this.state.upcomingMovies.map(movie =>

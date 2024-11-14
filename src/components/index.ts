@@ -24,3 +24,4 @@ export { default as TouchableRippleLink } from './TouchableRippleLink';
 export { default as TMDBImage } from './TMDBImage';
 export { default as RankText } from './RankText';
 export { default as VoteLabel } from './VoteLabel';
+export { default as FullScreenLoader } from './FullScreenLoader';
