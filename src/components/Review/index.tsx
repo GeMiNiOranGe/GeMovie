@@ -1,6 +1,9 @@
 import React from 'react';
 import { Text, View, type ListRenderItemInfo } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
+import Markdown, {
+  RenderRules,
+} from '@ronradtke/react-native-markdown-display';
 
 import type {
   Review as ReviewType,
@@ -10,9 +13,21 @@ import type {
 import { Section, VoteLabel } from '@components';
 import { VideoService } from '@services';
 import { spacing } from '@shared/constants';
-import { getFormattedDate } from '@shared/utils';
+import { normalizeMarkdown, getFormattedDate } from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
+
+const rules: RenderRules = {
+  textgroup: (node, children, parent, nativeStyles) => (
+    <Text
+      key={node.key}
+      style={[nativeStyles.textgroup, styles.content]}
+      numberOfLines={8}
+    >
+      {children}
+    </Text>
+  ),
+};
 
 class Review extends React.PureComponent<ReviewProps, ReviewState> {
   public constructor(props: ReviewProps) {
@@ -45,6 +60,10 @@ class Review extends React.PureComponent<ReviewProps, ReviewState> {
         ? 0
         : spacing.large;
 
+    const contentNormalized = normalizeMarkdown(item.content);
+    const paragraphs = contentNormalized.split('\r\n');
+    const firstParagraph = paragraphs[0];
+
     return (
       <TouchableRipple
         style={[styles.card, { marginRight }]}
@@ -73,9 +92,11 @@ class Review extends React.PureComponent<ReviewProps, ReviewState> {
             </Text>
           </View>
 
-          <Text style={styles.content} numberOfLines={8}>
-            {item.content}
-          </Text>
+          <Markdown rules={rules}>
+            {`${firstParagraph}${paragraphs.length > 1 ? '...' : ''}`}
+          </Markdown>
+
+          <Text style={styles.readDetails}>Read details</Text>
         </>
       </TouchableRipple>
     );

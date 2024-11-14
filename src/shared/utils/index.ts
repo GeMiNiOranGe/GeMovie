@@ -114,6 +114,12 @@ export const getRandomHeight = (
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+export function normalizeMarkdown(text: string): string {
+    const italicPattern = /<em>|<\/em>/gm;
+
+    return text.replaceAll(italicPattern, '_');
+}
+
 export function calculateImageDimensions(
     pixel: number,
     horizontalRatio: number = 1,

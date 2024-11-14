@@ -31,6 +31,11 @@ const styles = StyleSheet.create({
     ratingValue: {
         fontSize: 14,
     },
+    readDetails: {
+        fontSize: 14,
+        color: colors.accent.dark,
+        fontWeight: 'bold',
+    },
 });
 
 export default styles;
