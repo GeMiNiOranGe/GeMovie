@@ -9,7 +9,7 @@ export default class DetailService {
      * @param transformFn `toMovie`, `toTvShow`, `toPerson`, `toCompany`, `toCollection`,...
      */
     public static async getDetailAsync<T>(
-        id: number,
+        id: number | string,
         type: DetailType,
         transformFn: (json: any) => T,
     ): Promise<T> {

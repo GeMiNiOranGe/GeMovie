@@ -78,7 +78,8 @@ export type DetailType =
     | 'person'
     | 'company'
     | 'collection'
-    | 'keyword';
+    | 'keyword'
+    | 'review';
 
 export type VideoType = 'movie' | 'tv';
 

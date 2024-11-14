@@ -39,7 +39,10 @@ export default class URLBuilder {
      * @param type movie, tv series, person, company, collection,...
      * @param id movie id, tv series id, person id,...
      */
-    public static buildDetailURL(type: DetailType, id: number): string {
+    public static buildDetailURL(
+        type: DetailType,
+        id: number | string,
+    ): string {
         return `${TMDB_BASE_URL}/${type}/${id}?api_key=${TMDB_API_KEY}`;
     }
 

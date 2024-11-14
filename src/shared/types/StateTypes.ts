@@ -16,6 +16,7 @@ import type {
     PersonElement,
     TvShowElement,
     Reviews,
+    Review,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
@@ -33,8 +34,12 @@ export type ContentListScreenState = {
     error: Error | undefined;
 };
 
+export type ReviewDetailScreenState = {
+    review: Review | undefined;
+};
+
 export type MovieDetailScreenState = {
-    movie?: Movie | undefined;
+    movie: Movie | undefined;
 };
 
 export type CollectionSearchResultsTopTabState = {

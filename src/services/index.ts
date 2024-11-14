@@ -11,3 +11,4 @@ export { default as PaginationResponseWrapper } from './PaginationResponseWrappe
 export { default as GenreService } from './GenreService';
 export { default as VideoService } from './VideoService';
 export { default as MediaService } from './MediaService';
+export { default as ReviewService } from './ReviewService';
