@@ -15,9 +15,10 @@ import type {
     Keyword,
     PersonElement,
     PersonElementBase,
-    Review,
+    ReviewElement,
     AuthorDetails,
     Reviews,
+    Review,
 } from '@shared/types';
 import {
     toMovieElement,
@@ -263,34 +264,52 @@ export function toKeyword(val: any): Keyword {
     };
 }
 
-export function toReviews(val: any): Reviews {
-    return {
-        id: val.id,
-        page: val.page,
-        results: Array.from(val.results).map(element => toReview(element)),
-        totalPages: val['total_pages'],
-        totalResults: val['total_results'],
-    };
-}
-
-export function toReview(val: any): Review {
-    return {
-        author: val.author,
-        authorDetails: toAuthorDetails(val['author_details']),
-        content: val.content,
-        createdAt: new Date(val['created_at']),
-        id: val.id,
-        updatedAt: new Date(val['updated_at']),
-        url: val.url,
-    };
-}
-
 export function toAuthorDetails(val: any): AuthorDetails {
     return {
         name: val.name,
         username: val.username,
         avatarPath: val['avatar_path'] ?? undefined,
         rating: val.rating ?? undefined,
+    };
+}
+
+export function toReviews(val: any): Reviews {
+    return {
+        id: val.id,
+        page: val.page,
+        results: Array.from(val.results).map(element =>
+            toReviewElement(element),
+        ),
+        totalPages: val['total_pages'],
+        totalResults: val['total_results'],
+    };
+}
+
+export function toReviewElement(val: any): ReviewElement {
+    return {
+        id: val.id,
+        author: val.author,
+        authorDetails: toAuthorDetails(val['author_details']),
+        content: val.content,
+        createdAt: new Date(val['created_at']),
+        updatedAt: new Date(val['updated_at']),
+        url: val.url,
+    };
+}
+
+export function toReview(val: any): Review {
+    return {
+        id: val.id,
+        author: val.author,
+        authorDetails: toAuthorDetails(val['author_details']),
+        content: val.content,
+        createdAt: new Date(val['created_at']),
+        updatedAt: new Date(val['updated_at']),
+        url: val.url,
+        iso_639_1: val['iso_639_1'],
+        mediaID: val['media_id'],
+        mediaTitle: val['media_title'],
+        mediaType: val['media_type'],
     };
 }
 

@@ -14,7 +14,7 @@ class VoteLabel extends React.PureComponent<VoteLabelProps> {
         <Star1 size='14' color={colors.primary.toString()} variant='Bold' />
 
         <Text style={[styles.value, this.props.valueStyle]}>
-          {this.props.type === 'absolute'
+          {this.props.valueType === 'absolute'
             ? this.props.value
             : getFormattedVoteAverage(this.props.value)}
 

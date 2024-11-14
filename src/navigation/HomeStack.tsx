@@ -12,6 +12,7 @@ import {
   CollectionDetailScreen,
   TrendingScreen,
   ContentListScreen,
+  ReviewDetailScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
 import AllTV from 'src/screens/SeeAllTV';
@@ -68,6 +69,14 @@ class HomeStack extends React.Component {
           component={ContentListScreen}
           options={{
             title: 'Content list',
+          }}
+        />
+
+        <Stack.Screen
+          name='ReviewDetailScreen'
+          component={ReviewDetailScreen}
+          options={{
+            title: 'Detail',
           }}
         />
 

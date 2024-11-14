@@ -200,25 +200,32 @@ export type Keyword = {
     name: string;
 };
 
-export type Reviews = PaginationResponse<Review> & {
-    id: number;
-};
-
-export type Review = {
-    author: string;
-    authorDetails: AuthorDetails;
-    content: string;
-    createdAt: Date;
-    id: string;
-    updatedAt: Date;
-    url: string;
-};
-
 export type AuthorDetails = {
     name: string;
     username: string;
     avatarPath: string | undefined;
     rating: number | undefined;
+};
+
+export type Reviews = PaginationResponse<ReviewElement> & {
+    id: number;
+};
+
+export type ReviewElement = {
+    id: string;
+    author: string;
+    authorDetails: AuthorDetails;
+    content: string;
+    createdAt: Date;
+    updatedAt: Date;
+    url: string;
+};
+
+export type Review = ReviewElement & {
+    iso_639_1: string;
+    mediaID: number;
+    mediaTitle: string;
+    mediaType: string;
 };
 
 export * from './PropsTypes';

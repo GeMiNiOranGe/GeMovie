@@ -62,6 +62,7 @@ export default class VideoService {
     }
 
     /**
+     * Get the user reviews
      * @param type `"movie"` | `"tv"`
      * @param id movie id
      * @param page page number

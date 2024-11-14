@@ -5,11 +5,7 @@ import Markdown, {
   RenderRules,
 } from '@ronradtke/react-native-markdown-display';
 
-import type {
-  Review as ReviewType,
-  ReviewProps,
-  ReviewState,
-} from '@shared/types';
+import type { ReviewElement, ReviewProps, ReviewState } from '@shared/types';
 import { Section, VoteLabel } from '@components';
 import { VideoService } from '@services';
 import { spacing } from '@shared/constants';
@@ -54,7 +50,7 @@ class Review extends React.PureComponent<ReviewProps, ReviewState> {
     }
   }
 
-  public renderItem({ item, index }: ListRenderItemInfo<ReviewType>) {
+  public renderItem({ item, index }: ListRenderItemInfo<ReviewElement>) {
     const marginRight: number =
       index === (this.state.reviews?.results.length || 0) - 1
         ? 0
@@ -81,7 +77,7 @@ class Review extends React.PureComponent<ReviewProps, ReviewState> {
                 style={styles.rating}
                 valueStyle={styles.ratingValue}
                 value={item.authorDetails.rating}
-                type='absolute'
+                valueType='absolute'
                 showThreshold
               />
             )}

@@ -234,6 +234,6 @@ export type VoteLabelProps = {
     style?: StyleProp<ViewStyle>;
     valueStyle?: StyleProp<TextStyle>;
     value: number;
-    type?: 'round' | 'absolute';
+    valueType?: 'relative' | 'absolute';
     showThreshold?: boolean | undefined;
 };
