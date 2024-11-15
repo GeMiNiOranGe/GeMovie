@@ -18,17 +18,34 @@ import {
   TvShowDetailScreenState,
   LabelProps,
   Variant,
-  Genre,
+  CompanyElement,
 } from '@shared/types';
 import { TvShowService } from '@services';
 import { TMDB_BASE_IMAGE_URL } from '@config';
 import { imageSize, spacing } from '@shared/constants';
-import { ExpandableText, Labels, Recommendation, Youtube } from '@components';
+import {
+  Credit,
+  ExpandableText,
+  Labels,
+  Photo,
+  Recommendation,
+  Section,
+  SimpleCompanyCard,
+  TouchableRippleLink,
+  Youtube,
+} from '@components';
 import LinearGradient from 'react-native-linear-gradient';
-import { Calendar, Flag, LanguageCircle, Star1 } from 'iconsax-react-native';
+import {
+  Calendar,
+  Flag,
+  Global,
+  LanguageCircle,
+  Star1,
+  Image as ImageIcon,
+} from 'iconsax-react-native';
 import { Adult } from '@assets/icons';
 import { getFormattedDate } from '@shared/utils';
-import { layout } from '@shared/themes';
+import { colors, layout } from '@shared/themes';
 import { Chip } from 'react-native-paper';
 import styles from './style';
 
@@ -51,7 +68,7 @@ class TvShowDetailScreen extends React.Component<
       animatedOpacityImage: new Animated.Value(0),
       animatedTranslateYImage: new Animated.Value(0),
     };
-    this.renderGenreItem = this.renderGenreItem.bind(this);
+    this.renderCompanyItem = this.renderCompanyItem.bind(this);
   }
 
   public override componentDidMount() {
@@ -100,23 +117,21 @@ class TvShowDetailScreen extends React.Component<
     this.setState({ modalVisible: false });
   };
 
-  private renderGenreItem({
-    item,
-    index,
-  }: ListRenderItemInfo<Genre>): React.JSX.Element {
-    const marginRight =
-      index === (this.state.tv?.genreIds.length || 0) - 1 ? 0 : spacing.small;
-
-    return (
-      <Chip
-        style={[styles.genreChip, { marginRight }]}
-        textStyle={styles.genre}
-      >
-        {item.name}
-      </Chip>
-    );
+  private renderGenres(): React.JSX.Element | null {
+    const { tv } = this.state;
+    if (tv?.genres && tv.genres.length > 0) {
+      return (
+        <View>
+          {tv.genres.map((genre, index) => (
+            <Chip key={index} style={styles.genreChip} textStyle={styles.genre}>
+              {genre.name}
+            </Chip>
+          ))}
+        </View>
+      );
+    }
+    return null;
   }
-
   private renderStars(voteAverage: number): React.JSX.Element {
     const starCount = Math.round(voteAverage / 2);
     const stars = [];
@@ -167,6 +182,24 @@ class TvShowDetailScreen extends React.Component<
         value: tv?.popularity?.toString() || 'N/A',
       },
     ];
+  }
+
+  private renderCompanyItem({
+    item,
+    index,
+  }: ListRenderItemInfo<CompanyElement>) {
+    return (
+      <SimpleCompanyCard
+        item={item}
+        index={index}
+        listLength={this.state.tv?.productionCompanies.length}
+        onPress={() => {
+          this.props.navigation.push('CompanyDetailScreen', {
+            companyId: item.id,
+          });
+        }}
+      />
+    );
   }
 
   public override render() {
@@ -233,17 +266,40 @@ class TvShowDetailScreen extends React.Component<
             ]}
           >
             <Text style={styles.titleText}>{tv?.name}</Text>
-            {/* <View style={[layout.center, styles.genreBox]}>
+            <View style={[layout.center, styles.genreBox]}>
               <FlatList
                 contentContainerStyle={styles.genreContentList}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={item => item.id.toString()}
-                data={tv?.genres || []}
-                renderItem={this.renderGenreItem}
+                data={tv?.genres}
+                renderItem={({ item, index }) => {
+                  const marginRight =
+                    index === (tv?.genres.length || 0) - 1 ? 0 : spacing.small;
+
+                  return (
+                    <Chip
+                      key={item.id}
+                      style={[styles.genreChip, { marginRight }]}
+                      textStyle={styles.genre}
+                    >
+                      {item.name}
+                    </Chip>
+                  );
+                }}
               />
-            </View> */}
+            </View>
+
             {tv.voteAverage && this.renderStars(tv.voteAverage)}
+            <View style={[layout.center, layout.row, styles.actionArea]}>
+              <TouchableRippleLink
+                style={styles.homepageLink}
+                url={`${this.state.tv?.homepage}`}
+                rippleColor={colors.accent.light}
+              >
+                <Global color={colors.primary.toString()} />
+              </TouchableRippleLink>
+            </View>
 
             <View style={styles.titleBody}>
               <Labels data={this.getLabels()} />
@@ -256,13 +312,158 @@ class TvShowDetailScreen extends React.Component<
                 numberOfLines={3}
               />
             </View>
-            <View>
+            <Section.Separator />
+            <Section title='Seasons'>
+              {tv?.seasons && tv.seasons.length > 0 ? (
+                <FlatList
+                  data={tv.seasons}
+                  keyExtractor={item => item.id.toString()}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <View key={item.id} style={styles.seasonItem}>
+                      <Image
+                        style={styles.seasonPoster}
+                        source={{
+                          uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w500}${item.poster_path}`,
+                        }}
+                      />
+                      <Text style={styles.seasonTitle}>{item.name}</Text>
+                      <Text style={styles.seasonDetails}>
+                        {item.episode_count} Episodes
+                      </Text>
+                    </View>
+                  )}
+                  contentContainerStyle={styles.seasonsContainer}
+                />
+              ) : (
+                <Text style={styles.noSeasonsText}>No seasons available</Text>
+              )}
+            </Section>
+            <Section.Separator />
+            <Section title='Networks'>
+              {tv?.networks && tv.networks.length > 0 ? (
+                <FlatList
+                  data={tv.networks}
+                  keyExtractor={item => item.id.toString()}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <View key={item.id} style={styles.networkItem}>
+                      {item.logoPath ? (
+                        <Image
+                          style={styles.networkLogo}
+                          source={{
+                            uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w500}${item.logoPath}`,
+                          }}
+                        />
+                      ) : (
+                        <View style={[layout.flex1, layout.center]}>
+                          <ImageIcon size={24} color={colors.text.toString()} />
+                        </View>
+                      )}
+                      <Text style={styles.networkName}>{item.name}</Text>
+                      <Text style={styles.networkCountry}>
+                        {item.originCountry}
+                      </Text>
+                    </View>
+                  )}
+                  contentContainerStyle={styles.networksContainer}
+                />
+              ) : (
+                <Text style={styles.noNetworksText}>No networks available</Text>
+              )}
+            </Section>
+            <Section.Separator />
+            <Section title='Cast'>
+              {this.state.tv?.id && (
+                <Credit
+                  id={this.state.tv?.id}
+                  type='tv'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
+            <Section.Separator />
+            <Section title='Photos'>
+              {this.state.tv?.id && (
+                <Photo
+                  id={this.state.tv?.id}
+                  type='tv'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
+            <Section.Separator />
+            <Section title='Details'>
+              <Section.Content>
+                <Section.Label
+                  name='Original Title'
+                  value={`${this.state.tv?.originalName}`}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Release Date'
+                  value={getFormattedDate(this.state.tv?.firstAirDate)}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Country'
+                  value={`${this.state.tv?.originCountry}`}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Original Language'
+                  value={`${this.state.tv?.originalLanguage}`}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Country of Origin'
+                  value={`${this.state.tv?.originCountry.join(', ')}`}
+                />
+
+                <Section.Divider />
+                <Section.Label
+                  name='Language Spoken'
+                  value={`${this.state.tv?.spokenLanguages
+                    .map(language => language.name)
+                    .join(', ')}`}
+                />
+                <Section.Divider />
+                <Section.Label
+                  name='Status'
+                  value={`${this.state.tv?.status}`}
+                />
+                <Section.Divider />
+                <Section.Label
+                  name='Vote Average'
+                  value={`${this.state.tv?.voteAverage}`}
+                />
+              </Section.Content>
+            </Section>
+            <Section.Items
+              name='Production Companies'
+              keyExtractor={item => item.id.toString()}
+              data={this.state.tv?.productionCompanies}
+              renderItem={this.renderCompanyItem}
+            />
+
+            <Section.Separator />
+            <Section title='Recommendation'>
               <Recommendation
                 type='tv'
                 id={tv.id}
                 navigation={this.props.navigation}
               />
-            </View>
+            </Section>
           </Animated.View>
 
           {/* Modal */}

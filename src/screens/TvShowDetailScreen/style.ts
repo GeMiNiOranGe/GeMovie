@@ -180,6 +180,79 @@ const styles = StyleSheet.create({
         color: '#FFD700',
         textAlign: 'center',
     },
+    actionArea: {
+        marginBottom: spacing.large,
+    },
+    homepageLink: {
+        backgroundColor: colors.accent.dark,
+    },
+    chip: {
+        borderRadius: 1000,
+        backgroundColor: colors.background,
+    },
+    chipText: {
+        fontSize: 12,
+        color: colors.text,
+        marginVertical: 4,
+        marginLeft: 12,
+        marginRight: 12,
+    },
+    seasonsContainer: {
+        paddingHorizontal: spacing.medium,
+    },
+    seasonItem: {
+        marginRight: spacing.medium,
+        alignItems: 'center',
+    },
+    seasonPoster: {
+        width: 120,
+        height: 180,
+        borderRadius: 8,
+    },
+    seasonTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginTop: spacing.small,
+    },
+    seasonDetails: {
+        fontSize: 12,
+        color: colors.text.toString(),
+    },
+    noSeasonsText: {
+        textAlign: 'center',
+        color: colors.text.toString(),
+        fontSize: 14,
+    },
+    networkItem: {
+        marginRight: spacing.medium,
+        alignItems: 'center',
+        width: 80,
+    },
+    networkLogo: {
+        width: 70,
+        height: 70,
+        borderRadius: 8,
+        resizeMode: 'contain',
+    },
+    networkName: {
+        marginTop: 5,
+        fontSize: 12,
+        textAlign: 'center',
+        color: colors.text.toString(),
+    },
+    networkCountry: {
+        fontSize: 10,
+        color: colors.text.toString(),
+        textAlign: 'center',
+    },
+    networksContainer: {
+        paddingVertical: spacing.small,
+    },
+    noNetworksText: {
+        color: colors.text.toString(),
+        textAlign: 'center',
+        marginVertical: spacing.small,
+    },
 });
 
 export default styles;
