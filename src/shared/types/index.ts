@@ -130,11 +130,11 @@ export type CardElement = MediaElementBase | PersonElementBase | CompanyElement;
 
 export type MediaElementBase = {
     adult: boolean;
-    backdropPath?: string | undefined;
+    backdropPath: string | undefined;
     id: number;
     originalLanguage: string;
     overview: string;
-    posterPath?: string | undefined;
+    posterPath: string | undefined;
 };
 
 export type MediaElement = (TvShowElement | MovieElement) & Media;

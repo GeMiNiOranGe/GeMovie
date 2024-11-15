@@ -1,6 +1,5 @@
 import type {
     Collection,
-    CollectionElement,
     Company,
     Credits,
     FeaturedMovie,
@@ -42,11 +41,8 @@ export type MovieDetailScreenState = {
     movie: Movie | undefined;
 };
 
-export type CollectionSearchResultsTopTabState = {
-    collections?: CollectionElement[] | undefined;
-};
 export type CollectionDetailState = {
-    collection?: Collection | undefined;
+    collection: Collection | undefined;
 };
 
 export type TvShowDetailScreenState = {

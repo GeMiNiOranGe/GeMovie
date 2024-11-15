@@ -29,8 +29,8 @@ export type FeaturedMovie = {
 export type Movie = VideoBase &
     MovieBase & {
         originCountry: string[];
-        imdbId?: string | undefined;
-        belongsToCollection?: SimpleCollection | undefined;
+        imdbId: string | undefined;
+        belongsToCollection: SimpleCollection | undefined;
         budget: number;
         revenue: number;
         runtime: number;

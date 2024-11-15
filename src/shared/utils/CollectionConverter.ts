@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
 import { Collection, CollectionElement, SimpleCollection } from '@shared/types';
+import { toMovieElement } from '@shared/utils';
 
 export function toCollectionElement(val: any): CollectionElement {
     return {
@@ -19,25 +19,14 @@ export function toCollection(val: any): Collection {
         id: val.id,
         name: val.name,
         overview: val.overview,
-        poster_path: val['poster_path'] ?? null,
-        backdrop_path: val['backdrop_path'] ?? null,
-        parts: (val.parts || []).map((part: any) => ({
-            id: part.id,
-            title: part.title,
-            original_title: part.original_title,
-            overview: part.overview,
-            poster_path: part['poster_path'] ?? null,
-            backdrop_path: part['backdrop_path'] ?? null,
-            media_type: part.media_type,
-            adult: part.adult,
-            original_language: part['original_language'],
-            genre_ids: part['genre_ids'] || [],
-            popularity: part.popularity,
-            release_date: part.release_date,
-            video: part.video,
-            vote_average: part.vote_average,
-            vote_count: part.vote_count,
-        })),
+        posterPath: val['poster_path'] ?? undefined,
+        backdropPath: val['backdrop_path'] ?? undefined,
+        parts: Array.from(val.parts).map(element => {
+            return {
+                mediaType: val['media_type'],
+                ...toMovieElement(element),
+            };
+        }),
     };
 }
 
