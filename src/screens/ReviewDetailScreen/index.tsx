@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Markdown from '@ronradtke/react-native-markdown-display';
 
 import type { ReviewDetailScreenState, RootScreenProps } from '@shared/types';
 import { ReviewService } from '@services';
-import { FullScreenLoader } from '@components';
+import { FullScreenLoader, VoteLabel } from '@components';
+import { getFormattedDate } from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
 
@@ -33,7 +35,29 @@ class ReviewDetailScreen extends React.PureComponent<
 
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
-        <Text style={styles.text}>Review detail screen</Text>
+        <ScrollView contentContainerStyle={styles.containerScrollView}>
+          <View style={[layout.row, layout.itemsCenter]}>
+            {this.state.review.authorDetails.rating && (
+              <VoteLabel
+                style={styles.rating}
+                valueStyle={styles.ratingValue}
+                value={this.state.review.authorDetails.rating}
+                valueType='absolute'
+                showThreshold
+              />
+            )}
+
+            <Text style={[layout.flex1, styles.author]}>
+              Written by{' '}
+              <Text style={styles.authorName}>{this.state.review.author}</Text>{' '}
+              on {getFormattedDate(this.state.review.createdAt)}
+            </Text>
+          </View>
+
+          <Markdown style={{ text: styles.text }}>
+            {this.state.review.content}
+          </Markdown>
+        </ScrollView>
       </SafeAreaView>
     );
   }
