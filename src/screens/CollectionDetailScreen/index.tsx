@@ -1,9 +1,12 @@
 import React from 'react';
-import { SafeAreaView, Text, ScrollView, View } from 'react-native';
+import { SafeAreaView, Text, ScrollView, View, StyleSheet } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import type { CollectionDetailState, RootScreenProps } from '@shared/types';
 import { CollectionService } from '@services';
 import { ExpandableText, FullScreenLoader, TMDBImage } from '@components';
+import { getFormattedVoteAverage } from '@shared/utils';
+import { colors, layout } from '@shared/themes';
 import styles from './style';
 
 class CollectionDetailScreen extends React.Component<
@@ -30,35 +33,74 @@ class CollectionDetailScreen extends React.Component<
       return <FullScreenLoader />;
     }
 
+    const collectionVoteAverage = (() => {
+      let totalVoteAverage = 0;
+      let numberOfMoviesWithVotes = 0;
+
+      this.state.collection.parts.forEach(element => {
+        if (element.voteCount > 0) {
+          totalVoteAverage += element.voteAverage;
+          numberOfMoviesWithVotes++;
+        }
+      });
+
+      return numberOfMoviesWithVotes > 0
+        ? totalVoteAverage / numberOfMoviesWithVotes
+        : 0;
+    })();
+
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView>
-          <View style={styles.backdropBox}>
-            <TMDBImage
-              style={styles.backdrop}
-              resizeMode='cover'
-              blurRadius={5}
-              path={this.state.collection.backdropPath}
-              size='w780'
-            />
-          </View>
+      <SafeAreaView style={[layout.flex1, styles.container]}>
+        {this.state.collection.backdropPath && (
+          <TMDBImage
+            style={styles.backdrop}
+            path={this.state.collection.backdropPath}
+            size='w1280'
+          />
+        )}
 
-          <View style={[styles.content]}>
-            <View style={styles.informCollection}>
-              <View style={styles.posterBox}>
-                <TMDBImage
-                  style={styles.poster}
-                  path={this.state.collection.posterPath}
-                  size='w342'
-                />
-              </View>
+        <ScrollView style={StyleSheet.absoluteFill}>
+          <LinearGradient
+            style={[StyleSheet.absoluteFill, styles.linearGradient]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 0.5 }}
+            colors={['transparent', colors.primary.toString()]}
+          />
 
-              <Text style={styles.titleText}>{this.state.collection.name}</Text>
+          <View style={[layout.row, styles.header]}>
+            <View style={styles.posterBox}>
+              <TMDBImage
+                style={styles.poster}
+                path={this.state.collection.posterPath}
+                size='w342'
+              />
             </View>
 
-            <View style={styles.contentBody}>
-              <Text style={styles.text}>Introduction</Text>
-              <ExpandableText text={this.state.collection.overview} />
+            <View style={[layout.flex1, styles.nameBox]}>
+              <Text style={styles.name} numberOfLines={3}>
+                {this.state.collection.name} {this.state.collection.name}
+              </Text>
+
+              <Text style={styles.subtext}>
+                Number of Movies: {this.state.collection.parts.length}
+              </Text>
+
+              <Text style={styles.subtext}>
+                Rating: {getFormattedVoteAverage(collectionVoteAverage)}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.content}>
+            <View style={styles.informationBox}>
+              <Text style={styles.informationTitle}>Overview</Text>
+
+              <ExpandableText
+                text={
+                  this.state.collection.overview || 'No overview available.'
+                }
+                seeButtonPosition='separate'
+              />
             </View>
           </View>
         </ScrollView>

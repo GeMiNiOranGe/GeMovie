@@ -1,69 +1,72 @@
 import { StyleSheet } from 'react-native';
 
 import { calculateImageDimensions } from '@shared/utils';
+import { spacing } from '@shared/constants';
+import { colors } from '@shared/themes';
 
-const imageDimensions = calculateImageDimensions(200, 2, 3);
+const poster = calculateImageDimensions(120, 2, 3);
+const nameBoxPaddingHeight = poster.height / 4;
+const headerPaddingHeight = poster.height / 2;
+const linearGradientHeight = (nameBoxPaddingHeight + headerPaddingHeight) * 2;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: 'white',
     },
-    backdropBox: {
-        width: '100%',
-        height: 350,
-        position: 'relative',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     backdrop: {
-        height: '100%',
-        width: '100%',
-        justifyContent: 'flex-end',
-        position: 'absolute',
-        zIndex: 1,
+        height: '50%',
     },
-    content: {
-        width: '100%',
-        flex: 1,
-        alignItems: 'center',
-        paddingTop: 10,
+    linearGradient: {
+        height: linearGradientHeight,
     },
-    titleText: {
-        textAlign: 'center',
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'black',
-        marginVertical: 5,
-    },
-    poster: {
-        ...imageDimensions,
-        resizeMode: 'cover',
-        zIndex: 2,
-        borderRadius: 10,
-        elevation: 10,
-        borderWidth: 2,
-        borderColor: 'black',
-        position: 'absolute',
-        bottom: 50,
-        alignSelf: 'center',
+    header: {
+        paddingTop: headerPaddingHeight,
+        paddingHorizontal: spacing.large,
     },
     posterBox: {
-        paddingTop: 10,
+        marginRight: spacing.large,
     },
-    informCollection: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        flex: 0.5,
+    poster: {
+        ...poster,
+        borderRadius: 8,
     },
-    contentBody: {
-        marginTop: 10,
-        padding: 5,
+    nameBox: {
+        paddingTop: nameBoxPaddingHeight,
     },
-    text: {
-        fontSize: 15,
-        color: 'red',
+    name: {
+        fontSize: 16,
+        color: colors.text,
         fontWeight: 'bold',
+        marginVertical: spacing.small,
+    },
+    ratingBox: {
+        height: 48,
+        width: 48,
+        top: -nameBoxPaddingHeight,
+        borderRadius: 1000,
+        backgroundColor: colors.secondary,
+    },
+    rating: {
+        fontSize: 16,
+        color: colors.primary,
+    },
+    subtext: {
+        fontSize: 14,
+        color: colors.subtext,
+    },
+    content: {
+        paddingTop: spacing.large,
+        backgroundColor: colors.primary,
+    },
+    informationBox: {
+        paddingHorizontal: spacing.large,
+        marginBottom: spacing.extraLarge,
+    },
+    informationTitle: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: colors.text,
+        paddingBottom: spacing.tiny,
     },
 });
 
