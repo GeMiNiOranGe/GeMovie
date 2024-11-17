@@ -1,4 +1,3 @@
-import { GenreService } from '@services';
 import type {
     Genre,
     ImageDimensions,
@@ -91,12 +90,13 @@ export function getFormattedGender(genderNumber: number): string {
     return 'Not specified';
 }
 
-export function getFormattedGenres(genreIds: number[]): (string | undefined)[] {
+export function getFormattedGenres(
+    genreIds: number[],
+    genres: Genre[],
+): (string | undefined)[] {
     if (genreIds.length === 0) {
         return ['Unknown'];
     }
-
-    const genres: Genre[] = GenreService.instance.getGenres();
 
     const genreTuples: [number, string][] = genres.map(genre => [
         genre.id,

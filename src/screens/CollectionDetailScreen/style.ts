@@ -60,6 +60,17 @@ const styles = StyleSheet.create({
         color: colors.text,
         paddingBottom: spacing.tiny,
     },
+    chip: {
+        borderRadius: 1000,
+        backgroundColor: colors.background,
+    },
+    chipText: {
+        fontSize: 12,
+        color: colors.text,
+        marginVertical: 4,
+        marginLeft: 12,
+        marginRight: 12,
+    },
 });
 
 export default styles;

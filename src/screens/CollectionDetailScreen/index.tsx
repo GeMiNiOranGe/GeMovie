@@ -1,35 +1,73 @@
 import React from 'react';
-import { SafeAreaView, Text, ScrollView, View, StyleSheet } from 'react-native';
+import {
+  SafeAreaView,
+  Text,
+  ScrollView,
+  View,
+  StyleSheet,
+  type ListRenderItemInfo,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { Chip } from 'react-native-paper';
+import { flatMap, uniq } from 'lodash';
 
 import type { CollectionDetailState, RootScreenProps } from '@shared/types';
-import { CollectionService } from '@services';
+import { CollectionService, GenreService } from '@services';
 import {
   ExpandableText,
   FullScreenLoader,
+  Section,
   TMDBImage,
   VoteLabel,
 } from '@components';
 import { colors, layout } from '@shared/themes';
+import { getFormattedGenres } from '@shared/utils';
+import { spacing } from '@shared/constants';
 import styles from './style';
 
 class CollectionDetailScreen extends React.Component<
   RootScreenProps<'CollectionDetailScreen'>,
   CollectionDetailState
 > {
+  private genreNames: (string | undefined)[] | undefined;
+
   public constructor(props: RootScreenProps<'CollectionDetailScreen'>) {
     super(props);
     this.state = {
       collection: undefined,
     };
+
+    this.renderGenreItem = this.renderGenreItem.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
     const { collectionId } = this.props.route.params;
 
-    const collection = await CollectionService.getDetailAsync(collectionId);
+    const [collection, movieGenres] = await Promise.all([
+      CollectionService.getDetailAsync(collectionId),
+      GenreService.instance.fetchMovieGenres(),
+    ]);
+
+    const genreIds = uniq(flatMap(collection.parts, 'genreIds'));
+
+    this.genreNames = getFormattedGenres(genreIds, movieGenres);
+
     this.setState({ collection });
     this.props.navigation.setOptions({ title: collection.name });
+  }
+
+  private renderGenreItem({
+    item,
+    index,
+  }: ListRenderItemInfo<string | undefined>): React.JSX.Element {
+    const marginRight =
+      index === (this.genreNames?.length || 0) - 1 ? 0 : spacing.small;
+
+    return (
+      <Chip style={[styles.chip, { marginRight }]} textStyle={styles.chipText}>
+        {item}
+      </Chip>
+    );
   }
 
   public override render(): React.JSX.Element {
@@ -105,6 +143,25 @@ class CollectionDetailScreen extends React.Component<
                 seeButtonPosition='separate'
               />
             </View>
+
+            <Section.Separator />
+
+            <Section title='Details'>
+              <Section.Content>
+                <Section.Label
+                  name='Number of Movies'
+                  value={this.state.collection.parts.length.toString()}
+                />
+
+                <Section.Divider />
+
+                <Section.Items
+                  name='Genres'
+                  data={this.genreNames}
+                  renderItem={this.renderGenreItem}
+                />
+              </Section.Content>
+            </Section>
           </View>
         </ScrollView>
       </SafeAreaView>

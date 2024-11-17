@@ -11,7 +11,7 @@ import {
 import { ArrowRight2, Image as ImageIcon, Star1 } from 'iconsax-react-native';
 import { Card, IconButton } from 'react-native-paper';
 
-import { URLBuilder } from '@services';
+import { GenreService, URLBuilder } from '@services';
 import { spacing } from '@shared/constants';
 import { layout, colors } from '@shared/themes';
 import {
@@ -29,11 +29,14 @@ const navigationIconSize = 20;
 abstract class VideoDetailCardBase<
   E extends VideoElement,
 > extends VideoCardBase<E> {
-  private readonly genres: (string | undefined)[];
+  private readonly genreNames: (string | undefined)[];
 
   public constructor(props: VideoCardBaseProps<E>) {
     super(props);
-    this.genres = getFormattedGenres(this.props.item.genreIds);
+    this.genreNames = getFormattedGenres(
+      this.props.item.genreIds,
+      GenreService.instance.getGenres(),
+    );
 
     this.renderGenreTagItem = this.renderGenreTagItem.bind(this);
   }
@@ -42,7 +45,8 @@ abstract class VideoDetailCardBase<
     item,
     index,
   }: ListRenderItemInfo<string | undefined>): React.JSX.Element {
-    const marginRight = index === this.genres.length - 1 ? 0 : spacing.small;
+    const marginRight =
+      index === this.genreNames.length - 1 ? 0 : spacing.small;
 
     return (
       <Pressable style={[layout.center, styles.genreTag, { marginRight }]}>
@@ -126,7 +130,7 @@ abstract class VideoDetailCardBase<
                 showsHorizontalScrollIndicator={false}
                 keyboardShouldPersistTaps='handled'
                 keyExtractor={(_item, index) => index.toString()}
-                data={this.genres}
+                data={this.genreNames}
                 renderItem={this.renderGenreTagItem}
               />
 
