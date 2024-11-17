@@ -29,13 +29,17 @@ class CollectionDetailScreen extends React.Component<
   RootScreenProps<'CollectionDetailScreen'>,
   CollectionDetailState
 > {
-  private genreNames: (string | undefined)[] | undefined;
+  private genreNames: (string | undefined)[];
+  private voteAverage: number;
 
   public constructor(props: RootScreenProps<'CollectionDetailScreen'>) {
     super(props);
     this.state = {
       collection: undefined,
     };
+
+    this.genreNames = [];
+    this.voteAverage = 0;
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
   }
@@ -49,8 +53,23 @@ class CollectionDetailScreen extends React.Component<
     ]);
 
     const genreIds = uniq(flatMap(collection.parts, 'genreIds'));
-
     this.genreNames = getFormattedGenres(genreIds, movieGenres);
+
+    this.voteAverage = (() => {
+      let totalVoteAverage = 0;
+      let numberOfMoviesWithVotes = 0;
+
+      collection.parts.forEach(element => {
+        if (element.voteCount > 0) {
+          totalVoteAverage += element.voteAverage;
+          numberOfMoviesWithVotes++;
+        }
+      });
+
+      return numberOfMoviesWithVotes > 0
+        ? totalVoteAverage / numberOfMoviesWithVotes
+        : 0;
+    })();
 
     this.setState({ collection });
     this.props.navigation.setOptions({ title: collection.name });
@@ -74,22 +93,6 @@ class CollectionDetailScreen extends React.Component<
     if (!this.state.collection) {
       return <FullScreenLoader />;
     }
-
-    const collectionVoteAverage = (() => {
-      let totalVoteAverage = 0;
-      let numberOfMoviesWithVotes = 0;
-
-      this.state.collection.parts.forEach(element => {
-        if (element.voteCount > 0) {
-          totalVoteAverage += element.voteAverage;
-          numberOfMoviesWithVotes++;
-        }
-      });
-
-      return numberOfMoviesWithVotes > 0
-        ? totalVoteAverage / numberOfMoviesWithVotes
-        : 0;
-    })();
 
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
@@ -124,10 +127,7 @@ class CollectionDetailScreen extends React.Component<
               </Text>
 
               <View style={layout.itemsStart}>
-                <VoteLabel
-                  style={styles.rating}
-                  value={collectionVoteAverage}
-                />
+                <VoteLabel style={styles.rating} value={this.voteAverage} />
               </View>
             </View>
           </View>
