@@ -4,8 +4,12 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import type { CollectionDetailState, RootScreenProps } from '@shared/types';
 import { CollectionService } from '@services';
-import { ExpandableText, FullScreenLoader, TMDBImage } from '@components';
-import { getFormattedVoteAverage } from '@shared/utils';
+import {
+  ExpandableText,
+  FullScreenLoader,
+  TMDBImage,
+  VoteLabel,
+} from '@components';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
 
@@ -77,17 +81,16 @@ class CollectionDetailScreen extends React.Component<
             </View>
 
             <View style={[layout.flex1, styles.nameBox]}>
-              <Text style={styles.name} numberOfLines={3}>
-                {this.state.collection.name} {this.state.collection.name}
+              <Text style={styles.name} numberOfLines={4}>
+                {this.state.collection.name}
               </Text>
 
-              <Text style={styles.subtext}>
-                Number of Movies: {this.state.collection.parts.length}
-              </Text>
-
-              <Text style={styles.subtext}>
-                Rating: {getFormattedVoteAverage(collectionVoteAverage)}
-              </Text>
+              <View style={layout.itemsStart}>
+                <VoteLabel
+                  style={styles.rating}
+                  value={collectionVoteAverage}
+                />
+              </View>
             </View>
           </View>
 

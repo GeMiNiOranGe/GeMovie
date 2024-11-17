@@ -39,16 +39,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginVertical: spacing.small,
     },
-    ratingBox: {
-        height: 48,
-        width: 48,
-        top: -nameBoxPaddingHeight,
-        borderRadius: 1000,
-        backgroundColor: colors.secondary,
-    },
     rating: {
-        fontSize: 16,
-        color: colors.primary,
+        margin: 0,
     },
     subtext: {
         fontSize: 14,
