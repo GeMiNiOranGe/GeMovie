@@ -5,9 +5,11 @@ import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
 
 const poster = calculateImageDimensions(120, 2, 3);
+const shadowPadding = spacing.small;
 const nameBoxPaddingHeight = poster.height / 4;
 const headerPaddingHeight = poster.height / 2;
-const linearGradientHeight = (nameBoxPaddingHeight + headerPaddingHeight) * 2;
+const linearGradientHeight =
+    (nameBoxPaddingHeight + headerPaddingHeight) * 2 + shadowPadding;
 
 const styles = StyleSheet.create({
     container: {
@@ -25,10 +27,14 @@ const styles = StyleSheet.create({
     },
     posterBox: {
         marginRight: spacing.large,
+        marginBottom: shadowPadding,
+        overflow: 'hidden',
+        borderRadius: 8,
+        backgroundColor: colors.primary,
+        elevation: 4,
     },
     poster: {
         ...poster,
-        borderRadius: 8,
     },
     nameBox: {
         paddingTop: nameBoxPaddingHeight,
