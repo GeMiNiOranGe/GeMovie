@@ -53,6 +53,7 @@ import {
   Credit,
   Photo,
   Review,
+  Box,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -281,21 +282,15 @@ class MovieDetailScreen extends React.Component<
               <Labels data={this.getLabels()} />
             </View>
 
-            <View style={styles.informationBox}>
-              <Text style={styles.informationTitle}>Synopsis</Text>
-
+            <Box title='Synopsis'>
               <ExpandableText
                 text={`${this.state.movie?.overview}`}
                 seeButtonPosition='separate'
               />
-            </View>
+            </Box>
 
             {this.state.movie?.belongsToCollection && (
-              <View style={styles.informationBox}>
-                <Text style={styles.informationTitle}>
-                  Belongs to collection
-                </Text>
-
+              <Box title='Belongs to collection'>
                 <TouchableOpacity
                   style={layout.row}
                   activeOpacity={0.85}
@@ -335,7 +330,7 @@ class MovieDetailScreen extends React.Component<
                     </ImageBackground>
                   </>
                 </TouchableOpacity>
-              </View>
+              </Box>
             )}
 
             <Section.Separator />

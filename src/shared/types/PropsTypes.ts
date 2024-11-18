@@ -109,6 +109,11 @@ export type ExpandableTextProps = {
     numberOfLines?: number | undefined;
 };
 
+export type BoxProps = {
+    title: string;
+    children?: React.ReactNode | undefined;
+};
+
 export type SectionProps = {
     style?: StyleProp<ViewStyle> | undefined;
     title: string;

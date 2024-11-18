@@ -4,6 +4,7 @@ import { colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 
 const accentWidth = 4;
+const subsectionFontSize = 16;
 
 const styles = StyleSheet.create({
     section: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
         marginBottom: spacing.small,
     },
     title: {
-        fontSize: 18,
+        fontSize: 20,
         color: colors.text,
         fontWeight: 'bold',
     },
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.large,
     },
     sectionLabelName: {
-        fontSize: 16,
+        fontSize: subsectionFontSize,
         color: colors.text,
         marginBottom: spacing.tiny,
     },
@@ -70,12 +71,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.large,
     },
     sectionItemName: {
-        fontSize: 16,
+        fontSize: subsectionFontSize,
         color: colors.text,
         marginBottom: spacing.tiny,
     },
     sectionItemsName: {
-        fontSize: 16,
+        fontSize: subsectionFontSize,
         color: colors.text,
         marginBottom: spacing.small,
         paddingHorizontal: spacing.large,

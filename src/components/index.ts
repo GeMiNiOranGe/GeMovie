@@ -10,6 +10,7 @@ export { default as PersonDetailCard } from './PersonDetailCard';
 export { default as Slideshow } from './SlideShow';
 export { default as SearchResultsTabBar } from './SearchResultsTabBar';
 export { default as Youtube } from './Youtube';
+export { default as Box } from './Box';
 export { default as Section } from './Section';
 export { default as CompactMovieCard } from './CompactMovieCard';
 export { default as CompactTvShowCard } from './CompactTvShowCard';

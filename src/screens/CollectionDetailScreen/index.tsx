@@ -19,6 +19,7 @@ import type {
 } from '@shared/types';
 import { CollectionService, GenreService } from '@services';
 import {
+  Box,
   CompactMovieCard,
   ExpandableText,
   FullScreenLoader,
@@ -142,21 +143,17 @@ class CollectionDetailScreen extends React.Component<
           </View>
 
           <View style={styles.content}>
-            <View style={styles.informationBox}>
-              <Text style={styles.informationTitle}>Overview</Text>
-
+            <Box title='Overview'>
               <ExpandableText
                 text={
                   this.state.collection.overview || 'No overview available.'
                 }
                 seeButtonPosition='separate'
               />
-            </View>
+            </Box>
 
             {this.latestMovie && (
-              <View style={styles.informationBox}>
-                <Text style={styles.informationTitle}>Latest movie</Text>
-
+              <Box title='Latest movie'>
                 <CompactMovieCard
                   item={this.latestMovie}
                   index={0}
@@ -169,7 +166,7 @@ class CollectionDetailScreen extends React.Component<
                     })
                   }
                 />
-              </View>
+              </Box>
             )}
 
             <Section.Separator />

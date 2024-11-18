@@ -82,16 +82,6 @@ const styles = StyleSheet.create({
     imdbLink: {
         marginLeft: spacing.small,
     },
-    informationBox: {
-        paddingHorizontal: spacing.large,
-        marginBottom: spacing.extraLarge,
-    },
-    informationTitle: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: 'black',
-        paddingBottom: spacing.small,
-    },
     collectionPoster: {
         ...collectionPosterDimensions,
     },

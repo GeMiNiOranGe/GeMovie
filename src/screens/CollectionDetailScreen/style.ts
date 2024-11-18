@@ -56,16 +56,6 @@ const styles = StyleSheet.create({
         paddingTop: spacing.large,
         backgroundColor: colors.primary,
     },
-    informationBox: {
-        paddingHorizontal: spacing.large,
-        marginBottom: spacing.extraLarge,
-    },
-    informationTitle: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        color: colors.text,
-        paddingBottom: spacing.tiny,
-    },
     chip: {
         borderRadius: 1000,
         backgroundColor: colors.background,
