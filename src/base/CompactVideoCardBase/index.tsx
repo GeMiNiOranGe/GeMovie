@@ -28,7 +28,10 @@ abstract class CompactVideoCardBase<
 
     return (
       <Card
-        style={[horizontal.card, { marginBottom }]}
+        style={[
+          horizontal.card,
+          { marginBottom, backgroundColor: this.props.cardBackgroundColor },
+        ]}
         contentStyle={layout.row}
         onPress={this.props.onPress}
       >

@@ -66,6 +66,7 @@ export type SearchResultsTopTabBaseProps = {
 export type CardBaseProps<E extends CardElement> = {
     item: E;
     index: number;
+    cardBackgroundColor?: ColorValue | undefined;
     horizontal?: boolean | undefined;
     listLength?: number | undefined;
     onPress?: ((event: GestureResponderEvent) => void) | undefined;

@@ -9,11 +9,17 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Chip } from 'react-native-paper';
-import { flatMap, uniq } from 'lodash';
+import { flatMap, maxBy, uniq } from 'lodash';
 
-import type { CollectionDetailState, RootScreenProps } from '@shared/types';
+import type {
+  CollectionDetailState,
+  Media,
+  MovieElement,
+  RootScreenProps,
+} from '@shared/types';
 import { CollectionService, GenreService } from '@services';
 import {
+  CompactMovieCard,
   ExpandableText,
   FullScreenLoader,
   Section,
@@ -31,6 +37,7 @@ class CollectionDetailScreen extends React.Component<
 > {
   private genreNames: (string | undefined)[];
   private voteAverage: number;
+  private latestMovie: (MovieElement & Media) | undefined;
 
   public constructor(props: RootScreenProps<'CollectionDetailScreen'>) {
     super(props);
@@ -70,6 +77,8 @@ class CollectionDetailScreen extends React.Component<
         ? totalVoteAverage / numberOfMoviesWithVotes
         : 0;
     })();
+
+    this.latestMovie = maxBy(collection.parts, 'releaseDate');
 
     this.setState({ collection });
     this.props.navigation.setOptions({ title: collection.name });
@@ -143,6 +152,25 @@ class CollectionDetailScreen extends React.Component<
                 seeButtonPosition='separate'
               />
             </View>
+
+            {this.latestMovie && (
+              <View style={styles.informationBox}>
+                <Text style={styles.informationTitle}>Latest movie</Text>
+
+                <CompactMovieCard
+                  item={this.latestMovie}
+                  index={0}
+                  listLength={1}
+                  cardBackgroundColor={colors.background}
+                  horizontal
+                  onPress={() =>
+                    this.props.navigation.push('MovieDetailScreen', {
+                      movieId: this.latestMovie?.id as number,
+                    })
+                  }
+                />
+              </View>
+            )}
 
             <Section.Separator />
 
