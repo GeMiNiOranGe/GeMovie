@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   type ListRenderItemInfo,
+  FlatList,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Chip } from 'react-native-paper';
@@ -132,7 +133,7 @@ class CollectionDetailScreen extends React.Component<
             </View>
 
             <View style={[layout.flex1, styles.nameBox]}>
-              <Text style={styles.name} numberOfLines={4}>
+              <Text style={styles.name} numberOfLines={3}>
                 {this.state.collection.name}
               </Text>
 
@@ -143,14 +144,21 @@ class CollectionDetailScreen extends React.Component<
           </View>
 
           <View style={styles.content}>
-            <Box title='Overview'>
+            <Box style={styles.overviewBox} title='Overview'>
               <ExpandableText
                 text={
                   this.state.collection.overview || 'No overview available.'
                 }
-                seeButtonPosition='separate'
               />
             </Box>
+
+            <FlatList
+              style={styles.genreList}
+              contentContainerStyle={styles.genreContentList}
+              horizontal
+              data={this.genreNames}
+              renderItem={this.renderGenreItem}
+            />
 
             {this.latestMovie && (
               <Box title='Latest movie'>
@@ -173,6 +181,13 @@ class CollectionDetailScreen extends React.Component<
 
             <Section title='Details'>
               <Section.Content>
+                <Section.Label
+                  name='Full Name'
+                  value={this.state.collection.name}
+                />
+
+                <Section.Divider />
+
                 <Section.Label
                   name='Number of Movies'
                   value={this.state.collection.parts.length.toString()}

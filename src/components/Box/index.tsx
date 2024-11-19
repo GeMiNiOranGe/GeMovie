@@ -7,7 +7,7 @@ import styles from './style';
 class Box extends React.PureComponent<BoxProps> {
   public override render(): React.JSX.Element {
     return (
-      <View style={styles.box}>
+      <View style={[styles.box, this.props.style]}>
         <Text style={styles.title}>{this.props.title}</Text>
 
         {this.props.children}

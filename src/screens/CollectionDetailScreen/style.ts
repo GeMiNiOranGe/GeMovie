@@ -40,20 +40,29 @@ const styles = StyleSheet.create({
         paddingTop: nameBoxPaddingHeight,
     },
     name: {
-        fontSize: 16,
+        fontSize: 20,
         color: colors.text,
         fontWeight: 'bold',
-        marginVertical: spacing.small,
+        marginVertical: spacing.medium,
     },
     rating: {
         margin: 0,
+    },
+    overviewBox: {
+        marginBottom: spacing.large,
+    },
+    genreList: {
+        marginBottom: spacing.huge,
+    },
+    genreContentList: {
+        paddingHorizontal: spacing.large,
     },
     subtext: {
         fontSize: 14,
         color: colors.subtext,
     },
     content: {
-        paddingTop: spacing.large,
+        paddingTop: spacing.extraLarge,
         backgroundColor: colors.primary,
     },
     chip: {

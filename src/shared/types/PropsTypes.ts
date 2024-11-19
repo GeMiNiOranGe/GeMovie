@@ -103,13 +103,14 @@ export type LabelsProps = {
 };
 
 export type ExpandableTextProps = {
-    style?: StyleProp<TextStyle>;
-    seeButtonPosition?: 'withText' | 'separate';
+    style?: StyleProp<TextStyle> | undefined;
+    seeButtonPosition?: 'with-text' | 'separate';
     text: string;
     numberOfLines?: number | undefined;
 };
 
 export type BoxProps = {
+    style?: StyleProp<ViewStyle> | undefined;
     title: string;
     children?: React.ReactNode | undefined;
 };
