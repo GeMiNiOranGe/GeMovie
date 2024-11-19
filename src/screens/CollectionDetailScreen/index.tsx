@@ -24,6 +24,7 @@ import {
   CompactMovieCard,
   ExpandableText,
   FullScreenLoader,
+  MovieDetailCard,
   Section,
   TMDBImage,
   VoteLabel,
@@ -40,6 +41,7 @@ class CollectionDetailScreen extends React.Component<
   private genreNames: (string | undefined)[];
   private voteAverage: number;
   private latestMovie: (MovieElement & Media) | undefined;
+  private topRated: (MovieElement & Media) | undefined;
 
   public constructor(props: RootScreenProps<'CollectionDetailScreen'>) {
     super(props);
@@ -82,6 +84,27 @@ class CollectionDetailScreen extends React.Component<
     })();
 
     this.latestMovie = maxBy(collection.parts, 'releaseDate');
+
+    this.topRated = (() => {
+      if (collection.parts.length < 10) {
+        return undefined;
+      }
+
+      if (collection.parts.length === 0) {
+        return undefined;
+      }
+
+      return collection.parts.reduce((topRated, current) => {
+        if (
+          current.voteAverage > topRated.voteAverage ||
+          (current.voteAverage === topRated.voteAverage &&
+            current.voteCount > topRated.voteCount)
+        ) {
+          return current;
+        }
+        return topRated;
+      });
+    })();
 
     this.setState({ collection });
     this.props.navigation.setOptions({ title: collection.name });
@@ -190,6 +213,23 @@ class CollectionDetailScreen extends React.Component<
                   onPress={() =>
                     this.props.navigation.push('MovieDetailScreen', {
                       movieId: this.latestMovie?.id as number,
+                    })
+                  }
+                />
+              </Box>
+            )}
+
+            {this.topRated && (
+              <Box title='Top Rated'>
+                <MovieDetailCard
+                  item={this.topRated}
+                  index={0}
+                  listLength={1}
+                  cardBackgroundColor='#FFFFE6'
+                  horizontal
+                  onPress={() =>
+                    this.props.navigation.push('MovieDetailScreen', {
+                      movieId: this.topRated?.id as number,
                     })
                   }
                 />
