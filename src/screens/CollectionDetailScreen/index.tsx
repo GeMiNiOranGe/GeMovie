@@ -51,6 +51,7 @@ class CollectionDetailScreen extends React.Component<
     this.voteAverage = 0;
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
+    this.renderMovieItem = this.renderMovieItem.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
@@ -97,6 +98,24 @@ class CollectionDetailScreen extends React.Component<
       <Chip style={[styles.chip, { marginRight }]} textStyle={styles.chipText}>
         {item}
       </Chip>
+    );
+  }
+
+  private renderMovieItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
+    return (
+      <CompactMovieCard
+        item={item}
+        index={index}
+        listLength={this.state.collection?.parts.length}
+        onPress={() =>
+          this.props.navigation.push('MovieDetailScreen', {
+            movieId: item.id,
+          })
+        }
+      />
     );
   }
 
@@ -176,6 +195,16 @@ class CollectionDetailScreen extends React.Component<
                 />
               </Box>
             )}
+
+            <Section.Separator />
+
+            <Section title='Parts'>
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={this.state.collection.parts}
+                renderItem={this.renderMovieItem}
+              />
+            </Section>
 
             <Section.Separator />
 
