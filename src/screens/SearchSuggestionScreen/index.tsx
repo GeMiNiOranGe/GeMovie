@@ -1,9 +1,14 @@
 import React from 'react';
-import { SafeAreaView, Text, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native';
 import { SearchNormal1 } from 'iconsax-react-native';
+import { IconButton } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { RootScreenProps } from '@shared/types';
+import type { RootScreenProps } from '@shared/types';
+import { colors } from '@shared/themes';
 import styles from './style';
+
+const searchIconSize = 24;
 
 class SearchSuggestionScreen extends React.Component<
   RootScreenProps<'SearchSuggestionScreen'>
@@ -14,13 +19,20 @@ class SearchSuggestionScreen extends React.Component<
     this.renderHeaderRight = this.renderHeaderRight.bind(this);
   }
 
+  private renderSearchIcon() {
+    return (
+      <SearchNormal1 size={searchIconSize} color={colors.text.toString()} />
+    );
+  }
+
   private renderHeaderRight() {
     return (
-      <TouchableOpacity
+      <IconButton
+        style={styles.searchIconButton}
+        icon={this.renderSearchIcon}
+        size={searchIconSize}
         onPress={() => this.props.navigation.navigate('SearchScreen')}
-      >
-        <SearchNormal1 size={24} color='black' />
-      </TouchableOpacity>
+      />
     );
   }
 

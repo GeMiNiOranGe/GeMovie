@@ -10,6 +10,9 @@ const styles = StyleSheet.create({
         fontSize: 32,
         color: 'black',
     },
+    searchIconButton: {
+        margin: 0,
+    },
 });
 
 export default styles;
