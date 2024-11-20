@@ -48,6 +48,11 @@ const styles = StyleSheet.create({
     rating: {
         margin: 0,
     },
+    numberOfMovies: {
+        fontSize: 14,
+        color: colors.subtext,
+        marginTop: spacing.small,
+    },
     overviewBox: {
         marginBottom: spacing.large,
     },
@@ -56,10 +61,6 @@ const styles = StyleSheet.create({
     },
     genreContentList: {
         paddingHorizontal: spacing.large,
-    },
-    subtext: {
-        fontSize: 14,
-        color: colors.subtext,
     },
     content: {
         paddingTop: spacing.extraLarge,

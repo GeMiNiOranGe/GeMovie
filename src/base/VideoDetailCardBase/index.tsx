@@ -67,7 +67,13 @@ abstract class VideoDetailCardBase<
 
     return (
       <Card
-        style={[styles.card, { marginBottom }]}
+        style={[
+          styles.card,
+          { marginBottom },
+          this.props.cardBackgroundColor && {
+            backgroundColor: this.props.cardBackgroundColor,
+          },
+        ]}
         contentStyle={[layout.row, styles.contentCard]}
         onPress={this.props.onPress}
       >

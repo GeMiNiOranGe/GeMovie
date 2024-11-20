@@ -175,13 +175,17 @@ class CollectionDetailScreen extends React.Component<
             </View>
 
             <View style={[layout.flex1, styles.nameBox]}>
-              <Text style={styles.name} numberOfLines={3}>
+              <Text style={styles.name} numberOfLines={2}>
                 {this.state.collection.name}
               </Text>
 
               <View style={layout.itemsStart}>
                 <VoteLabel style={styles.rating} value={this.voteAverage} />
               </View>
+
+              <Text style={styles.numberOfMovies}>
+                Number of Movies: {this.state.collection.parts.length}
+              </Text>
             </View>
           </View>
 
@@ -225,8 +229,7 @@ class CollectionDetailScreen extends React.Component<
                   item={this.topRated}
                   index={0}
                   listLength={1}
-                  cardBackgroundColor='#FFFFE6'
-                  horizontal
+                  cardBackgroundColor={colors.background}
                   onPress={() =>
                     this.props.navigation.push('MovieDetailScreen', {
                       movieId: this.topRated?.id as number,
