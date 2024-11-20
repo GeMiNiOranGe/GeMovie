@@ -191,11 +191,9 @@ class CollectionDetailScreen extends React.Component<
 
           <View style={styles.content}>
             <Box style={styles.overviewBox} title='Overview'>
-              <ExpandableText
-                text={
-                  this.state.collection.overview || 'No overview available.'
-                }
-              />
+              <ExpandableText>
+                {this.state.collection.overview || 'No overview available.'}
+              </ExpandableText>
             </Box>
 
             <FlatList

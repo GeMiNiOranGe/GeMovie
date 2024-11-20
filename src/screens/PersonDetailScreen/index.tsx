@@ -303,10 +303,9 @@ class PersonDetailScreen extends React.Component<
             }}
           >
             <Text style={styles.biographyText}>Introduction</Text>
-            <ExpandableText
-              text={`${this.state.person?.biography}`}
-              numberOfLines={3}
-            />
+            <ExpandableText>
+              {`${this.state.person?.biography}`}
+            </ExpandableText>
 
             <Text style={styles.biographyText}>Most Popular Movies</Text>
             <View style={styles.containerMovie}>

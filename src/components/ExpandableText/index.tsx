@@ -93,7 +93,7 @@ class ExpandableText extends React.PureComponent<
             onSeeMore={this.onSeeMore}
             onSeeLess={this.onSeeLess}
           >
-            {this.props.text}
+            {this.props.children}
           </ReadMore>
 
           {this.state.isShowReadButton &&
@@ -117,7 +117,7 @@ class ExpandableText extends React.PureComponent<
         onSeeMore={this.onSeeMore}
         onSeeLess={this.onSeeLess}
       >
-        {this.props.text}
+        {this.props.children}
       </ReadMore>
     );
   }

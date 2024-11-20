@@ -283,10 +283,9 @@ class MovieDetailScreen extends React.Component<
             </View>
 
             <Box title='Synopsis'>
-              <ExpandableText
-                text={`${this.state.movie?.overview}`}
-                seeButtonPosition='separate'
-              />
+              <ExpandableText seeButtonPosition='separate'>
+                {`${this.state.movie?.overview}`}
+              </ExpandableText>
             </Box>
 
             {this.state.movie?.belongsToCollection && (
@@ -390,10 +389,9 @@ class MovieDetailScreen extends React.Component<
             <Section title='Storyline'>
               <Section.Content>
                 <Section.Item name='Overview'>
-                  <ExpandableText
-                    style={styles.expandableText}
-                    text={`${this.state.movie?.overview}`}
-                  />
+                  <ExpandableText style={styles.expandableText}>
+                    {`${this.state.movie?.overview}`}
+                  </ExpandableText>
                 </Section.Item>
 
                 <Section.Divider />

@@ -307,10 +307,9 @@ class TvShowDetailScreen extends React.Component<
 
             <View style={styles.descriptionContainer}>
               <Text style={styles.introText}>Introduction</Text>
-              <ExpandableText
-                text={tv.overview || 'No overview available.'}
-                numberOfLines={3}
-              />
+              <ExpandableText>
+                {tv.overview || 'No overview available.'}
+              </ExpandableText>
             </View>
             <Section.Separator />
             <Section title='Seasons'>
