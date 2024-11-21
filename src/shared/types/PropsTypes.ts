@@ -17,6 +17,7 @@ import type { IconProps as IconsaxProps } from 'iconsax-react-native';
 
 import type {
     CardElement,
+    Genre,
     OnEndReached,
     PropsComponent,
     VideoElement,
@@ -34,6 +35,10 @@ export type RootStackParamList = ParamListBase & {
     };
     ReviewDetailScreen: {
         reviewId: string;
+    };
+    GenreDetailScreen: {
+        genre: Genre;
+        type: VideoType;
     };
     MovieDetailScreen: {
         movieId: number;

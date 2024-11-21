@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   FlatList,
+  type ListRenderItem,
   type ListRenderItemInfo,
   ScrollView,
   Text,
@@ -35,6 +36,8 @@ class SearchSuggestionScreen extends React.Component<
     };
 
     this.renderHeaderRight = this.renderHeaderRight.bind(this);
+    this.renderMovieGenreItem = this.renderMovieGenreItem.bind(this);
+    this.renderTvShowGenreItem = this.renderTvShowGenreItem.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
@@ -67,7 +70,7 @@ class SearchSuggestionScreen extends React.Component<
     );
   }
 
-  private renderGenreItem({
+  private renderMovieGenreItem({
     item,
     index,
   }: ListRenderItemInfo<Genre>): React.JSX.Element {
@@ -79,13 +82,47 @@ class SearchSuggestionScreen extends React.Component<
       <Chip
         style={[layout.flex1, { marginLeft }, styles.genreChip]}
         textStyle={styles.genreChipText}
+        onPress={() =>
+          this.props.navigation.navigate('GenreDetailScreen', {
+            genre: item,
+            type: 'movie',
+          })
+        }
       >
         {item.name}
       </Chip>
     );
   }
 
-  private renderGenreList(headerTitle: string, data: Genre[]) {
+  private renderTvShowGenreItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Genre>): React.JSX.Element {
+    const marginLeft = index % 2 !== 0 ? spacing.small : 0;
+
+    // TODO: create a `Tag` component, instead of `Chip`, because with a font size of 16,
+    // this is not a good choice when using `Chip`
+    return (
+      <Chip
+        style={[layout.flex1, { marginLeft }, styles.genreChip]}
+        textStyle={styles.genreChipText}
+        onPress={() =>
+          this.props.navigation.navigate('GenreDetailScreen', {
+            genre: item,
+            type: 'tv',
+          })
+        }
+      >
+        {item.name}
+      </Chip>
+    );
+  }
+
+  private renderGenreList(
+    headerTitle: string,
+    data: Genre[],
+    renderItem: ListRenderItem<Genre>,
+  ) {
     return (
       <FlatList
         contentContainerStyle={styles.genreListContent}
@@ -98,7 +135,7 @@ class SearchSuggestionScreen extends React.Component<
         columnWrapperStyle={styles.genreColumnWrapper}
         keyExtractor={item => item.id.toString()}
         data={data}
-        renderItem={this.renderGenreItem}
+        renderItem={renderItem}
       />
     );
   }
@@ -111,8 +148,16 @@ class SearchSuggestionScreen extends React.Component<
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
         <ScrollView>
-          {this.renderGenreList('Movie genres', this.state.movieGenres)}
-          {this.renderGenreList('TV series genres', this.state.tvShowGenres)}
+          {this.renderGenreList(
+            'Movie genres',
+            this.state.movieGenres,
+            this.renderMovieGenreItem,
+          )}
+          {this.renderGenreList(
+            'TV series genres',
+            this.state.tvShowGenres,
+            this.renderTvShowGenreItem,
+          )}
         </ScrollView>
       </SafeAreaView>
     );
