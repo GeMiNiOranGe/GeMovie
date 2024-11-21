@@ -16,11 +16,18 @@ import type {
     TvShowElement,
     Reviews,
     Review,
+    Genre,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
 export type SearchScreenState = {
     searchContent: string;
+};
+
+export type SearchSuggestionScreenState = {
+    movieGenres: Genre[];
+    tvShowGenres: Genre[];
+    isLoading: boolean;
 };
 
 export type SearchResultsTopTabBaseState<T> = {

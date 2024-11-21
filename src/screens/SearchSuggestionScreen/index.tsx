@@ -1,22 +1,53 @@
 import React from 'react';
-import { Text } from 'react-native';
+import {
+  FlatList,
+  type ListRenderItemInfo,
+  ScrollView,
+  Text,
+} from 'react-native';
 import { SearchNormal1 } from 'iconsax-react-native';
-import { IconButton } from 'react-native-paper';
+import { Chip, IconButton } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import type { RootScreenProps } from '@shared/types';
-import { colors } from '@shared/themes';
+import { GenreService } from '@services';
+import { FullScreenLoader } from '@components';
+import type {
+  Genre,
+  RootScreenProps,
+  SearchSuggestionScreenState,
+} from '@shared/types';
+import { spacing } from '@shared/constants';
+import { colors, layout } from '@shared/themes';
 import styles from './style';
 
 const searchIconSize = 24;
 
 class SearchSuggestionScreen extends React.Component<
-  RootScreenProps<'SearchSuggestionScreen'>
+  RootScreenProps<'SearchSuggestionScreen'>,
+  SearchSuggestionScreenState
 > {
   public constructor(props: RootScreenProps<'SearchSuggestionScreen'>) {
     super(props);
+    this.state = {
+      movieGenres: [],
+      tvShowGenres: [],
+      isLoading: true,
+    };
 
     this.renderHeaderRight = this.renderHeaderRight.bind(this);
+  }
+
+  public override async componentDidMount(): Promise<void> {
+    this.props.navigation.setOptions({
+      headerRight: this.renderHeaderRight,
+    });
+
+    const [movieGenres, tvShowGenres] = await Promise.all([
+      GenreService.instance.fetchMovieGenres(),
+      GenreService.instance.fetchTvShowGenres(),
+    ]);
+
+    this.setState({ movieGenres, tvShowGenres, isLoading: false });
   }
 
   private renderSearchIcon() {
@@ -36,16 +67,53 @@ class SearchSuggestionScreen extends React.Component<
     );
   }
 
-  public override componentDidMount(): void {
-    this.props.navigation.setOptions({
-      headerRight: this.renderHeaderRight,
-    });
+  private renderGenreItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Genre>): React.JSX.Element {
+    const marginLeft = index % 2 !== 0 ? spacing.small : 0;
+
+    // TODO: create a `Tag` component, instead of `Chip`, because with a font size of 16,
+    // this is not a good choice when using `Chip`
+    return (
+      <Chip
+        style={[layout.flex1, { marginLeft }, styles.genreChip]}
+        textStyle={styles.genreChipText}
+      >
+        {item.name}
+      </Chip>
+    );
+  }
+
+  private renderGenreList(headerTitle: string, data: Genre[]) {
+    return (
+      <FlatList
+        contentContainerStyle={styles.genreListContent}
+        scrollEnabled={false}
+        ListHeaderComponentStyle={styles.genreListHeader}
+        ListHeaderComponent={
+          <Text style={styles.genreListHeaderText}>{headerTitle}</Text>
+        }
+        numColumns={2}
+        columnWrapperStyle={styles.genreColumnWrapper}
+        keyExtractor={item => item.id.toString()}
+        data={data}
+        renderItem={this.renderGenreItem}
+      />
+    );
   }
 
   public override render(): React.JSX.Element {
+    if (this.state.isLoading) {
+      return <FullScreenLoader />;
+    }
+
     return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>Search suggestion screen</Text>
+      <SafeAreaView style={[layout.flex1, styles.container]}>
+        <ScrollView>
+          {this.renderGenreList('Movie genres', this.state.movieGenres)}
+          {this.renderGenreList('TV series genres', this.state.tvShowGenres)}
+        </ScrollView>
       </SafeAreaView>
     );
   }
