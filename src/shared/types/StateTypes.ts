@@ -44,6 +44,12 @@ export type ReviewDetailScreenState = {
     review: Review | undefined;
 };
 
+export type GenreDetailScreenState = {
+    popularMovies: MovieElement[];
+    popularTvShows: TvShowElement[];
+    isLoading: boolean;
+};
+
 export type MovieDetailScreenState = {
     movie: Movie | undefined;
 };

@@ -23,6 +23,18 @@ export default class URLBuilder {
     }
 
     /**
+     * Find movies or tv using over 30 filters and sort options.
+     * @param type movie, tv series, person, company, collection,...
+     * @param params
+     */
+    public static buildDiscoverURL(
+        type: VideoType,
+        params: URLSearchParams,
+    ): string {
+        return `${TMDB_BASE_URL}/discover/${type}?api_key=${TMDB_API_KEY}&${params}`;
+    }
+
+    /**
      * Build a search url string.
      * @param type movie, tv series, person, company, collection,...
      * @param params

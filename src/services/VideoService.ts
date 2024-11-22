@@ -102,6 +102,29 @@ export default class VideoService {
     }
 
     /**
+     * Get a list ordered by popularity.
+     * @param type `"movie"` | `"tv"`
+     * @param page page number
+     */
+    public static async getPopularListByGenreAsync<T>(
+        type: VideoType,
+        elementConvertFn: (val: any) => T,
+        genreIds: string,
+        page: number = 1,
+    ): Promise<PaginationResponseWrapper<T>> {
+        const params = new URLSearchParams({
+            with_genres: genreIds,
+            page: `${page}`,
+        });
+
+        const url = URLBuilder.buildDiscoverURL(type, params);
+        const json = await APIHandler.fetchJSON(url);
+        const response: PaginationResponse<T> = toPaginationResponse(json);
+
+        return new PaginationResponseWrapper(response, elementConvertFn);
+    }
+
+    /**
      * Get a list of movies ordered by rating.
      * @param type `"movie"` | `"tv"`
      * @param page page number
