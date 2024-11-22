@@ -1,5 +1,11 @@
 import React from 'react';
-import { SafeAreaView, ListRenderItemInfo, ScrollView } from 'react-native';
+import {
+  SafeAreaView,
+  ListRenderItemInfo,
+  ScrollView,
+  View,
+  Text,
+} from 'react-native';
 
 import type {
   GenreDetailScreenState,
@@ -27,17 +33,24 @@ class GenreDetailScreen extends React.PureComponent<
     this.state = {
       popularMovies: [],
       popularTvShows: [],
+      topRatedMovies: [],
+      topRatedTvShows: [],
       isLoading: true,
     };
 
-    this.renderPopularMovieItem = this.renderPopularMovieItem.bind(this);
-    this.renderPopularTvShowItem = this.renderPopularTvShowItem.bind(this);
+    this.renderMovieItem = this.renderMovieItem.bind(this);
+    this.renderTvShowItem = this.renderTvShowItem.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
     const { genre, type } = this.props.route.params;
 
-    const [popularMoviesResponse, popularTvShowsResponse] = await Promise.all([
+    const [
+      popularMoviesResponse,
+      popularTvShowsResponse,
+      topRatedMoviesResponse,
+      topRatedTvShowsResponse,
+    ] = await Promise.all([
       VideoService.getPopularListByGenreAsync(
         'movie',
         toMovieElement,
@@ -48,17 +61,29 @@ class GenreDetailScreen extends React.PureComponent<
         toTvShowElement,
         genre.id.toString(),
       ),
+      VideoService.getTopRatedByGenreAsync(
+        'movie',
+        toMovieElement,
+        genre.id.toString(),
+      ),
+      VideoService.getTopRatedByGenreAsync(
+        'tv',
+        toTvShowElement,
+        genre.id.toString(),
+      ),
     ]);
 
     this.setState({
       popularMovies: popularMoviesResponse.getResults(),
       popularTvShows: popularTvShowsResponse.getResults(),
+      topRatedMovies: topRatedMoviesResponse.getResults(),
+      topRatedTvShows: topRatedTvShowsResponse.getResults(),
       isLoading: false,
     });
     this.props.navigation.setOptions({ title: genre.name });
   }
 
-  private renderPopularMovieItem({
+  private renderMovieItem({
     item,
     index,
   }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
@@ -76,7 +101,7 @@ class GenreDetailScreen extends React.PureComponent<
     );
   }
 
-  private renderPopularTvShowItem({
+  private renderTvShowItem({
     item,
     index,
   }: ListRenderItemInfo<TvShowElement>): React.JSX.Element {
@@ -102,28 +127,61 @@ class GenreDetailScreen extends React.PureComponent<
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
         <ScrollView>
+          <View style={styles.titleBox}>
+            <Text style={styles.subtext}>Genre</Text>
+            <Text style={styles.title}>
+              {this.props.route.params.genre.name}
+            </Text>
+          </View>
+
           {this.state.popularMovies.length !== 0 && (
-            <Section
-              title='Popular movies'
-              subtitle={`Trending in ${this.props.route.params.genre.name} movies`}
-            >
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={this.state.popularMovies}
-                renderItem={this.renderPopularMovieItem}
-              />
-            </Section>
+            <>
+              <Section title='Popular movies'>
+                <Section.HorizontalList
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.popularMovies}
+                  renderItem={this.renderMovieItem}
+                />
+              </Section>
+
+              <Section.Separator />
+            </>
+          )}
+
+          {this.state.topRatedMovies.length !== 0 && (
+            <>
+              <Section title='Top rated movies'>
+                <Section.HorizontalList
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.topRatedMovies}
+                  renderItem={this.renderMovieItem}
+                />
+              </Section>
+
+              <Section.Separator />
+            </>
           )}
 
           {this.state.popularTvShows.length !== 0 && (
-            <Section
-              title='Popular TV shows'
-              subtitle={`Trending in ${this.props.route.params.genre.name} TV shows`}
-            >
+            <>
+              <Section title='Popular TV series'>
+                <Section.HorizontalList
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.popularTvShows}
+                  renderItem={this.renderTvShowItem}
+                />
+              </Section>
+
+              <Section.Separator />
+            </>
+          )}
+
+          {this.state.topRatedTvShows.length !== 0 && (
+            <Section title='Popular TV series'>
               <Section.HorizontalList
                 keyExtractor={item => item.id.toString()}
-                data={this.state.popularTvShows}
-                renderItem={this.renderPopularTvShowItem}
+                data={this.state.topRatedTvShows}
+                renderItem={this.renderTvShowItem}
               />
             </Section>
           )}

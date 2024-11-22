@@ -21,7 +21,7 @@ module.exports = {
             'error',
             {
                 properties: 'always',
-                allow: ['iso_3166_1', 'iso_639_1', 'with_genres'],
+                allow: ['iso_3166_1', 'iso_639_1', 'sort_by', 'with_genres'],
             },
         ],
         eqeqeq: ['error', 'smart'],

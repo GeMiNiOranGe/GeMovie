@@ -47,6 +47,8 @@ export type ReviewDetailScreenState = {
 export type GenreDetailScreenState = {
     popularMovies: MovieElement[];
     popularTvShows: TvShowElement[];
+    topRatedMovies: MovieElement[];
+    topRatedTvShows: TvShowElement[];
     isLoading: boolean;
 };
 
