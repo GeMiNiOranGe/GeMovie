@@ -38,7 +38,6 @@ export type RootStackParamList = ParamListBase & {
     };
     GenreDetailScreen: {
         genre: Genre;
-        type: VideoType;
     };
     MovieDetailScreen: {
         movieId: number;

@@ -85,7 +85,6 @@ class SearchSuggestionScreen extends React.Component<
         onPress={() =>
           this.props.navigation.navigate('GenreDetailScreen', {
             genre: item,
-            type: 'movie',
           })
         }
       >
@@ -109,7 +108,6 @@ class SearchSuggestionScreen extends React.Component<
         onPress={() =>
           this.props.navigation.navigate('GenreDetailScreen', {
             genre: item,
-            type: 'tv',
           })
         }
       >

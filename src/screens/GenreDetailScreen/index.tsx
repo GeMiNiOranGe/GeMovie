@@ -43,7 +43,7 @@ class GenreDetailScreen extends React.PureComponent<
   }
 
   public override async componentDidMount(): Promise<void> {
-    const { genre, type } = this.props.route.params;
+    const { genre } = this.props.route.params;
 
     const [
       popularMoviesResponse,
@@ -93,7 +93,7 @@ class GenreDetailScreen extends React.PureComponent<
         index={index}
         listLength={this.state.popularMovies.length}
         onPress={() =>
-          this.props.navigation.navigate('MovieDetailScreen', {
+          this.props.navigation.push('MovieDetailScreen', {
             movieId: item.id,
           })
         }
@@ -111,7 +111,7 @@ class GenreDetailScreen extends React.PureComponent<
         index={index}
         listLength={this.state.popularTvShows.length}
         onPress={() =>
-          this.props.navigation.navigate('TvShowDetailScreen', {
+          this.props.navigation.push('TvShowDetailScreen', {
             tvShowId: item.id,
           })
         }

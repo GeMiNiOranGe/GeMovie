@@ -100,7 +100,15 @@ class MovieDetailScreen extends React.Component<
       index === (this.state.movie?.genres.length || 0) - 1 ? 0 : spacing.small;
 
     return (
-      <Chip style={[styles.chip, { marginRight }]} textStyle={styles.chipText}>
+      <Chip
+        style={[styles.chip, { marginRight }]}
+        textStyle={styles.chipText}
+        onPress={() =>
+          this.props.navigation.push('GenreDetailScreen', {
+            genre: item,
+          })
+        }
+      >
         {item.name}
       </Chip>
     );
