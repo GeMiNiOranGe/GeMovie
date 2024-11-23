@@ -78,8 +78,8 @@ export type ExpandableTextState = {
 };
 
 export type CompanyDetailScreenState = {
-    company?: Company | undefined;
-    movies?: FeaturedMovie[] | undefined;
+    company: Company | undefined;
+    movies: MovieElement[];
 };
 
 export type PersonDetailScreenState = {

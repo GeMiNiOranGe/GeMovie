@@ -1,33 +1,42 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
-  FlatList,
-  Image,
   SafeAreaView,
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
-  Animated,
+  type ListRenderItemInfo,
 } from 'react-native';
-
 import {
+  Building,
+  Building4,
+  Flag,
+  IconProps as IconsaxProps,
+} from 'iconsax-react-native';
+
+import type {
   CompanyDetailScreenState,
   LabelProps,
+  MovieElement,
   RootScreenProps,
-  Variant,
 } from '@shared/types';
-import { CompanyService, URLBuilder } from '@services';
-import { TMDB_API_KEY, TMDB_BASE_IMAGE_URL, TMDB_BASE_URL } from '@config';
-import { imageSize } from '@shared/constants';
-import { Labels } from '@components';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Building, Building4, Flag } from 'iconsax-react-native';
+import {
+  CompactMovieCard,
+  FullScreenLoader,
+  Labels,
+  Section,
+  TMDBImage,
+} from '@components';
+import { CompanyService } from '@services';
+import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
+import { toMovieElement } from '@shared/utils';
+import { colors, layout } from '@shared/themes';
 import styles from './style';
 
-const iconSize = 16;
-const iconColor = 'black';
-const iconVariant: Variant = 'Bold';
+const labelIconsaxProps: IconsaxProps = {
+  size: 16,
+  color: colors.subtext.toString(),
+  variant: 'Bold',
+};
 
 class CompanyDetailScreen extends React.Component<
   RootScreenProps<'CompanyDetailScreen'>,
@@ -39,17 +48,21 @@ class CompanyDetailScreen extends React.Component<
       company: undefined,
       movies: [],
     };
+
+    this.renderMovieItem = this.renderMovieItem.bind(this);
   }
 
   public override componentDidMount(): void {
     const { companyId } = this.props.route.params;
-    const movieUrl = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&page=1&with_companies=${companyId}`;
+    const movieUrl = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_companies=${companyId}`;
 
     fetch(movieUrl)
       .then(response => response.json())
       .then(movieData => {
         this.setState({
-          movies: movieData.results,
+          movies: Array.from(movieData.results).map(element =>
+            toMovieElement(element),
+          ),
         });
       });
 
@@ -61,103 +74,83 @@ class CompanyDetailScreen extends React.Component<
   private getLabels(): LabelProps[] {
     return [
       {
-        name: 'Country',
-        value: this.state.company?.originCountry || 'N/A',
-        icon: <Flag size={iconSize} color={iconColor} variant={iconVariant} />,
+        name: 'Headquarters',
+        value: this.state.company?.headquarters || 'N/A',
+        icon: <Building {...labelIconsaxProps} />,
       },
       {
-        name: 'HeadQuarters',
-        value: this.state.company?.headquarters || 'N/A',
-        icon: (
-          <Building size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
+        name: 'Country',
+        value: this.state.company?.originCountry || 'N/A',
+        icon: <Flag {...labelIconsaxProps} />,
       },
       {
         name: 'Parent Company',
         value: this.state.company?.parentCompany?.name || 'N/A',
-        icon: (
-          <Building4 size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
+        icon: <Building4 {...labelIconsaxProps} />,
       },
     ];
   }
+
+  private renderMovieItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
+    return (
+      <CompactMovieCard
+        item={item}
+        index={index}
+        listLength={this.state.movies.length}
+        onPress={() =>
+          this.props.navigation.push('MovieDetailScreen', {
+            movieId: item.id,
+          })
+        }
+      />
+    );
+  }
+
   public override render(): React.JSX.Element {
-    const { navigation } = this.props;
+    if (!this.state.company) {
+      return <FullScreenLoader />;
+    }
+
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView>
           <View style={styles.header}>
-            {this.state.movies !== undefined ? (
-              <Image
-                source={{
-                  uri: URLBuilder.buildImageURL(
-                    'w780',
-                    this.state.movies[0]?.backdrop_path,
-                  ),
-                }}
-                blurRadius={3}
-                style={styles.headerImage}
-              />
-            ) : (
-              <View>
-                <Icon name='image' size={30} color='gray' />
-              </View>
-            )}
+            <TMDBImage
+              style={styles.headerImage}
+              blurRadius={3}
+              path={this.state.movies[0]?.backdropPath}
+              size='w780'
+            />
           </View>
+
           <View style={styles.body}>
             <View>
-              {this.state.company?.logoPath ? (
-                <Image
-                  style={styles.backdropImage}
-                  resizeMode='contain'
-                  source={{
-                    uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${this.state.company?.logoPath}`,
-                  }}
-                />
-              ) : (
-                <View style={styles.iconCircle}>
-                  <Icon
-                    name='institution'
-                    size={60}
-                    color='black'
-                    style={styles.icon}
-                  />
-                </View>
-              )}
-            </View>
-            <Animated.View>
-              <Text style={styles.LogoContent}>{this.state.company?.name}</Text>
-            </Animated.View>
-            <View style={styles.titleBody}>
-              <Labels data={this.getLabels()} />
-            </View>
-            <View style={styles.containerMovie}>
-              <Text style={styles.containerMovieText}>Most Popular Movies</Text>
-              <FlatList
-                data={this.state.movies}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item: movie }) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.push('MovieDetailScreen', {
-                          movieId: movie.id,
-                        })
-                      }
-                    >
-                      <Image
-                        source={{
-                          uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${movie.poster_path}`,
-                        }}
-                        style={styles.movieThumbnail}
-                      />
-                    </TouchableOpacity>
-                  );
-                }}
+              <TMDBImage
+                style={styles.backdropImage}
+                resizeMode='contain'
+                path={this.state.company?.logoPath}
+                size='w300'
               />
             </View>
+
+            <View>
+              <Text style={styles.name}>{this.state.company?.name}</Text>
+            </View>
+
+            <View style={[layout.itemsCenter, styles.labelBox]}>
+              <Labels data={this.getLabels()} />
+            </View>
+
+            <Section title={`${this.state.company?.name} movies`}>
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={this.state.movies}
+                renderItem={this.renderMovieItem}
+              />
+            </Section>
           </View>
         </ScrollView>
       </SafeAreaView>

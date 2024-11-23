@@ -1,6 +1,10 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+import { spacing } from '@shared/constants';
+import { colors } from '@shared/themes';
+
+const { height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -19,7 +23,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         position: 'absolute',
     },
-    LogoContent: {
+    name: {
         fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
@@ -32,35 +36,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginTop: '-25%',
     },
-    titleBody: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    scrollContainer: {
-        paddingLeft: 15,
-        marginTop: 10,
-        justifyContent: 'center',
-    },
-    containerMovie: {
-        flex: 4,
-        paddingLeft: 10,
-        marginTop: 10,
-    },
-    containerMovieText: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#F0E68C',
-        marginBottom: 5,
-    },
-    movieThumbnail: {
-        width: width * 0.3,
-        height: height * 0.25,
-        borderRadius: 20,
-        marginRight: 10,
+    labelBox: {
+        marginBottom: spacing.huge,
     },
     text: {
-        fontSize: 32,
-        color: 'black',
+        fontSize: 14,
+        color: colors.text,
     },
     backdropImage: {
         width: 100,
@@ -73,23 +54,6 @@ const styles = StyleSheet.create({
         left: '50%',
         backgroundColor: 'white',
         transform: [{ translateX: -48 }],
-    },
-    iconCircle: {
-        width: 120,
-        height: 120,
-        borderRadius: 60,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 4,
-        borderColor: '#fff',
-        position: 'absolute',
-        bottom: -48,
-        left: '46%',
-        transform: [{ translateX: -48 }],
-    },
-    icon: {
-        textAlign: 'center',
     },
 });
 

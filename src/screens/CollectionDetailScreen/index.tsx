@@ -183,7 +183,7 @@ class CollectionDetailScreen extends React.Component<
                 <VoteLabel style={styles.rating} value={this.voteAverage} />
               </View>
 
-              <Text style={styles.numberOfMovies}>
+              <Text style={styles.numberOfMovies} numberOfLines={1}>
                 Number of Movies: {this.state.collection.parts.length}
               </Text>
             </View>
