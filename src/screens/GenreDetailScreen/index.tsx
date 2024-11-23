@@ -19,8 +19,12 @@ import {
   FullScreenLoader,
   Section,
 } from '@components';
-import { VideoService } from '@services';
-import { toMovieElement, toTvShowElement } from '@shared/utils';
+import { MovieService, VideoService } from '@services';
+import {
+  getFormattedDate,
+  toMovieElement,
+  toTvShowElement,
+} from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
 
@@ -35,10 +39,12 @@ class GenreDetailScreen extends React.PureComponent<
       popularTvShows: [],
       topRatedMovies: [],
       topRatedTvShows: [],
+      upcomingMovies: [],
       isLoading: true,
     };
 
     this.renderMovieItem = this.renderMovieItem.bind(this);
+    this.renderUpcomingMovieItem = this.renderUpcomingMovieItem.bind(this);
     this.renderTvShowItem = this.renderTvShowItem.bind(this);
   }
 
@@ -50,6 +56,7 @@ class GenreDetailScreen extends React.PureComponent<
       popularTvShowsResponse,
       topRatedMoviesResponse,
       topRatedTvShowsResponse,
+      upcomingMoviesResponse,
     ] = await Promise.all([
       VideoService.getPopularListByGenreAsync(
         'movie',
@@ -71,6 +78,7 @@ class GenreDetailScreen extends React.PureComponent<
         toTvShowElement,
         genre.id.toString(),
       ),
+      MovieService.getUpcomingByGenreAsync(genre.id.toString()),
     ]);
 
     this.setState({
@@ -78,6 +86,7 @@ class GenreDetailScreen extends React.PureComponent<
       popularTvShows: popularTvShowsResponse.getResults(),
       topRatedMovies: topRatedMoviesResponse.getResults(),
       topRatedTvShows: topRatedTvShowsResponse.getResults(),
+      upcomingMovies: upcomingMoviesResponse.getResults(),
       isLoading: false,
     });
     this.props.navigation.setOptions({ title: genre.name });
@@ -98,6 +107,30 @@ class GenreDetailScreen extends React.PureComponent<
           })
         }
       />
+    );
+  }
+
+  private renderUpcomingMovieItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
+    return (
+      <View>
+        <Text style={styles.upcomingText}>
+          {getFormattedDate(item.releaseDate).slice(4)}
+        </Text>
+
+        <CompactMovieCard
+          item={item}
+          index={index}
+          listLength={this.state.popularMovies.length}
+          onPress={() =>
+            this.props.navigation.push('MovieDetailScreen', {
+              movieId: item.id,
+            })
+          }
+        />
+      </View>
     );
   }
 
@@ -155,6 +188,20 @@ class GenreDetailScreen extends React.PureComponent<
                   keyExtractor={item => item.id.toString()}
                   data={this.state.topRatedMovies}
                   renderItem={this.renderMovieItem}
+                />
+              </Section>
+
+              <Section.Separator />
+            </>
+          )}
+
+          {this.state.upcomingMovies.length !== 0 && (
+            <>
+              <Section title='Coming soon'>
+                <Section.HorizontalList
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.upcomingMovies}
+                  renderItem={this.renderUpcomingMovieItem}
                 />
               </Section>
 

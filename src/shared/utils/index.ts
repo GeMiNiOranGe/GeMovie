@@ -26,6 +26,12 @@ import {
 } from '@shared/utils';
 import { toPersonElementBase } from './PersonConverter';
 
+export function addDays(date: Date, numberOfdays: number) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + numberOfdays);
+    return result;
+}
+
 export function getFormattedDate(date?: Date): string {
     if (!date) {
         return 'Unknown';

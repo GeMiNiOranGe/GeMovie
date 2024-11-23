@@ -4,7 +4,12 @@ import {
     SearchService,
     URLBuilder,
 } from '@services';
-import { toMovie, toMovieElement, toPaginationResponse } from '@shared/utils';
+import {
+    addDays,
+    toMovie,
+    toMovieElement,
+    toPaginationResponse,
+} from '@shared/utils';
 import type { Movie, MovieElement, PaginationResponse } from '@shared/types';
 
 export default class MovieService {
@@ -38,7 +43,7 @@ export default class MovieService {
 
     /**
      * Get a list of movies that are being released soon.
-     * @param id movie id
+     * @param page page number
      */
     public static async getUpcomingAsync(
         page: number = 1,
@@ -47,6 +52,36 @@ export default class MovieService {
             page: `${page}`,
         });
         const url = URLBuilder.buildUpcomingURL(params);
+        const json = await APIHandler.fetchJSON(url);
+        const response: PaginationResponse<MovieElement> =
+            toPaginationResponse(json);
+
+        return new PaginationResponseWrapper(response, toMovieElement);
+    }
+
+    /**
+     * Get a list of movies that are being released soon by genre.
+     * @param genreIds genre ids
+     * @param page page number
+     */
+    public static async getUpcomingByGenreAsync(
+        genreIds: string,
+        page: number = 1,
+    ): Promise<PaginationResponseWrapper<MovieElement>> {
+        const numberOfdays = 28;
+        const currentDate = new Date();
+        const nextDate = addDays(currentDate, numberOfdays);
+        const params = new URLSearchParams({
+            'primary_release_date.gte': currentDate
+                .toLocaleDateString()
+                .replaceAll(/\//g, '-'),
+            'primary_release_date.lte': nextDate
+                .toLocaleDateString()
+                .replaceAll(/\//g, '-'),
+            with_genres: genreIds,
+            page: `${page}`,
+        });
+        const url = URLBuilder.buildDiscoverURL('movie', params);
         const json = await APIHandler.fetchJSON(url);
         const response: PaginationResponse<MovieElement> =
             toPaginationResponse(json);

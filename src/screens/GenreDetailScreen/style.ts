@@ -25,6 +25,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: colors.subtext,
     },
+    upcomingText: {
+        fontSize: 14,
+        color: colors.secondary,
+        fontWeight: 'bold',
+        marginBottom: spacing.small,
+    },
 });
 
 export default styles;
