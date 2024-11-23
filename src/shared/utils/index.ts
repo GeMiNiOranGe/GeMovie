@@ -32,6 +32,10 @@ export function addDays(date: Date, numberOfdays: number) {
     return result;
 }
 
+export function getISODate(date: Date) {
+    return date.toISOString().slice(0, 10);
+}
+
 export function getFormattedDate(date?: Date): string {
     if (!date) {
         return 'Unknown';

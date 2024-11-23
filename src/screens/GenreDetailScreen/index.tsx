@@ -19,7 +19,7 @@ import {
   FullScreenLoader,
   Section,
 } from '@components';
-import { MovieService, VideoService } from '@services';
+import { MovieService, TvShowService, VideoService } from '@services';
 import {
   getFormattedDate,
   toMovieElement,
@@ -40,12 +40,14 @@ class GenreDetailScreen extends React.PureComponent<
       topRatedMovies: [],
       topRatedTvShows: [],
       upcomingMovies: [],
+      onTheAirTvShow: [],
       isLoading: true,
     };
 
     this.renderMovieItem = this.renderMovieItem.bind(this);
     this.renderUpcomingMovieItem = this.renderUpcomingMovieItem.bind(this);
     this.renderTvShowItem = this.renderTvShowItem.bind(this);
+    this.renderOnTheAirTvShowItem = this.renderOnTheAirTvShowItem.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
@@ -57,6 +59,7 @@ class GenreDetailScreen extends React.PureComponent<
       topRatedMoviesResponse,
       topRatedTvShowsResponse,
       upcomingMoviesResponse,
+      onTheAirTvShowResponse,
     ] = await Promise.all([
       VideoService.getPopularListByGenreAsync(
         'movie',
@@ -79,6 +82,7 @@ class GenreDetailScreen extends React.PureComponent<
         genre.id.toString(),
       ),
       MovieService.getUpcomingByGenreAsync(genre.id.toString()),
+      TvShowService.getOnTheAirByGenreAsync(genre.id.toString()),
     ]);
 
     this.setState({
@@ -87,6 +91,7 @@ class GenreDetailScreen extends React.PureComponent<
       topRatedMovies: topRatedMoviesResponse.getResults(),
       topRatedTvShows: topRatedTvShowsResponse.getResults(),
       upcomingMovies: upcomingMoviesResponse.getResults(),
+      onTheAirTvShow: onTheAirTvShowResponse.getResults(),
       isLoading: false,
     });
     this.props.navigation.setOptions({ title: genre.name });
@@ -116,14 +121,14 @@ class GenreDetailScreen extends React.PureComponent<
   }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
     return (
       <View>
-        <Text style={styles.upcomingText}>
+        <Text style={styles.onAirText}>
           {getFormattedDate(item.releaseDate).slice(4)}
         </Text>
 
         <CompactMovieCard
           item={item}
           index={index}
-          listLength={this.state.popularMovies.length}
+          listLength={this.state.upcomingMovies.length}
           onPress={() =>
             this.props.navigation.push('MovieDetailScreen', {
               movieId: item.id,
@@ -149,6 +154,30 @@ class GenreDetailScreen extends React.PureComponent<
           })
         }
       />
+    );
+  }
+
+  private renderOnTheAirTvShowItem({
+    item,
+    index,
+  }: ListRenderItemInfo<TvShowElement>): React.JSX.Element {
+    return (
+      <View>
+        <Text style={styles.onAirText}>
+          {getFormattedDate(item.firstAirDate).slice(4)}
+        </Text>
+
+        <CompactTvShowCard
+          item={item}
+          index={index}
+          listLength={this.state.onTheAirTvShow.length}
+          onPress={() =>
+            this.props.navigation.push('TvShowDetailScreen', {
+              tvShowId: item.id,
+            })
+          }
+        />
+      </View>
     );
   }
 
@@ -224,13 +253,31 @@ class GenreDetailScreen extends React.PureComponent<
           )}
 
           {this.state.topRatedTvShows.length !== 0 && (
-            <Section title='Popular TV series'>
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={this.state.topRatedTvShows}
-                renderItem={this.renderTvShowItem}
-              />
-            </Section>
+            <>
+              <Section title='Top rated TV series'>
+                <Section.HorizontalList
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.topRatedTvShows}
+                  renderItem={this.renderTvShowItem}
+                />
+              </Section>
+
+              <Section.Separator />
+            </>
+          )}
+
+          {this.state.onTheAirTvShow.length !== 0 && (
+            <>
+              <Section title='Upcoming TV series'>
+                <Section.HorizontalList
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.onTheAirTvShow}
+                  renderItem={this.renderOnTheAirTvShowItem}
+                />
+              </Section>
+
+              <Section.Separator />
+            </>
           )}
         </ScrollView>
       </SafeAreaView>

@@ -6,6 +6,7 @@ import {
 } from '@services';
 import {
     addDays,
+    getISODate,
     toMovie,
     toMovieElement,
     toPaginationResponse,
@@ -60,7 +61,7 @@ export default class MovieService {
     }
 
     /**
-     * Get a list of movies that are being released soon by genre.
+     * Get a list of movies that are being released soon in the next 28 days by genre.
      * @param genreIds genre ids
      * @param page page number
      */
@@ -72,12 +73,8 @@ export default class MovieService {
         const currentDate = new Date();
         const nextDate = addDays(currentDate, numberOfdays);
         const params = new URLSearchParams({
-            'primary_release_date.gte': currentDate
-                .toLocaleDateString()
-                .replaceAll(/\//g, '-'),
-            'primary_release_date.lte': nextDate
-                .toLocaleDateString()
-                .replaceAll(/\//g, '-'),
+            'primary_release_date.gte': getISODate(currentDate),
+            'primary_release_date.lte': getISODate(nextDate),
             with_genres: genreIds,
             page: `${page}`,
         });
