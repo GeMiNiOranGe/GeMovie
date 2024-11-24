@@ -10,5 +10,6 @@ export { default as CollectionService } from './CollectionService';
 export { default as PaginationResponseWrapper } from './PaginationResponseWrapper';
 export { default as GenreService } from './GenreService';
 export { default as VideoService } from './VideoService';
+export { default as VideoDiscoveryService } from './VideoDiscoveryService';
 export { default as MediaService } from './MediaService';
 export { default as ReviewService } from './ReviewService';

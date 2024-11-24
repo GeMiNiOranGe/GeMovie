@@ -126,7 +126,7 @@ export default class VideoService {
     }
 
     /**
-     * Get a list of films ordered by rating.
+     * Get a list of videos ordered by rating.
      * @param type `"movie"` | `"tv"`
      * @param page page number
      */
@@ -147,7 +147,7 @@ export default class VideoService {
     }
 
     /**
-     * Get a list of films ordered by rating by genre.
+     * Get a list of videos ordered by rating by genre.
      * @param type `"movie"` | `"tv"`
      * @param genreIds genre ids
      * @param page page number

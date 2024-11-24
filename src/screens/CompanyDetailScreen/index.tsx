@@ -26,8 +26,7 @@ import {
   Section,
   TMDBImage,
 } from '@components';
-import { CompanyService } from '@services';
-import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
+import { CompanyService, VideoDiscoveryService } from '@services';
 import { toMovieElement } from '@shared/utils';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
@@ -52,23 +51,19 @@ class CompanyDetailScreen extends React.Component<
     this.renderMovieItem = this.renderMovieItem.bind(this);
   }
 
-  public override componentDidMount(): void {
+  public override async componentDidMount(): Promise<void> {
     const { companyId } = this.props.route.params;
-    const movieUrl = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_companies=${companyId}`;
 
-    fetch(movieUrl)
-      .then(response => response.json())
-      .then(movieData => {
-        this.setState({
-          movies: Array.from(movieData.results).map(element =>
-            toMovieElement(element),
-          ),
-        });
-      });
+    const [company, moviesResponse] = await Promise.all([
+      CompanyService.getDetailAsync(companyId),
+      VideoDiscoveryService.getVideoByCompanyAsync(
+        'movie',
+        companyId.toString(),
+        toMovieElement,
+      ),
+    ]);
 
-    CompanyService.getDetailAsync(companyId).then(data =>
-      this.setState({ company: data }),
-    );
+    this.setState({ company, movies: moviesResponse.getResults() });
   }
 
   private getLabels(): LabelProps[] {
