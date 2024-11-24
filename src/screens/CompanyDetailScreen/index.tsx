@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ImageBackground,
   SafeAreaView,
   ScrollView,
   Text,
@@ -7,11 +8,12 @@ import {
   type ListRenderItemInfo,
 } from 'react-native';
 import {
-  Building,
+  Location,
   Building4,
   Flag,
   IconProps as IconsaxProps,
 } from 'iconsax-react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import type {
   CompanyDetailScreenState,
@@ -20,13 +22,15 @@ import type {
   RootScreenProps,
 } from '@shared/types';
 import {
+  Box,
   CompactMovieCard,
+  ExpandableText,
   FullScreenLoader,
   Labels,
   Section,
   TMDBImage,
 } from '@components';
-import { CompanyService, VideoDiscoveryService } from '@services';
+import { CompanyService, URLBuilder, VideoDiscoveryService } from '@services';
 import { toMovieElement } from '@shared/utils';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
@@ -54,7 +58,7 @@ class CompanyDetailScreen extends React.Component<
   public override async componentDidMount(): Promise<void> {
     const { companyId } = this.props.route.params;
 
-    const [company, moviesResponse] = await Promise.all([
+    const [company, movieResponse] = await Promise.all([
       CompanyService.getDetailAsync(companyId),
       VideoDiscoveryService.getVideoByCompanyAsync(
         'movie',
@@ -63,7 +67,8 @@ class CompanyDetailScreen extends React.Component<
       ),
     ]);
 
-    this.setState({ company, movies: moviesResponse.getResults() });
+    this.setState({ company, movies: movieResponse.getResults() });
+    this.props.navigation.setOptions({ title: company.name });
   }
 
   private getLabels(): LabelProps[] {
@@ -71,7 +76,7 @@ class CompanyDetailScreen extends React.Component<
       {
         name: 'Headquarters',
         value: this.state.company?.headquarters || 'N/A',
-        icon: <Building {...labelIconsaxProps} />,
+        icon: <Location {...labelIconsaxProps} />,
       },
       {
         name: 'Country',
@@ -110,36 +115,62 @@ class CompanyDetailScreen extends React.Component<
     }
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[layout.flex1, styles.container]}>
         <ScrollView>
-          <View style={styles.header}>
-            <TMDBImage
-              style={styles.headerImage}
-              blurRadius={3}
-              path={this.state.movies[0]?.backdropPath}
-              size='w780'
-            />
-          </View>
+          <ImageBackground
+            style={layout.flex1}
+            blurRadius={4}
+            source={{
+              uri: URLBuilder.buildImageURL(
+                'w300',
+                this.state.movies[0]?.backdropPath,
+              ),
+            }}
+          >
+            <LinearGradient
+              style={[
+                layout.flex1,
+                layout.row,
+                layout.itemsEnd,
+                styles.titleBox,
+              ]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 0.5 }}
+              colors={['transparent', colors.primary.toString()]}
+            >
+              <View style={styles.backdropBox}>
+                <TMDBImage
+                  style={styles.backdrop}
+                  resizeMode='contain'
+                  path={this.state.company?.logoPath}
+                  size='w300'
+                />
+              </View>
 
-          <View style={styles.body}>
-            <View>
-              <TMDBImage
-                style={styles.backdropImage}
-                resizeMode='contain'
-                path={this.state.company?.logoPath}
-                size='w300'
-              />
-            </View>
+              <View style={[layout.flex1, styles.nameBox]}>
+                <Text style={styles.name} numberOfLines={1}>
+                  {this.state.company?.name}
+                </Text>
+              </View>
+            </LinearGradient>
+          </ImageBackground>
 
-            <View>
-              <Text style={styles.name}>{this.state.company?.name}</Text>
-            </View>
-
+          <View style={styles.content}>
             <View style={[layout.itemsCenter, styles.labelBox]}>
               <Labels data={this.getLabels()} />
             </View>
 
-            <Section title={`${this.state.company?.name} movies`}>
+            {this.state.company.description && (
+              <Box title='Description'>
+                <ExpandableText seeButtonPosition='separate'>
+                  {this.state.company.description}
+                </ExpandableText>
+              </Box>
+            )}
+
+            <Section.Separator />
+
+            <Section title='Popular movies'>
               <Section.HorizontalList
                 keyExtractor={item => item.id.toString()}
                 data={this.state.movies}

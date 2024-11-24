@@ -1,40 +1,39 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
 
-const { height } = Dimensions.get('window');
+const backdropSize = 80;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        backgroundColor: colors.primary,
     },
-    header: {
-        width: '100%',
-        height: height * 0.4,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'gray',
-        position: 'relative',
+    content: {
+        paddingTop: spacing.large,
     },
-    headerImage: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-        position: 'absolute',
+    titleBox: {
+        padding: spacing.large,
+    },
+    backdropBox: {
+        padding: 8,
+        backgroundColor: colors.primary,
+        borderRadius: 8,
+        elevation: 5,
+        overflow: 'hidden',
+    },
+    backdrop: {
+        width: backdropSize,
+        height: backdropSize,
+    },
+    nameBox: {
+        marginLeft: spacing.large,
+        marginBottom: spacing.small,
     },
     name: {
         fontSize: 20,
+        color: colors.text,
         fontWeight: 'bold',
-        color: 'black',
-        textAlign: 'center',
-        marginTop: 50,
-        marginBottom: 10,
-    },
-    body: {
-        flex: 4,
-        backgroundColor: 'white',
-        marginTop: '-25%',
     },
     labelBox: {
         marginBottom: spacing.huge,
@@ -42,18 +41,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 14,
         color: colors.text,
-    },
-    backdropImage: {
-        width: 100,
-        height: 100,
-        borderRadius: 300,
-        borderWidth: 4,
-        borderColor: '#fff',
-        position: 'absolute',
-        bottom: -48,
-        left: '50%',
-        backgroundColor: 'white',
-        transform: [{ translateX: -48 }],
     },
 });
 

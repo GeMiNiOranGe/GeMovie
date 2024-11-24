@@ -133,8 +133,8 @@ export function normalizeMarkdown(text: string): string {
 
 export function calculateImageDimensions(
     pixel: number,
-    horizontalRatio: number = 1,
-    verticalRatio: number = 1,
+    horizontalRatio: number,
+    verticalRatio: number,
 ): ImageDimensions {
     return {
         width: pixel,

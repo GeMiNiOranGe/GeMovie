@@ -1,10 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
-import { calculateImageDimensions } from '@shared/utils';
 import { colors } from '@shared/themes';
 
-const imageDimensions = calculateImageDimensions(64);
+const imageSize = 64;
 const paddingCard = spacing.medium;
 const innerRadius = 4;
 const outerRadius = innerRadius + paddingCard;
@@ -17,7 +16,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.primary,
     },
     image: {
-        ...imageDimensions,
+        width: imageSize,
+        height: imageSize,
         marginRight: spacing.large,
         borderRadius: innerRadius,
     },
