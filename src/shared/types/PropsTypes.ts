@@ -14,6 +14,7 @@ import type {
     ViewStyle,
 } from 'react-native';
 import type { IconProps as IconsaxProps } from 'iconsax-react-native';
+import type { SvgProps } from 'react-native-svg';
 
 import type {
     CardElement,
@@ -183,6 +184,8 @@ export type IconProps = {
     size?: number | undefined;
     color?: ColorValue | number | undefined;
 };
+
+export type SvgIconProps = SvgProps & IconProps;
 
 export type TabBarIconProps = {
     focused: boolean;

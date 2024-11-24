@@ -8,3 +8,4 @@ export { default as BronzeMedal } from './BronzeMedal-Bold-24px';
 export { default as SilverMedal } from './SilverMedal-Bold-24px';
 export { default as GoldMedal } from './GoldMedal-Bold-24px';
 export { default as IMDb } from './IMDb-Bold-24px';
+export { default as Television } from './Television-Bold-24px';

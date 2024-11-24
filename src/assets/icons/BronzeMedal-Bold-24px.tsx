@@ -1,13 +1,13 @@
 import React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
-import { IconProps } from '@shared/types';
+import { SvgIconProps } from '@shared/types';
 
 const BronzeMedal = ({
   size = 24,
   color = '#cd7f32',
   ...props
-}: IconProps & SvgProps) => (
+}: SvgIconProps) => (
   <Svg width={size} height={size} viewBox='0 0 24 24' fill='none' {...props}>
     <Path
       fill={color}

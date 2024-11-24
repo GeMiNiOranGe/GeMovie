@@ -1,8 +1,8 @@
 import React from 'react';
 import { ColorValue } from 'react-native';
-import Svg, { SvgProps, Path, Text } from 'react-native-svg';
+import Svg, { Path, Text } from 'react-native-svg';
 
-import { IconProps } from '@shared/types';
+import { SvgIconProps } from '@shared/types';
 
 type NormalMedalProps = {
   value?: number | undefined;
@@ -20,7 +20,7 @@ const NormalMedal = ({
   value = undefined,
   fontColor = 'transparent',
   ...props
-}: NormalMedalProps & IconProps & SvgProps) => (
+}: NormalMedalProps & SvgIconProps) => (
   <Svg width={size} height={size} viewBox='0 0 24 24' fill='none' {...props}>
     <Path
       fill={color}

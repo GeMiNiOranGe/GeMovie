@@ -1,13 +1,13 @@
 import React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
-import { IconProps } from '@shared/types';
+import { SvgIconProps } from '@shared/types';
 
 const Adult = ({
   size = 24,
   color = 'transparent',
   ...props
-}: IconProps & SvgProps) => (
+}: SvgIconProps) => (
   <Svg width={size} height={size} viewBox='0 0 24 24' fill='none' {...props}>
     <Path
       fill={color}

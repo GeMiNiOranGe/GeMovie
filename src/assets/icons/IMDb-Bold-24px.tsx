@@ -1,13 +1,9 @@
 import React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
-import { IconProps } from '@shared/types';
+import { SvgIconProps } from '@shared/types';
 
-const IMDb = ({
-  size = 24,
-  color = '#f5c518',
-  ...props
-}: IconProps & SvgProps) => (
+const IMDb = ({ size = 24, color = '#f5c518', ...props }: SvgIconProps) => (
   <Svg
     width={size * 2}
     height={size}

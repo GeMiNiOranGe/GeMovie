@@ -20,6 +20,7 @@ import type {
   LabelProps,
   MovieElement,
   RootScreenProps,
+  SvgIconProps,
   TvShowElement,
 } from '@shared/types';
 import {
@@ -32,6 +33,7 @@ import {
   Section,
   TMDBImage,
 } from '@components';
+import { Television } from '@assets/icons';
 import { CompanyService, URLBuilder, VideoDiscoveryService } from '@services';
 import { toMovieElement, toTvShowElement } from '@shared/utils';
 import { colors, layout } from '@shared/themes';
@@ -108,7 +110,7 @@ class CompanyDetailScreen extends React.Component<
       {
         name: 'Total tv series',
         value: this.state.totalTvShows.toString(),
-        icon: <VideoPlay {...labelIconsaxProps} />,
+        icon: <Television {...(labelIconsaxProps as SvgIconProps)} />,
       },
     ];
   }
