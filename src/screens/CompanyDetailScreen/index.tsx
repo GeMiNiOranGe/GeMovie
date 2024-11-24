@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {
   Location,
-  Building4,
+  VideoPlay,
   Flag,
   IconProps as IconsaxProps,
 } from 'iconsax-react-native';
@@ -20,10 +20,12 @@ import type {
   LabelProps,
   MovieElement,
   RootScreenProps,
+  TvShowElement,
 } from '@shared/types';
 import {
   Box,
   CompactMovieCard,
+  CompactTvShowCard,
   ExpandableText,
   FullScreenLoader,
   Labels,
@@ -31,7 +33,7 @@ import {
   TMDBImage,
 } from '@components';
 import { CompanyService, URLBuilder, VideoDiscoveryService } from '@services';
-import { toMovieElement } from '@shared/utils';
+import { toMovieElement, toTvShowElement } from '@shared/utils';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
 
@@ -50,24 +52,39 @@ class CompanyDetailScreen extends React.Component<
     this.state = {
       company: undefined,
       movies: [],
+      tvShows: [],
+      totalMovies: 0,
+      totalTvShows: 0,
     };
 
     this.renderMovieItem = this.renderMovieItem.bind(this);
+    this.renderTvShowItem = this.renderTvShowItem.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
     const { companyId } = this.props.route.params;
 
-    const [company, movieResponse] = await Promise.all([
+    const [company, movieResponse, tvShowResponse] = await Promise.all([
       CompanyService.getDetailAsync(companyId),
       VideoDiscoveryService.getVideoByCompanyAsync(
         'movie',
         companyId.toString(),
         toMovieElement,
       ),
+      VideoDiscoveryService.getVideoByCompanyAsync(
+        'tv',
+        companyId.toString(),
+        toTvShowElement,
+      ),
     ]);
 
-    this.setState({ company, movies: movieResponse.getResults() });
+    this.setState({
+      company,
+      movies: movieResponse.getResults(),
+      tvShows: tvShowResponse.getResults(),
+      totalMovies: movieResponse.getTotalResults(),
+      totalTvShows: tvShowResponse.getTotalResults(),
+    });
     this.props.navigation.setOptions({ title: company.name });
   }
 
@@ -84,9 +101,14 @@ class CompanyDetailScreen extends React.Component<
         icon: <Flag {...labelIconsaxProps} />,
       },
       {
-        name: 'Parent Company',
-        value: this.state.company?.parentCompany?.name || 'N/A',
-        icon: <Building4 {...labelIconsaxProps} />,
+        name: 'Total movies',
+        value: this.state.totalMovies.toString(),
+        icon: <VideoPlay {...labelIconsaxProps} />,
+      },
+      {
+        name: 'Total tv series',
+        value: this.state.totalTvShows.toString(),
+        icon: <VideoPlay {...labelIconsaxProps} />,
       },
     ];
   }
@@ -103,6 +125,24 @@ class CompanyDetailScreen extends React.Component<
         onPress={() =>
           this.props.navigation.push('MovieDetailScreen', {
             movieId: item.id,
+          })
+        }
+      />
+    );
+  }
+
+  private renderTvShowItem({
+    item,
+    index,
+  }: ListRenderItemInfo<TvShowElement>): React.JSX.Element {
+    return (
+      <CompactTvShowCard
+        item={item}
+        index={index}
+        listLength={this.state.tvShows.length}
+        onPress={() =>
+          this.props.navigation.push('TvShowDetailScreen', {
+            tvShowId: item.id,
           })
         }
       />
@@ -175,6 +215,16 @@ class CompanyDetailScreen extends React.Component<
                 keyExtractor={item => item.id.toString()}
                 data={this.state.movies}
                 renderItem={this.renderMovieItem}
+              />
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Popular TV series'>
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={this.state.tvShows}
+                renderItem={this.renderTvShowItem}
               />
             </Section>
           </View>

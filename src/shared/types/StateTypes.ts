@@ -80,6 +80,9 @@ export type ExpandableTextState = {
 export type CompanyDetailScreenState = {
     company: Company | undefined;
     movies: MovieElement[];
+    tvShows: TvShowElement[];
+    totalTvShows: number;
+    totalMovies: number;
 };
 
 export type PersonDetailScreenState = {
