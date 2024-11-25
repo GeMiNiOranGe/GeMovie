@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ImageBackground,
   SafeAreaView,
   ScrollView,
   Text,
@@ -14,7 +13,6 @@ import {
   Flag,
   IconProps as IconsaxProps,
 } from 'iconsax-react-native';
-import LinearGradient from 'react-native-linear-gradient';
 
 import type {
   CompanyDetailScreenState,
@@ -33,9 +31,10 @@ import {
   Labels,
   Section,
   TMDBImage,
+  TMDBImageBackgroundLinearGradient,
 } from '@components';
 import { Television } from '@assets/icons';
-import { CompanyService, URLBuilder, VideoDiscoveryService } from '@services';
+import { CompanyService, VideoDiscoveryService } from '@services';
 import { toMovieElement, toTvShowElement } from '@shared/utils';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
@@ -62,6 +61,7 @@ class CompanyDetailScreen extends React.Component<
 
     this.renderMovieItem = this.renderMovieItem.bind(this);
     this.renderTvShowItem = this.renderTvShowItem.bind(this);
+    this.pushCompanyDetailScreen = this.pushCompanyDetailScreen.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
@@ -152,6 +152,12 @@ class CompanyDetailScreen extends React.Component<
     );
   }
 
+  private pushCompanyDetailScreen() {
+    this.props.navigation.push('CompanyDetailScreen', {
+      companyId: this.state.company?.parentCompany?.id as number,
+    });
+  }
+
   public override render(): React.JSX.Element {
     if (!this.state.company) {
       return <FullScreenLoader />;
@@ -160,43 +166,34 @@ class CompanyDetailScreen extends React.Component<
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
         <ScrollView>
-          <ImageBackground
-            style={layout.flex1}
+          <TMDBImageBackgroundLinearGradient
+            contentContainerStyle={[
+              layout.row,
+              layout.itemsEnd,
+              styles.titleBox,
+            ]}
+            path={this.state.movies[0]?.backdropPath}
+            size='w300'
             blurRadius={4}
-            source={{
-              uri: URLBuilder.buildImageURL(
-                'w300',
-                this.state.movies[0]?.backdropPath,
-              ),
-            }}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 0.5 }}
+            colors={['transparent', colors.primary.toString()]}
           >
-            <LinearGradient
-              style={[
-                layout.flex1,
-                layout.row,
-                layout.itemsEnd,
-                styles.titleBox,
-              ]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 0, y: 0.5 }}
-              colors={['transparent', colors.primary.toString()]}
-            >
-              <View style={styles.logoBox}>
-                <TMDBImage
-                  style={styles.logo}
-                  resizeMode='contain'
-                  path={this.state.company?.logoPath}
-                  size='w300'
-                />
-              </View>
+            <View style={styles.logoBox}>
+              <TMDBImage
+                style={styles.logo}
+                resizeMode='contain'
+                path={this.state.company?.logoPath}
+                size='w300'
+              />
+            </View>
 
-              <View style={[layout.flex1, styles.nameBox]}>
-                <Text style={styles.name} numberOfLines={1}>
-                  {this.state.company?.name}
-                </Text>
-              </View>
-            </LinearGradient>
-          </ImageBackground>
+            <View style={[layout.flex1, styles.nameBox]}>
+              <Text style={styles.name} numberOfLines={1}>
+                {this.state.company?.name}
+              </Text>
+            </View>
+          </TMDBImageBackgroundLinearGradient>
 
           <View style={styles.content}>
             <View style={[layout.itemsCenter, styles.labelBox]}>
@@ -214,12 +211,7 @@ class CompanyDetailScreen extends React.Component<
                 <TouchableOpacity
                   style={layout.row}
                   activeOpacity={0.85}
-                  onPress={() =>
-                    this.props.navigation.push('CompanyDetailScreen', {
-                      companyId: this.state.company?.parentCompany
-                        ?.id as number,
-                    })
-                  }
+                  onPress={this.pushCompanyDetailScreen}
                 >
                   <>
                     <TMDBImage
@@ -229,31 +221,20 @@ class CompanyDetailScreen extends React.Component<
                       size='w300'
                     />
 
-                    <ImageBackground
-                      style={layout.flex1}
+                    <TMDBImageBackgroundLinearGradient
+                      contentContainerStyle={[
+                        layout.justifyCenter,
+                        styles.parentNameBox,
+                      ]}
+                      path={this.state.company?.logoPath}
+                      size='w300'
                       blurRadius={4}
-                      source={{
-                        uri: URLBuilder.buildImageURL(
-                          'w300',
-                          this.state.company?.logoPath,
-                        ),
-                      }}
+                      colors={['transparent', colors.secondary.toString()]}
                     >
-                      <LinearGradient
-                        style={[
-                          layout.flex1,
-                          layout.justifyCenter,
-                          styles.parentNameBox,
-                        ]}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 0, y: 1 }}
-                        colors={['transparent', colors.secondary.toString()]}
-                      >
-                        <Text style={styles.parentName} numberOfLines={2}>
-                          {this.state.company?.parentCompany.name}
-                        </Text>
-                      </LinearGradient>
-                    </ImageBackground>
+                      <Text style={styles.parentName} numberOfLines={2}>
+                        {this.state.company?.parentCompany.name}
+                      </Text>
+                    </TMDBImageBackgroundLinearGradient>
                   </>
                 </TouchableOpacity>
               </Box>

@@ -2,8 +2,7 @@ import React from 'react';
 import {
   FlatList,
   Image,
-  ImageBackground,
-  ListRenderItemInfo,
+  type ListRenderItemInfo,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -54,6 +53,7 @@ import {
   Photo,
   Review,
   Box,
+  TMDBImageBackgroundLinearGradient,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -310,31 +310,20 @@ class MovieDetailScreen extends React.Component<
                       size='w154'
                     />
 
-                    <ImageBackground
-                      style={layout.flex1}
+                    <TMDBImageBackgroundLinearGradient
+                      contentContainerStyle={[
+                        layout.justifyCenter,
+                        styles.collectionTitleBox,
+                      ]}
+                      path={this.state.movie?.belongsToCollection?.backdropPath}
+                      size='w300'
                       blurRadius={4}
-                      source={{
-                        uri: URLBuilder.buildImageURL(
-                          'w300',
-                          this.state.movie?.belongsToCollection?.backdropPath,
-                        ),
-                      }}
+                      colors={['transparent', colors.secondary.toString()]}
                     >
-                      <LinearGradient
-                        style={[
-                          layout.flex1,
-                          layout.justifyCenter,
-                          styles.collectionTitleBox,
-                        ]}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 0, y: 1 }}
-                        colors={['transparent', colors.secondary.toString()]}
-                      >
-                        <Text style={styles.collectionTitle} numberOfLines={2}>
-                          {this.state.movie?.belongsToCollection?.name}
-                        </Text>
-                      </LinearGradient>
-                    </ImageBackground>
+                      <Text style={styles.collectionTitle} numberOfLines={2}>
+                        {this.state.movie?.belongsToCollection?.name}
+                      </Text>
+                    </TMDBImageBackgroundLinearGradient>
                   </>
                 </TouchableOpacity>
               </Box>

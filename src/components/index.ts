@@ -23,6 +23,7 @@ export { default as Photo } from './Photo';
 export { default as Review } from './Review';
 export { default as TouchableRippleLink } from './TouchableRippleLink';
 export { default as TMDBImage } from './TMDBImage';
+export { default as TMDBImageBackgroundLinearGradient } from './TMDBImageBackgroundLinearGradient';
 export { default as RankText } from './RankText';
 export { default as VoteLabel } from './VoteLabel';
 export { default as FullScreenLoader } from './FullScreenLoader';

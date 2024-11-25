@@ -180,6 +180,18 @@ export type TMDBImageProps = {
     notFoundIcon?: IconsaxProps | undefined;
 };
 
+export type TMDBImageBackgroundLinearGradientProps = {
+    style?: StyleProp<ViewStyle>;
+    contentContainerStyle?: StyleProp<ViewStyle>;
+    size: keyof typeof imageSize;
+    path: string | undefined;
+    blurRadius?: number | undefined;
+    colors: (string | number)[];
+    start?: { x: number; y: number };
+    end?: { x: number; y: number };
+    children?: React.ReactNode | undefined;
+};
+
 export type IconProps = {
     size?: number | undefined;
     color?: ColorValue | number | undefined;
