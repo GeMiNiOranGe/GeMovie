@@ -4,6 +4,7 @@ import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
 
 const logoSize = 80;
+const parentLogoSize = 64;
 
 const styles = StyleSheet.create({
     container: {
@@ -34,6 +35,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.text,
         fontWeight: 'bold',
+    },
+    parentLogoBox: {
+        padding: 8,
+        backgroundColor: colors.background,
+    },
+    parentLogo: {
+        width: parentLogoSize,
+        height: parentLogoSize,
     },
     parentNameBox: {
         paddingLeft: spacing.medium,

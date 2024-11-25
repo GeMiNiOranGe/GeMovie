@@ -1,5 +1,5 @@
 import { APIHandler, PaginationResponseWrapper, URLBuilder } from '@services';
-import { PaginationResponse, VideoType } from '@shared/types';
+import type { PaginationResponse, SortBy, VideoType } from '@shared/types';
 import { toPaginationResponse } from '@shared/utils';
 
 export default class VideoDiscoveryService {
@@ -13,10 +13,12 @@ export default class VideoDiscoveryService {
         type: VideoType,
         companyIds: string,
         elementConvertFn: (val: any) => T,
+        sortBy: SortBy = 'popularity.desc',
         page: number = 1,
     ) {
         const params = new URLSearchParams({
             with_companies: companyIds,
+            sort_by: sortBy,
             page: `${page}`,
         });
 

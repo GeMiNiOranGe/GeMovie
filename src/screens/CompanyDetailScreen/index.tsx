@@ -53,8 +53,10 @@ class CompanyDetailScreen extends React.Component<
     super(props);
     this.state = {
       company: undefined,
-      movies: [],
-      tvShows: [],
+      popularMovies: [],
+      popularTvShows: [],
+      topRatedMovies: [],
+      topRatedTvShows: [],
       totalMovies: 0,
       totalTvShows: 0,
     };
@@ -67,7 +69,13 @@ class CompanyDetailScreen extends React.Component<
   public override async componentDidMount(): Promise<void> {
     const { companyId } = this.props.route.params;
 
-    const [company, movieResponse, tvShowResponse] = await Promise.all([
+    const [
+      company,
+      popularMovieResponse,
+      popularTvShowResponse,
+      topRatedMovieResponse,
+      topRatedTvShowResponse,
+    ] = await Promise.all([
       CompanyService.getDetailAsync(companyId),
       VideoDiscoveryService.getVideoByCompanyAsync(
         'movie',
@@ -79,14 +87,28 @@ class CompanyDetailScreen extends React.Component<
         companyId.toString(),
         toTvShowElement,
       ),
+      VideoDiscoveryService.getVideoByCompanyAsync(
+        'movie',
+        companyId.toString(),
+        toMovieElement,
+        'vote_average.desc',
+      ),
+      VideoDiscoveryService.getVideoByCompanyAsync(
+        'tv',
+        companyId.toString(),
+        toTvShowElement,
+        'vote_average.desc',
+      ),
     ]);
 
     this.setState({
       company,
-      movies: movieResponse.getResults(),
-      tvShows: tvShowResponse.getResults(),
-      totalMovies: movieResponse.getTotalResults(),
-      totalTvShows: tvShowResponse.getTotalResults(),
+      popularMovies: popularMovieResponse.getResults(),
+      popularTvShows: popularTvShowResponse.getResults(),
+      topRatedMovies: topRatedMovieResponse.getResults(),
+      topRatedTvShows: topRatedTvShowResponse.getResults(),
+      totalMovies: popularMovieResponse.getTotalResults(),
+      totalTvShows: popularTvShowResponse.getTotalResults(),
     });
     this.props.navigation.setOptions({ title: company.name });
   }
@@ -124,7 +146,7 @@ class CompanyDetailScreen extends React.Component<
       <CompactMovieCard
         item={item}
         index={index}
-        listLength={this.state.movies.length}
+        listLength={this.state.popularMovies.length}
         onPress={() =>
           this.props.navigation.push('MovieDetailScreen', {
             movieId: item.id,
@@ -142,7 +164,7 @@ class CompanyDetailScreen extends React.Component<
       <CompactTvShowCard
         item={item}
         index={index}
-        listLength={this.state.tvShows.length}
+        listLength={this.state.popularTvShows.length}
         onPress={() =>
           this.props.navigation.push('TvShowDetailScreen', {
             tvShowId: item.id,
@@ -172,7 +194,7 @@ class CompanyDetailScreen extends React.Component<
               layout.itemsEnd,
               styles.titleBox,
             ]}
-            path={this.state.movies[0]?.backdropPath}
+            path={this.state.popularMovies[0]?.backdropPath}
             size='w300'
             blurRadius={4}
             start={{ x: 0, y: 0 }}
@@ -214,19 +236,21 @@ class CompanyDetailScreen extends React.Component<
                   onPress={this.pushCompanyDetailScreen}
                 >
                   <>
-                    <TMDBImage
-                      style={styles.logo}
-                      resizeMode='contain'
-                      path={this.state.company?.parentCompany.logoPath}
-                      size='w300'
-                    />
+                    <View style={styles.parentLogoBox}>
+                      <TMDBImage
+                        style={styles.parentLogo}
+                        resizeMode='contain'
+                        path={this.state.company?.parentCompany.logoPath}
+                        size='w300'
+                      />
+                    </View>
 
                     <TMDBImageBackgroundLinearGradient
                       contentContainerStyle={[
                         layout.justifyCenter,
                         styles.parentNameBox,
                       ]}
-                      path={this.state.company?.logoPath}
+                      path={this.state.company?.parentCompany.logoPath}
                       size='w300'
                       blurRadius={4}
                       colors={['transparent', colors.secondary.toString()]}
@@ -245,7 +269,17 @@ class CompanyDetailScreen extends React.Component<
             <Section title='Popular movies'>
               <Section.HorizontalList
                 keyExtractor={item => item.id.toString()}
-                data={this.state.movies}
+                data={this.state.popularMovies}
+                renderItem={this.renderMovieItem}
+              />
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Top rated movies'>
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={this.state.topRatedMovies}
                 renderItem={this.renderMovieItem}
               />
             </Section>
@@ -255,7 +289,17 @@ class CompanyDetailScreen extends React.Component<
             <Section title='Popular TV series'>
               <Section.HorizontalList
                 keyExtractor={item => item.id.toString()}
-                data={this.state.tvShows}
+                data={this.state.popularTvShows}
+                renderItem={this.renderTvShowItem}
+              />
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Top rated TV series'>
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={this.state.topRatedTvShows}
                 renderItem={this.renderTvShowItem}
               />
             </Section>
