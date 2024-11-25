@@ -2,7 +2,7 @@ export type CompanyElement = {
     id: number;
     logoPath?: string | undefined;
     name: string;
-    originCountry: string;
+    originCountry: string | undefined;
 };
 
 export type Company = {
@@ -12,7 +12,7 @@ export type Company = {
     id: number;
     logoPath?: string | undefined;
     name: string;
-    originCountry: string;
+    originCountry: string | undefined;
     parentCompany?: ParentCompany | undefined;
 };
 

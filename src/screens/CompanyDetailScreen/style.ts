@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
 
-const backdropSize = 80;
+const logoSize = 80;
 
 const styles = StyleSheet.create({
     container: {
@@ -15,16 +15,16 @@ const styles = StyleSheet.create({
     titleBox: {
         padding: spacing.large,
     },
-    backdropBox: {
+    logoBox: {
         padding: 8,
         backgroundColor: colors.primary,
         borderRadius: 8,
         elevation: 5,
         overflow: 'hidden',
     },
-    backdrop: {
-        width: backdropSize,
-        height: backdropSize,
+    logo: {
+        width: logoSize,
+        height: logoSize,
     },
     nameBox: {
         marginLeft: spacing.large,
@@ -34,6 +34,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.text,
         fontWeight: 'bold',
+    },
+    parentNameBox: {
+        paddingLeft: spacing.medium,
+        paddingRight: spacing.large,
+    },
+    parentName: {
+        fontSize: 16,
+        color: colors.primary,
     },
     labelBox: {
         marginBottom: spacing.huge,

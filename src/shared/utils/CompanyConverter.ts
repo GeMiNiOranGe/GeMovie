@@ -5,7 +5,7 @@ export function toCompanyElement(val: any): CompanyElement {
         id: val.id,
         logoPath: val['logo_path'] ?? undefined,
         name: val.name,
-        originCountry: val['origin_country'],
+        originCountry: val['origin_country'] ?? undefined,
     };
 }
 
@@ -17,7 +17,7 @@ export function toCompany(val: any): Company {
         id: val.id,
         logoPath: val['logo_path'] ?? undefined,
         name: val.name,
-        originCountry: val['origin_country'],
+        originCountry: val['origin_country'] ?? undefined,
         parentCompany: toParentCompany(val['parent_company']),
     };
 }

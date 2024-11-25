@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
   type ListRenderItemInfo,
 } from 'react-native';
@@ -94,12 +95,12 @@ class CompanyDetailScreen extends React.Component<
     return [
       {
         name: 'Headquarters',
-        value: this.state.company?.headquarters || 'N/A',
+        value: this.state.company?.headquarters || '-',
         icon: <Location {...labelIconsaxProps} />,
       },
       {
         name: 'Country',
-        value: this.state.company?.originCountry || 'N/A',
+        value: this.state.company?.originCountry || '-',
         icon: <Flag {...labelIconsaxProps} />,
       },
       {
@@ -180,9 +181,9 @@ class CompanyDetailScreen extends React.Component<
               end={{ x: 0, y: 0.5 }}
               colors={['transparent', colors.primary.toString()]}
             >
-              <View style={styles.backdropBox}>
+              <View style={styles.logoBox}>
                 <TMDBImage
-                  style={styles.backdrop}
+                  style={styles.logo}
                   resizeMode='contain'
                   path={this.state.company?.logoPath}
                   size='w300'
@@ -202,11 +203,59 @@ class CompanyDetailScreen extends React.Component<
               <Labels data={this.getLabels()} />
             </View>
 
-            {this.state.company.description && (
-              <Box title='Description'>
-                <ExpandableText seeButtonPosition='separate'>
-                  {this.state.company.description}
-                </ExpandableText>
+            <Box title='Description'>
+              <ExpandableText seeButtonPosition='separate'>
+                {this.state.company.description || 'No description available'}
+              </ExpandableText>
+            </Box>
+
+            {this.state.company?.parentCompany && (
+              <Box title='Parent company'>
+                <TouchableOpacity
+                  style={layout.row}
+                  activeOpacity={0.85}
+                  onPress={() =>
+                    this.props.navigation.push('CompanyDetailScreen', {
+                      companyId: this.state.company?.parentCompany
+                        ?.id as number,
+                    })
+                  }
+                >
+                  <>
+                    <TMDBImage
+                      style={styles.logo}
+                      resizeMode='contain'
+                      path={this.state.company?.parentCompany.logoPath}
+                      size='w300'
+                    />
+
+                    <ImageBackground
+                      style={layout.flex1}
+                      blurRadius={4}
+                      source={{
+                        uri: URLBuilder.buildImageURL(
+                          'w300',
+                          this.state.company?.logoPath,
+                        ),
+                      }}
+                    >
+                      <LinearGradient
+                        style={[
+                          layout.flex1,
+                          layout.justifyCenter,
+                          styles.parentNameBox,
+                        ]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0, y: 1 }}
+                        colors={['transparent', colors.secondary.toString()]}
+                      >
+                        <Text style={styles.parentName} numberOfLines={2}>
+                          {this.state.company?.parentCompany.name}
+                        </Text>
+                      </LinearGradient>
+                    </ImageBackground>
+                  </>
+                </TouchableOpacity>
               </Box>
             )}
 
