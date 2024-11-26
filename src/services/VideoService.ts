@@ -102,30 +102,6 @@ export default class VideoService {
     }
 
     /**
-     * Get a list ordered by popularity by genres.
-     * @param type `"movie"` | `"tv"`
-     * @param genreIds genre ids
-     * @param page page number
-     */
-    public static async getPopularListByGenreAsync<T>(
-        type: VideoType,
-        elementConvertFn: (val: any) => T,
-        genreIds: string,
-        page: number = 1,
-    ): Promise<PaginationResponseWrapper<T>> {
-        const params = new URLSearchParams({
-            with_genres: genreIds,
-            page: `${page}`,
-        });
-
-        const url = URLBuilder.buildDiscoverURL(type, params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, elementConvertFn);
-    }
-
-    /**
      * Get a list of videos ordered by rating.
      * @param type `"movie"` | `"tv"`
      * @param page page number
@@ -140,31 +116,6 @@ export default class VideoService {
         });
 
         const url = URLBuilder.buildTopRatedURL(type, params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, elementConvertFn);
-    }
-
-    /**
-     * Get a list of videos ordered by rating by genre.
-     * @param type `"movie"` | `"tv"`
-     * @param genreIds genre ids
-     * @param page page number
-     */
-    public static async getTopRatedByGenreAsync<T>(
-        type: VideoType,
-        elementConvertFn: (val: any) => T,
-        genreIds: string,
-        page: number = 1,
-    ): Promise<PaginationResponseWrapper<T>> {
-        const params = new URLSearchParams({
-            with_genres: genreIds,
-            sort_by: 'vote_average.desc',
-            page: `${page}`,
-        });
-
-        const url = URLBuilder.buildDiscoverURL(type, params);
         const json = await APIHandler.fetchJSON(url);
         const response: PaginationResponse<T> = toPaginationResponse(json);
 

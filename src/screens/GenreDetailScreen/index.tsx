@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { GenreDetailScreenState, RootScreenProps } from '@shared/types';
 import { FullScreenLoader, VideoHorizontalListSection } from '@components';
-import { MovieService, TvShowService, VideoService } from '@services';
+import { MovieService, TvShowService, VideoDiscoveryService } from '@services';
 import { toMovieElement, toTvShowElement } from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
@@ -37,25 +37,27 @@ class GenreDetailScreen extends React.PureComponent<
       upcomingMoviesResponse,
       onTheAirTvShowResponse,
     ] = await Promise.all([
-      VideoService.getPopularListByGenreAsync(
+      VideoDiscoveryService.getVideoByGenreAsync(
         'movie',
+        genre.id.toString(),
         toMovieElement,
-        genre.id.toString(),
       ),
-      VideoService.getPopularListByGenreAsync(
+      VideoDiscoveryService.getVideoByGenreAsync(
         'tv',
-        toTvShowElement,
         genre.id.toString(),
+        toTvShowElement,
       ),
-      VideoService.getTopRatedByGenreAsync(
+      VideoDiscoveryService.getVideoByGenreAsync(
         'movie',
+        genre.id.toString(),
         toMovieElement,
-        genre.id.toString(),
+        'vote_average.desc',
       ),
-      VideoService.getTopRatedByGenreAsync(
+      VideoDiscoveryService.getVideoByGenreAsync(
         'tv',
-        toTvShowElement,
         genre.id.toString(),
+        toTvShowElement,
+        'vote_average.desc',
       ),
       MovieService.getUpcomingByGenreAsync(genre.id.toString()),
       TvShowService.getOnTheAirByGenreAsync(genre.id.toString()),
