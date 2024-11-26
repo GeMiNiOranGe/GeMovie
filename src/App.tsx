@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { MainBottomTab } from '@navigation';
