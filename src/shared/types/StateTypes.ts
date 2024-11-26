@@ -56,6 +56,7 @@ export type GenreDetailScreenState = {
 
 export type MovieDetailScreenState = {
     movie: Movie | undefined;
+    modalVisible: boolean;
 };
 
 export type CollectionDetailState = {
