@@ -27,3 +27,4 @@ export { default as TMDBImageBackgroundLinearGradient } from './TMDBImageBackgro
 export { default as RankText } from './RankText';
 export { default as VoteLabel } from './VoteLabel';
 export { default as FullScreenLoader } from './FullScreenLoader';
+export { default as VideoHorizontalListSection } from './VideoHorizontalListSection';

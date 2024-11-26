@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  type ListRenderItemInfo,
 } from 'react-native';
 import {
   Location,
@@ -17,21 +16,17 @@ import {
 import type {
   CompanyDetailScreenState,
   LabelProps,
-  MovieElement,
   RootScreenProps,
   SvgIconProps,
-  TvShowElement,
 } from '@shared/types';
 import {
   Box,
-  CompactMovieCard,
-  CompactTvShowCard,
   ExpandableText,
   FullScreenLoader,
   Labels,
-  Section,
   TMDBImage,
   TMDBImageBackgroundLinearGradient,
+  VideoHorizontalListSection,
 } from '@components';
 import { Television } from '@assets/icons';
 import { CompanyService, VideoDiscoveryService } from '@services';
@@ -61,8 +56,6 @@ class CompanyDetailScreen extends React.Component<
       totalTvShows: 0,
     };
 
-    this.renderMovieItem = this.renderMovieItem.bind(this);
-    this.renderTvShowItem = this.renderTvShowItem.bind(this);
     this.pushCompanyDetailScreen = this.pushCompanyDetailScreen.bind(this);
   }
 
@@ -136,42 +129,6 @@ class CompanyDetailScreen extends React.Component<
         icon: <Television {...(labelIconsaxProps as SvgIconProps)} />,
       },
     ];
-  }
-
-  private renderMovieItem({
-    item,
-    index,
-  }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
-    return (
-      <CompactMovieCard
-        item={item}
-        index={index}
-        listLength={this.state.popularMovies.length}
-        onPress={() =>
-          this.props.navigation.push('MovieDetailScreen', {
-            movieId: item.id,
-          })
-        }
-      />
-    );
-  }
-
-  private renderTvShowItem({
-    item,
-    index,
-  }: ListRenderItemInfo<TvShowElement>): React.JSX.Element {
-    return (
-      <CompactTvShowCard
-        item={item}
-        index={index}
-        listLength={this.state.popularTvShows.length}
-        onPress={() =>
-          this.props.navigation.push('TvShowDetailScreen', {
-            tvShowId: item.id,
-          })
-        }
-      />
-    );
   }
 
   private pushCompanyDetailScreen() {
@@ -264,45 +221,33 @@ class CompanyDetailScreen extends React.Component<
               </Box>
             )}
 
-            <Section.Separator />
+            <VideoHorizontalListSection
+              data={this.state.popularMovies}
+              type='movie'
+              title='Popular movies'
+              navigation={this.props.navigation}
+            />
 
-            <Section title='Popular movies'>
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={this.state.popularMovies}
-                renderItem={this.renderMovieItem}
-              />
-            </Section>
+            <VideoHorizontalListSection
+              data={this.state.topRatedMovies}
+              type='movie'
+              title='Top rated movies'
+              navigation={this.props.navigation}
+            />
 
-            <Section.Separator />
+            <VideoHorizontalListSection
+              data={this.state.popularTvShows}
+              type='tv'
+              title='Popular TV series'
+              navigation={this.props.navigation}
+            />
 
-            <Section title='Top rated movies'>
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={this.state.topRatedMovies}
-                renderItem={this.renderMovieItem}
-              />
-            </Section>
-
-            <Section.Separator />
-
-            <Section title='Popular TV series'>
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={this.state.popularTvShows}
-                renderItem={this.renderTvShowItem}
-              />
-            </Section>
-
-            <Section.Separator />
-
-            <Section title='Top rated TV series'>
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={this.state.topRatedTvShows}
-                renderItem={this.renderTvShowItem}
-              />
-            </Section>
+            <VideoHorizontalListSection
+              data={this.state.topRatedTvShows}
+              type='tv'
+              title='Top rated TV series'
+              navigation={this.props.navigation}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>

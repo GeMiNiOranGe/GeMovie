@@ -1,30 +1,11 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ListRenderItemInfo,
-  ScrollView,
-  View,
-  Text,
-} from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import type {
-  GenreDetailScreenState,
-  MovieElement,
-  RootScreenProps,
-  TvShowElement,
-} from '@shared/types';
-import {
-  CompactMovieCard,
-  CompactTvShowCard,
-  FullScreenLoader,
-  Section,
-} from '@components';
+import type { GenreDetailScreenState, RootScreenProps } from '@shared/types';
+import { FullScreenLoader, VideoHorizontalListSection } from '@components';
 import { MovieService, TvShowService, VideoService } from '@services';
-import {
-  getFormattedDate,
-  toMovieElement,
-  toTvShowElement,
-} from '@shared/utils';
+import { toMovieElement, toTvShowElement } from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
 
@@ -43,11 +24,6 @@ class GenreDetailScreen extends React.PureComponent<
       onTheAirTvShow: [],
       isLoading: true,
     };
-
-    this.renderMovieItem = this.renderMovieItem.bind(this);
-    this.renderUpcomingMovieItem = this.renderUpcomingMovieItem.bind(this);
-    this.renderTvShowItem = this.renderTvShowItem.bind(this);
-    this.renderOnTheAirTvShowItem = this.renderOnTheAirTvShowItem.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
@@ -97,90 +73,6 @@ class GenreDetailScreen extends React.PureComponent<
     this.props.navigation.setOptions({ title: genre.name });
   }
 
-  private renderMovieItem({
-    item,
-    index,
-  }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
-    return (
-      <CompactMovieCard
-        item={item}
-        index={index}
-        listLength={this.state.popularMovies.length}
-        onPress={() =>
-          this.props.navigation.push('MovieDetailScreen', {
-            movieId: item.id,
-          })
-        }
-      />
-    );
-  }
-
-  private renderUpcomingMovieItem({
-    item,
-    index,
-  }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
-    return (
-      <View>
-        <Text style={styles.onAirText}>
-          {getFormattedDate(item.releaseDate).slice(4)}
-        </Text>
-
-        <CompactMovieCard
-          item={item}
-          index={index}
-          listLength={this.state.upcomingMovies.length}
-          onPress={() =>
-            this.props.navigation.push('MovieDetailScreen', {
-              movieId: item.id,
-            })
-          }
-        />
-      </View>
-    );
-  }
-
-  private renderTvShowItem({
-    item,
-    index,
-  }: ListRenderItemInfo<TvShowElement>): React.JSX.Element {
-    return (
-      <CompactTvShowCard
-        item={item}
-        index={index}
-        listLength={this.state.popularTvShows.length}
-        onPress={() =>
-          this.props.navigation.push('TvShowDetailScreen', {
-            tvShowId: item.id,
-          })
-        }
-      />
-    );
-  }
-
-  private renderOnTheAirTvShowItem({
-    item,
-    index,
-  }: ListRenderItemInfo<TvShowElement>): React.JSX.Element {
-    return (
-      <View>
-        <Text style={styles.onAirText}>
-          {getFormattedDate(item.firstAirDate).slice(4)}
-        </Text>
-
-        <CompactTvShowCard
-          item={item}
-          index={index}
-          listLength={this.state.onTheAirTvShow.length}
-          onPress={() =>
-            this.props.navigation.push('TvShowDetailScreen', {
-              tvShowId: item.id,
-            })
-          }
-        />
-      </View>
-    );
-  }
-
   public override render(): React.JSX.Element {
     if (this.state.isLoading) {
       return <FullScreenLoader />;
@@ -196,89 +88,49 @@ class GenreDetailScreen extends React.PureComponent<
             </Text>
           </View>
 
-          {this.state.popularMovies.length !== 0 && (
-            <>
-              <Section title='Popular movies'>
-                <Section.HorizontalList
-                  keyExtractor={item => item.id.toString()}
-                  data={this.state.popularMovies}
-                  renderItem={this.renderMovieItem}
-                />
-              </Section>
+          <VideoHorizontalListSection
+            data={this.state.popularMovies}
+            type='movie'
+            title='Popular movies'
+            navigation={this.props.navigation}
+          />
 
-              <Section.Separator />
-            </>
-          )}
+          <VideoHorizontalListSection
+            data={this.state.topRatedMovies}
+            type='movie'
+            title='Top rated movies'
+            navigation={this.props.navigation}
+          />
 
-          {this.state.topRatedMovies.length !== 0 && (
-            <>
-              <Section title='Top rated movies'>
-                <Section.HorizontalList
-                  keyExtractor={item => item.id.toString()}
-                  data={this.state.topRatedMovies}
-                  renderItem={this.renderMovieItem}
-                />
-              </Section>
+          <VideoHorizontalListSection
+            data={this.state.upcomingMovies}
+            type='movie'
+            title='Coming soon'
+            isUpcoming
+            navigation={this.props.navigation}
+          />
 
-              <Section.Separator />
-            </>
-          )}
+          <VideoHorizontalListSection
+            data={this.state.popularTvShows}
+            type='tv'
+            title='Popular TV series'
+            navigation={this.props.navigation}
+          />
 
-          {this.state.upcomingMovies.length !== 0 && (
-            <>
-              <Section title='Coming soon'>
-                <Section.HorizontalList
-                  keyExtractor={item => item.id.toString()}
-                  data={this.state.upcomingMovies}
-                  renderItem={this.renderUpcomingMovieItem}
-                />
-              </Section>
+          <VideoHorizontalListSection
+            data={this.state.topRatedTvShows}
+            type='tv'
+            title='Top rated TV series'
+            navigation={this.props.navigation}
+          />
 
-              <Section.Separator />
-            </>
-          )}
-
-          {this.state.popularTvShows.length !== 0 && (
-            <>
-              <Section title='Popular TV series'>
-                <Section.HorizontalList
-                  keyExtractor={item => item.id.toString()}
-                  data={this.state.popularTvShows}
-                  renderItem={this.renderTvShowItem}
-                />
-              </Section>
-
-              <Section.Separator />
-            </>
-          )}
-
-          {this.state.topRatedTvShows.length !== 0 && (
-            <>
-              <Section title='Top rated TV series'>
-                <Section.HorizontalList
-                  keyExtractor={item => item.id.toString()}
-                  data={this.state.topRatedTvShows}
-                  renderItem={this.renderTvShowItem}
-                />
-              </Section>
-
-              <Section.Separator />
-            </>
-          )}
-
-          {this.state.onTheAirTvShow.length !== 0 && (
-            <>
-              <Section title='Upcoming TV series'>
-                <Section.HorizontalList
-                  keyExtractor={item => item.id.toString()}
-                  data={this.state.onTheAirTvShow}
-                  renderItem={this.renderOnTheAirTvShowItem}
-                />
-              </Section>
-
-              <Section.Separator />
-            </>
-          )}
+          <VideoHorizontalListSection
+            data={this.state.onTheAirTvShow}
+            type='tv'
+            title='Upcoming TV series'
+            isUpcoming
+            navigation={this.props.navigation}
+          />
         </ScrollView>
       </SafeAreaView>
     );

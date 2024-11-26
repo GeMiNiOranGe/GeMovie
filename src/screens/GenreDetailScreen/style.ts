@@ -25,12 +25,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: colors.subtext,
     },
-    onAirText: {
-        fontSize: 14,
-        color: colors.secondary,
-        fontWeight: 'bold',
-        marginBottom: spacing.small,
-    },
 });
 
 export default styles;

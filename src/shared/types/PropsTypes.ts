@@ -19,8 +19,10 @@ import type { SvgProps } from 'react-native-svg';
 import type {
     CardElement,
     Genre,
+    MovieElement,
     OnEndReached,
     PropsComponent,
+    TvShowElement,
     VideoElement,
     VideoType,
 } from '@shared/types';
@@ -66,6 +68,14 @@ export type RootScreenProps<
 export type SearchResultsTopTabBaseProps = {
     navigation: NativeStackNavigationProp<ParamListBase>;
     searchContent: string;
+};
+
+export type VideoHorizontalListSectionProps = {
+    navigation: NativeStackNavigationProp<ParamListBase>;
+    data: (MovieElement | TvShowElement)[];
+    type: VideoType;
+    title: string;
+    isUpcoming?: boolean;
 };
 
 export type CardBaseProps<E extends CardElement> = {
