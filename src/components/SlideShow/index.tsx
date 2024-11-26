@@ -106,7 +106,11 @@ class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
             <TouchableWithoutFeedback>
               <View>
                 {selectedMovieId && (
-                  <Youtube type='movie' id={selectedMovieId} />
+                  <Youtube
+                    type='movie'
+                    id={selectedMovieId}
+                    videoType='Trailer'
+                  />
                 )}
               </View>
             </TouchableWithoutFeedback>

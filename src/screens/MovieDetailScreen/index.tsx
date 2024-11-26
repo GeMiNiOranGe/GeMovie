@@ -510,7 +510,11 @@ class MovieDetailScreen extends React.Component<
             </Section>
 
             <View>
-              <Youtube type='movie' id={this.state.movie?.id} />
+              <Youtube
+                type='movie'
+                id={this.state.movie?.id}
+                videoType='Trailer'
+              />
             </View>
           </View>
         </ScrollView>

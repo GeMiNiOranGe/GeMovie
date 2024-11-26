@@ -478,7 +478,7 @@ class TvShowDetailScreen extends React.Component<
             >
               <TouchableWithoutFeedback>
                 <View>
-                  <Youtube type='tv' id={tv.id} />
+                  <Youtube type='tv' id={tv.id} videoType='Trailer' />
                 </View>
               </TouchableWithoutFeedback>
             </TouchableOpacity>

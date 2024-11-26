@@ -239,6 +239,12 @@ export type SlideshowProps = {
 export type VideoProps = {
     type: 'movie' | 'tv' | 'collection';
     id: number | undefined;
+    videoType?:
+        | 'Trailer'
+        | 'Teaser'
+        | 'Clip'
+        | 'Featurette'
+        | 'Behind the Scenes';
 };
 
 export type RecommendationProps = {
