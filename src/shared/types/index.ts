@@ -252,6 +252,17 @@ export type NetworkElement = {
     originCountry: string;
 };
 
+export type Season = {
+    air_date: Date;
+    episode_count: number;
+    id: number;
+    name: string;
+    overview: string;
+    poster_path: string;
+    season_number: number;
+    vote_average: number;
+};
+
 export * from './PropsTypes';
 export * from './StateTypes';
 export * from './Movie';

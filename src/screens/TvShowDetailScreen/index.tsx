@@ -73,7 +73,7 @@ class TvShowDetailScreen extends React.Component<
 
   public override componentDidMount() {
     const { tvShowId } = this.props.route.params;
-    TvShowService.getDetailAsync(tvShowId).then(data => {
+    TvShowService.getFullDetailAsync(tvShowId).then(data => {
       this.setState({ tv: data }, () => {
         this.props.navigation.setOptions({ title: data.name });
         this.state.animatedTranslateYImage.setValue(30);
@@ -117,21 +117,21 @@ class TvShowDetailScreen extends React.Component<
     this.setState({ modalVisible: false });
   };
 
-  private renderGenres(): React.JSX.Element | null {
-    const { tv } = this.state;
-    if (tv?.genres && tv.genres.length > 0) {
-      return (
-        <View>
-          {tv.genres.map((genre, index) => (
-            <Chip key={index} style={styles.genreChip} textStyle={styles.genre}>
-              {genre.name}
-            </Chip>
-          ))}
-        </View>
-      );
-    }
-    return null;
-  }
+  // private renderGenres(): React.JSX.Element | null {
+  //   const { tv } = this.state;
+  //   if (tv?.genres && tv.genres.length > 0) {
+  //     return (
+  //       <View>
+  //         {tv.genres.map((genre, index) => (
+  //           <Chip key={index} style={styles.genreChip} textStyle={styles.genre}>
+  //             {genre.name}
+  //           </Chip>
+  //         ))}
+  //       </View>
+  //     );
+  //   }
+  //   return null;
+  // }
   private renderStars(voteAverage: number): React.JSX.Element {
     const starCount = Math.round(voteAverage / 2);
     const stars = [];
@@ -212,7 +212,6 @@ class TvShowDetailScreen extends React.Component<
       animatedOpacityImage,
       animatedTranslateYImage,
     } = this.state;
-
     if (!tv) {
       return (
         <SafeAreaView style={[layout.flex1, styles.container]}>
@@ -311,7 +310,7 @@ class TvShowDetailScreen extends React.Component<
                 {tv.overview || 'No overview available.'}
               </ExpandableText>
             </View>
-            <Section.Separator />
+
             <Section title='Seasons'>
               {tv?.seasons && tv.seasons.length > 0 ? (
                 <FlatList
@@ -426,7 +425,12 @@ class TvShowDetailScreen extends React.Component<
 
                 <Section.Label
                   name='Country of Origin'
-                  value={`${this.state.tv?.originCountry.join(', ')}`}
+                  value={
+                    Array.isArray(tv?.originCountry) &&
+                    tv.originCountry.length > 0
+                      ? tv.originCountry.join(', ')
+                      : 'N/A'
+                  }
                 />
 
                 <Section.Divider />

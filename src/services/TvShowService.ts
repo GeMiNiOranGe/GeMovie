@@ -5,11 +5,12 @@ import {
     SearchService,
     URLBuilder,
 } from '@services';
-import type { PaginationResponse, TvShowElement } from '@shared/types';
+import type { PaginationResponse, TvShow, TvShowElement } from '@shared/types';
 import {
     addDays,
     getISODate,
     toPaginationResponse,
+    toTvShow,
     toTvShowElement,
 } from '@shared/utils';
 
@@ -32,6 +33,11 @@ export default class TvShowService {
 
     public static async getDetailAsync(id: number): Promise<TvShowElement> {
         return await DetailService.getDetailAsync(id, 'tv', toTvShowElement);
+    }
+
+    public static async getFullDetailAsync(id: number): Promise<TvShow> {
+        const data = await DetailService.getDetailAsync(id, 'tv', toTvShow);
+        return data;
     }
 
     /**
