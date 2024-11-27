@@ -69,7 +69,6 @@ export default class MovieService {
             page: `${page}`,
         });
         const url = URLBuilder.buildDiscoverURL('movie', params);
-
         return await APIUtils.fetchPagination(url, toMovieElement);
     }
 }

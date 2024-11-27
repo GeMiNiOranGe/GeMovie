@@ -11,12 +11,12 @@ export default class MediaService {
      * @param type `"all"` | `"movie"` | `"tv"` | `"person"`
      * @param page page number
      */
-    public static async getTrendingAsync<T>(
+    public static async getTrendingAsync<E>(
         type: TrendingType,
         timeWindow: TimeWindow,
-        elementConvertFn: ElementConvertFn<T>,
+        elementConvertFn: ElementConvertFn<E>,
         page: number = 1,
-    ): Promise<PaginationResponseWrapper<T>> {
+    ): Promise<PaginationResponseWrapper<E>> {
         const params = new URLSearchParams({
             page: `${page}`,
         });

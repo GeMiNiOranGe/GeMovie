@@ -12,12 +12,12 @@ export default class APIUtils {
      * @param url API endpoint
      * @param elementConvertFn Function to convert raw JSON to the target element type, e.g: `toMovieElement`, `toTvShowElement`, `toPersonElement`, `toCompanyElement`, `toCollectionElement`,...
      */
-    public static async fetchPagination<T>(
+    public static async fetchPagination<E>(
         url: string,
-        elementConvertFn: ElementConvertFn<T>,
-    ): Promise<PaginationResponseWrapper<T>> {
+        elementConvertFn: ElementConvertFn<E>,
+    ): Promise<PaginationResponseWrapper<E>> {
         const json: any = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
+        const response: PaginationResponse<E> = toPaginationResponse(json);
         return new PaginationResponseWrapper(response, elementConvertFn);
     }
 

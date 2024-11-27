@@ -317,7 +317,7 @@ export function toReview(val: any): Review {
         updatedAt: new Date(val['updated_at']),
         url: val.url,
         iso_639_1: val['iso_639_1'],
-        mediaID: val['media_id'],
+        mediaId: val['media_id'],
         mediaTitle: val['media_title'],
         mediaType: val['media_type'],
     };
