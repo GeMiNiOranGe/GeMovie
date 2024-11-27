@@ -104,6 +104,10 @@ export type SearchAsync<T> = (
 
 export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 
+export type ElementConvertFn<T> = (val: any) => T;
+
+export type TransformFn<T> = (val: any) => T;
+
 export type PropsComponent =
     | React.ComponentType<any>
     | React.ReactElement

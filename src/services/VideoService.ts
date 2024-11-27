@@ -1,14 +1,14 @@
-import { APIHandler, PaginationResponseWrapper, URLBuilder } from '@services';
 import {
-    toCredits,
-    toImages,
-    toPaginationResponse,
-    toReviews,
-} from '@shared/utils';
+    APIHandler,
+    APIUtils,
+    type PaginationResponseWrapper,
+    URLBuilder,
+} from '@services';
+import { toCredits, toImages, toReviews } from '@shared/utils';
 import type {
     Credits,
+    ElementConvertFn,
     Images,
-    PaginationResponse,
     Reviews,
     VideoType,
 } from '@shared/types';
@@ -22,17 +22,14 @@ export default class VideoService {
     public static async getRecommendationsAsync<T>(
         type: VideoType,
         id: number,
-        elementConvertFn: (val: any) => T,
+        elementConvertFn: ElementConvertFn<T>,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
         const params = new URLSearchParams({
             page: `${page}`,
         });
         const url = URLBuilder.buildRecommendationsURL(type, id, params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, elementConvertFn);
+        return await APIUtils.fetchPagination(url, elementConvertFn);
     }
 
     /**
@@ -87,18 +84,14 @@ export default class VideoService {
      */
     public static async getPopularListAsync<T>(
         type: VideoType,
-        elementConvertFn: (val: any) => T,
+        elementConvertFn: ElementConvertFn<T>,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
         const params = new URLSearchParams({
             page: `${page}`,
         });
-
         const url = URLBuilder.buildPopularURL(type, params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, elementConvertFn);
+        return await APIUtils.fetchPagination(url, elementConvertFn);
     }
 
     /**
@@ -108,17 +101,13 @@ export default class VideoService {
      */
     public static async getTopRatedAsync<T>(
         type: VideoType,
-        elementConvertFn: (val: any) => T,
+        elementConvertFn: ElementConvertFn<T>,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
         const params = new URLSearchParams({
             page: `${page}`,
         });
-
         const url = URLBuilder.buildTopRatedURL(type, params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, elementConvertFn);
+        return await APIUtils.fetchPagination(url, elementConvertFn);
     }
 }

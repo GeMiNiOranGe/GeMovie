@@ -1,7 +1,7 @@
 import {
-    DetailService,
-    PaginationResponseWrapper,
-    SearchService,
+    type PaginationResponseWrapper,
+    APIUtils,
+    URLBuilder,
 } from '@services';
 import { toCompany, toCompanyElement } from '@shared/utils';
 import type { Company, CompanyElement } from '@shared/types';
@@ -20,11 +20,8 @@ export default class CompanyService {
             query: text,
             page: `${page}`,
         });
-        return await SearchService.searchAsync(
-            'company',
-            params,
-            toCompanyElement,
-        );
+        const url = URLBuilder.buildSearchURL('company', params);
+        return await APIUtils.fetchPagination(url, toCompanyElement);
     }
 
     /**
@@ -32,6 +29,7 @@ export default class CompanyService {
      * @param id company id
      */
     public static async getDetailAsync(id: number): Promise<Company> {
-        return await DetailService.getDetailAsync(id, 'company', toCompany);
+        const url = URLBuilder.buildDetailURL('company', id);
+        return await APIUtils.fetchSingleOne(url, toCompany);
     }
 }

@@ -1,17 +1,10 @@
 import {
-    APIHandler,
-    DetailService,
-    PaginationResponseWrapper,
-    SearchService,
+    type PaginationResponseWrapper,
+    APIUtils,
     URLBuilder,
 } from '@services';
-import type { PaginationResponse, TvShowElement } from '@shared/types';
-import {
-    addDays,
-    getISODate,
-    toPaginationResponse,
-    toTvShowElement,
-} from '@shared/utils';
+import type { TvShowElement } from '@shared/types';
+import { addDays, getISODate, toTvShowElement } from '@shared/utils';
 
 export default class TvShowService {
     /**
@@ -27,11 +20,17 @@ export default class TvShowService {
             query: text,
             page: `${page}`,
         });
-        return await SearchService.searchAsync('tv', params, toTvShowElement);
+        const url = URLBuilder.buildSearchURL('tv', params);
+        return await APIUtils.fetchPagination(url, toTvShowElement);
     }
 
+    /**
+     * Get the details of a TV show.
+     * @param id tv show id
+     */
     public static async getDetailAsync(id: number): Promise<TvShowElement> {
-        return await DetailService.getDetailAsync(id, 'tv', toTvShowElement);
+        const url = URLBuilder.buildDetailURL('tv', id);
+        return await APIUtils.fetchSingleOne(url, toTvShowElement);
     }
 
     /**
@@ -46,6 +45,7 @@ export default class TvShowService {
         const numberOfdays = 28;
         const currentDate = new Date();
         const nextDate = addDays(currentDate, numberOfdays);
+
         const params = new URLSearchParams({
             'first_air_date.gte': getISODate(currentDate),
             'first_air_date.lte': getISODate(nextDate),
@@ -53,10 +53,7 @@ export default class TvShowService {
             page: `${page}`,
         });
         const url = URLBuilder.buildDiscoverURL('tv', params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<TvShowElement> =
-            toPaginationResponse(json);
 
-        return new PaginationResponseWrapper(response, toTvShowElement);
+        return await APIUtils.fetchPagination(url, toTvShowElement);
     }
 }

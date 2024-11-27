@@ -1,6 +1,9 @@
-import { APIHandler, PaginationResponseWrapper, URLBuilder } from '@services';
-import type { PaginationResponse, SortBy, VideoType } from '@shared/types';
-import { toPaginationResponse } from '@shared/utils';
+import {
+    APIUtils,
+    type PaginationResponseWrapper,
+    URLBuilder,
+} from '@services';
+import type { ElementConvertFn, SortBy, VideoType } from '@shared/types';
 
 export default class VideoDiscoveryService {
     /**
@@ -12,7 +15,7 @@ export default class VideoDiscoveryService {
     public static async getVideoByCompanyAsync<T>(
         type: VideoType,
         companyIds: string,
-        elementConvertFn: (val: any) => T,
+        elementConvertFn: ElementConvertFn<T>,
         sortBy: SortBy = 'popularity.desc',
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
@@ -23,10 +26,7 @@ export default class VideoDiscoveryService {
         });
 
         const url = URLBuilder.buildDiscoverURL(type, params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, elementConvertFn);
+        return await APIUtils.fetchPagination(url, elementConvertFn);
     }
 
     /**
@@ -38,7 +38,7 @@ export default class VideoDiscoveryService {
     public static async getVideoByGenreAsync<T>(
         type: VideoType,
         genreIds: string,
-        elementConvertFn: (val: any) => T,
+        elementConvertFn: ElementConvertFn<T>,
         sortBy: SortBy = 'popularity.desc',
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
@@ -49,9 +49,6 @@ export default class VideoDiscoveryService {
         });
 
         const url = URLBuilder.buildDiscoverURL(type, params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, elementConvertFn);
+        return await APIUtils.fetchPagination(url, elementConvertFn);
     }
 }

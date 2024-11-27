@@ -7,7 +7,11 @@ import {
   PersonDetailCard,
   TvShowDetailCard,
 } from '@components';
-import { SearchService, type PaginationResponseWrapper } from '@services';
+import {
+  APIUtils,
+  URLBuilder,
+  type PaginationResponseWrapper,
+} from '@services';
 import type {
   MultiMediaElement,
   SearchResultsTopTabBaseProps,
@@ -27,7 +31,8 @@ async function searchMultiAsync(
     query: text,
     page: `${page}`,
   });
-  return await SearchService.searchAsync('multi', params, toMultiMediaElement);
+  const url = URLBuilder.buildSearchURL('multi', params);
+  return await APIUtils.fetchPagination(url, toMultiMediaElement);
 }
 
 class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiMediaElement> {
