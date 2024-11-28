@@ -1,4 +1,3 @@
-// style.js
 import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
 import { StyleSheet } from 'react-native';

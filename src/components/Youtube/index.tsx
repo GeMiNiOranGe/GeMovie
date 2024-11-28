@@ -19,19 +19,14 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
   }
 
   public override componentDidUpdate(prevProps: VideoProps): void {
-    if (
-      prevProps.id !== this.props.id ||
-      prevProps.type !== this.props.type ||
-      prevProps.videoType !== this.props.videoType
-    ) {
+    if (prevProps.id !== this.props.id || prevProps.type !== this.props.type) {
       this.setState({ loading: true }, this.getVideo);
     }
   }
 
   private getVideo = async () => {
-    const { type, id, videoType } = this.props;
-    const endpoint =
-      type === 'movie' ? 'movie' : type === 'tv' ? 'tv' : 'collection';
+    const { type, id, videoType } = this.props; // Add videoType to props
+    let endpoint = type === 'movie' ? 'movie' : 'tv';
 
     try {
       const response = await fetch(
@@ -39,17 +34,21 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
       );
       const data = await response.json();
 
-      const selectedVideo = data.results.find(
-        (video: any) => video.type === videoType,
+      const filteredVideos = data.results?.filter(
+        (video: { type: any }) => video.type === videoType,
       );
 
-      this.setState({
-        videoKey: selectedVideo?.key || null,
-        loading: false,
-      });
+      setTimeout(() => {
+        this.setState({
+          videoKey: filteredVideos?.[0]?.key || null,
+          loading: false,
+        });
+      }, 500);
     } catch (error) {
       console.error(`Error fetching ${type} video:`, error);
-      this.setState({ loading: false });
+      setTimeout(() => {
+        this.setState({ loading: false });
+      }, 500);
     }
   };
 
