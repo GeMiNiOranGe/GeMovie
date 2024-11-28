@@ -3,8 +3,13 @@ import {
     APIUtils,
     URLBuilder,
 } from '@services';
-import { addDays, getISODate, toMovie, toMovieElement } from '@shared/utils';
+import {
+    getISODateRangeFromToday,
+    toMovie,
+    toMovieElement,
+} from '@shared/utils';
 import type { Movie, MovieElement } from '@shared/types';
+import { upcomingVideoDays } from '@shared/constants';
 
 export default class MovieService {
     /**
@@ -58,13 +63,12 @@ export default class MovieService {
         genreIds: string,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<MovieElement>> {
-        const numberOfdays = 28;
-        const currentDate = new Date();
-        const nextDate = addDays(currentDate, numberOfdays);
+        const [currentDate, nextDate] =
+            getISODateRangeFromToday(upcomingVideoDays);
 
         const params = new URLSearchParams({
-            'primary_release_date.gte': getISODate(currentDate),
-            'primary_release_date.lte': getISODate(nextDate),
+            'primary_release_date.gte': currentDate,
+            'primary_release_date.lte': nextDate,
             with_genres: genreIds,
             page: `${page}`,
         });

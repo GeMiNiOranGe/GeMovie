@@ -29,6 +29,7 @@ class GenreDetailScreen extends React.PureComponent<
   public override async componentDidMount(): Promise<void> {
     const { genre } = this.props.route.params;
 
+    // TODO: check genre is for movies, if true get 3 api related to movies, otherwise get tv show
     const [
       popularMoviesResponse,
       popularTvShowsResponse,

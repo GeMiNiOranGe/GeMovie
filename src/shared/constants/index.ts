@@ -1,4 +1,4 @@
-import type { ImageSize, Spacing, Variant } from '@shared/types';
+import type { ImageSize, Spacing } from '@shared/types';
 
 export const imageSize: ImageSize = {
     w45: 'w45',
@@ -26,5 +26,4 @@ export const spacing: Spacing = {
 
 export const defaultIconSize: number = 12;
 
-export const activeIcon: Variant = 'Bold';
-export const normalIcon: Variant = 'Linear';
+export const upcomingVideoDays: number = 28;

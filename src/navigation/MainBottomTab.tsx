@@ -2,9 +2,11 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home, SearchNormal1 } from 'iconsax-react-native';
 
-import { activeIcon, normalIcon } from '@shared/constants';
-import { TabBarIconProps } from '@shared/types';
+import type { TabBarIconProps, Variant } from '@shared/types';
 import { HomeStack, SearchStack } from '@navigation';
+
+const activeIcon: Variant = 'Bold';
+const normalIcon: Variant = 'Linear';
 
 const BottomTab = createBottomTabNavigator();
 

@@ -3,8 +3,9 @@ import {
     APIUtils,
     URLBuilder,
 } from '@services';
+import { upcomingVideoDays } from '@shared/constants';
 import type { TvShowElement } from '@shared/types';
-import { addDays, getISODate, toTvShowElement } from '@shared/utils';
+import { getISODateRangeFromToday, toTvShowElement } from '@shared/utils';
 
 export default class TvShowService {
     /**
@@ -42,13 +43,12 @@ export default class TvShowService {
         genreIds: string,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<TvShowElement>> {
-        const numberOfdays = 28;
-        const currentDate = new Date();
-        const nextDate = addDays(currentDate, numberOfdays);
+        const [currentDate, nextDate] =
+            getISODateRangeFromToday(upcomingVideoDays);
 
         const params = new URLSearchParams({
-            'first_air_date.gte': getISODate(currentDate),
-            'first_air_date.lte': getISODate(nextDate),
+            'first_air_date.gte': currentDate,
+            'first_air_date.lte': nextDate,
             with_genres: genreIds,
             page: `${page}`,
         });
