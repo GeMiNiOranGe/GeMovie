@@ -31,7 +31,7 @@ export type SearchSuggestionScreenState = {
 };
 
 export type SearchResultsTopTabBaseState<T> = {
-    results: T[];
+    results: T[] | undefined;
     isFetchingNextPage: boolean;
 };
 
