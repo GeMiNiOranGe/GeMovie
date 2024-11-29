@@ -65,7 +65,7 @@ export type CollectionDetailState = {
 };
 
 export type TvShowDetailScreenState = {
-    tv?: TvShow | undefined;
+    tvShow: TvShow | undefined;
     modalVisible: boolean;
     isloading: boolean;
     animatedOpacity: Animated.Value;

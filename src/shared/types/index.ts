@@ -251,7 +251,7 @@ export type Review = ReviewElement & {
 
 export type NetworkElement = {
     id: number;
-    logoPath: string | null;
+    logoPath: string | undefined;
     name: string;
     originCountry: string;
 };

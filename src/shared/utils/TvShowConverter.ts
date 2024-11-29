@@ -1,4 +1,9 @@
-import { TvShow, TvShowElement } from '@shared/types';
+import type { TvShow, TvShowElement } from '@shared/types';
+import {
+    toCompanyElement,
+    toLanguage,
+    toProductionCountryElement,
+} from '@shared/utils';
 
 export function toTvShowElement(val: any): TvShowElement {
     return {
@@ -37,16 +42,22 @@ export function toTvShow(val: any): TvShow {
         voteCount: val['vote_count'],
         homepage: val.homepage,
         seasons: val.seasons || [],
-        productionCompanies: val['production_companies'] || [],
-        spokenLanguages: val['spoken_languages'] || [],
+        productionCompanies: Array.from(val['production_companies']).map(
+            element => toCompanyElement(element),
+        ),
+        spokenLanguages: Array.from(val['spoken_languages']).map(element =>
+            toLanguage(element),
+        ),
         networks: (val.networks || []).map((network: any) => ({
             id: network.id,
             logoPath: network['logo_path'],
             name: network.name,
             originCountry: network['origin_country'],
         })),
-        status: val.status || '',
-        tagline: val.tagline || '',
-        productionCountries: val['production_countries'] || [],
+        status: val.status,
+        tagline: val.tagline,
+        productionCountries: Array.from(val['production_countries']).map(
+            element => toProductionCountryElement(element),
+        ),
     };
 }

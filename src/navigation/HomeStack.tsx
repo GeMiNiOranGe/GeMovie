@@ -14,10 +14,10 @@ import {
   ContentListScreen,
   ReviewDetailScreen,
   GenreDetailScreen,
+  AllTV,
+  TopRated,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
-import AllTV from 'src/screens/SeeAllTV';
-import TopRated from 'src/screens/SeeAllTopRated';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

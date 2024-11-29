@@ -320,7 +320,7 @@ class MovieDetailScreen extends React.Component<
 
             <Box title='Synopsis'>
               <ExpandableText seeButtonPosition='separate'>
-                {`${this.state.movie?.overview}`}
+                {this.state.movie?.overview || 'No overview available.'}
               </ExpandableText>
             </Box>
 

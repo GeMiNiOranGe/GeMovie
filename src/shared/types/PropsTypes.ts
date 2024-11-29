@@ -243,8 +243,9 @@ export type VideoProps = {
         | 'Trailer'
         | 'Teaser'
         | 'Clip'
-        | 'Featurette'
-        | 'Behind the Scenes';
+        | 'Behind the Scenes'
+        | 'Bloopers'
+        | 'Featurette';
 };
 
 export type RecommendationProps = {
