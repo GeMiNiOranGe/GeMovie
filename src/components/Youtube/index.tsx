@@ -25,9 +25,8 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
   }
 
   private getVideo = async () => {
-    const { type, id } = this.props;
-    let endpoint =
-      type === 'movie' ? 'movie' : type === 'tv' ? 'tv' : 'collection';
+    const { type, id, videoType } = this.props; // Add videoType to props
+    let endpoint = type === 'movie' ? 'movie' : 'tv';
 
     try {
       const response = await fetch(
@@ -35,13 +34,16 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
       );
       const data = await response.json();
 
-      // Brief delay to allow loading indicator to show before rendering
+      const filteredVideos = data.results?.filter(
+        (video: { type: any }) => video.type === videoType,
+      );
+
       setTimeout(() => {
         this.setState({
-          videoKey: data.results?.[0]?.key || null,
+          videoKey: filteredVideos?.[0]?.key || null,
           loading: false,
         });
-      }, 500); // Adjust delay as needed
+      }, 500);
     } catch (error) {
       console.error(`Error fetching ${type} video:`, error);
       setTimeout(() => {

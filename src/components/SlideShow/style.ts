@@ -1,8 +1,7 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
-export const sliderWidth = width;
-export const itemWidth = width * 0.6;
+export const itemWidth = width * 0.65;
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -11,15 +10,19 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     carouselContainer: {
-        marginTop: 20,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     slide: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        width: itemWidth,
     },
     image: {
-        width: itemWidth * 0.9,
-        height: height * 0.5,
+        width: '100%',
+        height: height * 0.55,
         resizeMode: 'cover',
         borderRadius: 12,
         shadowColor: '#000',
@@ -38,8 +41,8 @@ const styles = StyleSheet.create({
     contentContainer: {
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 15,
-        left: 10,
+        bottom: 3,
+        left: 3,
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
         padding: 5,
@@ -64,25 +67,6 @@ const styles = StyleSheet.create({
     playIcon: {
         marginLeft: 5,
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: 20,
-    },
-    closeButton: {
-        marginTop: 20,
-        backgroundColor: '#FF4757',
-        borderRadius: 12,
-        paddingVertical: 10,
-        paddingHorizontal: 30,
-    },
-    closeButtonText: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: '600',
-    },
     gradientOverlay: {
         ...StyleSheet.absoluteFillObject,
     },
@@ -90,5 +74,13 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 20,
+    },
 });
+
 export default styles;

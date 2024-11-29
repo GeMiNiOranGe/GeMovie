@@ -570,7 +570,11 @@ class MovieDetailScreen extends React.Component<
               >
                 <TouchableWithoutFeedback>
                   <View>
-                    <Youtube type='movie' id={this.state.movie?.id} />
+                    <Youtube
+                      type='movie'
+                      id={this.state.movie?.id}
+                      videoType='Trailer'
+                    />
                   </View>
                 </TouchableWithoutFeedback>
               </TouchableOpacity>

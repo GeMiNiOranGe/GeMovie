@@ -17,6 +17,7 @@ import type {
     Reviews,
     Review,
     Genre,
+    TvShow,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
@@ -64,7 +65,7 @@ export type CollectionDetailState = {
 };
 
 export type TvShowDetailScreenState = {
-    tv?: TvShowElement | undefined;
+    tv?: TvShow | undefined;
     modalVisible: boolean;
     isloading: boolean;
     animatedOpacity: Animated.Value;
