@@ -26,7 +26,7 @@ import type {
   TvShowDetailScreenState,
   LabelProps,
   CompanyElement,
-  Season,
+  SeasonElement,
   NetworkElement,
   SvgIconProps,
   Genre,
@@ -153,7 +153,7 @@ class TvShowDetailScreen extends React.Component<
     );
   }
 
-  private renderSeasonItem({ item, index }: ListRenderItemInfo<Season>) {
+  private renderSeasonItem({ item, index }: ListRenderItemInfo<SeasonElement>) {
     const marginRight =
       index === (this.state.tvShow?.seasons.length || 0) - 1
         ? 0
@@ -164,10 +164,10 @@ class TvShowDetailScreen extends React.Component<
         <TMDBImage
           style={styles.seasonPoster}
           size='w500'
-          path={item.poster_path}
+          path={item.posterPath}
         />
         <Text style={styles.seasonTitle}>{item.name}</Text>
-        <Text style={styles.seasonDetails}>{item.episode_count} Episodes</Text>
+        <Text style={styles.seasonDetails}>{item.episodeCount} Episodes</Text>
       </View>
     );
   }

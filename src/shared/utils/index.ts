@@ -5,7 +5,6 @@ import type {
     Media,
     MovieElement,
     MultiMediaElement,
-    ProductionCountryElement,
     PaginationResponse,
     Language,
     TvShowElement,
@@ -199,6 +198,7 @@ export function toPaginationResponse<T>(val: any): PaginationResponse<T> {
     };
 }
 
+/*
 export function toGenre(val: any): Genre {
     return {
         id: val.id,
@@ -212,6 +212,7 @@ export function toProductionCountryElement(val: any): ProductionCountryElement {
         name: val.name,
     };
 }
+ */
 
 export function toLanguage(val: any): Language {
     return {

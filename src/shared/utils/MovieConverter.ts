@@ -2,7 +2,6 @@ import { Movie, MovieElement } from '@shared/types';
 import {
     toSimpleCollection,
     toCompanyElement,
-    toProductionCountryElement,
     toLanguage,
     toKeyword,
 } from '@shared/utils';
@@ -45,9 +44,7 @@ export function toMovie(val: any): Movie {
         productionCompanies: Array.from(val['production_companies']).map(
             element => toCompanyElement(element),
         ),
-        productionCountries: Array.from(val['production_countries']).map(
-            element => toProductionCountryElement(element),
-        ),
+        productionCountries: val['production_countries'],
         releaseDate: new Date(val['release_date']),
         revenue: val.revenue,
         runtime: val.runtime,
