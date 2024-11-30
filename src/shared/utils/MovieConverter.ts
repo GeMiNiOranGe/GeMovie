@@ -3,7 +3,6 @@ import {
     toSimpleCollection,
     toCompanyElement,
     toLanguage,
-    toKeyword,
 } from '@shared/utils';
 
 export function toMovieElement(val: any): MovieElement {
@@ -58,9 +57,7 @@ export function toMovie(val: any): Movie {
         voteAverage: val['vote_average'],
         voteCount: val['vote_count'],
         keywords: {
-            keywords: Array.from(val.keywords.keywords).map(element =>
-                toKeyword(element),
-            ),
+            keywords: val.keywords.keywords,
         },
     };
 }

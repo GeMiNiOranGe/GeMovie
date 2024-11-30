@@ -34,7 +34,7 @@ export default class TvShowService {
      * @param id tv show id
      */
     public static async getDetailAsync(id: number): Promise<TvShow> {
-        const url = URLBuilder.buildDetailURL('tv', id);
+        const url = URLBuilder.buildDetailURL('tv', id, 'keywords');
         return await APIUtils.fetchSingleOne(url, toTvShow);
     }
 

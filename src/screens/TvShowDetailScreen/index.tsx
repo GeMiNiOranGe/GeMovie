@@ -31,6 +31,7 @@ import type {
   NetworkElement,
   SvgIconProps,
   Genre,
+  Keyword,
 } from '@shared/types';
 import {
   Box,
@@ -40,6 +41,7 @@ import {
   Labels,
   Photo,
   Recommendation,
+  Review,
   Section,
   SimpleCompanyCard,
   TMDBImage,
@@ -83,6 +85,7 @@ class TvShowDetailScreen extends React.Component<
     this.renderSeasonItem = this.renderSeasonItem.bind(this);
     this.renderNetworkItem = this.renderNetworkItem.bind(this);
     this.renderCompanyItem = this.renderCompanyItem.bind(this);
+    this.renderKeywordItem = this.renderKeywordItem.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
@@ -211,6 +214,22 @@ class TvShowDetailScreen extends React.Component<
           });
         }}
       />
+    );
+  }
+
+  private renderKeywordItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Keyword>): React.JSX.Element {
+    const marginRight =
+      index === (this.state.tvShow?.keywords.results.length || 0) - 1
+        ? 0
+        : spacing.small;
+
+    return (
+      <Chip style={[styles.chip, { marginRight }]} textStyle={styles.chipText}>
+        {item.name}
+      </Chip>
     );
   }
 
@@ -399,6 +418,18 @@ class TvShowDetailScreen extends React.Component<
 
             <Section.Separator />
 
+            <Section title='User reviews'>
+              {this.state.tvShow?.id && (
+                <Review
+                  id={this.state.tvShow?.id}
+                  type='tv'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
+
+            <Section.Separator />
+
             <Section title='Storyline'>
               <Section.Content>
                 <Section.Item name='Overview'>
@@ -431,6 +462,16 @@ class TvShowDetailScreen extends React.Component<
                   </>
                 )}
               </Section.Content>
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Keywords'>
+              <Section.HorizontalList
+                noResultText='No keywords found'
+                data={this.state.tvShow?.keywords.results}
+                renderItem={this.renderKeywordItem}
+              />
             </Section>
 
             <Section.Separator />

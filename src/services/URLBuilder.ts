@@ -50,12 +50,16 @@ export default class URLBuilder {
      * Build a detail url string to get detail information.
      * @param type movie, tv series, person, company, collection,...
      * @param id movie id, tv series id, person id,...
+     * @param appendToResponse Fetch multiple requests, just comma separate the values, e.g: `"videos,images,keywords"`
      */
     public static buildDetailURL(
         type: DetailType,
         id: number | string,
+        appendToResponse?: string,
     ): string {
-        return `${TMDB_BASE_URL}/${type}/${id}?api_key=${TMDB_API_KEY}`;
+        return `${TMDB_BASE_URL}/${type}/${id}?api_key=${TMDB_API_KEY}${
+            appendToResponse ? `&append_to_response=${appendToResponse}` : ''
+        }`;
     }
 
     /**

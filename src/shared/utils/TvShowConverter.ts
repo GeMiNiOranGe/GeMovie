@@ -72,6 +72,9 @@ export function toTvShow(val: any): TvShow {
         type: val.type,
         voteAverage: val['vote_average'],
         voteCount: val['vote_count'],
+        keywords: {
+            results: val.keywords.results,
+        },
     };
 }
 

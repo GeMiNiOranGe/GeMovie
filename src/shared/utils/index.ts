@@ -10,7 +10,6 @@ import type {
     TvShowElement,
     Images,
     MediaImage,
-    Keyword,
     PersonElement,
     PersonElementBase,
     ReviewElement,
@@ -142,8 +141,11 @@ export const getRandomHeight = (
 
 export function normalizeMarkdown(text: string): string {
     const italicPattern = /<em>|<\/em>/gm;
+    const lineBreakPattern = '<br />';
 
-    return text.replaceAll(italicPattern, '_');
+    return text
+        .replaceAll(italicPattern, '_')
+        .replaceAll(lineBreakPattern, '\r\n');
 }
 
 export function calculateImageDimensions(
@@ -284,12 +286,14 @@ export function toMediaImage(val: any): MediaImage {
     };
 }
 
+/*
 export function toKeyword(val: any): Keyword {
     return {
         id: val.id,
         name: val.name,
     };
 }
+ */
 
 export function toAuthorDetails(val: any): AuthorDetails {
     return {

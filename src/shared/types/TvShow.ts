@@ -1,4 +1,5 @@
 import {
+    Keyword,
     Optional,
     VideoBase,
     VideoElementBase,
@@ -28,6 +29,9 @@ export type TvShow = TvShowBase &
         numberOfSeasons: number;
         seasons: SeasonElement[];
         type: string;
+        keywords: {
+            results: Keyword[];
+        };
     };
 
 export type CreatedBy = {

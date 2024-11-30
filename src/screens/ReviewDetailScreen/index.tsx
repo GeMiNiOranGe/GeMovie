@@ -6,7 +6,7 @@ import Markdown from '@ronradtke/react-native-markdown-display';
 import type { ReviewDetailScreenState, RootScreenProps } from '@shared/types';
 import { ReviewService } from '@services';
 import { FullScreenLoader, VoteLabel } from '@components';
-import { getFormattedDate } from '@shared/utils';
+import { getFormattedDate, normalizeMarkdown } from '@shared/utils';
 import { layout } from '@shared/themes';
 import styles from './style';
 
@@ -55,7 +55,7 @@ class ReviewDetailScreen extends React.PureComponent<
           </View>
 
           <Markdown style={{ text: styles.text }}>
-            {this.state.review.content}
+            {normalizeMarkdown(this.state.review.content)}
           </Markdown>
         </ScrollView>
       </SafeAreaView>

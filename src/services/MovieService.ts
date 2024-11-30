@@ -34,9 +34,7 @@ export default class MovieService {
      * @param id movie id
      */
     public static async getDetailAsync(id: number): Promise<Movie> {
-        const url =
-            URLBuilder.buildDetailURL('movie', id) +
-            '&append_to_response=keywords';
+        const url = URLBuilder.buildDetailURL('movie', id, 'keywords');
         return await APIUtils.fetchSingleOne(url, toMovie);
     }
 
