@@ -2,6 +2,7 @@ import type {
     CreatedBy,
     EpisodeToAir,
     NetworkElement,
+    Optional,
     SeasonElement,
     TvShow,
     TvShowElement,
@@ -20,7 +21,7 @@ export function toTvShowElement(val: any): TvShowElement {
         overview: val.overview,
         popularity: val.popularity,
         posterPath: val['poster_path'] ?? undefined,
-        firstAirDate: new Date(val['first_air_date']),
+        firstAirDate: new Date(val['first_air_date'] ?? undefined),
         name: val.name,
         voteAverage: val['vote_average'],
         voteCount: val['vote_count'],
@@ -35,18 +36,16 @@ export function toTvShow(val: any): TvShow {
             toCreatedBy(element),
         ),
         episodeRunTime: val['episode_run_time'],
-        firstAirDate: new Date(val['first_air_date']),
+        firstAirDate: new Date(val['first_air_date'] ?? undefined),
         genres: val.genres,
         homepage: val.homepage,
         id: val.id,
         inProduction: val['in_production'],
         languages: val.languages,
-        lastAirDate: new Date(val['last_air_date']),
+        lastAirDate: new Date(val['last_air_date'] ?? undefined),
         lastEpisodeToAir: toEpisodeToAir(val['last_episode_to_air']),
         name: val.name,
-        nextEpisodeToAir: val['next_episode_to_air']
-            ? toEpisodeToAir(val['next_episode_to_air'])
-            : undefined,
+        nextEpisodeToAir: toEpisodeToAir(val['next_episode_to_air']),
         networks: Array.from(val.networks).map(element =>
             toNetworkElement(element),
         ),
@@ -87,18 +86,22 @@ export function toCreatedBy(val: any): CreatedBy {
     };
 }
 
-export function toEpisodeToAir(val: any): EpisodeToAir {
+export function toEpisodeToAir(val: any): Optional<EpisodeToAir> {
+    if (!val) {
+        return undefined;
+    }
+
     return {
         id: val.id,
         name: val.name,
         overview: val.overview,
         voteAverage: val['vote_average'],
         voteCount: val['vote_count'],
-        airDate: new Date(val['air_date']),
+        airDate: new Date(val['air_date'] ?? undefined),
         episodeNumber: val['episode_number'],
         episodeType: val['episode_type'],
         productionCode: val['production_code'],
-        runtime: val.runtime,
+        runtime: val.runtime ?? undefined,
         seasonNumber: val['season_number'],
         showId: val['show_id'],
         stillPath: val['still_path'] ?? undefined,
@@ -116,7 +119,7 @@ export function toNetworkElement(val: any): NetworkElement {
 
 export function toSeasonElement(val: any): SeasonElement {
     return {
-        airDate: new Date(val['air_date']),
+        airDate: new Date(val['air_date'] ?? undefined),
         episodeCount: val['episode_count'],
         id: val.id,
         name: val.name,

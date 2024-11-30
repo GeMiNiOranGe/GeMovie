@@ -17,7 +17,7 @@ export function toMovieElement(val: any): MovieElement {
         overview: val.overview,
         popularity: val.popularity,
         posterPath: val['poster_path'] ?? undefined,
-        releaseDate: new Date(val['release_date']),
+        releaseDate: new Date(val['release_date'] ?? undefined),
         title: val.title,
         video: val.video,
         voteAverage: val['vote_average'],
@@ -45,7 +45,7 @@ export function toMovie(val: any): Movie {
             element => toCompanyElement(element),
         ),
         productionCountries: val['production_countries'],
-        releaseDate: new Date(val['release_date']),
+        releaseDate: new Date(val['release_date'] ?? undefined),
         revenue: val.revenue,
         runtime: val.runtime,
         spokenLanguages: Array.from(val['spoken_languages']).map(element =>

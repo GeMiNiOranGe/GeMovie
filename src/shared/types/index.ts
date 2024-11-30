@@ -104,6 +104,9 @@ export type SearchAsync<T> = (
 
 export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 
+// TODO: add `null` if needed
+export type Optional<T> = T | undefined;
+
 export type ElementConvertFn<E> = (val: any) => E;
 
 export type TransformFn<T> = (val: any) => T;
@@ -150,11 +153,11 @@ export type CardElement = MediaElementBase | PersonElementBase | CompanyElement;
 
 export type MediaElementBase = {
     adult: boolean;
-    backdropPath: string | undefined;
+    backdropPath: Optional<string>;
     id: number;
     originalLanguage: string;
     overview: string;
-    posterPath: string | undefined;
+    posterPath: Optional<string>;
 };
 
 export type MediaElement = (TvShowElement | MovieElement) & Media;
@@ -209,7 +212,7 @@ export type Images = {
 export type MediaImage = {
     aspectRatio: number;
     height: number;
-    iso_639_1: string | undefined;
+    iso_639_1: Optional<string>;
     filePath: string;
     voteAverage: number;
     voteCount: number;
@@ -224,8 +227,8 @@ export type Keyword = {
 export type AuthorDetails = {
     name: string;
     username: string;
-    avatarPath: string | undefined;
-    rating: number | undefined;
+    avatarPath: Optional<string>;
+    rating: Optional<number>;
 };
 
 export type ReviewElement = {

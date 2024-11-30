@@ -1,4 +1,4 @@
-import type { MediaElement } from '@shared/types';
+import type { MediaElement, Optional } from '@shared/types';
 
 export type KnownFor = {
     id: number;
@@ -20,7 +20,7 @@ export type PersonBase = {
     knownForDepartment: string;
     name: string;
     popularity: number;
-    profilePath: string | undefined;
+    profilePath: Optional<string>;
 };
 
 export type PersonElementBase = PersonBase & {

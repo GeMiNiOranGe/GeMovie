@@ -1,4 +1,9 @@
-import { VideoBase, VideoElementBase, VideoGenreIds } from '@shared/types';
+import {
+    Optional,
+    VideoBase,
+    VideoElementBase,
+    VideoGenreIds,
+} from '@shared/types';
 
 export type TvShowBase = VideoElementBase & {
     originalName: string;
@@ -16,8 +21,8 @@ export type TvShow = TvShowBase &
         inProduction: boolean;
         languages: string[];
         lastAirDate: Date;
-        lastEpisodeToAir: EpisodeToAir;
-        nextEpisodeToAir: EpisodeToAir | undefined;
+        lastEpisodeToAir: Optional<EpisodeToAir>;
+        nextEpisodeToAir: Optional<EpisodeToAir>;
         networks: NetworkElement[];
         numberOfEpisodes: number;
         numberOfSeasons: number;
@@ -31,7 +36,7 @@ export type CreatedBy = {
     name: string;
     originalName: string;
     gender: number;
-    profilePath: string | undefined;
+    profilePath: Optional<string>;
 };
 
 export type EpisodeToAir = {
@@ -44,15 +49,15 @@ export type EpisodeToAir = {
     episodeNumber: number;
     episodeType: string;
     productionCode: string;
-    runtime: number;
+    runtime: Optional<number>;
     seasonNumber: number;
     showId: number;
-    stillPath: string | undefined;
+    stillPath: Optional<string>;
 };
 
 export type NetworkElement = {
     id: number;
-    logoPath: string | undefined;
+    logoPath: Optional<string>;
     name: string;
     originCountry: string;
 };
@@ -63,7 +68,7 @@ export type SeasonElement = {
     id: number;
     name: string;
     overview: string;
-    posterPath: string | undefined;
+    posterPath: Optional<string>;
     seasonNumber: number;
     voteAverage: number;
 };
