@@ -17,6 +17,7 @@ import {
   Play,
   IconProps as IconsaxProps,
   Star1,
+  Clock,
 } from 'iconsax-react-native';
 import { Chip, TouchableRipple } from 'react-native-paper';
 
@@ -49,6 +50,7 @@ import { TvShowService } from '@services';
 import {
   getFormattedDate,
   getFormattedFullYear,
+  getFormattedRuntime,
   getFormattedVoteAverage,
 } from '@shared/utils';
 import { spacing } from '@shared/constants';
@@ -213,11 +215,38 @@ class TvShowDetailScreen extends React.Component<
   }
 
   private getLabels(): LabelProps[] {
+    const firstYear = getFormattedFullYear(this.state.tvShow?.firstAirDate);
+    const lastYear = getFormattedFullYear(this.state.tvShow?.lastAirDate);
+    const averageLength = (() => {
+      if (
+        !this.state.tvShow?.episodeRunTime ||
+        !this.state.tvShow?.episodeRunTime.length
+      ) {
+        return 0;
+      }
+
+      if (this.state.tvShow?.episodeRunTime.length > 1) {
+        return (
+          this.state.tvShow?.episodeRunTime.reduce(
+            (accumulator, currentValue) => accumulator + currentValue,
+          ) / this.state.tvShow?.episodeRunTime.length
+        );
+      }
+
+      return this.state.tvShow?.episodeRunTime[0];
+    })();
+
     return [
       {
         icon: <Calendar {...labelIconsaxProps} />,
         name: 'Year',
-        value: getFormattedFullYear(this.state.tvShow?.firstAirDate),
+        value:
+          firstYear === lastYear ? firstYear : `${firstYear} - ${lastYear}`,
+      },
+      {
+        icon: <Clock {...labelIconsaxProps} />,
+        name: 'Average Length',
+        value: getFormattedRuntime(averageLength, 'minute'),
       },
       {
         icon: <Adult {...(labelIconsaxProps as SvgIconProps)} />,
@@ -416,22 +445,24 @@ class TvShowDetailScreen extends React.Component<
                 <Section.Divider />
 
                 <Section.Label
-                  name='Release Date'
+                  name='First Air Date'
                   value={getFormattedDate(this.state.tvShow?.firstAirDate)}
                 />
 
                 <Section.Divider />
 
                 <Section.Label
-                  name='Country'
-                  value={`${this.state.tvShow?.originCountry}`}
+                  name='Episode Runtime'
+                  value={this.state.tvShow?.episodeRunTime
+                    .map(element => getFormattedRuntime(element))
+                    .join(', ')}
                 />
 
                 <Section.Divider />
 
                 <Section.Label
-                  name='Original Language'
-                  value={`${this.state.tvShow?.originalLanguage}`}
+                  name='Status'
+                  value={`${this.state.tvShow?.status}`}
                 />
 
                 <Section.Divider />
@@ -439,6 +470,13 @@ class TvShowDetailScreen extends React.Component<
                 <Section.Label
                   name='Country of Origin'
                   value={`${this.state.tvShow.originCountry.join(', ')}`}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Original Language'
+                  value={`${this.state.tvShow?.originalLanguage}`}
                 />
 
                 <Section.Divider />
@@ -453,8 +491,10 @@ class TvShowDetailScreen extends React.Component<
                 <Section.Divider />
 
                 <Section.Label
-                  name='Status'
-                  value={`${this.state.tvShow?.status}`}
+                  name='Production Countries'
+                  value={`${this.state.tvShow?.productionCountries
+                    .map(country => country.name)
+                    .join(', ')}`}
                 />
 
                 <Section.Divider />

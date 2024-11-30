@@ -89,6 +89,9 @@ export function getFormattedRuntime(
     }
 
     if (timeUnit === 'hour') {
+        if (runtime < 60) {
+            return runtime === 1 ? `${runtime}m` : `${runtime}m`;
+        }
         const hours = Math.floor(runtime / 60);
         const minutes = runtime % 60;
         return `${hours}h ${minutes}m`;
