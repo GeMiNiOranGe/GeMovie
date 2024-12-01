@@ -97,27 +97,31 @@ class Credit extends React.PureComponent<CreditProps, CreditState> {
           renderItem={this.renderItem}
         />
 
-        <Section.Content>
-          <Section.Divider />
+        {/* FIXME: TV shows fetch the latest season,
+        directors and writers can't be found in some cases */}
+        {this.props.type === 'movie' ? (
+          <Section.Content>
+            <Section.Divider />
 
-          <Section.Label
-            name='Director'
-            value={`${this.state.credits?.crew
-              .filter(element => element.job === 'Director')
-              .map(element => element.name)
-              .join(', ')}`}
-          />
+            <Section.Label
+              name='Director'
+              value={`${this.state.credits?.crew
+                .filter(element => element.job === 'Director')
+                .map(element => element.name)
+                .join(', ')}`}
+            />
 
-          <Section.Divider />
+            <Section.Divider />
 
-          <Section.Label
-            name='Writer'
-            value={`${this.state.credits?.crew
-              .filter(element => element.job === 'Writer')
-              .map(element => element.name)
-              .join(', ')}`}
-          />
-        </Section.Content>
+            <Section.Label
+              name='Writer'
+              value={`${this.state.credits?.crew
+                .filter(element => element.job === 'Writer')
+                .map(element => element.name)
+                .join(', ')}`}
+            />
+          </Section.Content>
+        ) : null}
       </>
     );
   }

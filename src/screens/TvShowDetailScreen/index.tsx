@@ -39,6 +39,7 @@ import {
   ExpandableText,
   FullScreenLoader,
   Labels,
+  NetworkCard,
   Photo,
   Recommendation,
   Review,
@@ -181,21 +182,12 @@ class TvShowDetailScreen extends React.Component<
     item,
     index,
   }: ListRenderItemInfo<NetworkElement>) {
-    const marginRight =
-      index === (this.state.tvShow?.seasons.length || 0) - 1
-        ? 0
-        : spacing.small;
-
     return (
-      <View key={item.id} style={[styles.networkItem, { marginRight }]}>
-        <TMDBImage
-          style={styles.networkLogo}
-          size='w500'
-          path={item.logoPath}
-        />
-        <Text style={styles.networkName}>{item.name}</Text>
-        <Text style={styles.networkCountry}>{item.originCountry}</Text>
-      </View>
+      <NetworkCard
+        item={item}
+        index={index}
+        listLength={this.state.tvShow?.seasons.length}
+      />
     );
   }
 

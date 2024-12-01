@@ -131,27 +131,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: colors.text.toString(),
     },
-    networkItem: {
-        alignItems: 'center',
-        width: 80,
-    },
-    networkLogo: {
-        width: 70,
-        height: 70,
-        borderRadius: 8,
-        resizeMode: 'contain',
-    },
-    networkName: {
-        marginTop: 5,
-        fontSize: 12,
-        textAlign: 'center',
-        color: colors.text.toString(),
-    },
-    networkCountry: {
-        fontSize: 10,
-        color: colors.text.toString(),
-        textAlign: 'center',
-    },
     expandableText: {
         color: colors.subtext,
     },

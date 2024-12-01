@@ -29,6 +29,10 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: colors.text,
     },
+    country: {
+        fontSize: 14,
+        color: colors.subtext,
+    },
 });
 
 export default styles;
