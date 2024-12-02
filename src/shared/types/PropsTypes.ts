@@ -42,6 +42,9 @@ export type RootStackParamList = ParamListBase & {
     GenreDetailScreen: {
         genre: Genre;
     };
+    NetworkDetailScreen: {
+        networkId: number;
+    };
     MovieDetailScreen: {
         movieId: number;
     };

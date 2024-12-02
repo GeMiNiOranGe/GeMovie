@@ -14,5 +14,6 @@ export { default as SeeAllToprated } from './SeeAllTopRated';
 export { default as ContentListScreen } from './ContentListScreen';
 export { default as ReviewDetailScreen } from './ReviewDetailScreen';
 export { default as GenreDetailScreen } from './GenreDetailScreen';
+export { default as NetworkDetailScreen } from './NetworkDetailScreen';
 export { default as AllTV } from './SeeAllTV';
 export { default as TopRated } from './SeeAllTopRated';
