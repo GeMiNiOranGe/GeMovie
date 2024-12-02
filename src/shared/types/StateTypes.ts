@@ -18,6 +18,7 @@ import type {
     Review,
     Genre,
     TvShow,
+    Network,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
@@ -53,6 +54,10 @@ export type GenreDetailScreenState = {
     upcomingMovies: MovieElement[];
     onTheAirTvShow: TvShowElement[];
     isLoading: boolean;
+};
+
+export type NetworkDetailScreenState = {
+    network: Network | undefined;
 };
 
 export type MovieDetailScreenState = {

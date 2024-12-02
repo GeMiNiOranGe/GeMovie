@@ -1,6 +1,7 @@
 import type {
     CreatedBy,
     EpisodeToAir,
+    Network,
     NetworkElement,
     Optional,
     SeasonElement,
@@ -130,5 +131,16 @@ export function toSeasonElement(val: any): SeasonElement {
         posterPath: val['poster_path'] ?? undefined,
         seasonNumber: val['season_number'],
         voteAverage: val['vote_average'],
+    };
+}
+
+export function toNetwork(val: any): Network {
+    return {
+        headquarters: val.headquarters,
+        homepage: val.homepage,
+        id: val.id,
+        logoPath: val['logo_path'] ?? undefined,
+        name: val.name,
+        originCountry: val['origin_country'],
     };
 }

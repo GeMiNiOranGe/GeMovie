@@ -12,3 +12,4 @@ export { default as VideoService } from './VideoService';
 export { default as VideoDiscoveryService } from './VideoDiscoveryService';
 export { default as MediaService } from './MediaService';
 export { default as ReviewService } from './ReviewService';
+export { default as NetworkService } from './NetworkService';

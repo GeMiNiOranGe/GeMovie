@@ -77,6 +77,11 @@ export type SeasonElement = {
     voteAverage: number;
 };
 
+export type Network = NetworkElement & {
+    headquarters: string;
+    homepage: string;
+};
+
 export type FeaturedTvShow = {
     media_type: string;
     id: number;
