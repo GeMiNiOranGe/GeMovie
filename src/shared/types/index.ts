@@ -79,7 +79,8 @@ export type DetailType =
     | 'company'
     | 'collection'
     | 'keyword'
-    | 'review';
+    | 'review'
+    | 'network';
 
 export type VideoType = 'movie' | 'tv';
 

@@ -1,11 +1,36 @@
 import React from 'react';
-import { SafeAreaView, View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  Location,
+  Flag,
+  IconProps as IconsaxProps,
+} from 'iconsax-react-native';
 
-import type { NetworkDetailScreenState, RootScreenProps } from '@shared/types';
-import { NetworkService } from '@services';
-import { FullScreenLoader } from '@components';
-import { layout } from '@shared/themes';
+import { Television } from '@assets/icons';
+import type {
+  LabelProps,
+  NetworkDetailScreenState,
+  RootScreenProps,
+  SvgIconProps,
+} from '@shared/types';
+import { NetworkService, VideoDiscoveryService } from '@services';
+import {
+  FullScreenLoader,
+  Labels,
+  Section,
+  TMDBImage,
+  TMDBImageBackgroundLinearGradient,
+  VideoHorizontalListSection,
+} from '@components';
+import { colors, layout } from '@shared/themes';
 import styles from './style';
+
+const labelIconsaxProps: IconsaxProps = {
+  size: 16,
+  color: colors.subtext.toString(),
+  variant: 'Bold',
+};
 
 class NetworkDetailScreen extends React.PureComponent<
   RootScreenProps<'NetworkDetailScreen'>,
@@ -15,16 +40,52 @@ class NetworkDetailScreen extends React.PureComponent<
     super(props);
     this.state = {
       network: undefined,
+      popularTvShows: [],
+      topRatedTvShows: [],
+      totalTvShows: 0,
     };
   }
 
   public override async componentDidMount(): Promise<void> {
-    const { networkId } = { networkId: 174 };
+    const { networkId } = this.props.route.params;
 
-    const network = await NetworkService.getDetailAsync(networkId);
+    const [network, popularTvShowResponse, topRatedTvShowResponse] =
+      await Promise.all([
+        NetworkService.getDetailAsync(networkId),
+        VideoDiscoveryService.getTvShowByNetworkAsync(networkId.toString()),
+        VideoDiscoveryService.getTvShowByNetworkAsync(
+          networkId.toString(),
+          'vote_average.desc',
+        ),
+      ]);
 
-    this.setState({ network });
+    this.setState({
+      network,
+      popularTvShows: popularTvShowResponse.getResults(),
+      topRatedTvShows: topRatedTvShowResponse.getResults(),
+      totalTvShows: popularTvShowResponse.getTotalResults(),
+    });
     this.props.navigation.setOptions({ title: network.name });
+  }
+
+  private getLabels(): LabelProps[] {
+    return [
+      {
+        name: 'Headquarters',
+        value: this.state.network?.headquarters || '-',
+        icon: <Location {...labelIconsaxProps} />,
+      },
+      {
+        name: 'Country',
+        value: this.state.network?.originCountry || '-',
+        icon: <Flag {...labelIconsaxProps} />,
+      },
+      {
+        name: 'Total tv series',
+        value: this.state.totalTvShows.toString(),
+        icon: <Television {...(labelIconsaxProps as SvgIconProps)} />,
+      },
+    ];
   }
 
   public override render(): React.JSX.Element {
@@ -34,12 +95,58 @@ class NetworkDetailScreen extends React.PureComponent<
 
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
-        <View>
-          <Text style={styles.text}>{this.state.network?.name}</Text>
-          <Text style={styles.subtext}>
-            {this.state.network?.originCountry}
-          </Text>
-        </View>
+        <ScrollView>
+          <TMDBImageBackgroundLinearGradient
+            contentContainerStyle={[
+              layout.row,
+              layout.itemsEnd,
+              styles.titleBox,
+            ]}
+            path={this.state.popularTvShows[0]?.backdropPath}
+            size='w300'
+            blurRadius={4}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 0.5 }}
+            colors={['transparent', colors.primary.toString()]}
+          >
+            <View style={styles.logoBox}>
+              <TMDBImage
+                style={styles.logo}
+                resizeMode='contain'
+                path={this.state.network?.logoPath}
+                size='w300'
+              />
+            </View>
+
+            <View style={[layout.flex1, styles.nameBox]}>
+              <Text style={styles.name} numberOfLines={1}>
+                {this.state.network?.name}
+              </Text>
+            </View>
+          </TMDBImageBackgroundLinearGradient>
+
+          <View style={styles.content}>
+            <View style={[layout.itemsCenter, styles.labelBox]}>
+              <Labels data={this.getLabels()} />
+            </View>
+
+            <Section.Separator />
+
+            <VideoHorizontalListSection
+              data={this.state.popularTvShows}
+              type='tv'
+              title='Popular TV series'
+              navigation={this.props.navigation}
+            />
+
+            <VideoHorizontalListSection
+              data={this.state.topRatedTvShows}
+              type='tv'
+              title='Top rated TV series'
+              navigation={this.props.navigation}
+            />
+          </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }

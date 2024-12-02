@@ -58,6 +58,9 @@ export type GenreDetailScreenState = {
 
 export type NetworkDetailScreenState = {
     network: Network | undefined;
+    popularTvShows: TvShowElement[];
+    topRatedTvShows: TvShowElement[];
+    totalTvShows: number;
 };
 
 export type MovieDetailScreenState = {

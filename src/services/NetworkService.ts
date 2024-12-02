@@ -8,7 +8,7 @@ export default class NetworkService {
      * @param id network id
      */
     public static async getDetailAsync(id: number): Promise<Network> {
-        const url = URLBuilder.buildDetailURL('tv', id);
+        const url = URLBuilder.buildDetailURL('network', id);
         return await APIUtils.fetchSingleOne(url, toNetwork);
     }
 }

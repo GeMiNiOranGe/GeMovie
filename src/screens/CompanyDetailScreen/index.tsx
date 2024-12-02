@@ -24,6 +24,7 @@ import {
   ExpandableText,
   FullScreenLoader,
   Labels,
+  Section,
   TMDBImage,
   TMDBImageBackgroundLinearGradient,
   VideoHorizontalListSection,
@@ -220,6 +221,8 @@ class CompanyDetailScreen extends React.Component<
                 </TouchableOpacity>
               </Box>
             )}
+
+            <Section.Separator />
 
             <VideoHorizontalListSection
               data={this.state.popularMovies}
