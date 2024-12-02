@@ -5,6 +5,7 @@ import {
   Location,
   Flag,
   IconProps as IconsaxProps,
+  Global,
 } from 'iconsax-react-native';
 
 import { Television } from '@assets/icons';
@@ -16,11 +17,13 @@ import type {
 } from '@shared/types';
 import { NetworkService, VideoDiscoveryService } from '@services';
 import {
+  Box,
   FullScreenLoader,
   Labels,
   Section,
   TMDBImage,
   TMDBImageBackgroundLinearGradient,
+  TouchableRippleLink,
   VideoHorizontalListSection,
 } from '@components';
 import { colors, layout } from '@shared/themes';
@@ -129,6 +132,23 @@ class NetworkDetailScreen extends React.PureComponent<
             <View style={[layout.itemsCenter, styles.labelBox]}>
               <Labels data={this.getLabels()} />
             </View>
+
+            {this.state.network?.homepage && (
+              <Box title='External link'>
+                <View style={layout.itemsStart}>
+                  <TouchableRippleLink
+                    style={styles.homepageLink}
+                    url={`${this.state.network?.homepage}`}
+                  >
+                    <View style={[layout.row, layout.itemsCenter]}>
+                      <Global color={colors.text.toString()} />
+
+                      <Text style={styles.homepageText}>Homepage</Text>
+                    </View>
+                  </TouchableRippleLink>
+                </View>
+              </Box>
+            )}
 
             <Section.Separator />
 

@@ -46,6 +46,15 @@ const styles = StyleSheet.create({
     labelBox: {
         marginBottom: spacing.huge,
     },
+    homepageLink: {
+        borderWidth: 1,
+        borderColor: colors.neutral,
+    },
+    homepageText: {
+        fontSize: 14,
+        color: colors.text,
+        marginHorizontal: spacing.small,
+    },
 });
 
 export default styles;
