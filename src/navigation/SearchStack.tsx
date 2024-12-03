@@ -14,6 +14,7 @@ import {
   ReviewDetailScreen,
   GenreDetailScreen,
   NetworkDetailScreen,
+  SeasonDetailScreen,
 } from '@screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -66,6 +67,14 @@ class SearchStack extends React.Component {
         <Stack.Screen
           name='NetworkDetailScreen'
           component={NetworkDetailScreen}
+          options={{
+            title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='SeasonDetailScreen'
+          component={SeasonDetailScreen}
           options={{
             title: 'Detail',
           }}

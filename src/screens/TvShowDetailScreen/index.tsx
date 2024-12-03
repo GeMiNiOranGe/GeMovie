@@ -166,6 +166,12 @@ class TvShowDetailScreen extends React.Component<
         item={item}
         index={index}
         listLength={this.state.tvShow?.seasons.length}
+        onPress={() =>
+          this.props.navigation.push('SeasonDetailScreen', {
+            tvShowId: this.state.tvShow?.id as number,
+            seasonNumber: item.seasonNumber,
+          })
+        }
       />
     );
   }

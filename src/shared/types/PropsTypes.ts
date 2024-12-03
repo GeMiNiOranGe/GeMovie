@@ -45,6 +45,10 @@ export type RootStackParamList = ParamListBase & {
     NetworkDetailScreen: {
         networkId: number;
     };
+    SeasonDetailScreen: {
+        tvShowId: number;
+        seasonNumber: number;
+    };
     MovieDetailScreen: {
         movieId: number;
     };
