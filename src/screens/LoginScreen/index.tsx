@@ -75,12 +75,15 @@ class LoginScreen extends React.Component<
 
         <View style={styles.formContainer}>
           <View style={styles.inputContainer}>
-            <Ionicons name='mail-outline' size={30} color={colors.secondary} />
+            <Ionicons
+              name='person-outline'
+              size={30}
+              color={colors.secondary}
+            />
             <TextInput
               style={styles.textInput}
-              placeholder='Enter your email'
+              placeholder='Enter your Username'
               placeholderTextColor={colors.secondary}
-              keyboardType='email-address'
               autoCapitalize='none'
             />
           </View>

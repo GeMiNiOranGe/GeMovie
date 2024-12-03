@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   View,
@@ -23,7 +24,14 @@ class SignupScreen extends React.Component<
       secureEntery: true,
       isLoading: true,
       password: '',
-      passwordError: '',
+      passwordErrors: {
+        length: false,
+        uppercase: false,
+        lowercase: false,
+        number: false,
+        specialChar: false,
+      },
+      showPasswordErrors: false,
     };
   }
 
@@ -48,21 +56,23 @@ class SignupScreen extends React.Component<
   };
 
   private handlePasswordChange = (password: string) => {
-    this.setState({ password });
-    if (password.trim() === '') {
-      this.setState({ passwordError: '' });
-    } else if (!this.validatePassword(password)) {
-      this.setState({
-        passwordError:
-          'Password must be at least 8 characters, include uppercase, lowercase, number, and special character.',
-      });
-    } else {
-      this.setState({ passwordError: '' });
-    }
+    const passwordErrors = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+      specialChar: /[@$!%*?&#]/.test(password),
+    };
+
+    this.setState({
+      password,
+      passwordErrors,
+      showPasswordErrors: password.trim() !== '',
+    });
   };
 
   public override render() {
-    const { secureEntery } = this.state;
+    const { secureEntery, showPasswordErrors, passwordErrors } = this.state;
 
     return (
       <ScrollView style={styles.container}>
@@ -126,9 +136,50 @@ class SignupScreen extends React.Component<
               />
             </TouchableOpacity>
           </View>
-          {this.state.passwordError ? (
-            <Text style={styles.errorText}>{this.state.passwordError}</Text>
-          ) : null}
+          {showPasswordErrors && (
+            <View style={styles.errorListContainer}>
+              <Text
+                style={{
+                  color: passwordErrors.length ? 'green' : 'red',
+                  ...styles.errorText,
+                }}
+              >
+                * At least 8 characters
+              </Text>
+              <Text
+                style={{
+                  color: passwordErrors.uppercase ? 'green' : 'red',
+                  ...styles.errorText,
+                }}
+              >
+                * At least 1 uppercase letter
+              </Text>
+              <Text
+                style={{
+                  color: passwordErrors.lowercase ? 'green' : 'red',
+                  ...styles.errorText,
+                }}
+              >
+                * At least 1 lowercase letter
+              </Text>
+              <Text
+                style={{
+                  color: passwordErrors.number ? 'green' : 'red',
+                  ...styles.errorText,
+                }}
+              >
+                * At least 1 number
+              </Text>
+              <Text
+                style={{
+                  color: passwordErrors.specialChar ? 'green' : 'red',
+                  ...styles.errorText,
+                }}
+              >
+                - At least 1 special character (@$!%*?&#)
+              </Text>
+            </View>
+          )}
 
           <TouchableOpacity style={styles.loginButtonWrapper}>
             <Text style={styles.loginText}>Sign up</Text>

@@ -101,10 +101,29 @@ const styles = StyleSheet.create({
         fontSize: width * 0.035,
         fontWeight: '700',
     },
+    errorListContainer: {
+        marginTop: 10,
+        padding: 10,
+        backgroundColor: colors.neutral,
+        borderRadius: 5,
+    },
+    errorItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 5,
+    },
+    errorIcon: {
+        marginRight: 8,
+    },
     errorText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
+    errorTextSuccess: {
+        color: 'green',
+    },
+    errorTextError: {
         color: 'red',
-        fontSize: 12,
-        marginTop: 5,
     },
 });
 

@@ -135,7 +135,14 @@ export type SignupScreenState = {
     secureEntery: boolean;
     isLoading: boolean;
     password: string;
-    passwordError: string;
+    passwordErrors: {
+        length: boolean;
+        uppercase: boolean;
+        lowercase: boolean;
+        number: boolean;
+        specialChar: boolean;
+    };
+    showPasswordErrors: boolean;
 };
 
 export type YoutubeState = {
