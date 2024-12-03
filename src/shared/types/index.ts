@@ -39,6 +39,7 @@ export type Spacing = {
 };
 
 export type Colors = {
+    white: any;
     primary: ColorValue;
     secondary: ColorValue;
     accent: {

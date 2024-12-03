@@ -14,3 +14,7 @@ export { default as SeeAllToprated } from './SeeAllTopRated';
 export { default as ContentListScreen } from './ContentListScreen';
 export { default as ReviewDetailScreen } from './ReviewDetailScreen';
 export { default as GenreDetailScreen } from './GenreDetailScreen';
+export { default as LoginScreen } from './LoginScreen';
+export { default as SignupScreen } from './SignupScreen';
+export { default as ForgotPassword } from './ForgotPasswordScreen';
+export { default as ResetPasswordScreen } from './ResetPasswordScreen';

@@ -126,6 +126,18 @@ export type TrendScreenState = {
     selectedCategory: string;
 };
 
+export type LoginScreenState = {
+    secureEntery: boolean;
+    isLoading: boolean;
+};
+
+export type SignupScreenState = {
+    secureEntery: boolean;
+    isLoading: boolean;
+    password: string;
+    passwordError: string;
+};
+
 export type YoutubeState = {
     videoKey: string | null;
     loading: boolean;
