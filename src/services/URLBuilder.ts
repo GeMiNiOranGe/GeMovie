@@ -63,6 +63,21 @@ export default class URLBuilder {
     }
 
     /**
+     * Build a detail url string to get season detail information.
+     * @param id movie id, tv series id, person id,...
+     * @param appendToResponse Fetch multiple requests, just comma separate the values, e.g: `"videos,images,keywords"`
+     */
+    public static buildSeasonDetailURL(
+        id: number,
+        seasonNumber: number,
+        appendToResponse?: string,
+    ): string {
+        return `${TMDB_BASE_URL}/tv/${id}/season/${seasonNumber}?api_key=${TMDB_API_KEY}${
+            appendToResponse ? `&append_to_response=${appendToResponse}` : ''
+        }`;
+    }
+
+    /**
      * Build a recommendations url
      * @param type `"movie"` | `"tv"`
      * @param id movie id or tv series id

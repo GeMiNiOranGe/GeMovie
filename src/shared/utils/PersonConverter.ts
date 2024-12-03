@@ -2,6 +2,7 @@ import type {
     Cast,
     Credits,
     Crew,
+    GuestStar,
     PersonElement,
     PersonElementBase,
 } from '@shared/types';
@@ -60,6 +61,7 @@ export function toCast(val: any): Cast {
         order: val.order,
     };
 }
+
 export function toCrew(val: any): Crew {
     return {
         adult: val.adult,
@@ -73,5 +75,21 @@ export function toCrew(val: any): Crew {
         creditId: val['credit_id'],
         department: val.department,
         job: val.job,
+    };
+}
+
+export function toGuestStar(val: any): GuestStar {
+    return {
+        adult: val.adult,
+        gender: val.gender,
+        id: val.id,
+        knownForDepartment: val['known_for_department'],
+        name: val.name,
+        originalName: val['original_name'],
+        popularity: val.popularity,
+        profilePath: val['profile_path'] ?? undefined,
+        creditId: val['credit_id'],
+        character: val.character,
+        order: val.order,
     };
 }

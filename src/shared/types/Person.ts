@@ -31,17 +31,24 @@ export type PersonElement = PersonElementBase & {
     knownFor: MediaElement[];
 };
 
-export type Cast = PersonElementBase & {
+export type CreditElement = PersonElementBase & {
     creditId: string;
+};
+
+export type Cast = CreditElement & {
     castId: number;
     character: string;
     order: number;
 };
 
-export type Crew = PersonElementBase & {
-    creditId: string;
+export type Crew = CreditElement & {
     department: string;
     job: string;
+};
+
+export type GuestStar = CreditElement & {
+    character: string;
+    order: number;
 };
 
 export type Credits = {

@@ -19,6 +19,7 @@ import type {
     Genre,
     TvShow,
     Network,
+    Season,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
@@ -61,6 +62,10 @@ export type NetworkDetailScreenState = {
     popularTvShows: TvShowElement[];
     topRatedTvShows: TvShowElement[];
     totalTvShows: number;
+};
+
+export type SeasonDetailScreenState = {
+    season: Season | undefined;
 };
 
 export type MovieDetailScreenState = {

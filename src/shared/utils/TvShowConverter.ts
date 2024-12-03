@@ -1,14 +1,21 @@
 import type {
     CreatedBy,
+    EpisodeElement,
     EpisodeToAir,
     Network,
     NetworkElement,
     Optional,
+    Season,
     SeasonElement,
     TvShow,
     TvShowElement,
 } from '@shared/types';
-import { toCompanyElement, toLanguage } from '@shared/utils';
+import {
+    toCompanyElement,
+    toCrew,
+    toGuestStar,
+    toLanguage,
+} from '@shared/utils';
 
 export function toTvShowElement(val: any): TvShowElement {
     return {
@@ -90,6 +97,28 @@ export function toCreatedBy(val: any): CreatedBy {
     };
 }
 
+export function toEpisodeElement(val: any): EpisodeElement {
+    return {
+        id: val.id,
+        name: val.name,
+        overview: val.overview,
+        voteAverage: val['vote_average'],
+        voteCount: val['vote_count'],
+        airDate: new Date(val['air_date'] ?? undefined),
+        episodeNumber: val['episode_number'],
+        episodeType: val['episode_type'],
+        productionCode: val['production_code'],
+        runtime: val.runtime ?? undefined,
+        seasonNumber: val['season_number'],
+        showId: val['show_id'],
+        stillPath: val['still_path'] ?? undefined,
+        crew: Array.from(val.crew).map(element => toCrew(element)),
+        guestStars: Array.from(val['guest_stars']).map(element =>
+            toGuestStar(element),
+        ),
+    };
+}
+
 export function toEpisodeToAir(val: any): Optional<EpisodeToAir> {
     if (!val) {
         return undefined;
@@ -121,6 +150,17 @@ export function toNetworkElement(val: any): NetworkElement {
     };
 }
 
+export function toNetwork(val: any): Network {
+    return {
+        headquarters: val.headquarters,
+        homepage: val.homepage,
+        id: val.id,
+        logoPath: val['logo_path'] ?? undefined,
+        name: val.name,
+        originCountry: val['origin_country'],
+    };
+}
+
 export function toSeasonElement(val: any): SeasonElement {
     return {
         airDate: new Date(val['air_date'] ?? undefined),
@@ -134,13 +174,18 @@ export function toSeasonElement(val: any): SeasonElement {
     };
 }
 
-export function toNetwork(val: any): Network {
+export function toSeason(val: any): Season {
     return {
-        headquarters: val.headquarters,
-        homepage: val.homepage,
+        airDate: new Date(val['air_date'] ?? undefined),
         id: val.id,
-        logoPath: val['logo_path'] ?? undefined,
         name: val.name,
-        originCountry: val['origin_country'],
+        overview: val.overview,
+        posterPath: val['poster_path'] ?? undefined,
+        seasonNumber: val['season_number'],
+        voteAverage: val['vote_average'],
+        _id: val._id,
+        episodes: Array.from(val.episodes).map(element =>
+            toEpisodeElement(element),
+        ),
     };
 }

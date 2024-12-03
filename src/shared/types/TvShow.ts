@@ -1,4 +1,6 @@
 import {
+    Crew,
+    GuestStar,
     Keyword,
     Optional,
     VideoBase,
@@ -43,7 +45,7 @@ export type CreatedBy = {
     profilePath: Optional<string>;
 };
 
-export type EpisodeToAir = {
+export type EpisodeElement = {
     id: number;
     name: string;
     overview: string;
@@ -57,13 +59,24 @@ export type EpisodeToAir = {
     seasonNumber: number;
     showId: number;
     stillPath: Optional<string>;
+    crew: Crew[];
+    guestStars: GuestStar[];
 };
+
+export type EpisodeToAir = Omit<EpisodeElement, 'crew' | 'guestStars'>;
+
+export type Episode = Omit<EpisodeElement, 'episodeType' | 'showId'>;
 
 export type NetworkElement = {
     id: number;
     logoPath: Optional<string>;
     name: string;
     originCountry: string;
+};
+
+export type Network = NetworkElement & {
+    headquarters: string;
+    homepage: string;
 };
 
 export type SeasonElement = {
@@ -77,9 +90,9 @@ export type SeasonElement = {
     voteAverage: number;
 };
 
-export type Network = NetworkElement & {
-    headquarters: string;
-    homepage: string;
+export type Season = Omit<SeasonElement, 'episodeCount'> & {
+    _id: string;
+    episodes: EpisodeElement[];
 };
 
 export type FeaturedTvShow = {

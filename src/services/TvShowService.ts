@@ -4,9 +4,10 @@ import {
     URLBuilder,
 } from '@services';
 import { upcomingVideoDays } from '@shared/constants';
-import type { TvShow, TvShowElement } from '@shared/types';
+import type { Season, TvShow, TvShowElement } from '@shared/types';
 import {
     getISODateRangeFromToday,
+    toSeason,
     toTvShow,
     toTvShowElement,
 } from '@shared/utils';
@@ -36,6 +37,19 @@ export default class TvShowService {
     public static async getDetailAsync(id: number): Promise<TvShow> {
         const url = URLBuilder.buildDetailURL('tv', id, 'keywords');
         return await APIUtils.fetchSingleOne(url, toTvShow);
+    }
+
+    /**
+     * Get the details of a TV season.
+     * @param id tv show id
+     * @param seasonNumber season number
+     */
+    public static async getSeasonDetailAsync(
+        id: number,
+        seasonNumber: number,
+    ): Promise<Season> {
+        const url = URLBuilder.buildSeasonDetailURL(id, seasonNumber);
+        return await APIUtils.fetchSingleOne(url, toSeason);
     }
 
     /**
