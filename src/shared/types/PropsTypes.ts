@@ -81,6 +81,7 @@ export type VideoHorizontalListSectionProps = {
     isUpcoming?: boolean;
 };
 
+// TODO: remove `E extends CardElement`
 export type CardBaseProps<E extends CardElement> = {
     item: E;
     index: number;

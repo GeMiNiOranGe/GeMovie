@@ -7,6 +7,7 @@ import type {
     PersonElementBase,
     MovieElement,
     TvShowElement,
+    SeasonElement,
 } from '@shared/types';
 
 export type ImageSize = {
@@ -150,7 +151,11 @@ export type PaginationResponse<E> = {
     totalResults: number;
 };
 
-export type CardElement = MediaElementBase | PersonElementBase | CompanyElement;
+export type CardElement =
+    | MediaElementBase
+    | PersonElementBase
+    | CompanyElement
+    | SeasonElement;
 
 export type MediaElementBase = {
     adult: boolean;

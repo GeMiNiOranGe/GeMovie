@@ -29,3 +29,4 @@ export { default as VoteLabel } from './VoteLabel';
 export { default as FullScreenLoader } from './FullScreenLoader';
 export { default as VideoHorizontalListSection } from './VideoHorizontalListSection';
 export { default as NetworkCard } from './NetworkCard';
+export { default as SeasonCard } from './SeasonCard';

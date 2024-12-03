@@ -43,6 +43,7 @@ import {
   Photo,
   Recommendation,
   Review,
+  SeasonCard,
   Section,
   SimpleCompanyCard,
   TMDBImage,
@@ -160,21 +161,12 @@ class TvShowDetailScreen extends React.Component<
   }
 
   private renderSeasonItem({ item, index }: ListRenderItemInfo<SeasonElement>) {
-    const marginRight =
-      index === (this.state.tvShow?.seasons.length || 0) - 1
-        ? 0
-        : spacing.small;
-
     return (
-      <View key={item.id} style={[layout.itemsCenter, { marginRight }]}>
-        <TMDBImage
-          style={styles.seasonPoster}
-          size='w500'
-          path={item.posterPath}
-        />
-        <Text style={styles.seasonTitle}>{item.name}</Text>
-        <Text style={styles.seasonDetails}>{item.episodeCount} Episodes</Text>
-      </View>
+      <SeasonCard
+        item={item}
+        index={index}
+        listLength={this.state.tvShow?.seasons.length}
+      />
     );
   }
 
@@ -381,6 +373,17 @@ class TvShowDetailScreen extends React.Component<
 
             <Section.Separator />
 
+            <Section title='Seasons'>
+              <Section.HorizontalList
+                noResultText='No season found'
+                keyExtractor={item => item.id.toString()}
+                data={this.state.tvShow.seasons}
+                renderItem={this.renderSeasonItem}
+              />
+            </Section>
+
+            <Section.Separator />
+
             <Section title='Recommendation'>
               {this.state.tvShow?.id && (
                 <Recommendation
@@ -401,16 +404,6 @@ class TvShowDetailScreen extends React.Component<
                   navigation={this.props.navigation}
                 />
               )}
-            </Section>
-
-            <Section.Separator />
-
-            <Section title='Seasons'>
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={this.state.tvShow.seasons}
-                renderItem={this.renderSeasonItem}
-              />
             </Section>
 
             <Section.Separator />
@@ -466,6 +459,7 @@ class TvShowDetailScreen extends React.Component<
             <Section title='Keywords'>
               <Section.HorizontalList
                 noResultText='No keywords found'
+                keyExtractor={item => item.id.toString()}
                 data={this.state.tvShow?.keywords.results}
                 renderItem={this.renderKeywordItem}
               />

@@ -1,6 +1,7 @@
+import { StyleSheet } from 'react-native';
+
 import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
-import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -115,21 +116,6 @@ const styles = StyleSheet.create({
         marginVertical: 4,
         marginLeft: 12,
         marginRight: 12,
-    },
-    seasonPoster: {
-        width: 120,
-        height: 180,
-        borderRadius: 8,
-    },
-    seasonTitle: {
-        fontSize: 14,
-        color: colors.text,
-        fontWeight: 'bold',
-        marginTop: spacing.small,
-    },
-    seasonDetails: {
-        fontSize: 12,
-        color: colors.text.toString(),
     },
     expandableText: {
         color: colors.subtext,

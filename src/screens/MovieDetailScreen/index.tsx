@@ -450,6 +450,7 @@ class MovieDetailScreen extends React.Component<
             <Section title='Keywords'>
               <Section.HorizontalList
                 noResultText='No keywords found'
+                keyExtractor={item => item.id.toString()}
                 data={this.state.movie?.keywords.keywords}
                 renderItem={this.renderKeywordItem}
               />
