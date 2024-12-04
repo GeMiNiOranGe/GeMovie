@@ -35,12 +35,6 @@ export type CreditElement = PersonElementBase & {
     creditId: string;
 };
 
-export type Cast = CreditElement & {
-    castId: number;
-    character: string;
-    order: number;
-};
-
 export type Crew = CreditElement & {
     department: string;
     job: string;
@@ -49,6 +43,10 @@ export type Crew = CreditElement & {
 export type GuestStar = CreditElement & {
     character: string;
     order: number;
+};
+
+export type Cast = GuestStar & {
+    castId: number;
 };
 
 export type Credits = {
