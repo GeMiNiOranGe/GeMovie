@@ -64,7 +64,8 @@ export default class URLBuilder {
 
     /**
      * Build a detail url string to get season detail information.
-     * @param id movie id, tv series id, person id,...
+     * @param id tv series id
+     * @param seasonNumber season number
      * @param appendToResponse Fetch multiple requests, just comma separate the values, e.g: `"videos,images,keywords"`
      */
     public static buildSeasonDetailURL(
@@ -73,6 +74,24 @@ export default class URLBuilder {
         appendToResponse?: string,
     ): string {
         return `${TMDB_BASE_URL}/tv/${id}/season/${seasonNumber}?api_key=${TMDB_API_KEY}${
+            appendToResponse ? `&append_to_response=${appendToResponse}` : ''
+        }`;
+    }
+
+    /**
+     * Build a detail url string to get episode detail information.
+     * @param id tv series id
+     * @param seasonNumber season number
+     * @param episodeNumber episode number
+     * @param appendToResponse Fetch multiple requests, just comma separate the values, e.g: `"videos,images,keywords"`
+     */
+    public static buildEpisodeDetailURL(
+        id: number,
+        seasonNumber: number,
+        episodeNumber: number,
+        appendToResponse?: string,
+    ): string {
+        return `${TMDB_BASE_URL}/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${TMDB_API_KEY}${
             appendToResponse ? `&append_to_response=${appendToResponse}` : ''
         }`;
     }

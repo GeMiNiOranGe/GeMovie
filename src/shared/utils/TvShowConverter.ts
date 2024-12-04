@@ -1,5 +1,6 @@
 import type {
     CreatedBy,
+    Episode,
     EpisodeElement,
     EpisodeToAir,
     Network,
@@ -138,6 +139,26 @@ export function toEpisodeToAir(val: any): Optional<EpisodeToAir> {
         seasonNumber: val['season_number'],
         showId: val['show_id'],
         stillPath: val['still_path'] ?? undefined,
+    };
+}
+
+export function toEpisode(val: any): Episode {
+    return {
+        id: val.id,
+        name: val.name,
+        overview: val.overview,
+        voteAverage: val['vote_average'],
+        voteCount: val['vote_count'],
+        airDate: new Date(val['air_date'] ?? undefined),
+        episodeNumber: val['episode_number'],
+        productionCode: val['production_code'],
+        runtime: val.runtime ?? undefined,
+        seasonNumber: val['season_number'],
+        stillPath: val['still_path'] ?? undefined,
+        crew: Array.from(val.crew).map(element => toCrew(element)),
+        guestStars: Array.from(val['guest_stars']).map(element =>
+            toGuestStar(element),
+        ),
     };
 }
 
