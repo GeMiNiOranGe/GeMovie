@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     errorListContainer: {
         marginTop: 10,
         padding: 10,
-        backgroundColor: colors.neutral,
+        backgroundColor: 'white',
         borderRadius: 5,
     },
     errorItem: {

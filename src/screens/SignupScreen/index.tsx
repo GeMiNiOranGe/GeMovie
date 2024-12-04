@@ -18,9 +18,14 @@ class SignupScreen extends React.Component<
   RootScreenProps<'SignupScreen'>,
   SignupScreenState
 > {
+  private usernameInputRef: React.RefObject<TextInput>;
+  private emailInputRef: React.RefObject<TextInput>;
+  private passwordInputRef: React.RefObject<TextInput>;
   public constructor(props: RootScreenProps<'SignupScreen'>) {
     super(props);
     this.state = {
+      username: '',
+      email: '',
       secureEntery: true,
       isLoading: true,
       password: '',
@@ -32,7 +37,15 @@ class SignupScreen extends React.Component<
         specialChar: false,
       },
       showPasswordErrors: false,
+      errors: {
+        username: false,
+        email: false,
+        password: false,
+      },
     };
+    this.usernameInputRef = React.createRef<TextInput>();
+    this.emailInputRef = React.createRef<TextInput>();
+    this.passwordInputRef = React.createRef<TextInput>();
   }
 
   private togglePasswordVisibility = () => {
@@ -63,12 +76,40 @@ class SignupScreen extends React.Component<
       number: /\d/.test(password),
       specialChar: /[@$!%*?&#]/.test(password),
     };
+    const validPassword = Object.values(passwordErrors).every(error => error);
 
     this.setState({
       password,
       passwordErrors,
-      showPasswordErrors: password.trim() !== '',
+      showPasswordErrors: password.trim() !== '' && !validPassword,
     });
+  };
+
+  private handleSignup = () => {
+    const { username, email, password, errors } = this.state;
+    let updatedErrors = { ...errors };
+
+    if (username.trim() === '') {
+      updatedErrors.username = true;
+    }
+    if (email.trim() === '') {
+      updatedErrors.email = true;
+    }
+    if (password.trim() === '') {
+      updatedErrors.password = true;
+    }
+
+    this.setState({ errors: updatedErrors });
+
+    if (updatedErrors.username) {
+      this.usernameInputRef.current?.focus();
+    } else if (updatedErrors.email) {
+      this.emailInputRef.current?.focus();
+    } else if (updatedErrors.password) {
+      this.passwordInputRef.current?.focus();
+    } else {
+      this.props.navigation.navigate('LoginScreen');
+    }
   };
 
   public override render() {
@@ -100,18 +141,45 @@ class SignupScreen extends React.Component<
               color={colors.secondary}
             />
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                this.state.errors.username && {
+                  borderColor: 'red',
+                  borderWidth: 1.5,
+                },
+              ]}
               placeholder='Enter your Username'
               placeholderTextColor={colors.secondary}
+              ref={this.usernameInputRef}
+              onChangeText={text =>
+                this.setState({
+                  username: text,
+                  errors: { ...this.state.errors, username: false },
+                })
+              }
             />
           </View>
 
           <View style={styles.inputContainer}>
-            <Ionicons name='call-outline' size={30} color={colors.secondary} />
+            <Ionicons name='mail-outline' size={30} color={colors.secondary} />
             <TextInput
-              style={styles.textInput}
-              placeholder='Enter your Phone Number'
+              style={[
+                styles.textInput,
+                this.state.errors.email && {
+                  borderColor: 'red',
+                  borderWidth: 1.5,
+                },
+              ]}
+              placeholder='Enter your Email'
               placeholderTextColor={colors.secondary}
+              keyboardType='email-address'
+              ref={this.emailInputRef}
+              onChangeText={text =>
+                this.setState({
+                  email: text,
+                  errors: { ...this.state.errors, email: false },
+                })
+              }
             />
           </View>
 
@@ -122,11 +190,25 @@ class SignupScreen extends React.Component<
               color={colors.secondary}
             />
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                this.state.errors.password && {
+                  borderColor: 'red',
+                  borderWidth: 1.5,
+                },
+              ]}
               placeholder='Enter your password'
               placeholderTextColor={colors.secondary}
               secureTextEntry={secureEntery}
-              onChangeText={this.handlePasswordChange}
+              ref={this.passwordInputRef}
+              onChangeText={text => {
+                this.handlePasswordChange(text);
+                if (text.trim() !== '') {
+                  this.setState(prevState => ({
+                    errors: { ...prevState.errors, password: false },
+                  }));
+                }
+              }}
             />
             <TouchableOpacity onPress={this.togglePasswordVisibility}>
               <Ionicons
@@ -181,7 +263,10 @@ class SignupScreen extends React.Component<
             </View>
           )}
 
-          <TouchableOpacity style={styles.loginButtonWrapper}>
+          <TouchableOpacity
+            style={styles.loginButtonWrapper}
+            onPress={this.handleSignup}
+          >
             <Text style={styles.loginText}>Sign up</Text>
           </TouchableOpacity>
 

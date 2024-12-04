@@ -132,6 +132,8 @@ export type LoginScreenState = {
 };
 
 export type SignupScreenState = {
+    username: string;
+    email: string;
     secureEntery: boolean;
     isLoading: boolean;
     password: string;
@@ -143,6 +145,31 @@ export type SignupScreenState = {
         specialChar: boolean;
     };
     showPasswordErrors: boolean;
+    errors: {
+        username: boolean;
+        email: boolean;
+        password: boolean;
+    };
+};
+
+export type ResetPasswordScreenState = {
+    secureEntery: boolean;
+    password: string;
+    passwordErrors: {
+        length: boolean;
+        uppercase: boolean;
+        lowercase: boolean;
+        number: boolean;
+        specialChar: boolean;
+    };
+    showPasswordErrors: boolean;
+    matchPassword: boolean;
+    resetError: string;
+};
+
+export type ForgotPasswordScreenState = {
+    username: string;
+    usernameErrors: boolean;
 };
 
 export type YoutubeState = {

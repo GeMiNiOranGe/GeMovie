@@ -42,9 +42,10 @@ const styles = StyleSheet.create({
         height: height * 0.08,
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 4,
-        marginVertical: height * 0.08,
+        paddingHorizontal: 15,
         marginHorizontal: width * 0.06,
+        marginTop: 35,
+        marginBottom: 20,
         backgroundColor: 'white',
     },
     loginButtonWrapper: {
@@ -59,6 +60,19 @@ const styles = StyleSheet.create({
         fontSize: width * 0.045,
         fontWeight: '600',
         textAlign: 'center',
+    },
+    errorText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: 'red',
+        textAlign: 'left',
+        marginHorizontal: width * 0.05,
+        marginBottom: 10,
+    },
+    textInput: {
+        flex: 1,
+        paddingHorizontal: width * 0.03,
+        color: colors.text,
     },
 });
 
