@@ -16,5 +16,6 @@ export { default as ReviewDetailScreen } from './ReviewDetailScreen';
 export { default as GenreDetailScreen } from './GenreDetailScreen';
 export { default as NetworkDetailScreen } from './NetworkDetailScreen';
 export { default as SeasonDetailScreen } from './SeasonDetailScreen';
+export { default as EpisodeDetailScreen } from './EpisodeDetailScreen';
 export { default as AllTV } from './SeeAllTV';
 export { default as TopRated } from './SeeAllTopRated';

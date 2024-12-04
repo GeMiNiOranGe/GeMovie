@@ -66,6 +66,13 @@ class SeasonDetailScreen extends React.PureComponent<
       <Card
         style={[styles.episode, { marginBottom }]}
         contentStyle={layout.row}
+        onPress={() =>
+          this.props.navigation.push('EpisodeDetailScreen', {
+            tvShowId: item.showId,
+            seasonNumber: item.seasonNumber,
+            episodeNumber: item.episodeNumber,
+          })
+        }
       >
         <TMDBImage
           style={styles.episodeStill}

@@ -18,6 +18,7 @@ import {
   TopRated,
   NetworkDetailScreen,
   SeasonDetailScreen,
+  EpisodeDetailScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
 
@@ -102,6 +103,14 @@ class HomeStack extends React.Component {
         <Stack.Screen
           name='SeasonDetailScreen'
           component={SeasonDetailScreen}
+          options={{
+            title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='EpisodeDetailScreen'
+          component={EpisodeDetailScreen}
           options={{
             title: 'Detail',
           }}
