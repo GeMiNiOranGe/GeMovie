@@ -1,10 +1,15 @@
-import type { PersonElement } from '@shared/types';
+import type {
+    MovieCredits,
+    PersonElement,
+    TPerson,
+    VideoType,
+} from '@shared/types';
 import {
     type PaginationResponseWrapper,
     APIUtils,
     URLBuilder,
 } from '@services';
-import { toPersonElement } from '@shared/utils';
+import { toMovieCredits, toPerson, toPersonElement } from '@shared/utils';
 
 export default class PersonService {
     /**
@@ -22,6 +27,27 @@ export default class PersonService {
         });
         const url = URLBuilder.buildSearchURL('person', params);
         return await APIUtils.fetchPagination(url, toPersonElement);
+    }
+
+    /**
+     * Get the details of a person.
+     * @param id person id
+     */
+    public static async getDetailAsync(id: number): Promise<TPerson> {
+        const url = URLBuilder.buildDetailURL('person', id);
+        return await APIUtils.fetchSingleOne(url, toPerson);
+    }
+
+    /**
+     * @param type `"movie"` | `"tv"`
+     * @param id movie id
+     */
+    public static async getCreditsAsync(
+        type: VideoType,
+        id: number,
+    ): Promise<MovieCredits> {
+        const url = URLBuilder.buildPersonCreditsURL(type, id);
+        return await APIUtils.fetchSingleOne(url, toMovieCredits);
     }
 
     /**

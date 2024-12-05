@@ -5,19 +5,6 @@ import type {
     TvShowElement,
 } from '@shared/types';
 
-export type KnownFor = {
-    id: number;
-    title: string;
-    original_title: string;
-    overview: string;
-    poster_path: string;
-    media_type: string;
-    genre_ids: number[];
-    release_date: string;
-    vote_average: number;
-    vote_count: number;
-};
-
 export type PersonBase = {
     adult: boolean;
     gender: number;
@@ -60,13 +47,12 @@ export type Credits = {
     crew: Crew[];
 };
 
-/*
-export type Person = {
+export type TPerson = {
     adult: boolean;
     alsoKnownAs: string[];
     biography: string;
     birthday: Date;
-    deathday: Optional<null>;
+    deathday: Date;
     gender: number;
     homepage: Optional<string>;
     id: number;
@@ -79,7 +65,6 @@ export type Person = {
     // movieCredits: Omit<MovieCredits, 'id'>;
     // tvCredits: Omit<TvCredits, 'id'>;
 };
-*/
 
 export type MovieCredits = {
     id: number;
@@ -122,9 +107,15 @@ export type Person = {
     imdb_id?: string | null;
 };
 
-export type PersonImage = {
-    file_path: string;
-    width: number;
-    height: number;
-    aspect_ratio: number;
+export type KnownFor = {
+    id: number;
+    title: string;
+    original_title: string;
+    overview: string;
+    poster_path: string;
+    media_type: string;
+    genre_ids: number[];
+    release_date: string;
+    vote_average: number;
+    vote_count: number;
 };

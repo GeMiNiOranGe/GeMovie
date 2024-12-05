@@ -5,13 +5,11 @@ import type {
     FeaturedMovie,
     FeaturedTvShow,
     Images,
-    KnownFor,
     MediaElement,
     Movie,
     MovieElement,
     MultiMediaElement,
     Person,
-    PersonImage,
     PersonElement,
     TvShowElement,
     Reviews,
@@ -21,6 +19,8 @@ import type {
     Network,
     Season,
     Episode,
+    TPerson,
+    MovieCredits,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
@@ -108,11 +108,9 @@ export type CompanyDetailScreenState = {
 };
 
 export type PersonDetailScreenState = {
-    person?: Person | undefined;
-    movies: KnownFor[];
-    personImages?: PersonImage[];
+    person: TPerson | undefined;
+    movieCredits: MovieCredits | undefined;
     isModalVisible: boolean;
-    selectedImage: string | null;
     animations: Animated.Value[];
     introAnim: Animated.Value;
     labelsAnim: Animated.Value;

@@ -134,6 +134,15 @@ export default class URLBuilder {
     }
 
     /**
+     * Build a person credits url
+     * @param type `"movie"` | `"tv"`
+     * @param id person id
+     */
+    public static buildPersonCreditsURL(type: VideoType, id: number): string {
+        return `${TMDB_BASE_URL}/person/${id}/${type}_credits?api_key=${TMDB_API_KEY}`;
+    }
+
+    /**
      * Build a images url
      * @param type `"movie"` | `"tv"`
      * @param id movie id or tv series id
