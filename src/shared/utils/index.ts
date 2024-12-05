@@ -101,7 +101,7 @@ export function getFormattedRuntime(
     return 'Invalid time unit';
 }
 
-export function getFormattedGender(genderNumber: number): string {
+export function getFormattedGender(genderNumber: number | undefined): string {
     if (genderNumber === 1) {
         return 'Female';
     }

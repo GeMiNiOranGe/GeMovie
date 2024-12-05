@@ -1,6 +1,9 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
+import { spacing } from '@shared/constants';
+
 const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
     movieThumbnail: {
         width: width * 0.3,
         height: height * 0.25,
-        borderRadius: 20,
+        borderRadius: 8,
         marginRight: 10,
         marginBottom: 5,
     },
@@ -123,6 +126,9 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 10,
+    },
+    labelBox: {
+        marginBottom: spacing.huge,
     },
 });
 export default styles;

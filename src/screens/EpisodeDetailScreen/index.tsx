@@ -7,7 +7,7 @@ import { Star1 } from 'iconsax-react-native';
 import type {
   Crew,
   EpisodeDetailScreenState,
-  GuestStar,
+  CastBase,
   RootScreenProps,
 } from '@shared/types';
 import {
@@ -54,7 +54,7 @@ class EpisodeDetailScreen extends React.PureComponent<
     this.props.navigation.setOptions({ title: episode.name });
   }
 
-  public renderGuestStarItem({ item, index }: ListRenderItemInfo<GuestStar>) {
+  public renderGuestStarItem({ item, index }: ListRenderItemInfo<CastBase>) {
     const marginRight: number =
       index === (this.state.episode?.guestStars.length || 0) - 1
         ? 0
@@ -187,7 +187,7 @@ class EpisodeDetailScreen extends React.PureComponent<
             <Section title='Crew'>
               <Section.HorizontalList
                 noResultText='No one found.'
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={(item, index) => index.toString()}
                 data={this.state.episode.crew}
                 renderItem={this.renderCrewItem}
               />

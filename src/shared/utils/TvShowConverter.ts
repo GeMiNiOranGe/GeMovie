@@ -14,7 +14,7 @@ import type {
 import {
     toCompanyElement,
     toCrew,
-    toGuestStar,
+    toCastBase,
     toLanguage,
 } from '@shared/utils';
 
@@ -115,7 +115,7 @@ export function toEpisodeElement(val: any): EpisodeElement {
         stillPath: val['still_path'] ?? undefined,
         crew: Array.from(val.crew).map(element => toCrew(element)),
         guestStars: Array.from(val['guest_stars']).map(element =>
-            toGuestStar(element),
+            toCastBase(element),
         ),
     };
 }
@@ -157,7 +157,7 @@ export function toEpisode(val: any): Episode {
         stillPath: val['still_path'] ?? undefined,
         crew: Array.from(val.crew).map(element => toCrew(element)),
         guestStars: Array.from(val['guest_stars']).map(element =>
-            toGuestStar(element),
+            toCastBase(element),
         ),
     };
 }

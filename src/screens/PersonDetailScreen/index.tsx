@@ -1,7 +1,5 @@
-/* eslint-disable prettier/prettier */
 import {
   Animated,
-  FlatList,
   Image,
   Modal,
   ScrollView,
@@ -10,12 +8,20 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  Building,
+  Calendar1,
+  CalendarRemove,
+  Personalcard,
+  IconProps as IconsaxProps,
+} from 'iconsax-react-native';
 
+import { IMDb } from '@assets/icons';
 import {
   LabelProps,
   PersonDetailScreenState,
   RootScreenProps,
-  Variant,
 } from '@shared/types';
 import {
   IMDB_BASE_URL,
@@ -23,25 +29,24 @@ import {
   TMDB_BASE_IMAGE_URL,
   TMDB_BASE_URL,
 } from '@config';
-import { imageSize } from '@shared/constants';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { ExpandableText, Labels, TouchableRippleLink } from '@components';
 import {
-  Building,
-  Calendar1,
-  CalendarRemove,
-  Global,
-  Personalcard,
-} from 'iconsax-react-native';
+  Box,
+  ExpandableText,
+  Labels,
+  Section,
+  TMDBImage,
+  TouchableRippleLink,
+} from '@components';
 import { getFormattedGender } from '@shared/utils';
-import { URLBuilder } from '@services';
-import { IMDb } from '@assets/icons';
+import { imageSize } from '@shared/constants';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
 
-const iconSize = 16;
-const iconColor = 'black';
-const iconVariant: Variant = 'Bold';
+const labelIconsaxProps: IconsaxProps = {
+  size: 16,
+  color: colors.subtext.toString(),
+  variant: 'Bold',
+};
 
 class PersonDetailScreen extends React.Component<
   RootScreenProps<'PersonDetailScreen'>,
@@ -61,31 +66,28 @@ class PersonDetailScreen extends React.Component<
     };
   }
 
-  public override componentDidMount(): void {
+  public override async componentDidMount(): Promise<void> {
     const { personId } = this.props.route.params;
     const url = `${TMDB_BASE_URL}/person/${personId}?api_key=${TMDB_API_KEY}&language=en-US`;
     const movieUrl = `${TMDB_BASE_URL}/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}&language=en-US`;
     const imagesUrl = `${TMDB_BASE_URL}/person/${personId}/images?api_key=${TMDB_API_KEY}`;
-    Promise.all([
+
+    const [celebrityData, movieData, imagesData] = await Promise.all([
       fetch(url).then(response => response.json()),
       fetch(movieUrl).then(response => response.json()),
       fetch(imagesUrl).then(response => response.json()),
-    ])
-      .then(([celebrityData, movieData, imagesData]) => {
-        const animations = movieData.cast.map(() => new Animated.Value(0));
+    ]);
+    const animations = movieData.cast.map(() => new Animated.Value(0));
 
-        this.setState({
-          person: celebrityData,
-          movies: movieData.cast,
-          personImages: imagesData.profiles,
-          animations,
-        },() => {
-          this.runEntranceAnimations();
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    this.setState(
+      {
+        person: celebrityData,
+        movies: movieData.cast,
+        personImages: imagesData.profiles,
+        animations,
+      },
+      this.runEntranceAnimations,
+    );
   }
 
   private openModal(imagePath: string) {
@@ -102,73 +104,41 @@ class PersonDetailScreen extends React.Component<
         {
           value: `${getFormattedGender(this.state.person?.gender)}`,
           name: 'Gender',
-          icon: (
-            <Personalcard
-              size={iconSize}
-              color={iconColor}
-              variant={iconVariant}
-            />
-          ),
+          icon: <Personalcard {...labelIconsaxProps} />,
         },
         {
           value: this.state.person?.birthday || 'N/A',
           name: 'Birthday',
-          icon: (
-            <Calendar1
-              size={iconSize}
-              color={iconColor}
-              variant={iconVariant}
-            />
-          ),
+          icon: <Calendar1 {...labelIconsaxProps} />,
         },
         {
           value: this.state.person?.place_of_birth || 'N/A',
           name: 'Place of Birth',
-          icon: (
-            <Building size={iconSize} color={iconColor} variant={iconVariant} />
-          ),
-        },
-        {
-          value: `${this.state.person?.popularity}`,
-          name: 'Popularity',
-          icon: (
-            <Global size={iconSize} color={iconColor} variant={iconVariant} />
-          ),
+          icon: <Building {...labelIconsaxProps} />,
         },
       ];
     }
+
     return [
+      {
+        value: `${getFormattedGender(this.state.person?.gender)}`,
+        name: 'Gender',
+        icon: <Personalcard {...labelIconsaxProps} />,
+      },
       {
         value: this.state.person?.birthday || 'N/A',
         name: 'Birthday',
-        icon: (
-          <Calendar1 size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
+        icon: <Calendar1 {...labelIconsaxProps} />,
       },
       {
         value: this.state.person?.deathday || 'N/A',
         name: 'Deathday',
-        icon: (
-          <CalendarRemove
-            size={iconSize}
-            color={iconColor}
-            variant={iconVariant}
-          />
-        ),
+        icon: <CalendarRemove {...labelIconsaxProps} />,
       },
       {
         value: this.state.person?.place_of_birth || 'N/A',
         name: 'Place of Birth',
-        icon: (
-          <Building size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
-      },
-      {
-        value: `${this.state.person?.popularity}`,
-        name: 'Popularity',
-        icon: (
-          <Global size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
+        icon: <Building {...labelIconsaxProps} />,
       },
     ];
   }
@@ -185,8 +155,7 @@ class PersonDetailScreen extends React.Component<
       duration: 400,
       useNativeDriver: true,
     });
-
-    const movieAnimations = animations.map((anim, index) =>
+    const movieAnimations = animations.map(anim =>
       Animated.timing(anim, {
         toValue: 1,
         duration: 400,
@@ -202,8 +171,7 @@ class PersonDetailScreen extends React.Component<
   }
 
   public override render(): React.JSX.Element {
-    const { person, isModalVisible, selectedImage } =
-      this.state;
+    const { person, isModalVisible, selectedImage } = this.state;
     return (
       <ScrollView style={styles.container}>
         <View style={styles.header} />
@@ -228,7 +196,6 @@ class PersonDetailScreen extends React.Component<
           </View>
         </Modal>
 
-        {/* <View style={styles.overlay} /> */}
         <View style={styles.body}>
           <View style={styles.containerProfile}>
             <View>
@@ -240,12 +207,11 @@ class PersonDetailScreen extends React.Component<
                     )
                   }
                 >
-                  <Image
+                  <TMDBImage
                     style={styles.backdropImage}
                     resizeMode='contain'
-                    source={{
-                      uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${person?.profile_path}`,
-                    }}
+                    size='w300'
+                    path={person?.profile_path}
                   />
                 </TouchableOpacity>
               ) : (
@@ -260,35 +226,42 @@ class PersonDetailScreen extends React.Component<
               )}
             </View>
             <Text style={styles.profileName}>{this.state.person?.name}</Text>
+
             <Text style={styles.departmentText}>
               {this.state.person?.known_for_department}
             </Text>
+
             {this.state.person?.imdb_id && (
               <TouchableRippleLink
-                url={`${IMDB_BASE_URL}/title/${this.state.person?.imdb_id}`}
+                url={`${IMDB_BASE_URL}/name/${this.state.person?.imdb_id}`}
                 style={[layout.center]}
               >
                 <IMDb color={colors.text.toString()} />
               </TouchableRippleLink>
             )}
+
             <Animated.View
-              style={{
-                opacity: this.state.labelsAnim,
-                transform: [
-                  {
-                    translateY: this.state.labelsAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [50, 0],
-                    }),
-                  },
-                ],
-              }}
+              style={[
+                {
+                  opacity: this.state.labelsAnim,
+                  transform: [
+                    {
+                      translateY: this.state.labelsAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [50, 0],
+                      }),
+                    },
+                  ],
+                },
+                styles.labelBox,
+              ]}
             >
               <View style={styles.titleBody}>
                 <Labels data={this.getLabels()} />
               </View>
             </Animated.View>
           </View>
+
           <Animated.View
             style={{
               opacity: this.state.introAnim,
@@ -302,41 +275,37 @@ class PersonDetailScreen extends React.Component<
               ],
             }}
           >
-            <Text style={styles.biographyText}>Introduction</Text>
-            <ExpandableText>
-              {`${this.state.person?.biography}`}
-            </ExpandableText>
+            <Box title='Biography'>
+              <ExpandableText seeButtonPosition='separate'>
+                {`${this.state.person?.biography}`}
+              </ExpandableText>
+            </Box>
 
-            <Text style={styles.biographyText}>Most Popular Movies</Text>
-            <View style={styles.containerMovie}>
-              <FlatList
+            <Section.Separator />
+
+            <Section title='Known For Movies'>
+              <Section.HorizontalList
                 data={this.state.movies}
-                horizontal
-                showsHorizontalScrollIndicator={false}
                 keyExtractor={item => item.id.toString()}
-                renderItem={({ item: movie }) => {
-                  const imageUrl = URLBuilder.buildImageURL(
-                    'w185',
-                    movie.poster_path,
-                  );
+                renderItem={({ item }) => {
                   return (
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.push('MovieDetailScreen', {
-                          movieId: movie.id,
+                          movieId: item.id,
                         })
                       }
                     >
-                      <Image
-                        source={{ uri: imageUrl }}
+                      <TMDBImage
                         style={styles.movieThumbnail}
+                        size='w185'
+                        path={item.poster_path}
                       />
                     </TouchableOpacity>
                   );
                 }}
-                nestedScrollEnabled
               />
-            </View>
+            </Section>
           </Animated.View>
         </View>
       </ScrollView>

@@ -1,6 +1,6 @@
 import {
     Crew,
-    GuestStar,
+    CastBase,
     Keyword,
     Optional,
     VideoBase,
@@ -60,7 +60,7 @@ export type EpisodeElement = {
     showId: number;
     stillPath: Optional<string>;
     crew: Crew[];
-    guestStars: GuestStar[];
+    guestStars: CastBase[];
 };
 
 export type EpisodeToAir = Omit<EpisodeElement, 'crew' | 'guestStars'>;

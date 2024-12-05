@@ -1,4 +1,9 @@
-import type { MediaElement, Optional } from '@shared/types';
+import type {
+    MediaElement,
+    MovieElement,
+    Optional,
+    TvShowElement,
+} from '@shared/types';
 
 export type KnownFor = {
     id: number;
@@ -40,12 +45,12 @@ export type Crew = CreditElement & {
     job: string;
 };
 
-export type GuestStar = CreditElement & {
+export type CastBase = CreditElement & {
     character: string;
     order: number;
 };
 
-export type Cast = GuestStar & {
+export type Cast = CastBase & {
     castId: number;
 };
 
@@ -61,18 +66,45 @@ export type Person = {
     alsoKnownAs: string[];
     biography: string;
     birthday: Date;
-    deathday: null;
+    deathday: Optional<null>;
     gender: number;
-    homepage: string;
+    homepage: Optional<string>;
     id: number;
-    imdbId: string;
+    imdbId: Optional<string>;
     knownForDepartment: string;
     name: string;
     placeOfBirth: string;
     popularity: number;
     profilePath: string;
+    // movieCredits: Omit<MovieCredits, 'id'>;
+    // tvCredits: Omit<TvCredits, 'id'>;
 };
 */
+
+export type MovieCredits = {
+    id: number;
+    cast: MovieCreditsCast[];
+    crew: MovieCreditsCrew[];
+};
+
+export type MovieCreditsCast = MovieElement &
+    Omit<CastBase, keyof PersonElementBase>;
+
+export type MovieCreditsCrew = MovieElement &
+    Omit<Crew, keyof PersonElementBase>;
+
+export type TvCredits = {
+    id: number;
+    cast: TvCreditsCast[];
+    crew: TvCreditsCrew[];
+};
+
+export type TvCreditsCast = TvShowElement &
+    Omit<CastBase, keyof PersonElementBase> & {
+        episodeCount: number;
+    };
+
+export type TvCreditsCrew = TvShowElement & Omit<Crew, keyof PersonElementBase>;
 
 export type Person = {
     id: number;

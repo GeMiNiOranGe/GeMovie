@@ -95,9 +95,11 @@ class TvShowDetailScreen extends React.Component<
 
     const tvShow = await TvShowService.getDetailAsync(tvShowId);
 
-    this.setState({ tvShow });
     this.props.navigation.setOptions({ title: tvShow.name });
+    this.setState({ tvShow }, this.initializeAnimation);
+  }
 
+  private initializeAnimation() {
     this.state.animatedTranslateYImage.setValue(30);
 
     Animated.parallel([

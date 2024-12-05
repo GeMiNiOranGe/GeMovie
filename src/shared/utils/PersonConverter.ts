@@ -2,7 +2,7 @@ import type {
     Cast,
     Credits,
     Crew,
-    GuestStar,
+    CastBase,
     PersonElement,
     PersonElementBase,
 } from '@shared/types';
@@ -78,7 +78,7 @@ export function toCrew(val: any): Crew {
     };
 }
 
-export function toGuestStar(val: any): GuestStar {
+export function toCastBase(val: any): CastBase {
     return {
         adult: val.adult,
         gender: val.gender,
