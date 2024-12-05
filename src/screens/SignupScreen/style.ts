@@ -125,6 +125,11 @@ const styles = StyleSheet.create({
     errorTextError: {
         color: 'red',
     },
+    errorMessage: {
+        color: 'red',
+        fontWeight: 'bold',
+        fontSize: 13,
+    },
 });
 
 export default styles;

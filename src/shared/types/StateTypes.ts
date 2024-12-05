@@ -127,8 +127,19 @@ export type TrendScreenState = {
 };
 
 export type LoginScreenState = {
+    username: string;
+    email: string;
+    password: string;
     secureEntery: boolean;
     isLoading: boolean;
+    errors: {
+        email: boolean;
+        password: boolean;
+    };
+    errorMessages: {
+        email: string;
+        password: string;
+    };
 };
 
 export type SignupScreenState = {
@@ -150,6 +161,12 @@ export type SignupScreenState = {
         email: boolean;
         password: boolean;
     };
+    errorMessages: {
+        username: string;
+        email: string;
+        password: string;
+    };
+    emailErrorMessage: string;
 };
 
 export type ResetPasswordScreenState = {

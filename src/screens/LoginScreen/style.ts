@@ -102,6 +102,11 @@ const styles = StyleSheet.create({
         fontSize: width * 0.035,
         fontWeight: '700',
     },
+    errorMessage: {
+        color: 'red',
+        fontWeight: 'bold',
+        fontSize: 13,
+    },
 });
 
 export default styles;

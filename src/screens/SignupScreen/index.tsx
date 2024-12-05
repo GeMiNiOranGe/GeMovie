@@ -12,15 +12,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '@shared/themes';
 import { Google } from 'iconsax-react-native';
 import { RootScreenProps, SignupScreenState } from '@shared/types';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+} from 'firebase/auth';
 import styles from './style';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { firebaseapp } from 'firebase.config';
 
 class SignupScreen extends React.Component<
   RootScreenProps<'SignupScreen'>,
   SignupScreenState
 > {
-  private usernameInputRef: React.RefObject<TextInput>;
-  private emailInputRef: React.RefObject<TextInput>;
-  private passwordInputRef: React.RefObject<TextInput>;
   public constructor(props: RootScreenProps<'SignupScreen'>) {
     super(props);
     this.state = {
@@ -42,10 +46,13 @@ class SignupScreen extends React.Component<
         email: false,
         password: false,
       },
+      errorMessages: {
+        username: '',
+        email: '',
+        password: '',
+      },
+      emailErrorMessage: '',
     };
-    this.usernameInputRef = React.createRef<TextInput>();
-    this.emailInputRef = React.createRef<TextInput>();
-    this.passwordInputRef = React.createRef<TextInput>();
   }
 
   private togglePasswordVisibility = () => {
@@ -85,31 +92,74 @@ class SignupScreen extends React.Component<
     });
   };
 
-  private handleSignup = () => {
-    const { username, email, password, errors } = this.state;
+  private handleSignup = async () => {
+    const { username, email, password, errors, errorMessages } = this.state;
+    const auth = getAuth(firebaseapp);
+    const firestore = getFirestore(firebaseapp);
+
     let updatedErrors = { ...errors };
+    let updatedErrorMessages = { ...errorMessages };
 
     if (username.trim() === '') {
       updatedErrors.username = true;
+      updatedErrorMessages.username = 'Username is required';
     }
     if (email.trim() === '') {
       updatedErrors.email = true;
+      updatedErrorMessages.email = 'Email is required';
     }
     if (password.trim() === '') {
       updatedErrors.password = true;
+      updatedErrorMessages.password = 'Password is required';
     }
 
-    this.setState({ errors: updatedErrors });
+    this.setState(
+      { errors: updatedErrors, errorMessages: updatedErrorMessages },
+      async () => {
+        if (
+          !updatedErrors.username &&
+          !updatedErrors.email &&
+          !updatedErrors.password
+        ) {
+          try {
+            const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+            if (signInMethods.length > 0) {
+              this.setState({
+                emailErrorMessage: 'Email is already in use',
+                errors: {
+                  ...this.state.errors,
+                  email: true,
+                },
+                errorMessages: {
+                  ...this.state.errorMessages,
+                  email: 'Email is already in use',
+                },
+              });
+              return;
+            }
 
-    if (updatedErrors.username) {
-      this.usernameInputRef.current?.focus();
-    } else if (updatedErrors.email) {
-      this.emailInputRef.current?.focus();
-    } else if (updatedErrors.password) {
-      this.passwordInputRef.current?.focus();
-    } else {
-      this.props.navigation.navigate('LoginScreen');
-    }
+            const userCredential = await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password,
+            );
+
+            const uid = userCredential.user.uid;
+
+            await setDoc(doc(firestore, 'users', uid), {
+              username,
+              email,
+              password,
+              createdAt: new Date().toISOString(),
+            });
+
+            this.props.navigation.navigate('LoginScreen');
+          } catch (error: any) {
+            console.error('Registration failed:', error.message);
+          }
+        }
+      },
+    );
   };
 
   public override render() {
@@ -141,48 +191,44 @@ class SignupScreen extends React.Component<
               color={colors.secondary}
             />
             <TextInput
-              style={[
-                styles.textInput,
-                this.state.errors.username && {
-                  borderColor: 'red',
-                  borderWidth: 1.5,
-                },
-              ]}
+              style={[styles.textInput]}
               placeholder='Enter your Username'
               placeholderTextColor={colors.secondary}
-              ref={this.usernameInputRef}
               onChangeText={text =>
                 this.setState({
                   username: text,
                   errors: { ...this.state.errors, username: false },
+                  errorMessages: { ...this.state.errorMessages, username: '' },
                 })
               }
             />
           </View>
-
+          {this.state.errors.username && (
+            <Text style={styles.errorMessage}>
+              {this.state.errorMessages.username}
+            </Text>
+          )}
           <View style={styles.inputContainer}>
             <Ionicons name='mail-outline' size={30} color={colors.secondary} />
             <TextInput
-              style={[
-                styles.textInput,
-                this.state.errors.email && {
-                  borderColor: 'red',
-                  borderWidth: 1.5,
-                },
-              ]}
+              style={[styles.textInput]}
               placeholder='Enter your Email'
               placeholderTextColor={colors.secondary}
               keyboardType='email-address'
-              ref={this.emailInputRef}
               onChangeText={text =>
                 this.setState({
                   email: text,
                   errors: { ...this.state.errors, email: false },
+                  errorMessages: { ...this.state.errorMessages, email: '' },
                 })
               }
             />
           </View>
-
+          {this.state.errors.email && (
+            <Text style={styles.errorMessage}>
+              {this.state.errorMessages.email}
+            </Text>
+          )}
           <View style={styles.inputContainer}>
             <Ionicons
               name='lock-closed-outline'
@@ -190,22 +236,19 @@ class SignupScreen extends React.Component<
               color={colors.secondary}
             />
             <TextInput
-              style={[
-                styles.textInput,
-                this.state.errors.password && {
-                  borderColor: 'red',
-                  borderWidth: 1.5,
-                },
-              ]}
+              style={[styles.textInput]}
               placeholder='Enter your password'
               placeholderTextColor={colors.secondary}
               secureTextEntry={secureEntery}
-              ref={this.passwordInputRef}
               onChangeText={text => {
                 this.handlePasswordChange(text);
                 if (text.trim() !== '') {
                   this.setState(prevState => ({
                     errors: { ...prevState.errors, password: false },
+                    errorMessages: {
+                      ...this.state.errorMessages,
+                      password: '',
+                    },
                   }));
                 }
               }}
@@ -218,6 +261,11 @@ class SignupScreen extends React.Component<
               />
             </TouchableOpacity>
           </View>
+          {this.state.errors.password && (
+            <Text style={styles.errorMessage}>
+              {this.state.errorMessages.password}
+            </Text>
+          )}
           {showPasswordErrors && (
             <View style={styles.errorListContainer}>
               <Text
@@ -269,7 +317,11 @@ class SignupScreen extends React.Component<
           >
             <Text style={styles.loginText}>Sign up</Text>
           </TouchableOpacity>
-
+          {this.state.emailErrorMessage !== '' && (
+            <Text style={styles.errorMessage}>
+              {this.state.emailErrorMessage}
+            </Text>
+          )}
           <Text style={styles.continueText}>or continue with</Text>
 
           <TouchableOpacity style={styles.googleButtonContainer}>
