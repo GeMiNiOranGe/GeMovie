@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import React from 'react';
 import {
-  Building,
   Calendar2,
   CalendarRemove,
   Personalcard,
   IconProps as IconsaxProps,
   Cake,
+  Global,
 } from 'iconsax-react-native';
 
 import { IMDb } from '@assets/icons';
@@ -99,40 +99,7 @@ class PersonDetailScreen extends React.Component<
   }
 
   private getLabels(): LabelProps[] {
-    if (!isValidDate(this.state.person?.deathday)) {
-      return [
-        {
-          value: getFormattedGender(this.state.person?.gender),
-          name: 'Gender',
-          icon: <Personalcard {...labelIconsaxProps} />,
-        },
-        {
-          value: getFormattedAge(
-            this.state.person?.birthday,
-            this.state.person?.deathday,
-          ),
-          name: 'Age',
-          icon: <Cake {...labelIconsaxProps} />,
-        },
-        {
-          value: getFormattedDate(this.state.person?.birthday),
-          name: 'Born',
-          icon: <Calendar2 {...labelIconsaxProps} />,
-        },
-        {
-          value: this.state.person?.placeOfBirth || '-',
-          name: 'Place of Birth',
-          icon: <Building {...labelIconsaxProps} />,
-        },
-      ];
-    }
-
-    return [
-      {
-        value: getFormattedGender(this.state.person?.gender),
-        name: 'Gender',
-        icon: <Personalcard {...labelIconsaxProps} />,
-      },
+    const labels: LabelProps[] = [
       {
         value: getFormattedAge(
           this.state.person?.birthday,
@@ -142,21 +109,26 @@ class PersonDetailScreen extends React.Component<
         icon: <Cake {...labelIconsaxProps} />,
       },
       {
+        value: getFormattedGender(this.state.person?.gender),
+        name: 'Gender',
+        icon: <Personalcard {...labelIconsaxProps} />,
+      },
+      {
         value: getFormattedDate(this.state.person?.birthday),
         name: 'Born',
         icon: <Calendar2 {...labelIconsaxProps} />,
       },
-      {
+    ];
+
+    if (isValidDate(this.state.person?.deathday)) {
+      labels.push({
         value: getFormattedDate(this.state.person?.deathday),
         name: 'Died',
         icon: <CalendarRemove {...labelIconsaxProps} />,
-      },
-      {
-        value: this.state.person?.placeOfBirth || '-',
-        name: 'Place of Birth',
-        icon: <Building {...labelIconsaxProps} />,
-      },
-    ];
+      });
+    }
+
+    return labels;
   }
 
   private runEntranceAnimations() {
@@ -211,32 +183,9 @@ class PersonDetailScreen extends React.Component<
 
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
-        <Modal
-          visible={this.state.isModalVisible}
-          transparent={true}
-          animationType='fade'
-          onRequestClose={() => this.closeModal()}
-        >
-          <View style={styles.modalBackground}>
-            <TouchableOpacity
-              style={styles.modalContainer}
-              onPress={() => this.closeModal()}
-            >
-              <TMDBImage
-                style={styles.modalImage}
-                size='original'
-                path={this.state.person?.profilePath}
-              />
-            </TouchableOpacity>
-          </View>
-        </Modal>
-
         <ScrollView>
-          <View style={styles.containerProfile}>
-            <TouchableOpacity
-              style={layout.itemsCenter}
-              onPress={() => this.openModal()}
-            >
+          <View style={[layout.itemsCenter, styles.profileBox]}>
+            <TouchableOpacity onPress={() => this.openModal()}>
               <TMDBImage
                 style={styles.profile}
                 resizeMode='contain'
@@ -244,41 +193,29 @@ class PersonDetailScreen extends React.Component<
                 path={this.state.person?.profilePath}
               />
             </TouchableOpacity>
-
-            <Text style={styles.name}>{this.state.person?.name}</Text>
-
-            <View style={[layout.center, layout.row, styles.actionArea]}>
-              {this.state.person?.imdbId && (
-                <TouchableRippleLink
-                  style={styles.imdbLink}
-                  url={`${IMDB_BASE_URL}/name/${this.state.person?.imdbId}`}
-                  rippleColor={colors.accent.light}
-                >
-                  <IMDb color={colors.primary.toString()} />
-                </TouchableRippleLink>
-              )}
-            </View>
-
-            <Animated.View
-              style={[
-                {
-                  opacity: this.state.labelsAnim,
-                  transform: [
-                    {
-                      translateY: this.state.labelsAnim.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [50, 0],
-                      }),
-                    },
-                  ],
-                },
-                layout.itemsCenter,
-                styles.labelBox,
-              ]}
-            >
-              <Labels data={this.getLabels()} />
-            </Animated.View>
           </View>
+
+          <Text style={styles.name}>{this.state.person?.name}</Text>
+
+          <Animated.View
+            style={[
+              {
+                opacity: this.state.labelsAnim,
+                transform: [
+                  {
+                    translateY: this.state.labelsAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [50, 0],
+                    }),
+                  },
+                ],
+              },
+              layout.itemsCenter,
+              styles.labelBox,
+            ]}
+          >
+            <Labels data={this.getLabels()} />
+          </Animated.View>
 
           <Animated.View
             style={{
@@ -298,6 +235,32 @@ class PersonDetailScreen extends React.Component<
                 {`${this.state.person?.biography}`}
               </ExpandableText>
             </Box>
+
+            {(this.state.person?.imdbId || this.state.person?.homepage) && (
+              <Box contentContainerStyle={layout.row} title='External link'>
+                {this.state.person?.homepage && (
+                  <TouchableRippleLink
+                    style={styles.homepageLink}
+                    url={`${this.state.person?.homepage}`}
+                  >
+                    <View style={[layout.row, layout.itemsCenter]}>
+                      <Global color={colors.text.toString()} />
+
+                      <Text style={styles.homepageText}>Homepage</Text>
+                    </View>
+                  </TouchableRippleLink>
+                )}
+
+                {this.state.person?.imdbId && (
+                  <TouchableRippleLink
+                    style={styles.imdbLink}
+                    url={`${IMDB_BASE_URL}/name/${this.state.person?.imdbId}`}
+                  >
+                    <IMDb color={colors.text.toString()} />
+                  </TouchableRippleLink>
+                )}
+              </Box>
+            )}
 
             <Section.Separator />
 
@@ -365,6 +328,26 @@ class PersonDetailScreen extends React.Component<
             </Section>
           </Animated.View>
         </ScrollView>
+
+        <Modal
+          visible={this.state.isModalVisible}
+          transparent={true}
+          animationType='fade'
+          onRequestClose={() => this.closeModal()}
+        >
+          <View style={styles.modalBackground}>
+            <TouchableOpacity
+              style={styles.modalContainer}
+              onPress={() => this.closeModal()}
+            >
+              <TMDBImage
+                style={styles.modalImage}
+                size='original'
+                path={this.state.person?.profilePath}
+              />
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </SafeAreaView>
     );
   }

@@ -2,33 +2,27 @@ import { StyleSheet } from 'react-native';
 
 import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
+import { calculateImageDimensions } from '@shared/utils';
+
+const profileDimension = calculateImageDimensions(120, 2, 3);
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-    },
-    header: {
-        width: '100%',
-        height: '33%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-    },
-    containerProfile: {
-        flex: 1,
     },
     name: {
         fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
         textAlign: 'center',
-        marginBottom: 32,
+        marginBottom: spacing.huge,
+    },
+    profileBox: {
+        marginVertical: spacing.large,
     },
     profile: {
-        width: 120,
-        height: 120,
-        borderRadius: 1000,
-        backgroundColor: 'lightgray',
+        ...profileDimension,
+        borderRadius: 8,
     },
     text: {
         fontSize: 15,
@@ -49,11 +43,19 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 10,
     },
-    actionArea: {
-        marginBottom: spacing.large,
+    homepageLink: {
+        borderWidth: 1,
+        borderColor: colors.neutral,
+        marginRight: spacing.small,
+    },
+    homepageText: {
+        fontSize: 14,
+        color: colors.text,
+        marginHorizontal: spacing.small,
     },
     imdbLink: {
-        backgroundColor: colors.accent.dark,
+        borderWidth: 1,
+        borderColor: colors.neutral,
     },
     labelBox: {
         marginBottom: spacing.huge,

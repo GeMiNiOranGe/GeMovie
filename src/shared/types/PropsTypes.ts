@@ -139,6 +139,7 @@ export type ExpandableTextProps = {
 
 export type BoxProps = {
     style?: StyleProp<ViewStyle> | undefined;
+    contentContainerStyle?: StyleProp<ViewStyle> | undefined;
     title: string;
     children?: React.ReactNode | undefined;
 };
