@@ -78,7 +78,7 @@ export type MovieCreditsCast = MovieElement &
 export type MovieCreditsCrew = MovieElement &
     Omit<Crew, keyof PersonElementBase>;
 
-export type TvCredits = {
+export type TvShowCredits = {
     id: number;
     cast: TvCreditsCast[];
     crew: TvCreditsCrew[];

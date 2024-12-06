@@ -1,4 +1,4 @@
-import type { ElementConvertFn, TimeWindow, TrendingType } from '@shared/types';
+import type { ConvertFn, TimeWindow, TrendingType } from '@shared/types';
 import {
     APIUtils,
     type PaginationResponseWrapper,
@@ -14,7 +14,7 @@ export default class MediaService {
     public static async getTrendingAsync<E>(
         type: TrendingType,
         timeWindow: TimeWindow,
-        elementConvertFn: ElementConvertFn<E>,
+        elementConvertFn: ConvertFn<E>,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<E>> {
         const params = new URLSearchParams({

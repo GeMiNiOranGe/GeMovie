@@ -109,9 +109,7 @@ export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 // TODO: add `null` if needed
 export type Optional<T> = T | undefined;
 
-export type ElementConvertFn<E> = (val: any) => E;
-
-export type TransformFn<T> = (val: any) => T;
+export type ConvertFn<T> = (val: any) => T;
 
 export type PropsComponent =
     | React.ComponentType<any>

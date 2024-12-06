@@ -1,10 +1,6 @@
 import { APIHandler, PaginationResponseWrapper } from '@services';
 import { toPaginationResponse } from '@shared/utils';
-import type {
-    ElementConvertFn,
-    PaginationResponse,
-    TransformFn,
-} from '@shared/types';
+import type { ConvertFn, PaginationResponse } from '@shared/types';
 
 export default class APIUtils {
     /**
@@ -14,7 +10,7 @@ export default class APIUtils {
      */
     public static async fetchPagination<E>(
         url: string,
-        elementConvertFn: ElementConvertFn<E>,
+        elementConvertFn: ConvertFn<E>,
     ): Promise<PaginationResponseWrapper<E>> {
         const json: any = await APIHandler.fetchJSON(url);
         const response: PaginationResponse<E> = toPaginationResponse(json);
@@ -28,7 +24,7 @@ export default class APIUtils {
      */
     public static async fetchSingleOne<T>(
         url: string,
-        transformFn: TransformFn<T>,
+        transformFn: ConvertFn<T>,
     ): Promise<T> {
         const json: any = await APIHandler.fetchJSON(url);
         return transformFn(json);

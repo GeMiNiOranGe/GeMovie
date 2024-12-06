@@ -4,7 +4,7 @@ import {
     URLBuilder,
 } from '@services';
 import type {
-    ElementConvertFn,
+    ConvertFn,
     SortBy,
     TvShowElement,
     VideoType,
@@ -21,7 +21,7 @@ export default class VideoDiscoveryService {
     public static async getVideoByCompanyAsync<T>(
         type: VideoType,
         companyIds: string,
-        elementConvertFn: ElementConvertFn<T>,
+        elementConvertFn: ConvertFn<T>,
         sortBy: SortBy = 'popularity.desc',
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
@@ -44,7 +44,7 @@ export default class VideoDiscoveryService {
     public static async getVideoByGenreAsync<T>(
         type: VideoType,
         genreIds: string,
-        elementConvertFn: ElementConvertFn<T>,
+        elementConvertFn: ConvertFn<T>,
         sortBy: SortBy = 'popularity.desc',
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
