@@ -24,6 +24,10 @@ import {
 } from '@shared/utils';
 import { toPersonElementBase } from './PersonConverter';
 
+export function isValidDate(date: Date | undefined): boolean {
+    return date instanceof Date && !isNaN(date.getTime());
+}
+
 export function addDays(date: Date, numberOfdays: number): Date {
     var result = new Date(date);
     result.setDate(result.getDate() + numberOfdays);
@@ -45,6 +49,22 @@ export function getISODateRangeFromToday(
     const currentDate = new Date();
     const nextDate = addDays(currentDate, daysFromToday);
     return [getISODate(currentDate), getISODate(nextDate)];
+}
+
+export function getFormattedAge(
+    birthday: Date | undefined,
+    deathday: Date | undefined,
+): string {
+    if (!birthday || !deathday) {
+        return '-';
+    }
+
+    if (isValidDate(deathday)) {
+        return `${deathday.getFullYear() - birthday.getFullYear()}`;
+    }
+
+    const currentDate = new Date();
+    return `${currentDate.getFullYear() - birthday.getFullYear()}`;
 }
 
 export function getFormattedDate(date?: Date): string {

@@ -10,10 +10,11 @@ import {
 import React from 'react';
 import {
   Building,
-  Calendar1,
+  Calendar2,
   CalendarRemove,
   Personalcard,
   IconProps as IconsaxProps,
+  Cake,
 } from 'iconsax-react-native';
 
 import { IMDb } from '@assets/icons';
@@ -34,10 +35,16 @@ import {
   TMDBImage,
   TouchableRippleLink,
 } from '@components';
-import { getFormattedDate, getFormattedGender } from '@shared/utils';
+import {
+  getFormattedAge,
+  getFormattedDate,
+  getFormattedGender,
+  isValidDate,
+} from '@shared/utils';
 import { PersonService } from '@services';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const labelIconsaxProps: IconsaxProps = {
   size: 16,
@@ -92,7 +99,7 @@ class PersonDetailScreen extends React.Component<
   }
 
   private getLabels(): LabelProps[] {
-    if (this.state.person?.deathday) {
+    if (!isValidDate(this.state.person?.deathday)) {
       return [
         {
           value: getFormattedGender(this.state.person?.gender),
@@ -100,9 +107,17 @@ class PersonDetailScreen extends React.Component<
           icon: <Personalcard {...labelIconsaxProps} />,
         },
         {
+          value: getFormattedAge(
+            this.state.person?.birthday,
+            this.state.person?.deathday,
+          ),
+          name: 'Age',
+          icon: <Cake {...labelIconsaxProps} />,
+        },
+        {
           value: getFormattedDate(this.state.person?.birthday),
-          name: 'Birthday',
-          icon: <Calendar1 {...labelIconsaxProps} />,
+          name: 'Born',
+          icon: <Calendar2 {...labelIconsaxProps} />,
         },
         {
           value: this.state.person?.placeOfBirth || '-',
@@ -119,13 +134,21 @@ class PersonDetailScreen extends React.Component<
         icon: <Personalcard {...labelIconsaxProps} />,
       },
       {
+        value: getFormattedAge(
+          this.state.person?.birthday,
+          this.state.person?.deathday,
+        ),
+        name: 'Age',
+        icon: <Cake {...labelIconsaxProps} />,
+      },
+      {
         value: getFormattedDate(this.state.person?.birthday),
-        name: 'Birthday',
-        icon: <Calendar1 {...labelIconsaxProps} />,
+        name: 'Born',
+        icon: <Calendar2 {...labelIconsaxProps} />,
       },
       {
         value: getFormattedDate(this.state.person?.deathday),
-        name: 'Deathday',
+        name: 'Died',
         icon: <CalendarRemove {...labelIconsaxProps} />,
       },
       {
@@ -187,8 +210,7 @@ class PersonDetailScreen extends React.Component<
     }
 
     return (
-      <ScrollView style={[layout.flex1, styles.container]}>
-        <View style={styles.header} />
+      <SafeAreaView style={[layout.flex1, styles.container]}>
         <Modal
           visible={this.state.isModalVisible}
           transparent={true}
@@ -209,22 +231,21 @@ class PersonDetailScreen extends React.Component<
           </View>
         </Modal>
 
-        <View style={styles.body}>
+        <ScrollView>
           <View style={styles.containerProfile}>
-            <TouchableOpacity onPress={() => this.openModal()}>
+            <TouchableOpacity
+              style={layout.itemsCenter}
+              onPress={() => this.openModal()}
+            >
               <TMDBImage
-                style={styles.backdropImage}
+                style={styles.profile}
                 resizeMode='contain'
                 size='w300'
                 path={this.state.person?.profilePath}
               />
             </TouchableOpacity>
 
-            <Text style={styles.profileName}>{this.state.person?.name}</Text>
-
-            <Text style={styles.departmentText}>
-              {this.state.person?.knownForDepartment}
-            </Text>
+            <Text style={styles.name}>{this.state.person?.name}</Text>
 
             <View style={[layout.center, layout.row, styles.actionArea]}>
               {this.state.person?.imdbId && (
@@ -287,9 +308,64 @@ class PersonDetailScreen extends React.Component<
                 renderItem={this.renderMovieCreditsCast}
               />
             </Section>
+
+            <Section.Separator />
+
+            <Section title='Details'>
+              <Section.Content>
+                <Section.Label
+                  name='Known For'
+                  value={this.state.person.knownForDepartment}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Gender'
+                  value={getFormattedGender(this.state.person.gender)}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Born'
+                  value={getFormattedDate(this.state.person.birthday)}
+                />
+
+                {isValidDate(this.state.person.deathday) && (
+                  <>
+                    <Section.Divider />
+
+                    <Section.Label
+                      name='Died'
+                      value={`${getFormattedDate(
+                        this.state.person.deathday,
+                      )} (${getFormattedAge(
+                        this.state.person?.birthday,
+                        this.state.person?.deathday,
+                      )})`}
+                    />
+                  </>
+                )}
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Place of Birth'
+                  value={this.state.person.placeOfBirth}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Also Known As'
+                  value={this.state.person.alsoKnownAs.join('\n')}
+                />
+              </Section.Content>
+            </Section>
           </Animated.View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
