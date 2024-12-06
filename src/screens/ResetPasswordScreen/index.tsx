@@ -23,8 +23,9 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { db } from 'firebase.config';
+import { auth, db } from 'firebase.config';
 import styles from './style';
+import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth';
 
 class ResetPasswordScreen extends React.Component<
   RootScreenProps<'ResetPasswordScreen'>,
@@ -72,6 +73,11 @@ class ResetPasswordScreen extends React.Component<
         const userDocId = querySnapshot.docs[0].id;
         const userRef = doc(db, 'users', userDocId);
         await updateDoc(userRef, { password });
+        const user = auth.currentUser;
+        if (user) {
+          await updatePassword(user, password);
+          await signInWithEmailAndPassword(auth, email, password);
+        }
         this.props.navigation.navigate('LoginScreen');
       } else {
         this.setState({ resetError: 'User not found' });
