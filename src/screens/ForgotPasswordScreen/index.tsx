@@ -15,35 +15,51 @@ import React from 'react';
 import { colors } from '@shared/themes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ForgotPasswordScreenState, RootScreenProps } from '@shared/types';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from 'firebase.config';
 import styles from './style';
 
-export class ForgotPassword extends React.Component<
+class ForgotPassword extends React.Component<
   RootScreenProps<'ForgotPasswordScreen'>,
   ForgotPasswordScreenState
 > {
   public constructor(props: RootScreenProps<'ForgotPasswordScreen'>) {
     super(props);
     this.state = {
-      username: '',
-      usernameErrors: false,
+      email: '',
+      emailErrors: false,
     };
   }
   private handleGoBack = () => {
     this.props.navigation.goBack();
   };
 
-  private handleReset = () => {
-    const { username } = this.state;
-    if (username.trim() === '') {
-      this.setState({ usernameErrors: true });
+  private handleReset = async () => {
+    const { email } = this.state;
+    if (email.trim() === '') {
+      this.setState({ emailErrors: true });
     } else {
-      this.setState({ usernameErrors: false });
-      this.props.navigation.navigate('ResetPasswordScreen');
+      try {
+        const queryEmail = query(
+          collection(db, 'users'),
+          where('email', '==', email.trim()),
+        );
+        const getEmail = await getDocs(queryEmail);
+        if (!getEmail.empty) {
+          this.setState({ emailErrors: false });
+          this.props.navigation.navigate('ResetPasswordScreen', { email });
+        } else {
+          this.setState({ emailErrors: true });
+        }
+      } catch (error) {
+        console.error('Error querying Firestore:', error);
+        this.setState({ emailErrors: true });
+      }
     }
   };
 
   public override render() {
-    const { usernameErrors } = this.state;
+    const { emailErrors } = this.state;
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView
@@ -70,23 +86,24 @@ export class ForgotPassword extends React.Component<
                 <Text style={styles.forgotText}>Forgot Password</Text>
                 <View style={styles.inputContainer}>
                   <Ionicons
-                    name='person-outline'
+                    name='mail-outline'
                     size={30}
                     color={colors.secondary}
                   />
                   <TextInput
                     style={styles.textInput}
-                    placeholder='Enter your Username'
+                    placeholder='Enter your Email'
                     placeholderTextColor={colors.secondary}
+                    keyboardType='email-address'
                     onChangeText={text =>
                       this.setState({
-                        username: text,
-                        usernameErrors: text.trim() === '',
+                        email: text,
+                        emailErrors: text.trim() === '',
                       })
                     }
                   />
                 </View>
-                {usernameErrors && (
+                {emailErrors && (
                   <Text style={styles.errorText}>Please input Username</Text>
                 )}
                 <TouchableOpacity

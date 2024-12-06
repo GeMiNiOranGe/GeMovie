@@ -15,6 +15,15 @@ import React from 'react';
 import { colors } from '@shared/themes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ResetPasswordScreenState, RootScreenProps } from '@shared/types';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
+import { db } from 'firebase.config';
 import styles from './style';
 
 class ResetPasswordScreen extends React.Component<
@@ -42,17 +51,34 @@ class ResetPasswordScreen extends React.Component<
     this.props.navigation.goBack();
   };
 
-  private handleReset = () => {
+  private handleReset = async () => {
     const { passwordErrors, matchPassword, password } = this.state;
     const hasErrors =
       Object.values(passwordErrors).some(error => !error) || matchPassword;
     if (hasErrors || password.trim() === '') {
       this.setState({
-        resetError: 'Please try again',
+        resetError: 'Passwords do not match or are invalid.',
       });
-    } else {
-      this.setState({ resetError: '' });
-      this.props.navigation.navigate('LoginScreen');
+      return;
+    }
+    try {
+      const { email } = this.props.route.params;
+      const queryEmail = query(
+        collection(db, 'users'),
+        where('email', '==', email.trim()),
+      );
+      const querySnapshot = await getDocs(queryEmail);
+      if (!querySnapshot.empty) {
+        const userDocId = querySnapshot.docs[0].id;
+        const userRef = doc(db, 'users', userDocId);
+        await updateDoc(userRef, { password });
+        this.props.navigation.navigate('LoginScreen');
+      } else {
+        this.setState({ resetError: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Error updating password:', error);
+      this.setState({ resetError: 'Error occurred. Please try again.' });
     }
   };
 
@@ -203,8 +229,11 @@ class ResetPasswordScreen extends React.Component<
                     />
                   </View>
                   {matchPassword && (
-                    <Text style={styles.errorText}>
-                      Passwords do not match{' '}
+                    <Text style={styles.errorText}>Passwords do not match</Text>
+                  )}
+                  {this.state.resetError !== '' && (
+                    <Text style={styles.errorReset}>
+                      {this.state.resetError}
                     </Text>
                   )}
                   <TouchableOpacity

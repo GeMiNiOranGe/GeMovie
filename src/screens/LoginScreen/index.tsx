@@ -11,9 +11,9 @@ import { FullScreenLoader } from '@components';
 import { Google } from 'iconsax-react-native';
 import { colors } from '@shared/themes';
 import { LoginScreenState, RootScreenProps } from '@shared/types';
-import styles from './style';
 import { auth } from 'firebase.config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import styles from './style';
 
 class LoginScreen extends React.Component<
   RootScreenProps<'LoginScreen'>,

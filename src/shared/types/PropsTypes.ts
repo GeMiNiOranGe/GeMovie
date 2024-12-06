@@ -36,7 +36,9 @@ export type RootStackParamList = ParamListBase & {
     LoginScreen: undefined;
     SignupScreen: undefined;
     ForgotPasswordScreen: undefined;
-    ResetPasswordScreen: undefined;
+    ResetPasswordScreen: {
+        email: string;
+    };
     ContentListScreen: {
         id: number;
     };

@@ -185,8 +185,8 @@ export type ResetPasswordScreenState = {
 };
 
 export type ForgotPasswordScreenState = {
-    username: string;
-    usernameErrors: boolean;
+    email: string;
+    emailErrors: boolean;
 };
 
 export type YoutubeState = {
