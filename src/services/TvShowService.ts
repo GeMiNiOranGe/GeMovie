@@ -1,15 +1,12 @@
 import {
-    APIHandler,
-    DetailService,
-    PaginationResponseWrapper,
-    SearchService,
+    type PaginationResponseWrapper,
+    APIUtils,
     URLBuilder,
 } from '@services';
-import type { PaginationResponse, TvShow, TvShowElement } from '@shared/types';
+import { upcomingVideoDays } from '@shared/constants';
+import type { TvShow, TvShowElement } from '@shared/types';
 import {
-    addDays,
-    getISODate,
-    toPaginationResponse,
+    getISODateRangeFromToday,
     toTvShow,
     toTvShowElement,
 } from '@shared/utils';
@@ -28,16 +25,17 @@ export default class TvShowService {
             query: text,
             page: `${page}`,
         });
-        return await SearchService.searchAsync('tv', params, toTvShowElement);
+        const url = URLBuilder.buildSearchURL('tv', params);
+        return await APIUtils.fetchPagination(url, toTvShowElement);
     }
 
-    public static async getDetailAsync(id: number): Promise<TvShowElement> {
-        return await DetailService.getDetailAsync(id, 'tv', toTvShowElement);
-    }
-
-    public static async getFullDetailAsync(id: number): Promise<TvShow> {
-        const data = await DetailService.getDetailAsync(id, 'tv', toTvShow);
-        return data;
+    /**
+     * Get the details of a TV show.
+     * @param id tv show id
+     */
+    public static async getDetailAsync(id: number): Promise<TvShow> {
+        const url = URLBuilder.buildDetailURL('tv', id);
+        return await APIUtils.fetchSingleOne(url, toTvShow);
     }
 
     /**
@@ -49,20 +47,17 @@ export default class TvShowService {
         genreIds: string,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<TvShowElement>> {
-        const numberOfdays = 28;
-        const currentDate = new Date();
-        const nextDate = addDays(currentDate, numberOfdays);
+        const [currentDate, nextDate] =
+            getISODateRangeFromToday(upcomingVideoDays);
+
         const params = new URLSearchParams({
-            'first_air_date.gte': getISODate(currentDate),
-            'first_air_date.lte': getISODate(nextDate),
+            'first_air_date.gte': currentDate,
+            'first_air_date.lte': nextDate,
             with_genres: genreIds,
             page: `${page}`,
         });
         const url = URLBuilder.buildDiscoverURL('tv', params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<TvShowElement> =
-            toPaginationResponse(json);
 
-        return new PaginationResponseWrapper(response, toTvShowElement);
+        return await APIUtils.fetchPagination(url, toTvShowElement);
     }
 }

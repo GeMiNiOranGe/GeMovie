@@ -27,7 +27,7 @@ abstract class SearchResultsTopTabBase<
   protected constructor(props: P, searchAsync: SearchAsync<T>) {
     super(props);
     this.state = {
-      results: [],
+      results: undefined,
       isFetchingNextPage: false,
     };
     this.searchAsync = searchAsync;
@@ -81,7 +81,10 @@ abstract class SearchResultsTopTabBase<
 
       this.nextPage++;
       this.setState({
-        results: [...this.state.results, ...response.getResults()],
+        results: this.state.results && [
+          ...this.state.results,
+          ...response.getResults(),
+        ],
         isFetchingNextPage: false,
       });
     } catch (error: unknown) {
@@ -110,14 +113,18 @@ abstract class SearchResultsTopTabBase<
       this.nextPage = 0;
       this.totalPages = 0;
       this.totalResults = 0;
-      this.setState({ results: [] });
+      this.setState({ results: undefined });
       return;
     }
 
     this.debouncedSearch(this.props.searchContent);
   }
 
-  public override render(): React.JSX.Element {
+  public override render(): React.ReactNode {
+    if (!this.state.results) {
+      return undefined;
+    }
+
     return (
       <PaginatedResultsList
         onEndReached={this.searchNextPage}

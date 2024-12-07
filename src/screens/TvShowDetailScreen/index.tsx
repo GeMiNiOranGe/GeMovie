@@ -73,7 +73,7 @@ class TvShowDetailScreen extends React.Component<
 
   public override componentDidMount() {
     const { tvShowId } = this.props.route.params;
-    TvShowService.getFullDetailAsync(tvShowId).then(data => {
+    TvShowService.getDetailAsync(tvShowId).then(data => {
       this.setState({ tv: data }, () => {
         this.props.navigation.setOptions({ title: data.name });
         this.state.animatedTranslateYImage.setValue(30);

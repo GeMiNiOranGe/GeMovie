@@ -105,6 +105,10 @@ export type SearchAsync<T> = (
 
 export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 
+export type ElementConvertFn<E> = (val: any) => E;
+
+export type TransformFn<T> = (val: any) => T;
+
 export type PropsComponent =
     | React.ComponentType<any>
     | React.ReactElement
@@ -136,9 +140,9 @@ export type Media = {
     mediaType: string;
 };
 
-export type PaginationResponse<T> = {
+export type PaginationResponse<E> = {
     page: number;
-    results: T[];
+    results: E[];
     totalPages: number;
     totalResults: number;
 };
@@ -225,10 +229,6 @@ export type AuthorDetails = {
     rating: number | undefined;
 };
 
-export type Reviews = PaginationResponse<ReviewElement> & {
-    id: number;
-};
-
 export type ReviewElement = {
     id: string;
     author: string;
@@ -239,9 +239,13 @@ export type ReviewElement = {
     url: string;
 };
 
+export type Reviews = PaginationResponse<ReviewElement> & {
+    id: number;
+};
+
 export type Review = ReviewElement & {
     iso_639_1: string;
-    mediaID: number;
+    mediaId: number;
     mediaTitle: string;
     mediaType: string;
 };

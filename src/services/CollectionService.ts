@@ -1,8 +1,8 @@
 import type { Collection, CollectionElement } from '@shared/types';
 import {
-    DetailService,
-    PaginationResponseWrapper,
-    SearchService,
+    type PaginationResponseWrapper,
+    APIUtils,
+    URLBuilder,
 } from '@services';
 import { toCollection, toCollectionElement } from '@shared/utils';
 
@@ -20,11 +20,8 @@ export default class CollectionService {
             query: text,
             page: `${page}`,
         });
-        return await SearchService.searchAsync(
-            'collection',
-            params,
-            toCollectionElement,
-        );
+        const url = URLBuilder.buildSearchURL('collection', params);
+        return await APIUtils.fetchPagination(url, toCollectionElement);
     }
 
     /**
@@ -32,10 +29,7 @@ export default class CollectionService {
      * @param id collection id
      */
     public static async getDetailAsync(id: number): Promise<Collection> {
-        return await DetailService.getDetailAsync(
-            id,
-            'collection',
-            toCollection,
-        );
+        const url = URLBuilder.buildDetailURL('collection', id);
+        return await APIUtils.fetchSingleOne(url, toCollection);
     }
 }

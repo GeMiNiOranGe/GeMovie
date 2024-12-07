@@ -1,17 +1,15 @@
 import {
-    APIHandler,
-    PaginationResponseWrapper,
-    SearchService,
+    type PaginationResponseWrapper,
+    APIUtils,
     URLBuilder,
 } from '@services';
 import {
-    addDays,
-    getISODate,
+    getISODateRangeFromToday,
     toMovie,
     toMovieElement,
-    toPaginationResponse,
 } from '@shared/utils';
-import type { Movie, MovieElement, PaginationResponse } from '@shared/types';
+import type { Movie, MovieElement } from '@shared/types';
+import { upcomingVideoDays } from '@shared/constants';
 
 export default class MovieService {
     /**
@@ -27,7 +25,8 @@ export default class MovieService {
             query: text,
             page: `${page}`,
         });
-        return await SearchService.searchAsync('movie', params, toMovieElement);
+        const url = URLBuilder.buildSearchURL('movie', params);
+        return await APIUtils.fetchPagination(url, toMovieElement);
     }
 
     /**
@@ -38,8 +37,7 @@ export default class MovieService {
         const url =
             URLBuilder.buildDetailURL('movie', id) +
             '&append_to_response=keywords';
-        const json = await APIHandler.fetchJSON(url);
-        return toMovie(json);
+        return await APIUtils.fetchSingleOne(url, toMovie);
     }
 
     /**
@@ -53,11 +51,7 @@ export default class MovieService {
             page: `${page}`,
         });
         const url = URLBuilder.buildUpcomingURL(params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<MovieElement> =
-            toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, toMovieElement);
+        return await APIUtils.fetchPagination(url, toMovieElement);
     }
 
     /**
@@ -69,20 +63,16 @@ export default class MovieService {
         genreIds: string,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<MovieElement>> {
-        const numberOfdays = 28;
-        const currentDate = new Date();
-        const nextDate = addDays(currentDate, numberOfdays);
+        const [currentDate, nextDate] =
+            getISODateRangeFromToday(upcomingVideoDays);
+
         const params = new URLSearchParams({
-            'primary_release_date.gte': getISODate(currentDate),
-            'primary_release_date.lte': getISODate(nextDate),
+            'primary_release_date.gte': currentDate,
+            'primary_release_date.lte': nextDate,
             with_genres: genreIds,
             page: `${page}`,
         });
         const url = URLBuilder.buildDiscoverURL('movie', params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<MovieElement> =
-            toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, toMovieElement);
+        return await APIUtils.fetchPagination(url, toMovieElement);
     }
 }

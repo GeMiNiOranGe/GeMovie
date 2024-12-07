@@ -3,11 +3,13 @@ import {
   FlatList,
   Image,
   type ListRenderItemInfo,
+  Modal,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,8 +21,10 @@ import {
   Image as ImageIcon,
   Star1,
   Global,
+  Play,
 } from 'iconsax-react-native';
-import { Chip } from 'react-native-paper';
+import { Chip, TouchableRipple } from 'react-native-paper';
+import { IconProps as IconsaxProps } from 'iconsax-react-native';
 
 import { Adult, IMDb } from '@assets/icons';
 import { MovieService, URLBuilder } from '@services';
@@ -31,7 +35,7 @@ import type {
   LabelProps,
   MovieDetailScreenState,
   RootScreenProps,
-  Variant,
+  SvgIconProps,
 } from '@shared/types';
 import {
   getFormattedDate,
@@ -54,15 +58,18 @@ import {
   Review,
   Box,
   TMDBImageBackgroundLinearGradient,
+  FullScreenLoader,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import { IMDB_BASE_URL } from '@config';
 import styles from './style';
 
-const iconSize = 16;
-const iconColor = colors.subtext.toString();
-const iconVariant: Variant = 'Bold';
+const labelIconsaxProps: IconsaxProps = {
+  size: 16,
+  color: colors.subtext.toString(),
+  variant: 'Bold',
+};
 
 class MovieDetailScreen extends React.Component<
   RootScreenProps<'MovieDetailScreen'>,
@@ -72,6 +79,7 @@ class MovieDetailScreen extends React.Component<
     super(props);
     this.state = {
       movie: undefined,
+      modalVisible: false,
     };
 
     this.renderGenreItem = this.renderGenreItem.bind(this);
@@ -160,47 +168,54 @@ class MovieDetailScreen extends React.Component<
     });
   }
 
+  public toggleModal = () => {
+    this.setState(prevState => ({
+      modalVisible: !prevState.modalVisible,
+    }));
+    setTimeout(() => {
+      this.setState({ modalVisible: true });
+    }, 1000);
+  };
+
+  public closemodal = () => {
+    this.setState({ modalVisible: false });
+  };
+
   private getLabels(): LabelProps[] {
     return [
       {
-        icon: (
-          <Calendar size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
+        icon: <Calendar {...labelIconsaxProps} />,
         name: 'Year',
         value: getFormattedFullYear(this.state.movie?.releaseDate),
       },
       {
-        icon: <Clock size={iconSize} color={iconColor} variant={iconVariant} />,
+        icon: <Clock {...labelIconsaxProps} />,
         name: 'Length',
         value: getFormattedRuntime(this.state.movie?.runtime, 'minute'),
       },
       {
-        icon: <Adult size={iconSize} color={iconColor} />,
-        name: 'Adult',
-        value: this.state.movie?.adult ? 'Yes' : 'No',
-      },
-      {
-        icon: (
-          <Moneys size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
+        icon: <Moneys {...labelIconsaxProps} />,
         name: 'Budget',
         value: getFormattedMoney(this.state.movie?.budget),
       },
       {
-        icon: (
-          <MoneyRecive
-            size={iconSize}
-            color={iconColor}
-            variant={iconVariant}
-          />
-        ),
+        icon: <MoneyRecive {...labelIconsaxProps} />,
         name: 'Revenue',
         value: getFormattedMoney(this.state.movie?.revenue),
+      },
+      {
+        icon: <Adult {...(labelIconsaxProps as SvgIconProps)} />,
+        name: 'Adult',
+        value: this.state.movie?.adult ? 'Yes' : 'No',
       },
     ];
   }
 
   public override render(): React.JSX.Element {
+    if (!this.state.movie) {
+      return <FullScreenLoader />;
+    }
+
     return (
       <SafeAreaView style={[layout.flex1, styles.container]}>
         {this.state.movie?.backdropPath && (
@@ -219,8 +234,6 @@ class MovieDetailScreen extends React.Component<
         <ScrollView style={StyleSheet.absoluteFill}>
           <LinearGradient
             style={[layout.center, styles.posterBox]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
             colors={['transparent', colors.primary.toString()]}
           >
             <TMDBImage
@@ -268,13 +281,28 @@ class MovieDetailScreen extends React.Component<
             </View>
 
             <View style={[layout.center, layout.row, styles.actionArea]}>
-              <TouchableRippleLink
-                style={styles.homepageLink}
-                url={`${this.state.movie?.homepage}`}
+              <TouchableRipple
+                style={styles.playTouchable}
+                borderless
                 rippleColor={colors.accent.light}
+                onPress={this.toggleModal}
               >
-                <Global color={colors.primary.toString()} />
-              </TouchableRippleLink>
+                <View style={[layout.row, layout.itemsCenter]}>
+                  <Play color={colors.primary.toString()} />
+
+                  <Text style={styles.playText}>Play trailer</Text>
+                </View>
+              </TouchableRipple>
+
+              {this.state.movie?.homepage && (
+                <TouchableRippleLink
+                  style={styles.homepageLink}
+                  url={`${this.state.movie?.homepage}`}
+                  rippleColor={colors.accent.light}
+                >
+                  <Global color={colors.primary.toString()} />
+                </TouchableRippleLink>
+              )}
 
               {this.state.movie?.imdbId && (
                 <TouchableRippleLink
@@ -391,21 +419,29 @@ class MovieDetailScreen extends React.Component<
                   </ExpandableText>
                 </Section.Item>
 
-                <Section.Divider />
+                {this.state.movie?.tagline && (
+                  <>
+                    <Section.Divider />
 
-                <Section.Label
-                  name='Tagline'
-                  value={`${this.state.movie?.tagline}`}
-                />
+                    <Section.Label
+                      name='Tagline'
+                      value={`${this.state.movie?.tagline}`}
+                    />
+                  </>
+                )}
 
-                <Section.Divider />
+                {this.state.movie?.genres.length !== 0 && (
+                  <>
+                    <Section.Divider />
 
-                <Section.Items
-                  name='Genres'
-                  keyExtractor={item => item.id.toString()}
-                  data={this.state.movie?.genres}
-                  renderItem={this.renderGenreItem}
-                />
+                    <Section.Items
+                      name='Genres'
+                      keyExtractor={item => item.id.toString()}
+                      data={this.state.movie?.genres}
+                      renderItem={this.renderGenreItem}
+                    />
+                  </>
+                )}
               </Section.Content>
             </Section>
 
@@ -413,6 +449,7 @@ class MovieDetailScreen extends React.Component<
 
             <Section title='Keywords'>
               <Section.HorizontalList
+                noResultText='No keywords found'
                 data={this.state.movie?.keywords.keywords}
                 renderItem={this.renderKeywordItem}
               />
@@ -462,32 +499,44 @@ class MovieDetailScreen extends React.Component<
                   value={`${this.state.movie?.originalLanguage}`}
                 />
 
-                <Section.Divider />
+                {this.state.movie?.spokenLanguages.length !== 0 && (
+                  <>
+                    <Section.Divider />
 
-                <Section.Label
-                  name='Language Spoken'
-                  value={`${this.state.movie?.spokenLanguages
-                    .map(language => language.englishName)
-                    .join(', ')}`}
-                />
+                    <Section.Label
+                      name='Language Spoken'
+                      value={`${this.state.movie?.spokenLanguages
+                        .map(language => language.englishName)
+                        .join(', ')}`}
+                    />
+                  </>
+                )}
 
-                <Section.Divider />
+                {this.state.movie?.productionCountries.length !== 0 && (
+                  <>
+                    <Section.Divider />
 
-                <Section.Label
-                  name='Production Countries'
-                  value={`${this.state.movie?.productionCountries
-                    .map(country => country.name)
-                    .join(', ')}`}
-                />
+                    <Section.Label
+                      name='Production Countries'
+                      value={`${this.state.movie?.productionCountries
+                        .map(country => country.name)
+                        .join(', ')}`}
+                    />
+                  </>
+                )}
 
-                <Section.Divider />
+                {this.state.movie?.productionCompanies.length !== 0 && (
+                  <>
+                    <Section.Divider />
 
-                <Section.Items
-                  name='Production Companies'
-                  keyExtractor={item => item.id.toString()}
-                  data={this.state.movie?.productionCompanies}
-                  renderItem={this.renderCompanyItem}
-                />
+                    <Section.Items
+                      name='Production Companies'
+                      keyExtractor={item => item.id.toString()}
+                      data={this.state.movie?.productionCompanies}
+                      renderItem={this.renderCompanyItem}
+                    />
+                  </>
+                )}
               </Section.Content>
             </Section>
 
@@ -509,13 +558,27 @@ class MovieDetailScreen extends React.Component<
               </Section.Content>
             </Section>
 
-            <View>
-              <Youtube
-                type='movie'
-                id={this.state.movie?.id}
-                videoType='Trailer'
-              />
-            </View>
+            <Modal
+              animationType='slide'
+              transparent={true}
+              visible={this.state.modalVisible}
+              onRequestClose={this.closemodal}
+            >
+              <TouchableOpacity
+                style={styles.modalContainer}
+                onPress={this.closemodal}
+              >
+                <TouchableWithoutFeedback>
+                  <View>
+                    <Youtube
+                      type='movie'
+                      id={this.state.movie?.id}
+                      videoType='Trailer'
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              </TouchableOpacity>
+            </Modal>
           </View>
         </ScrollView>
       </SafeAreaView>

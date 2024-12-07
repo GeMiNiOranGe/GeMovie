@@ -1,10 +1,9 @@
-import type {
-    TimeWindow,
-    PaginationResponse,
-    TrendingType,
-} from '@shared/types';
-import { toPaginationResponse } from '@shared/utils';
-import { APIHandler, PaginationResponseWrapper, URLBuilder } from '@services';
+import type { ElementConvertFn, TimeWindow, TrendingType } from '@shared/types';
+import {
+    APIUtils,
+    type PaginationResponseWrapper,
+    URLBuilder,
+} from '@services';
 
 export default class MediaService {
     /**
@@ -12,20 +11,17 @@ export default class MediaService {
      * @param type `"all"` | `"movie"` | `"tv"` | `"person"`
      * @param page page number
      */
-    public static async getTrendingAsync<T>(
+    public static async getTrendingAsync<E>(
         type: TrendingType,
         timeWindow: TimeWindow,
-        elementConvertFn: (val: any) => T,
+        elementConvertFn: ElementConvertFn<E>,
         page: number = 1,
-    ): Promise<PaginationResponseWrapper<T>> {
+    ): Promise<PaginationResponseWrapper<E>> {
         const params = new URLSearchParams({
             page: `${page}`,
         });
 
         const url = URLBuilder.buildTrendingURL(type, timeWindow, params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<T> = toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, elementConvertFn);
+        return await APIUtils.fetchPagination(url, elementConvertFn);
     }
 }

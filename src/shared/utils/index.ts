@@ -26,14 +26,27 @@ import {
 } from '@shared/utils';
 import { toPersonElementBase } from './PersonConverter';
 
-export function addDays(date: Date, numberOfdays: number) {
+export function addDays(date: Date, numberOfdays: number): Date {
     var result = new Date(date);
     result.setDate(result.getDate() + numberOfdays);
     return result;
 }
 
-export function getISODate(date: Date) {
+export function getISODate(date: Date): string {
     return date.toISOString().slice(0, 10);
+}
+
+/**
+ * Get current date and next date pair by number of days added
+ * @param daysFromToday Number of days to be added to the current date
+ * @returns `[currentDate, nextDate]`
+ */
+export function getISODateRangeFromToday(
+    daysFromToday: number,
+): [string, string] {
+    const currentDate = new Date();
+    const nextDate = addDays(currentDate, daysFromToday);
+    return [getISODate(currentDate), getISODate(nextDate)];
 }
 
 export function getFormattedDate(date?: Date): string {
@@ -317,7 +330,7 @@ export function toReview(val: any): Review {
         updatedAt: new Date(val['updated_at']),
         url: val.url,
         iso_639_1: val['iso_639_1'],
-        mediaID: val['media_id'],
+        mediaId: val['media_id'],
         mediaTitle: val['media_title'],
         mediaType: val['media_type'],
     };

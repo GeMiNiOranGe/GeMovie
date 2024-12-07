@@ -76,8 +76,19 @@ const styles = StyleSheet.create({
     actionArea: {
         marginBottom: spacing.large,
     },
+    playTouchable: {
+        padding: spacing.medium,
+        borderRadius: 1000,
+        backgroundColor: colors.accent.dark,
+    },
+    playText: {
+        fontSize: 14,
+        color: colors.primary,
+        marginHorizontal: spacing.small,
+    },
     homepageLink: {
         backgroundColor: colors.accent.dark,
+        marginLeft: spacing.small,
     },
     imdbLink: {
         marginLeft: spacing.small,
@@ -101,6 +112,13 @@ const styles = StyleSheet.create({
     },
     labelBox: {
         marginBottom: spacing.huge,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 20,
     },
 });
 

@@ -1,11 +1,10 @@
-import type { PaginationResponse, PersonElement } from '@shared/types';
+import type { PersonElement } from '@shared/types';
 import {
-    APIHandler,
-    PaginationResponseWrapper,
-    SearchService,
+    type PaginationResponseWrapper,
+    APIUtils,
     URLBuilder,
 } from '@services';
-import { toPaginationResponse, toPersonElement } from '@shared/utils';
+import { toPersonElement } from '@shared/utils';
 
 export default class PersonService {
     /**
@@ -21,11 +20,8 @@ export default class PersonService {
             query: text,
             page: `${page}`,
         });
-        return await SearchService.searchAsync(
-            'person',
-            params,
-            toPersonElement,
-        );
+        const url = URLBuilder.buildSearchURL('person', params);
+        return await APIUtils.fetchPagination(url, toPersonElement);
     }
 
     /**
@@ -38,12 +34,7 @@ export default class PersonService {
         const params = new URLSearchParams({
             page: `${page}`,
         });
-
         const url = URLBuilder.buildPopularURL('person', params);
-        const json = await APIHandler.fetchJSON(url);
-        const response: PaginationResponse<PersonElement> =
-            toPaginationResponse(json);
-
-        return new PaginationResponseWrapper(response, toPersonElement);
+        return await APIUtils.fetchPagination(url, toPersonElement);
     }
 }
