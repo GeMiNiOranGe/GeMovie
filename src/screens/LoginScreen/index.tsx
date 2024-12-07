@@ -10,15 +10,23 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FullScreenLoader } from '@components';
 import { Google } from 'iconsax-react-native';
 import { colors } from '@shared/themes';
-import { LoginScreenState, RootScreenProps } from '@shared/types';
+import {
+  AuthContextProps,
+  LoginScreenState,
+  RootScreenProps,
+} from '@shared/types';
 import { auth } from 'firebase.config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import styles from './style';
+import { AuthContext } from 'src/context/AuthContext';
 
 class LoginScreen extends React.Component<
   RootScreenProps<'LoginScreen'>,
   LoginScreenState
 > {
+  public static override contextType = AuthContext;
+  public override context: AuthContextProps | null = null;
+
   public constructor(props: RootScreenProps<'LoginScreen'>) {
     super(props);
     this.state = {
@@ -58,7 +66,7 @@ class LoginScreen extends React.Component<
 
   private handleLogin = async () => {
     const { email, password, errorMessages, errors } = this.state;
-
+    const { login } = this.context || {};
     let updatedErrors = { ...errors };
     let updatedErrorMessages = { ...errorMessages };
 
@@ -87,6 +95,9 @@ class LoginScreen extends React.Component<
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log('Login successful');
+      if (login) {
+        login();
+      }
       this.props.navigation.navigate('HomeScreen');
     } catch (error) {
       console.error('Login failed:', error);

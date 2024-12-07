@@ -79,7 +79,6 @@ class MainBottomTab extends React.Component {
             tabBarIcon: this.renderSearchIcon,
           }}
         />
-
         <BottomTab.Screen
           name='UserStack'
           component={UserStack}

@@ -5,36 +5,50 @@ import {
   LoginScreen,
   ResetPasswordScreen,
   SignupScreen,
+  UserScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
+import { AuthContext } from 'src/context/AuthContext'; // Import the context
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 class UserStack extends React.Component {
   public override render(): React.JSX.Element {
     return (
-      <Stack.Navigator initialRouteName='LoginScreen'>
-        <Stack.Screen
-          name='LoginScreen'
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='SignupScreen'
-          component={SignupScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='ForgotPasswordScreen'
-          component={ForgotPassword}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='ResetPasswordScreen'
-          component={ResetPasswordScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
+      <AuthContext.Consumer>
+        {context => {
+          if (!context) {
+            return <></>;
+          }
+
+          const { isLoggedIn } = context;
+
+          return (
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {!isLoggedIn ? (
+                <Stack.Screen name='LoginScreen' component={LoginScreen} />
+              ) : (
+                <Stack.Screen name='UserScreen' component={UserScreen} />
+              )}
+              <Stack.Screen
+                name='SignupScreen'
+                component={SignupScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name='ForgotPasswordScreen'
+                component={ForgotPassword}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name='ResetPasswordScreen'
+                component={ResetPasswordScreen}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          );
+        }}
+      </AuthContext.Consumer>
     );
   }
 }

@@ -65,6 +65,7 @@ export type RootStackParamList = ParamListBase & {
     };
     SeeAllMovieScreen: undefined;
     SeeAllPersonScreen: undefined;
+    UserScreen: undefined;
 };
 
 export type RootScreenProps<
@@ -287,4 +288,10 @@ export type VoteLabelProps = {
     value: number;
     valueType?: 'relative' | 'absolute';
     showThreshold?: boolean | undefined;
+};
+
+export type AuthContextProps = {
+    isLoggedIn: boolean;
+    login: () => void;
+    logout: () => void;
 };

@@ -6,6 +6,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 
 import { MainBottomTab } from '@navigation';
+import { AuthProvider } from './context/AuthContext';
 
 // FIXME: fix bug, remove `configureReanimatedLogger` to enable strict, set `strict: true`
 configureReanimatedLogger({
@@ -16,9 +17,11 @@ configureReanimatedLogger({
 class App extends React.Component {
   public override render(): React.JSX.Element {
     return (
-      <NavigationContainer>
-        <MainBottomTab />
-      </NavigationContainer>
+      <AuthProvider>
+        <NavigationContainer>
+          <MainBottomTab />
+        </NavigationContainer>
+      </AuthProvider>
     );
   }
 }

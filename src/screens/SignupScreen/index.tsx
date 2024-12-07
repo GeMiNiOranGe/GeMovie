@@ -17,9 +17,10 @@ import {
   createUserWithEmailAndPassword,
   fetchSignInMethodsForEmail,
 } from 'firebase/auth';
-import styles from './style';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { firebaseapp } from 'firebase.config';
+import { hash } from 'bcrypt-ts';
+import styles from './style';
 
 class SignupScreen extends React.Component<
   RootScreenProps<'SignupScreen'>,
@@ -145,11 +146,11 @@ class SignupScreen extends React.Component<
             );
 
             const uid = userCredential.user.uid;
-
-            await setDoc(doc(firestore, 'users', uid), {
+            const hashedPassword = await hash(password, 10);
+            await setDoc(doc(firestore, 'Account', uid), {
               username,
               email,
-              password,
+              password: hashedPassword,
               createdAt: new Date().toISOString(),
             });
 

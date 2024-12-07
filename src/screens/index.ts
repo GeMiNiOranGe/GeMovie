@@ -18,3 +18,4 @@ export { default as LoginScreen } from './LoginScreen';
 export { default as SignupScreen } from './SignupScreen';
 export { default as ForgotPassword } from './ForgotPasswordScreen';
 export { default as ResetPasswordScreen } from './ResetPasswordScreen';
+export { default as UserScreen } from './UserScreen';
