@@ -1,5 +1,5 @@
 import type {
-    MovieCredits,
+    ConvertFn,
     PersonElement,
     TPerson,
     VideoType,
@@ -9,7 +9,7 @@ import {
     APIUtils,
     URLBuilder,
 } from '@services';
-import { toMovieCredits, toPerson, toPersonElement } from '@shared/utils';
+import { toPerson, toPersonElement } from '@shared/utils';
 
 export default class PersonService {
     /**
@@ -42,12 +42,13 @@ export default class PersonService {
      * @param type `"movie"` | `"tv"`
      * @param id movie id
      */
-    public static async getCreditsAsync(
+    public static async getCreditsAsync<T>(
         type: VideoType,
         id: number,
-    ): Promise<MovieCredits> {
+        convertFn: ConvertFn<T>,
+    ): Promise<T> {
         const url = URLBuilder.buildPersonCreditsURL(type, id);
-        return await APIUtils.fetchSingleOne(url, toMovieCredits);
+        return await APIUtils.fetchSingleOne(url, convertFn);
     }
 
     /**

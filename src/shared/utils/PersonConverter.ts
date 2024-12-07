@@ -9,8 +9,11 @@ import type {
     MovieCredits,
     MovieCreditsCast,
     MovieCreditsCrew,
+    TvShowCredits,
+    TvShowCreditsCast,
+    TvShowCreditsCrew,
 } from '@shared/types';
-import { toMediaElement, toMovieElement } from '@shared/utils';
+import { toMediaElement, toMovieElement, toTvShowElement } from '@shared/utils';
 
 export function toPersonElement(val: any): PersonElement {
     return {
@@ -76,6 +79,14 @@ export function toMovieCredits(val: any): MovieCredits {
     };
 }
 
+export function toTvShowCredits(val: any): TvShowCredits {
+    return {
+        id: val.id,
+        cast: Array.from(val.cast).map(element => toTvShowCreditsCast(element)),
+        crew: Array.from(val.crew).map(element => toTvShowCreditsCrew(element)),
+    };
+}
+
 export function toCast(val: any): Cast {
     return {
         adult: val.adult,
@@ -102,6 +113,16 @@ export function toMovieCreditsCast(val: any): MovieCreditsCast {
     };
 }
 
+export function toTvShowCreditsCast(val: any): TvShowCreditsCast {
+    return {
+        ...toTvShowElement(val),
+        character: val.character,
+        creditId: val['credit_id'],
+        order: val.order,
+        episodeCount: val['episode_count'],
+    };
+}
+
 export function toCrew(val: any): Crew {
     return {
         adult: val.adult,
@@ -121,6 +142,15 @@ export function toCrew(val: any): Crew {
 export function toMovieCreditsCrew(val: any): MovieCreditsCrew {
     return {
         ...toMovieElement(val),
+        creditId: val['credit_id'],
+        department: val.department,
+        job: val.job,
+    };
+}
+
+export function toTvShowCreditsCrew(val: any): TvShowCreditsCrew {
+    return {
+        ...toTvShowElement(val),
         creditId: val['credit_id'],
         department: val.department,
         job: val.job,

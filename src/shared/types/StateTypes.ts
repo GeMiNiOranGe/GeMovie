@@ -21,6 +21,7 @@ import type {
     Episode,
     TPerson,
     MovieCredits,
+    TvShowCredits,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
@@ -110,6 +111,7 @@ export type CompanyDetailScreenState = {
 export type PersonDetailScreenState = {
     person: TPerson | undefined;
     movieCredits: MovieCredits | undefined;
+    tvShowCredits: TvShowCredits | undefined;
     isModalVisible: boolean;
     animations: Animated.Value[];
     introAnim: Animated.Value;

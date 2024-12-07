@@ -20,13 +20,13 @@ export default class APIUtils {
     /**
      * Fetch single one data and map it to a specific type.
      * @param url API endpoint
-     * @param transformFn Function to convert raw JSON to the target type, e.g: `toMovie`, `toTvShow`, `toPerson`, `toCompany`, `toCollection`.
+     * @param convertFn Function to convert raw JSON to the target type, e.g: `toMovie`, `toTvShow`, `toPerson`, `toCompany`, `toCollection`.
      */
     public static async fetchSingleOne<T>(
         url: string,
-        transformFn: ConvertFn<T>,
+        convertFn: ConvertFn<T>,
     ): Promise<T> {
         const json: any = await APIHandler.fetchJSON(url);
-        return transformFn(json);
+        return convertFn(json);
     }
 }

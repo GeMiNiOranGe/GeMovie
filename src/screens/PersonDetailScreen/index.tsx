@@ -24,10 +24,12 @@ import {
   MovieCreditsCast,
   PersonDetailScreenState,
   RootScreenProps,
+  TvShowCreditsCast,
 } from '@shared/types';
 import {
   Box,
   CompactMovieCard,
+  CompactTvShowCard,
   ExpandableText,
   FullScreenLoader,
   Labels,
@@ -40,6 +42,8 @@ import {
   getFormattedDate,
   getFormattedGender,
   isValidDate,
+  toMovieCredits,
+  toTvShowCredits,
 } from '@shared/utils';
 import { PersonService } from '@services';
 import { colors, layout } from '@shared/themes';
@@ -61,6 +65,7 @@ class PersonDetailScreen extends React.Component<
     this.state = {
       person: undefined,
       movieCredits: undefined,
+      tvShowCredits: undefined,
       isModalVisible: false,
       animations: [],
       introAnim: new Animated.Value(0),
@@ -68,14 +73,16 @@ class PersonDetailScreen extends React.Component<
     };
 
     this.renderMovieCreditsCast = this.renderMovieCreditsCast.bind(this);
+    this.renderTvShowCreditsCast = this.renderTvShowCreditsCast.bind(this);
   }
 
   public override async componentDidMount(): Promise<void> {
     const { personId } = this.props.route.params;
 
-    const [person, movieCredits] = await Promise.all([
+    const [person, movieCredits, tvShowCredits] = await Promise.all([
       PersonService.getDetailAsync(personId),
-      PersonService.getCreditsAsync('movie', personId),
+      PersonService.getCreditsAsync('movie', personId, toMovieCredits),
+      PersonService.getCreditsAsync('tv', personId, toTvShowCredits),
     ]);
     const animations = movieCredits.cast.map(() => new Animated.Value(0));
 
@@ -84,6 +91,7 @@ class PersonDetailScreen extends React.Component<
       {
         person,
         movieCredits,
+        tvShowCredits,
         animations,
       },
       this.runEntranceAnimations,
@@ -170,6 +178,24 @@ class PersonDetailScreen extends React.Component<
         onPress={() =>
           this.props.navigation.push('MovieDetailScreen', {
             movieId: item.id,
+          })
+        }
+      />
+    );
+  }
+
+  private renderTvShowCreditsCast({
+    item,
+    index,
+  }: ListRenderItemInfo<TvShowCreditsCast>) {
+    return (
+      <CompactTvShowCard
+        item={item}
+        index={index}
+        listLength={this.state.tvShowCredits?.cast.length}
+        onPress={() =>
+          this.props.navigation.push('TvShowDetailScreen', {
+            tvShowId: item.id,
           })
         }
       />
@@ -269,6 +295,16 @@ class PersonDetailScreen extends React.Component<
                 data={this.state.movieCredits?.cast}
                 keyExtractor={item => item.id.toString()}
                 renderItem={this.renderMovieCreditsCast}
+              />
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Known For Tv Series'>
+              <Section.HorizontalList
+                data={this.state.tvShowCredits?.cast}
+                keyExtractor={(_item, index) => index.toString()}
+                renderItem={this.renderTvShowCreditsCast}
               />
             </Section>
 

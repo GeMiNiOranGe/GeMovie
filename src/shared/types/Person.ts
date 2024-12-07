@@ -80,16 +80,17 @@ export type MovieCreditsCrew = MovieElement &
 
 export type TvShowCredits = {
     id: number;
-    cast: TvCreditsCast[];
-    crew: TvCreditsCrew[];
+    cast: TvShowCreditsCast[];
+    crew: TvShowCreditsCrew[];
 };
 
-export type TvCreditsCast = TvShowElement &
+export type TvShowCreditsCast = TvShowElement &
     Omit<CastBase, keyof PersonElementBase> & {
         episodeCount: number;
     };
 
-export type TvCreditsCrew = TvShowElement & Omit<Crew, keyof PersonElementBase>;
+export type TvShowCreditsCrew = TvShowElement &
+    Omit<Crew, keyof PersonElementBase>;
 
 export type Person = {
     id: number;
