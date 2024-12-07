@@ -292,6 +292,7 @@ export type VoteLabelProps = {
 
 export type AuthContextProps = {
     isLoggedIn: boolean;
-    login: () => void;
+    login: (userEmail: string) => void;
     logout: () => void;
+    email?: string | null;
 };

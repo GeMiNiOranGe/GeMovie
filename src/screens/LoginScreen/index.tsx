@@ -96,9 +96,9 @@ class LoginScreen extends React.Component<
       await signInWithEmailAndPassword(auth, email, password);
       console.log('Login successful');
       if (login) {
-        login();
+        login(email);
       }
-      this.props.navigation.navigate('HomeScreen');
+      this.props.navigation.navigate('HomeStack', { screen: 'HomeScreen' });
     } catch (error) {
       console.error('Login failed:', error);
       this.setState({

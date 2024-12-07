@@ -8,7 +8,7 @@ import {
   UserScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
-import { AuthContext } from 'src/context/AuthContext'; // Import the context
+import { AuthContext } from 'src/context/AuthContext';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

@@ -190,6 +190,11 @@ export type ForgotPasswordScreenState = {
     emailErrors: boolean;
 };
 
+export type UserScreenState = {
+    username: string;
+    isLoading: boolean;
+};
+
 export type YoutubeState = {
     videoKey: string | null;
     loading: boolean;
