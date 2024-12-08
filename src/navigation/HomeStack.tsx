@@ -14,10 +14,13 @@ import {
   ContentListScreen,
   ReviewDetailScreen,
   GenreDetailScreen,
+  AllTV,
+  TopRated,
+  NetworkDetailScreen,
+  SeasonDetailScreen,
+  EpisodeDetailScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
-import AllTV from 'src/screens/SeeAllTV';
-import TopRated from 'src/screens/SeeAllTopRated';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -84,6 +87,30 @@ class HomeStack extends React.Component {
         <Stack.Screen
           name='GenreDetailScreen'
           component={GenreDetailScreen}
+          options={{
+            title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='NetworkDetailScreen'
+          component={NetworkDetailScreen}
+          options={{
+            title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='SeasonDetailScreen'
+          component={SeasonDetailScreen}
+          options={{
+            title: 'Detail',
+          }}
+        />
+
+        <Stack.Screen
+          name='EpisodeDetailScreen'
+          component={EpisodeDetailScreen}
           options={{
             title: 'Detail',
           }}

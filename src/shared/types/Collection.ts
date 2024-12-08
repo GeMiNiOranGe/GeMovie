@@ -1,4 +1,9 @@
-import type { Media, MediaElementBase, MovieElement } from '@shared/types';
+import type {
+    Media,
+    MediaElementBase,
+    MovieElement,
+    Optional,
+} from '@shared/types';
 
 export type CollectionElement = MediaElementBase & {
     originalName: string;
@@ -9,14 +14,14 @@ export type Collection = {
     id: number;
     name: string;
     overview: string;
-    posterPath: string | undefined;
-    backdropPath: string | undefined;
+    posterPath: Optional<string>;
+    backdropPath: Optional<string>;
     parts: (MovieElement & Media)[];
 };
 
 export type SimpleCollection = {
     id: number;
     name: string;
-    posterPath?: string | undefined;
-    backdropPath?: string | undefined;
+    posterPath: Optional<string>;
+    backdropPath: Optional<string>;
 };

@@ -1,8 +1,6 @@
-/* eslint-disable prettier/prettier */
 import {
   Animated,
-  FlatList,
-  Image,
+  type ListRenderItemInfo,
   Modal,
   ScrollView,
   Text,
@@ -10,38 +8,53 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
+import {
+  Calendar2,
+  CalendarRemove,
+  Personalcard,
+  IconProps as IconsaxProps,
+  Cake,
+  Global,
+} from 'iconsax-react-native';
 
+import { IMDb } from '@assets/icons';
+import { IMDB_BASE_URL } from '@config';
 import {
   LabelProps,
+  MovieCreditsCast,
   PersonDetailScreenState,
   RootScreenProps,
-  Variant,
+  TvShowCreditsCast,
 } from '@shared/types';
 import {
-  IMDB_BASE_URL,
-  TMDB_API_KEY,
-  TMDB_BASE_IMAGE_URL,
-  TMDB_BASE_URL,
-} from '@config';
-import { imageSize } from '@shared/constants';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { ExpandableText, Labels, TouchableRippleLink } from '@components';
+  Box,
+  CompactMovieCard,
+  CompactTvShowCard,
+  ExpandableText,
+  FullScreenLoader,
+  Labels,
+  Section,
+  TMDBImage,
+  TouchableRippleLink,
+} from '@components';
 import {
-  Building,
-  Calendar1,
-  CalendarRemove,
-  Global,
-  Personalcard,
-} from 'iconsax-react-native';
-import { getFormattedGender } from '@shared/utils';
-import { URLBuilder } from '@services';
-import { IMDb } from '@assets/icons';
+  getFormattedAge,
+  getFormattedDate,
+  getFormattedGender,
+  isValidDate,
+  toMovieCredits,
+  toTvShowCredits,
+} from '@shared/utils';
+import { PersonService } from '@services';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const iconSize = 16;
-const iconColor = 'black';
-const iconVariant: Variant = 'Bold';
+const labelIconsaxProps: IconsaxProps = {
+  size: 16,
+  color: colors.subtext.toString(),
+  variant: 'Bold',
+};
 
 class PersonDetailScreen extends React.Component<
   RootScreenProps<'PersonDetailScreen'>,
@@ -51,228 +64,168 @@ class PersonDetailScreen extends React.Component<
     super(props);
     this.state = {
       person: undefined,
-      movies: [],
-      personImages: [],
+      movieCredits: undefined,
+      tvShowCredits: undefined,
       isModalVisible: false,
-      selectedImage: null,
       animations: [],
       introAnim: new Animated.Value(0),
       labelsAnim: new Animated.Value(0),
     };
+
+    this.renderMovieCreditsCast = this.renderMovieCreditsCast.bind(this);
+    this.renderTvShowCreditsCast = this.renderTvShowCreditsCast.bind(this);
   }
 
-  public override componentDidMount(): void {
+  public override async componentDidMount(): Promise<void> {
     const { personId } = this.props.route.params;
-    const url = `${TMDB_BASE_URL}/person/${personId}?api_key=${TMDB_API_KEY}&language=en-US`;
-    const movieUrl = `${TMDB_BASE_URL}/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}&language=en-US`;
-    const imagesUrl = `${TMDB_BASE_URL}/person/${personId}/images?api_key=${TMDB_API_KEY}`;
-    Promise.all([
-      fetch(url).then(response => response.json()),
-      fetch(movieUrl).then(response => response.json()),
-      fetch(imagesUrl).then(response => response.json()),
-    ])
-      .then(([celebrityData, movieData, imagesData]) => {
-        const animations = movieData.cast.map(() => new Animated.Value(0));
 
-        this.setState({
-          person: celebrityData,
-          movies: movieData.cast,
-          personImages: imagesData.profiles,
-          animations,
-        },() => {
-          this.runEntranceAnimations();
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    const [person, movieCredits, tvShowCredits] = await Promise.all([
+      PersonService.getDetailAsync(personId),
+      PersonService.getCreditsAsync('movie', personId, toMovieCredits),
+      PersonService.getCreditsAsync('tv', personId, toTvShowCredits),
+    ]);
+    const animations = movieCredits.cast.map(() => new Animated.Value(0));
+
+    this.props.navigation.setOptions({ title: person.name });
+    this.setState(
+      {
+        person,
+        movieCredits,
+        tvShowCredits,
+        animations,
+      },
+      this.runEntranceAnimations,
+    );
   }
 
-  private openModal(imagePath: string) {
-    this.setState({ isModalVisible: true, selectedImage: imagePath });
+  private openModal() {
+    this.setState({ isModalVisible: true });
   }
 
   private closeModal() {
-    this.setState({ isModalVisible: false, selectedImage: null });
+    this.setState({ isModalVisible: false });
   }
 
   private getLabels(): LabelProps[] {
-    if (this.state.person?.deathday === null) {
-      return [
-        {
-          value: `${getFormattedGender(this.state.person?.gender)}`,
-          name: 'Gender',
-          icon: (
-            <Personalcard
-              size={iconSize}
-              color={iconColor}
-              variant={iconVariant}
-            />
-          ),
-        },
-        {
-          value: this.state.person?.birthday || 'N/A',
-          name: 'Birthday',
-          icon: (
-            <Calendar1
-              size={iconSize}
-              color={iconColor}
-              variant={iconVariant}
-            />
-          ),
-        },
-        {
-          value: this.state.person?.place_of_birth || 'N/A',
-          name: 'Place of Birth',
-          icon: (
-            <Building size={iconSize} color={iconColor} variant={iconVariant} />
-          ),
-        },
-        {
-          value: `${this.state.person?.popularity}`,
-          name: 'Popularity',
-          icon: (
-            <Global size={iconSize} color={iconColor} variant={iconVariant} />
-          ),
-        },
-      ];
-    }
-    return [
+    const labels: LabelProps[] = [
       {
-        value: this.state.person?.birthday || 'N/A',
-        name: 'Birthday',
-        icon: (
-          <Calendar1 size={iconSize} color={iconColor} variant={iconVariant} />
+        value: getFormattedAge(
+          this.state.person?.birthday,
+          this.state.person?.deathday,
         ),
+        name: 'Age',
+        icon: <Cake {...labelIconsaxProps} />,
       },
       {
-        value: this.state.person?.deathday || 'N/A',
-        name: 'Deathday',
-        icon: (
-          <CalendarRemove
-            size={iconSize}
-            color={iconColor}
-            variant={iconVariant}
-          />
-        ),
+        value: getFormattedGender(this.state.person?.gender),
+        name: 'Gender',
+        icon: <Personalcard {...labelIconsaxProps} />,
       },
       {
-        value: this.state.person?.place_of_birth || 'N/A',
-        name: 'Place of Birth',
-        icon: (
-          <Building size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
-      },
-      {
-        value: `${this.state.person?.popularity}`,
-        name: 'Popularity',
-        icon: (
-          <Global size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
+        value: getFormattedDate(this.state.person?.birthday),
+        name: 'Born',
+        icon: <Calendar2 {...labelIconsaxProps} />,
       },
     ];
+
+    if (isValidDate(this.state.person?.deathday)) {
+      labels.push({
+        value: getFormattedDate(this.state.person?.deathday),
+        name: 'Died',
+        icon: <CalendarRemove {...labelIconsaxProps} />,
+      });
+    }
+
+    return labels;
   }
 
   private runEntranceAnimations() {
     const { animations, introAnim, labelsAnim } = this.state;
-    const introAnimation = Animated.timing(introAnim, {
-      toValue: 1,
-      duration: 400,
-      useNativeDriver: true,
-    });
     const labelsAnimation = Animated.timing(labelsAnim, {
       toValue: 1,
-      duration: 400,
+      duration: 200,
       useNativeDriver: true,
     });
-
-    const movieAnimations = animations.map((anim, index) =>
+    const introAnimation = Animated.timing(introAnim, {
+      toValue: 1,
+      duration: 200,
+      useNativeDriver: true,
+    });
+    const movieAnimations = animations.map(anim =>
       Animated.timing(anim, {
         toValue: 1,
-        duration: 400,
+        duration: 200,
         useNativeDriver: true,
       }),
     );
 
     Animated.sequence([
-      introAnimation,
       labelsAnimation,
+      introAnimation,
       Animated.stagger(150, movieAnimations),
     ]).start();
   }
 
-  public override render(): React.JSX.Element {
-    const { person, isModalVisible, selectedImage } =
-      this.state;
+  private renderMovieCreditsCast({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieCreditsCast>) {
     return (
-      <ScrollView style={styles.container}>
-        <View style={styles.header} />
-        <Modal
-          visible={isModalVisible}
-          transparent={true}
-          animationType='fade'
-          onRequestClose={() => this.closeModal()}
-        >
-          <View style={styles.modalBackground}>
-            <TouchableOpacity
-              style={styles.modalContainer}
-              onPress={() => this.closeModal()}
-            >
-              {selectedImage && (
-                <Image
-                  source={{ uri: selectedImage }}
-                  style={styles.modalImage}
-                />
-              )}
+      <CompactMovieCard
+        item={item}
+        index={index}
+        listLength={this.state.movieCredits?.cast.length}
+        onPress={() =>
+          this.props.navigation.push('MovieDetailScreen', {
+            movieId: item.id,
+          })
+        }
+      />
+    );
+  }
+
+  private renderTvShowCreditsCast({
+    item,
+    index,
+  }: ListRenderItemInfo<TvShowCreditsCast>) {
+    return (
+      <CompactTvShowCard
+        item={item}
+        index={index}
+        listLength={this.state.tvShowCredits?.cast.length}
+        onPress={() =>
+          this.props.navigation.push('TvShowDetailScreen', {
+            tvShowId: item.id,
+          })
+        }
+      />
+    );
+  }
+
+  public override render(): React.JSX.Element {
+    if (!this.state.person) {
+      return <FullScreenLoader />;
+    }
+
+    return (
+      <SafeAreaView style={[layout.flex1, styles.container]}>
+        <ScrollView>
+          <View style={[layout.itemsCenter, styles.profileBox]}>
+            <TouchableOpacity onPress={() => this.openModal()}>
+              <TMDBImage
+                style={styles.profile}
+                resizeMode='contain'
+                size='w300'
+                path={this.state.person?.profilePath}
+              />
             </TouchableOpacity>
           </View>
-        </Modal>
 
-        {/* <View style={styles.overlay} /> */}
-        <View style={styles.body}>
-          <View style={styles.containerProfile}>
-            <View>
-              {person?.profile_path ? (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.openModal(
-                      `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${person?.profile_path}`,
-                    )
-                  }
-                >
-                  <Image
-                    style={styles.backdropImage}
-                    resizeMode='contain'
-                    source={{
-                      uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w300}${person?.profile_path}`,
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <View style={styles.iconCircle}>
-                  <Icon
-                    name='institution'
-                    size={60}
-                    color='black'
-                    style={styles.icon}
-                  />
-                </View>
-              )}
-            </View>
-            <Text style={styles.profileName}>{this.state.person?.name}</Text>
-            <Text style={styles.departmentText}>
-              {this.state.person?.known_for_department}
-            </Text>
-            {this.state.person?.imdb_id && (
-              <TouchableRippleLink
-                url={`${IMDB_BASE_URL}/title/${this.state.person?.imdb_id}`}
-                style={[layout.center]}
-              >
-                <IMDb color={colors.text.toString()} />
-              </TouchableRippleLink>
-            )}
-            <Animated.View
-              style={{
+          <Text style={styles.name}>{this.state.person?.name}</Text>
+
+          <Animated.View
+            style={[
+              {
                 opacity: this.state.labelsAnim,
                 transform: [
                   {
@@ -282,13 +235,14 @@ class PersonDetailScreen extends React.Component<
                     }),
                   },
                 ],
-              }}
-            >
-              <View style={styles.titleBody}>
-                <Labels data={this.getLabels()} />
-              </View>
-            </Animated.View>
-          </View>
+              },
+              layout.itemsCenter,
+              styles.labelBox,
+            ]}
+          >
+            <Labels data={this.getLabels()} />
+          </Animated.View>
+
           <Animated.View
             style={{
               opacity: this.state.introAnim,
@@ -302,44 +256,135 @@ class PersonDetailScreen extends React.Component<
               ],
             }}
           >
-            <Text style={styles.biographyText}>Introduction</Text>
-            <ExpandableText>
-              {`${this.state.person?.biography}`}
-            </ExpandableText>
+            <Box title='Biography'>
+              <ExpandableText seeButtonPosition='separate'>
+                {`${this.state.person?.biography}`}
+              </ExpandableText>
+            </Box>
 
-            <Text style={styles.biographyText}>Most Popular Movies</Text>
-            <View style={styles.containerMovie}>
-              <FlatList
-                data={this.state.movies}
-                horizontal
-                showsHorizontalScrollIndicator={false}
+            {(this.state.person?.imdbId || this.state.person?.homepage) && (
+              <Box contentContainerStyle={layout.row} title='External link'>
+                {this.state.person?.homepage && (
+                  <TouchableRippleLink
+                    style={styles.homepageLink}
+                    url={`${this.state.person?.homepage}`}
+                  >
+                    <View style={[layout.row, layout.itemsCenter]}>
+                      <Global color={colors.text.toString()} />
+
+                      <Text style={styles.homepageText}>Homepage</Text>
+                    </View>
+                  </TouchableRippleLink>
+                )}
+
+                {this.state.person?.imdbId && (
+                  <TouchableRippleLink
+                    style={styles.imdbLink}
+                    url={`${IMDB_BASE_URL}/name/${this.state.person?.imdbId}`}
+                  >
+                    <IMDb color={colors.text.toString()} />
+                  </TouchableRippleLink>
+                )}
+              </Box>
+            )}
+
+            <Section.Separator />
+
+            <Section title='Known For Movies'>
+              <Section.HorizontalList
+                data={this.state.movieCredits?.cast}
                 keyExtractor={item => item.id.toString()}
-                renderItem={({ item: movie }) => {
-                  const imageUrl = URLBuilder.buildImageURL(
-                    'w185',
-                    movie.poster_path,
-                  );
-                  return (
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.push('MovieDetailScreen', {
-                          movieId: movie.id,
-                        })
-                      }
-                    >
-                      <Image
-                        source={{ uri: imageUrl }}
-                        style={styles.movieThumbnail}
-                      />
-                    </TouchableOpacity>
-                  );
-                }}
-                nestedScrollEnabled
+                renderItem={this.renderMovieCreditsCast}
               />
-            </View>
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Known For Tv Series'>
+              <Section.HorizontalList
+                data={this.state.tvShowCredits?.cast}
+                keyExtractor={(_item, index) => index.toString()}
+                renderItem={this.renderTvShowCreditsCast}
+              />
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Details'>
+              <Section.Content>
+                <Section.Label
+                  name='Known For'
+                  value={this.state.person.knownForDepartment}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Gender'
+                  value={getFormattedGender(this.state.person.gender)}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Born'
+                  value={getFormattedDate(this.state.person.birthday)}
+                />
+
+                {isValidDate(this.state.person.deathday) && (
+                  <>
+                    <Section.Divider />
+
+                    <Section.Label
+                      name='Died'
+                      value={`${getFormattedDate(
+                        this.state.person.deathday,
+                      )} (${getFormattedAge(
+                        this.state.person?.birthday,
+                        this.state.person?.deathday,
+                      )})`}
+                    />
+                  </>
+                )}
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Place of Birth'
+                  value={this.state.person.placeOfBirth}
+                />
+
+                <Section.Divider />
+
+                <Section.Label
+                  name='Also Known As'
+                  value={this.state.person.alsoKnownAs.join('\n')}
+                />
+              </Section.Content>
+            </Section>
           </Animated.View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+
+        <Modal
+          visible={this.state.isModalVisible}
+          transparent={true}
+          animationType='fade'
+          onRequestClose={() => this.closeModal()}
+        >
+          <View style={styles.modalBackground}>
+            <TouchableOpacity
+              style={styles.modalContainer}
+              onPress={() => this.closeModal()}
+            >
+              <TMDBImage
+                style={styles.modalImage}
+                size='original'
+                path={this.state.person?.profilePath}
+              />
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </SafeAreaView>
     );
   }
 }

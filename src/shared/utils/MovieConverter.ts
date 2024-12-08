@@ -2,9 +2,7 @@ import { Movie, MovieElement } from '@shared/types';
 import {
     toSimpleCollection,
     toCompanyElement,
-    toProductionCountryElement,
     toLanguage,
-    toKeyword,
 } from '@shared/utils';
 
 export function toMovieElement(val: any): MovieElement {
@@ -18,7 +16,7 @@ export function toMovieElement(val: any): MovieElement {
         overview: val.overview,
         popularity: val.popularity,
         posterPath: val['poster_path'] ?? undefined,
-        releaseDate: new Date(val['release_date']),
+        releaseDate: new Date(val['release_date'] ?? undefined),
         title: val.title,
         video: val.video,
         voteAverage: val['vote_average'],
@@ -45,10 +43,8 @@ export function toMovie(val: any): Movie {
         productionCompanies: Array.from(val['production_companies']).map(
             element => toCompanyElement(element),
         ),
-        productionCountries: Array.from(val['production_countries']).map(
-            element => toProductionCountryElement(element),
-        ),
-        releaseDate: new Date(val['release_date']),
+        productionCountries: val['production_countries'],
+        releaseDate: new Date(val['release_date'] ?? undefined),
         revenue: val.revenue,
         runtime: val.runtime,
         spokenLanguages: Array.from(val['spoken_languages']).map(element =>
@@ -61,9 +57,7 @@ export function toMovie(val: any): Movie {
         voteAverage: val['vote_average'],
         voteCount: val['vote_count'],
         keywords: {
-            keywords: Array.from(val.keywords.keywords).map(element =>
-                toKeyword(element),
-            ),
+            keywords: val.keywords.keywords,
         },
     };
 }

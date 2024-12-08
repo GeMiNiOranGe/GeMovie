@@ -95,9 +95,9 @@ class MovieDetailScreen extends React.Component<
     const { movieId } = this.props.route.params;
 
     const movie = await MovieService.getDetailAsync(movieId);
-    this.setState({ movie });
 
     this.props.navigation.setOptions({ title: movie.title });
+    this.setState({ movie });
   }
 
   private renderGenreItem({
@@ -320,7 +320,7 @@ class MovieDetailScreen extends React.Component<
 
             <Box title='Synopsis'>
               <ExpandableText seeButtonPosition='separate'>
-                {`${this.state.movie?.overview}`}
+                {this.state.movie?.overview || 'No overview available.'}
               </ExpandableText>
             </Box>
 
@@ -450,6 +450,7 @@ class MovieDetailScreen extends React.Component<
             <Section title='Keywords'>
               <Section.HorizontalList
                 noResultText='No keywords found'
+                keyExtractor={item => item.id.toString()}
                 data={this.state.movie?.keywords.keywords}
                 renderItem={this.renderKeywordItem}
               />

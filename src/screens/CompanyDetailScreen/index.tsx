@@ -11,6 +11,7 @@ import {
   VideoPlay,
   Flag,
   IconProps as IconsaxProps,
+  Global,
 } from 'iconsax-react-native';
 
 import type {
@@ -24,8 +25,10 @@ import {
   ExpandableText,
   FullScreenLoader,
   Labels,
+  Section,
   TMDBImage,
   TMDBImageBackgroundLinearGradient,
+  TouchableRippleLink,
   VideoHorizontalListSection,
 } from '@components';
 import { Television } from '@assets/icons';
@@ -185,6 +188,23 @@ class CompanyDetailScreen extends React.Component<
               </ExpandableText>
             </Box>
 
+            {this.state.company?.homepage && (
+              <Box title='External link'>
+                <View style={layout.itemsStart}>
+                  <TouchableRippleLink
+                    style={styles.homepageLink}
+                    url={`${this.state.company?.homepage}`}
+                  >
+                    <View style={[layout.row, layout.itemsCenter]}>
+                      <Global color={colors.text.toString()} />
+
+                      <Text style={styles.homepageText}>Homepage</Text>
+                    </View>
+                  </TouchableRippleLink>
+                </View>
+              </Box>
+            )}
+
             {this.state.company?.parentCompany && (
               <Box title='Parent company'>
                 <TouchableOpacity
@@ -220,6 +240,8 @@ class CompanyDetailScreen extends React.Component<
                 </TouchableOpacity>
               </Box>
             )}
+
+            <Section.Separator />
 
             <VideoHorizontalListSection
               data={this.state.popularMovies}

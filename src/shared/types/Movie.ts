@@ -1,5 +1,6 @@
 import type {
     Keyword,
+    Optional,
     SimpleCollection,
     VideoBase,
     VideoElementBase,
@@ -29,8 +30,8 @@ export type FeaturedMovie = {
 export type Movie = VideoBase &
     MovieBase & {
         originCountry: string[];
-        imdbId: string | undefined;
-        belongsToCollection: SimpleCollection | undefined;
+        imdbId: Optional<string>;
+        belongsToCollection: Optional<SimpleCollection>;
         budget: number;
         revenue: number;
         runtime: number;

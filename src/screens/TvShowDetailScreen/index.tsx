@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-  ActivityIndicator,
   Animated,
   FlatList,
-  Image,
-  ListRenderItemInfo,
+  type ListRenderItemInfo,
   Modal,
   SafeAreaView,
   ScrollView,
@@ -14,44 +12,60 @@ import {
   View,
 } from 'react-native';
 import {
+  Calendar,
+  Global,
+  Play,
+  IconProps as IconsaxProps,
+  Star1,
+  Clock,
+} from 'iconsax-react-native';
+import { Chip, TouchableRipple } from 'react-native-paper';
+
+import { Adult } from '@assets/icons';
+import type {
   RootScreenProps,
   TvShowDetailScreenState,
   LabelProps,
-  Variant,
   CompanyElement,
+  SeasonElement,
+  NetworkElement,
+  SvgIconProps,
+  Genre,
+  Keyword,
 } from '@shared/types';
-import { TvShowService } from '@services';
-import { TMDB_BASE_IMAGE_URL } from '@config';
-import { imageSize, spacing } from '@shared/constants';
 import {
+  Box,
   Credit,
   ExpandableText,
+  FullScreenLoader,
   Labels,
+  NetworkCard,
   Photo,
   Recommendation,
+  Review,
+  SeasonCard,
   Section,
   SimpleCompanyCard,
+  TMDBImage,
   TouchableRippleLink,
   Youtube,
 } from '@components';
-import LinearGradient from 'react-native-linear-gradient';
+import { TvShowService } from '@services';
 import {
-  Calendar,
-  Flag,
-  Global,
-  LanguageCircle,
-  Star1,
-  Image as ImageIcon,
-} from 'iconsax-react-native';
-import { Adult } from '@assets/icons';
-import { getFormattedDate } from '@shared/utils';
+  getFormattedDate,
+  getFormattedFullYear,
+  getFormattedRuntime,
+  getFormattedVoteAverage,
+} from '@shared/utils';
+import { spacing } from '@shared/constants';
 import { colors, layout } from '@shared/themes';
-import { Chip } from 'react-native-paper';
 import styles from './style';
 
-const iconSize = 16;
-const iconColor = '#000';
-const iconVariant: Variant = 'Bold';
+const labelIconsaxProps: IconsaxProps = {
+  size: 16,
+  color: colors.subtext.toString(),
+  variant: 'Bold',
+};
 
 class TvShowDetailScreen extends React.Component<
   RootScreenProps<'TvShowDetailScreen'>,
@@ -60,7 +74,7 @@ class TvShowDetailScreen extends React.Component<
   public constructor(props: RootScreenProps<'TvShowDetailScreen'>) {
     super(props);
     this.state = {
-      tv: undefined,
+      tvShow: undefined,
       modalVisible: false,
       isloading: false,
       animatedOpacity: new Animated.Value(0),
@@ -68,39 +82,48 @@ class TvShowDetailScreen extends React.Component<
       animatedOpacityImage: new Animated.Value(0),
       animatedTranslateYImage: new Animated.Value(0),
     };
+
+    this.renderGenreItem = this.renderGenreItem.bind(this);
+    this.renderSeasonItem = this.renderSeasonItem.bind(this);
+    this.renderNetworkItem = this.renderNetworkItem.bind(this);
     this.renderCompanyItem = this.renderCompanyItem.bind(this);
+    this.renderKeywordItem = this.renderKeywordItem.bind(this);
   }
 
-  public override componentDidMount() {
+  public override async componentDidMount(): Promise<void> {
     const { tvShowId } = this.props.route.params;
-    TvShowService.getDetailAsync(tvShowId).then(data => {
-      this.setState({ tv: data }, () => {
-        this.props.navigation.setOptions({ title: data.name });
-        this.state.animatedTranslateYImage.setValue(30);
-        Animated.parallel([
-          Animated.timing(this.state.animatedOpacity, {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: true,
-          }),
-          Animated.timing(this.state.animatedTranslateY, {
-            toValue: 0,
-            duration: 500,
-            useNativeDriver: true,
-          }),
-          Animated.timing(this.state.animatedOpacityImage, {
-            toValue: 1,
-            duration: 700,
-            useNativeDriver: true,
-          }),
-          Animated.timing(this.state.animatedTranslateYImage, {
-            toValue: 0,
-            duration: 700,
-            useNativeDriver: true,
-          }),
-        ]).start();
-      });
-    });
+
+    const tvShow = await TvShowService.getDetailAsync(tvShowId);
+
+    this.props.navigation.setOptions({ title: tvShow.name });
+    this.setState({ tvShow }, this.initializeAnimation);
+  }
+
+  private initializeAnimation() {
+    this.state.animatedTranslateYImage.setValue(30);
+
+    Animated.parallel([
+      Animated.timing(this.state.animatedOpacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.state.animatedTranslateY, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.state.animatedOpacityImage, {
+        toValue: 1,
+        duration: 700,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.state.animatedTranslateYImage, {
+        toValue: 0,
+        duration: 700,
+        useNativeDriver: true,
+      }),
+    ]).start();
   }
 
   public toggleModal = () => {
@@ -117,71 +140,60 @@ class TvShowDetailScreen extends React.Component<
     this.setState({ modalVisible: false });
   };
 
-  // private renderGenres(): React.JSX.Element | null {
-  //   const { tv } = this.state;
-  //   if (tv?.genres && tv.genres.length > 0) {
-  //     return (
-  //       <View>
-  //         {tv.genres.map((genre, index) => (
-  //           <Chip key={index} style={styles.genreChip} textStyle={styles.genre}>
-  //             {genre.name}
-  //           </Chip>
-  //         ))}
-  //       </View>
-  //     );
-  //   }
-  //   return null;
-  // }
-  private renderStars(voteAverage: number): React.JSX.Element {
-    const starCount = Math.round(voteAverage / 2);
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <Text key={i} style={styles.star}>
-          {i <= starCount ? '★' : '☆'}
-        </Text>,
-      );
-    }
-    return <View style={styles.starContainer}>{stars}</View>;
+  private renderGenreItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Genre>): React.JSX.Element {
+    const marginRight =
+      index === (this.state.tvShow?.genres.length || 0) - 1 ? 0 : spacing.small;
+
+    return (
+      <Chip
+        style={[styles.chip, { marginRight }]}
+        textStyle={styles.chipText}
+        onPress={() =>
+          this.props.navigation.push('GenreDetailScreen', {
+            genre: item,
+          })
+        }
+      >
+        {item.name}
+      </Chip>
+    );
   }
 
-  private getLabels(): LabelProps[] {
-    const { tv } = this.state;
-    return [
-      {
-        icon: (
-          <Calendar size={iconSize} color={iconColor} variant={iconVariant} />
-        ),
-        name: 'First Air Date',
-        value: getFormattedDate(tv?.firstAirDate) || 'N/A',
-      },
-      {
-        icon: <Flag size={iconSize} color={iconColor} variant={iconVariant} />,
-        name: 'Country',
-        value: tv?.originCountry?.join(', ') || 'N/A',
-      },
-      {
-        icon: <Adult size={iconSize} color={iconColor} />,
-        name: 'Adult',
-        value: tv?.adult ? 'Yes' : 'No',
-      },
-      {
-        icon: (
-          <LanguageCircle
-            size={iconSize}
-            color={iconColor}
-            variant={iconVariant}
-          />
-        ),
-        name: 'Language',
-        value: tv?.originalLanguage?.toString() || 'N/A',
-      },
-      {
-        icon: <Star1 size={iconSize} color={iconColor} variant={iconVariant} />,
-        name: 'Popularity',
-        value: tv?.popularity?.toString() || 'N/A',
-      },
-    ];
+  private renderSeasonItem({ item, index }: ListRenderItemInfo<SeasonElement>) {
+    return (
+      <SeasonCard
+        item={item}
+        index={index}
+        listLength={this.state.tvShow?.seasons.length}
+        onPress={() =>
+          this.props.navigation.push('SeasonDetailScreen', {
+            tvShowId: this.state.tvShow?.id as number,
+            seasonNumber: item.seasonNumber,
+          })
+        }
+      />
+    );
+  }
+
+  private renderNetworkItem({
+    item,
+    index,
+  }: ListRenderItemInfo<NetworkElement>) {
+    return (
+      <NetworkCard
+        item={item}
+        index={index}
+        listLength={this.state.tvShow?.seasons.length}
+        onPress={() =>
+          this.props.navigation.push('NetworkDetailScreen', {
+            networkId: item.id,
+          })
+        }
+      />
+    );
   }
 
   private renderCompanyItem({
@@ -192,7 +204,7 @@ class TvShowDetailScreen extends React.Component<
       <SimpleCompanyCard
         item={item}
         index={index}
-        listLength={this.state.tv?.productionCompanies.length}
+        listLength={this.state.tvShow?.productionCompanies.length}
         onPress={() => {
           this.props.navigation.push('CompanyDetailScreen', {
             companyId: item.id,
@@ -202,278 +214,354 @@ class TvShowDetailScreen extends React.Component<
     );
   }
 
+  private renderKeywordItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Keyword>): React.JSX.Element {
+    const marginRight =
+      index === (this.state.tvShow?.keywords.results.length || 0) - 1
+        ? 0
+        : spacing.small;
+
+    return (
+      <Chip style={[styles.chip, { marginRight }]} textStyle={styles.chipText}>
+        {item.name}
+      </Chip>
+    );
+  }
+
+  private getLabels(): LabelProps[] {
+    const firstYear = getFormattedFullYear(this.state.tvShow?.firstAirDate);
+    const lastYear = getFormattedFullYear(this.state.tvShow?.lastAirDate);
+    const averageLength = (() => {
+      if (
+        !this.state.tvShow?.episodeRunTime ||
+        !this.state.tvShow?.episodeRunTime.length
+      ) {
+        return 0;
+      }
+
+      if (this.state.tvShow?.episodeRunTime.length > 1) {
+        return (
+          this.state.tvShow?.episodeRunTime.reduce(
+            (accumulator, currentValue) => accumulator + currentValue,
+          ) / this.state.tvShow?.episodeRunTime.length
+        );
+      }
+
+      return this.state.tvShow?.episodeRunTime[0];
+    })();
+
+    return [
+      {
+        icon: <Calendar {...labelIconsaxProps} />,
+        name: 'Year',
+        value:
+          firstYear === lastYear ? firstYear : `${firstYear} - ${lastYear}`,
+      },
+      {
+        icon: <Clock {...labelIconsaxProps} />,
+        name: 'Average Length',
+        value: getFormattedRuntime(averageLength, 'minute'),
+      },
+      {
+        icon: <Adult {...(labelIconsaxProps as SvgIconProps)} />,
+        name: 'Adult',
+        value: this.state.tvShow?.adult ? 'Yes' : 'No',
+      },
+    ];
+  }
+
   public override render() {
-    const {
-      tv,
-      modalVisible,
-      isloading,
-      animatedOpacity,
-      animatedTranslateY,
-      animatedOpacityImage,
-      animatedTranslateYImage,
-    } = this.state;
-    if (!tv) {
-      return (
-        <SafeAreaView style={[layout.flex1, styles.container]}>
-          <ActivityIndicator size='large' color='#0000ff' />
-        </SafeAreaView>
-      );
+    if (!this.state.tvShow) {
+      return <FullScreenLoader />;
     }
 
     return (
       <SafeAreaView style={styles.container}>
-        {isloading && (
-          <View style={[layout.flex1, styles.loading]}>
-            <ActivityIndicator size='large' color='#0000ff' />
-          </View>
-        )}
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <Animated.View
             style={[
               styles.headerContainer,
               {
-                opacity: animatedOpacityImage,
-                transform: [{ translateY: animatedTranslateYImage }],
+                opacity: this.state.animatedOpacityImage,
+                transform: [{ translateY: this.state.animatedTranslateYImage }],
               },
             ]}
           >
-            <Image
-              style={styles.backgroundImage}
-              source={{
-                uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w1280}${tv.backdropPath}`,
-              }}
+            <TMDBImage
+              style={styles.backdrop}
+              size='w1280'
+              path={this.state.tvShow?.backdropPath}
             />
-            <LinearGradient
-              style={styles.gradientOverlay}
-              colors={['rgba(0,0,0,0.2)', 'transparent']}
-            />
-            <TouchableOpacity
-              style={styles.playButton}
-              onPress={this.toggleModal}
-            >
-              <Text style={styles.playButtonText}>▶</Text>
-            </TouchableOpacity>
           </Animated.View>
+
           <View style={styles.bodyOverlay} />
+
           <Animated.View
             style={[
               styles.body,
               {
-                opacity: animatedOpacity,
-                transform: [{ translateY: animatedTranslateY }],
+                opacity: this.state.animatedOpacity,
+                transform: [{ translateY: this.state.animatedTranslateY }],
               },
             ]}
           >
-            <Text style={styles.titleText}>{tv?.name}</Text>
+            <Text style={styles.titleText}>{this.state.tvShow?.name}</Text>
             <View style={[layout.center, styles.genreBox]}>
               <FlatList
                 contentContainerStyle={styles.genreContentList}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={item => item.id.toString()}
-                data={tv?.genres}
-                renderItem={({ item, index }) => {
-                  const marginRight =
-                    index === (tv?.genres.length || 0) - 1 ? 0 : spacing.small;
-
-                  return (
-                    <Chip
-                      key={item.id}
-                      style={[styles.genreChip, { marginRight }]}
-                      textStyle={styles.genre}
-                    >
-                      {item.name}
-                    </Chip>
-                  );
-                }}
+                data={this.state.tvShow?.genres}
+                renderItem={this.renderGenreItem}
               />
             </View>
 
-            {tv.voteAverage && this.renderStars(tv.voteAverage)}
-            <View style={[layout.center, layout.row, styles.actionArea]}>
-              <TouchableRippleLink
-                style={styles.homepageLink}
-                url={`${this.state.tv?.homepage}`}
-                rippleColor={colors.accent.light}
-              >
-                <Global color={colors.primary.toString()} />
-              </TouchableRippleLink>
+            <View style={[layout.row, layout.center, styles.ratingBox]}>
+              <Star1
+                size='14'
+                color={colors.accent.dark.toString()}
+                variant='Bold'
+              />
+
+              <Text style={styles.rating}>
+                {getFormattedVoteAverage(this.state.tvShow?.voteAverage)} (
+                {this.state.tvShow?.voteCount})
+              </Text>
             </View>
 
-            <View style={styles.titleBody}>
+            <View style={[layout.center, layout.row, styles.actionArea]}>
+              <TouchableRipple
+                style={styles.playTouchable}
+                borderless
+                rippleColor={colors.accent.light}
+                onPress={this.toggleModal}
+              >
+                <View style={[layout.row, layout.itemsCenter]}>
+                  <Play color={colors.primary.toString()} />
+
+                  <Text style={styles.playText}>Play trailer</Text>
+                </View>
+              </TouchableRipple>
+
+              {this.state.tvShow?.homepage && (
+                <TouchableRippleLink
+                  style={styles.homepageLink}
+                  url={`${this.state.tvShow?.homepage}`}
+                  rippleColor={colors.accent.light}
+                >
+                  <Global color={colors.primary.toString()} />
+                </TouchableRippleLink>
+              )}
+            </View>
+
+            <View style={[layout.itemsCenter, styles.labelBox]}>
               <Labels data={this.getLabels()} />
             </View>
 
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.introText}>Introduction</Text>
-              <ExpandableText>
-                {tv.overview || 'No overview available.'}
+            <Box title='Synopsis'>
+              <ExpandableText seeButtonPosition='separate'>
+                {this.state.tvShow?.overview || 'No overview available.'}
               </ExpandableText>
-            </View>
+            </Box>
+
+            <Section.Separator />
+
+            <Section title='Cast'>
+              {this.state.tvShow?.id && (
+                <Credit
+                  id={this.state.tvShow?.id}
+                  type='tv'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
+
+            <Section.Separator />
 
             <Section title='Seasons'>
-              {tv?.seasons && tv.seasons.length > 0 ? (
-                <FlatList
-                  data={tv.seasons}
-                  keyExtractor={item => item.id.toString()}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <View key={item.id} style={styles.seasonItem}>
-                      <Image
-                        style={styles.seasonPoster}
-                        source={{
-                          uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w500}${item.poster_path}`,
-                        }}
-                      />
-                      <Text style={styles.seasonTitle}>{item.name}</Text>
-                      <Text style={styles.seasonDetails}>
-                        {item.episode_count} Episodes
-                      </Text>
-                    </View>
-                  )}
-                  contentContainerStyle={styles.seasonsContainer}
-                />
-              ) : (
-                <Text style={styles.noSeasonsText}>No seasons available</Text>
-              )}
+              <Section.HorizontalList
+                noResultText='No season found'
+                keyExtractor={item => item.id.toString()}
+                data={this.state.tvShow.seasons}
+                renderItem={this.renderSeasonItem}
+              />
             </Section>
+
             <Section.Separator />
-            <Section title='Networks'>
-              {tv?.networks && tv.networks.length > 0 ? (
-                <FlatList
-                  data={tv.networks}
-                  keyExtractor={item => item.id.toString()}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <View key={item.id} style={styles.networkItem}>
-                      {item.logoPath ? (
-                        <Image
-                          style={styles.networkLogo}
-                          source={{
-                            uri: `${TMDB_BASE_IMAGE_URL}/${imageSize.w500}${item.logoPath}`,
-                          }}
-                        />
-                      ) : (
-                        <View style={[layout.flex1, layout.center]}>
-                          <ImageIcon size={24} color={colors.text.toString()} />
-                        </View>
-                      )}
-                      <Text style={styles.networkName}>{item.name}</Text>
-                      <Text style={styles.networkCountry}>
-                        {item.originCountry}
-                      </Text>
-                    </View>
-                  )}
-                  contentContainerStyle={styles.networksContainer}
-                />
-              ) : (
-                <Text style={styles.noNetworksText}>No networks available</Text>
-              )}
-            </Section>
-            <Section.Separator />
-            <Section title='Cast'>
-              {this.state.tv?.id && (
-                <Credit
-                  id={this.state.tv?.id}
+
+            <Section title='Recommendation'>
+              {this.state.tvShow?.id && (
+                <Recommendation
                   type='tv'
+                  id={this.state.tvShow.id}
                   navigation={this.props.navigation}
                 />
               )}
             </Section>
+
             <Section.Separator />
+
             <Section title='Photos'>
-              {this.state.tv?.id && (
+              {this.state.tvShow?.id && (
                 <Photo
-                  id={this.state.tv?.id}
+                  id={this.state.tvShow?.id}
                   type='tv'
                   navigation={this.props.navigation}
                 />
               )}
             </Section>
+
             <Section.Separator />
+
+            <Section title='User reviews'>
+              {this.state.tvShow?.id && (
+                <Review
+                  id={this.state.tvShow?.id}
+                  type='tv'
+                  navigation={this.props.navigation}
+                />
+              )}
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Storyline'>
+              <Section.Content>
+                <Section.Item name='Overview'>
+                  <ExpandableText style={styles.expandableText}>
+                    {`${this.state.tvShow?.overview}`}
+                  </ExpandableText>
+                </Section.Item>
+
+                {this.state.tvShow?.tagline && (
+                  <>
+                    <Section.Divider />
+
+                    <Section.Label
+                      name='Tagline'
+                      value={`${this.state.tvShow?.tagline}`}
+                    />
+                  </>
+                )}
+
+                {this.state.tvShow?.genres.length !== 0 && (
+                  <>
+                    <Section.Divider />
+
+                    <Section.Items
+                      name='Genres'
+                      keyExtractor={item => item.id.toString()}
+                      data={this.state.tvShow?.genres}
+                      renderItem={this.renderGenreItem}
+                    />
+                  </>
+                )}
+              </Section.Content>
+            </Section>
+
+            <Section.Separator />
+
+            <Section title='Keywords'>
+              <Section.HorizontalList
+                noResultText='No keywords found'
+                keyExtractor={item => item.id.toString()}
+                data={this.state.tvShow?.keywords.results}
+                renderItem={this.renderKeywordItem}
+              />
+            </Section>
+
+            <Section.Separator />
+
             <Section title='Details'>
               <Section.Content>
                 <Section.Label
                   name='Original Title'
-                  value={`${this.state.tv?.originalName}`}
+                  value={`${this.state.tvShow?.originalName}`}
                 />
 
                 <Section.Divider />
 
                 <Section.Label
-                  name='Release Date'
-                  value={getFormattedDate(this.state.tv?.firstAirDate)}
+                  name='First Air Date'
+                  value={getFormattedDate(this.state.tvShow?.firstAirDate)}
                 />
 
                 <Section.Divider />
 
                 <Section.Label
-                  name='Country'
-                  value={`${this.state.tv?.originCountry}`}
+                  name='Episode Runtime'
+                  value={this.state.tvShow?.episodeRunTime
+                    .map(element => getFormattedRuntime(element))
+                    .join(', ')}
                 />
 
                 <Section.Divider />
 
                 <Section.Label
-                  name='Original Language'
-                  value={`${this.state.tv?.originalLanguage}`}
+                  name='Status'
+                  value={`${this.state.tvShow?.status}`}
                 />
 
                 <Section.Divider />
 
                 <Section.Label
                   name='Country of Origin'
-                  value={
-                    Array.isArray(tv?.originCountry) &&
-                    tv.originCountry.length > 0
-                      ? tv.originCountry.join(', ')
-                      : 'N/A'
-                  }
+                  value={`${this.state.tvShow.originCountry.join(', ')}`}
                 />
 
                 <Section.Divider />
+
+                <Section.Label
+                  name='Original Language'
+                  value={`${this.state.tvShow?.originalLanguage}`}
+                />
+
+                <Section.Divider />
+
                 <Section.Label
                   name='Language Spoken'
-                  value={`${this.state.tv?.spokenLanguages
+                  value={`${this.state.tvShow?.spokenLanguages
                     .map(language => language.name)
                     .join(', ')}`}
                 />
+
                 <Section.Divider />
+
                 <Section.Label
-                  name='Status'
-                  value={`${this.state.tv?.status}`}
+                  name='Production Countries'
+                  value={`${this.state.tvShow?.productionCountries
+                    .map(country => country.name)
+                    .join(', ')}`}
                 />
+
                 <Section.Divider />
-                <Section.Label
-                  name='Vote Average'
-                  value={`${this.state.tv?.voteAverage}`}
+
+                <Section.Items
+                  name='Production Companies'
+                  keyExtractor={item => item.id.toString()}
+                  data={this.state.tvShow?.productionCompanies}
+                  renderItem={this.renderCompanyItem}
+                />
+
+                <Section.Divider />
+
+                <Section.Items
+                  name='Networks'
+                  data={this.state.tvShow.networks}
+                  keyExtractor={item => item.id.toString()}
+                  renderItem={this.renderNetworkItem}
                 />
               </Section.Content>
             </Section>
-            <Section.Items
-              name='Production Companies'
-              keyExtractor={item => item.id.toString()}
-              data={this.state.tv?.productionCompanies}
-              renderItem={this.renderCompanyItem}
-            />
-
-            <Section.Separator />
-            <Section title='Recommendation'>
-              <Recommendation
-                type='tv'
-                id={tv.id}
-                navigation={this.props.navigation}
-              />
-            </Section>
           </Animated.View>
 
-          {/* Modal */}
           <Modal
             animationType='slide'
             transparent={true}
-            visible={modalVisible}
+            visible={this.state.modalVisible}
             onRequestClose={this.closemodal}
           >
             <TouchableOpacity
@@ -482,7 +570,11 @@ class TvShowDetailScreen extends React.Component<
             >
               <TouchableWithoutFeedback>
                 <View>
-                  <Youtube type='tv' id={tv.id} videoType='Trailer' />
+                  <Youtube
+                    type='tv'
+                    id={this.state.tvShow?.id}
+                    videoType='Trailer'
+                  />
                 </View>
               </TouchableWithoutFeedback>
             </TouchableOpacity>

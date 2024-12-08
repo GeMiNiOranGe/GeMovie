@@ -5,19 +5,23 @@ import type {
     FeaturedMovie,
     FeaturedTvShow,
     Images,
-    KnownFor,
     MediaElement,
     Movie,
     MovieElement,
     MultiMediaElement,
     Person,
-    PersonImage,
     PersonElement,
     TvShowElement,
     Reviews,
     Review,
     Genre,
     TvShow,
+    Network,
+    Season,
+    Episode,
+    TPerson,
+    MovieCredits,
+    TvShowCredits,
 } from '@shared/types';
 import { Animated } from 'react-native';
 
@@ -55,6 +59,21 @@ export type GenreDetailScreenState = {
     isLoading: boolean;
 };
 
+export type NetworkDetailScreenState = {
+    network: Network | undefined;
+    popularTvShows: TvShowElement[];
+    topRatedTvShows: TvShowElement[];
+    totalTvShows: number;
+};
+
+export type SeasonDetailScreenState = {
+    season: Season | undefined;
+};
+
+export type EpisodeDetailScreenState = {
+    episode: Episode | undefined;
+};
+
 export type MovieDetailScreenState = {
     movie: Movie | undefined;
     modalVisible: boolean;
@@ -65,7 +84,7 @@ export type CollectionDetailState = {
 };
 
 export type TvShowDetailScreenState = {
-    tv?: TvShow | undefined;
+    tvShow: TvShow | undefined;
     modalVisible: boolean;
     isloading: boolean;
     animatedOpacity: Animated.Value;
@@ -90,11 +109,10 @@ export type CompanyDetailScreenState = {
 };
 
 export type PersonDetailScreenState = {
-    person?: Person | undefined;
-    movies: KnownFor[];
-    personImages?: PersonImage[];
+    person: TPerson | undefined;
+    movieCredits: MovieCredits | undefined;
+    tvShowCredits: TvShowCredits | undefined;
     isModalVisible: boolean;
-    selectedImage: string | null;
     animations: Animated.Value[];
     introAnim: Animated.Value;
     labelsAnim: Animated.Value;

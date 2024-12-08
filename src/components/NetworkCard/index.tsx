@@ -1,15 +1,13 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
 
-import type { CompanyElement, SimpleCardProps } from '@shared/types';
+import type { CardBaseProps, NetworkElement } from '@shared/types';
 import { TMDBImage } from '@components';
 import { spacing } from '@shared/constants';
 import styles from './style';
 
-class SimpleCompanyCard extends React.PureComponent<
-  SimpleCardProps<CompanyElement>
-> {
+class NetworkCard extends React.PureComponent<CardBaseProps<NetworkElement>> {
   public override render(): React.JSX.Element {
     const marginRight =
       this.props.index === (this.props.listLength || 0) - 1 ? 0 : spacing.small;
@@ -35,6 +33,10 @@ class SimpleCompanyCard extends React.PureComponent<
             <Text style={styles.name} numberOfLines={2}>
               {`${this.props.item.name}\n`}
             </Text>
+
+            <Text style={styles.country} numberOfLines={1}>
+              {this.props.item.originCountry}
+            </Text>
           </View>
         </>
       </TouchableRipple>
@@ -42,4 +44,4 @@ class SimpleCompanyCard extends React.PureComponent<
   }
 }
 
-export default SimpleCompanyCard;
+export default NetworkCard;

@@ -1,17 +1,9 @@
-import type { MediaElement } from '@shared/types';
-
-export type KnownFor = {
-    id: number;
-    title: string;
-    original_title: string;
-    overview: string;
-    poster_path: string;
-    media_type: string;
-    genre_ids: number[];
-    release_date: string;
-    vote_average: number;
-    vote_count: number;
-};
+import type {
+    MediaElement,
+    MovieElement,
+    Optional,
+    TvShowElement,
+} from '@shared/types';
 
 export type PersonBase = {
     adult: boolean;
@@ -20,7 +12,7 @@ export type PersonBase = {
     knownForDepartment: string;
     name: string;
     popularity: number;
-    profilePath: string | undefined;
+    profilePath: Optional<string>;
 };
 
 export type PersonElementBase = PersonBase & {
@@ -31,17 +23,22 @@ export type PersonElement = PersonElementBase & {
     knownFor: MediaElement[];
 };
 
-export type Cast = PersonElementBase & {
+export type CreditElement = PersonElementBase & {
     creditId: string;
-    castId: number;
+};
+
+export type Crew = CreditElement & {
+    department: string;
+    job: string;
+};
+
+export type CastBase = CreditElement & {
     character: string;
     order: number;
 };
 
-export type Crew = PersonElementBase & {
-    creditId: string;
-    department: string;
-    job: string;
+export type Cast = CastBase & {
+    castId: number;
 };
 
 export type Credits = {
@@ -50,24 +47,50 @@ export type Credits = {
     crew: Crew[];
 };
 
-/*
-export type Person = {
+export type TPerson = {
     adult: boolean;
     alsoKnownAs: string[];
     biography: string;
     birthday: Date;
-    deathday: null;
+    deathday: Date;
     gender: number;
-    homepage: string;
+    homepage: Optional<string>;
     id: number;
-    imdbId: string;
+    imdbId: Optional<string>;
     knownForDepartment: string;
     name: string;
     placeOfBirth: string;
     popularity: number;
     profilePath: string;
+    // movieCredits: Omit<MovieCredits, 'id'>;
+    // tvCredits: Omit<TvCredits, 'id'>;
 };
-*/
+
+export type MovieCredits = {
+    id: number;
+    cast: MovieCreditsCast[];
+    crew: MovieCreditsCrew[];
+};
+
+export type MovieCreditsCast = MovieElement &
+    Omit<CastBase, keyof PersonElementBase>;
+
+export type MovieCreditsCrew = MovieElement &
+    Omit<Crew, keyof PersonElementBase>;
+
+export type TvShowCredits = {
+    id: number;
+    cast: TvShowCreditsCast[];
+    crew: TvShowCreditsCrew[];
+};
+
+export type TvShowCreditsCast = TvShowElement &
+    Omit<CastBase, keyof PersonElementBase> & {
+        episodeCount: number;
+    };
+
+export type TvShowCreditsCrew = TvShowElement &
+    Omit<Crew, keyof PersonElementBase>;
 
 export type Person = {
     id: number;
@@ -85,9 +108,15 @@ export type Person = {
     imdb_id?: string | null;
 };
 
-export type PersonImage = {
-    file_path: string;
-    width: number;
-    height: number;
-    aspect_ratio: number;
+export type KnownFor = {
+    id: number;
+    title: string;
+    original_title: string;
+    overview: string;
+    poster_path: string;
+    media_type: string;
+    genre_ids: number[];
+    release_date: string;
+    vote_average: number;
+    vote_count: number;
 };

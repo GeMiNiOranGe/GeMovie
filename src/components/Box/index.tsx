@@ -10,7 +10,9 @@ class Box extends React.PureComponent<BoxProps> {
       <View style={[styles.box, this.props.style]}>
         <Text style={styles.title}>{this.props.title}</Text>
 
-        {this.props.children}
+        <View style={this.props.contentContainerStyle}>
+          {this.props.children}
+        </View>
       </View>
     );
   }

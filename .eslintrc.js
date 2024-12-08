@@ -27,6 +27,7 @@ module.exports = {
                     'sort_by',
                     'with_companies',
                     'with_genres',
+                    'with_networks',
                 ],
             },
         ],

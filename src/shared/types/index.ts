@@ -7,6 +7,7 @@ import type {
     PersonElementBase,
     MovieElement,
     TvShowElement,
+    SeasonElement,
 } from '@shared/types';
 
 export type ImageSize = {
@@ -80,7 +81,8 @@ export type DetailType =
     | 'company'
     | 'collection'
     | 'keyword'
-    | 'review';
+    | 'review'
+    | 'network';
 
 export type VideoType = 'movie' | 'tv';
 
@@ -105,9 +107,10 @@ export type SearchAsync<T> = (
 
 export type DebouncedSearch = DebouncedFunc<(content: string) => Promise<void>>;
 
-export type ElementConvertFn<E> = (val: any) => E;
+// TODO: add `null` if needed
+export type Optional<T> = T | undefined;
 
-export type TransformFn<T> = (val: any) => T;
+export type ConvertFn<T> = (val: any) => T;
 
 export type PropsComponent =
     | React.ComponentType<any>
@@ -147,15 +150,19 @@ export type PaginationResponse<E> = {
     totalResults: number;
 };
 
-export type CardElement = MediaElementBase | PersonElementBase | CompanyElement;
+export type CardElement =
+    | MediaElementBase
+    | PersonElementBase
+    | CompanyElement
+    | SeasonElement;
 
 export type MediaElementBase = {
     adult: boolean;
-    backdropPath: string | undefined;
+    backdropPath: Optional<string>;
     id: number;
     originalLanguage: string;
     overview: string;
-    posterPath: string | undefined;
+    posterPath: Optional<string>;
 };
 
 export type MediaElement = (TvShowElement | MovieElement) & Media;
@@ -210,7 +217,7 @@ export type Images = {
 export type MediaImage = {
     aspectRatio: number;
     height: number;
-    iso_639_1: string | undefined;
+    iso_639_1: Optional<string>;
     filePath: string;
     voteAverage: number;
     voteCount: number;
@@ -225,8 +232,8 @@ export type Keyword = {
 export type AuthorDetails = {
     name: string;
     username: string;
-    avatarPath: string | undefined;
-    rating: number | undefined;
+    avatarPath: Optional<string>;
+    rating: Optional<number>;
 };
 
 export type ReviewElement = {
@@ -248,24 +255,6 @@ export type Review = ReviewElement & {
     mediaId: number;
     mediaTitle: string;
     mediaType: string;
-};
-
-export type NetworkElement = {
-    id: number;
-    logoPath: string | null;
-    name: string;
-    originCountry: string;
-};
-
-export type Season = {
-    air_date: Date;
-    episode_count: number;
-    id: number;
-    name: string;
-    overview: string;
-    poster_path: string;
-    season_number: number;
-    vote_average: number;
 };
 
 export * from './PropsTypes';

@@ -48,6 +48,18 @@ export type RootStackParamList = ParamListBase & {
     GenreDetailScreen: {
         genre: Genre;
     };
+    NetworkDetailScreen: {
+        networkId: number;
+    };
+    SeasonDetailScreen: {
+        tvShowId: number;
+        seasonNumber: number;
+    };
+    EpisodeDetailScreen: {
+        tvShowId: number;
+        seasonNumber: number;
+        episodeNumber: number;
+    };
     MovieDetailScreen: {
         movieId: number;
     };
@@ -85,6 +97,7 @@ export type VideoHorizontalListSectionProps = {
     isUpcoming?: boolean;
 };
 
+// TODO: remove `E extends CardElement`
 export type CardBaseProps<E extends CardElement> = {
     item: E;
     index: number;
@@ -133,6 +146,7 @@ export type ExpandableTextProps = {
 
 export type BoxProps = {
     style?: StyleProp<ViewStyle> | undefined;
+    contentContainerStyle?: StyleProp<ViewStyle> | undefined;
     title: string;
     children?: React.ReactNode | undefined;
 };
@@ -250,8 +264,9 @@ export type VideoProps = {
         | 'Trailer'
         | 'Teaser'
         | 'Clip'
-        | 'Featurette'
-        | 'Behind the Scenes';
+        | 'Behind the Scenes'
+        | 'Bloopers'
+        | 'Featurette';
 };
 
 export type RecommendationProps = {

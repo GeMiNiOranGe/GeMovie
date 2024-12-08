@@ -5,13 +5,11 @@ import type {
     Media,
     MovieElement,
     MultiMediaElement,
-    ProductionCountryElement,
     PaginationResponse,
     Language,
     TvShowElement,
     Images,
     MediaImage,
-    Keyword,
     PersonElement,
     PersonElementBase,
     ReviewElement,
@@ -25,6 +23,10 @@ import {
     toPersonElement,
 } from '@shared/utils';
 import { toPersonElementBase } from './PersonConverter';
+
+export function isValidDate(date: Date | undefined): boolean {
+    return date instanceof Date && !isNaN(date.getTime());
+}
 
 export function addDays(date: Date, numberOfdays: number): Date {
     var result = new Date(date);
@@ -47,6 +49,22 @@ export function getISODateRangeFromToday(
     const currentDate = new Date();
     const nextDate = addDays(currentDate, daysFromToday);
     return [getISODate(currentDate), getISODate(nextDate)];
+}
+
+export function getFormattedAge(
+    birthday: Date | undefined,
+    deathday: Date | undefined,
+): string {
+    if (!birthday || !deathday) {
+        return '-';
+    }
+
+    if (isValidDate(deathday)) {
+        return `${deathday.getFullYear() - birthday.getFullYear()}`;
+    }
+
+    const currentDate = new Date();
+    return `${currentDate.getFullYear() - birthday.getFullYear()}`;
 }
 
 export function getFormattedDate(date?: Date): string {
@@ -90,6 +108,9 @@ export function getFormattedRuntime(
     }
 
     if (timeUnit === 'hour') {
+        if (runtime < 60) {
+            return runtime === 1 ? `${runtime}m` : `${runtime}m`;
+        }
         const hours = Math.floor(runtime / 60);
         const minutes = runtime % 60;
         return `${hours}h ${minutes}m`;
@@ -100,7 +121,7 @@ export function getFormattedRuntime(
     return 'Invalid time unit';
 }
 
-export function getFormattedGender(genderNumber: number): string {
+export function getFormattedGender(genderNumber: number | undefined): string {
     if (genderNumber === 1) {
         return 'Female';
     }
@@ -140,8 +161,11 @@ export const getRandomHeight = (
 
 export function normalizeMarkdown(text: string): string {
     const italicPattern = /<em>|<\/em>/gm;
+    const lineBreakPattern = '<br />';
 
-    return text.replaceAll(italicPattern, '_');
+    return text
+        .replaceAll(italicPattern, '_')
+        .replaceAll(lineBreakPattern, '\r\n');
 }
 
 export function calculateImageDimensions(
@@ -199,6 +223,7 @@ export function toPaginationResponse<T>(val: any): PaginationResponse<T> {
     };
 }
 
+/*
 export function toGenre(val: any): Genre {
     return {
         id: val.id,
@@ -212,6 +237,7 @@ export function toProductionCountryElement(val: any): ProductionCountryElement {
         name: val.name,
     };
 }
+ */
 
 export function toLanguage(val: any): Language {
     return {
@@ -280,12 +306,14 @@ export function toMediaImage(val: any): MediaImage {
     };
 }
 
+/*
 export function toKeyword(val: any): Keyword {
     return {
         id: val.id,
         name: val.name,
     };
 }
+ */
 
 export function toAuthorDetails(val: any): AuthorDetails {
     return {

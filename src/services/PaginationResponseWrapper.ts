@@ -1,12 +1,12 @@
-import type { ElementConvertFn, PaginationResponse } from '@shared/types';
+import type { ConvertFn, PaginationResponse } from '@shared/types';
 
 class PaginationResponseWrapper<E> {
     private searchResponse: PaginationResponse<E>;
-    private elementConvertFn: ElementConvertFn<E>;
+    private elementConvertFn: ConvertFn<E>;
 
     public constructor(
         response: PaginationResponse<E>,
-        elementConvertFn: ElementConvertFn<E>,
+        elementConvertFn: ConvertFn<E>,
     ) {
         this.searchResponse = response;
         this.elementConvertFn = elementConvertFn;

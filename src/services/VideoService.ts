@@ -6,7 +6,7 @@ import {
 import { toCredits, toImages, toReviews } from '@shared/utils';
 import type {
     Credits,
-    ElementConvertFn,
+    ConvertFn,
     Images,
     Reviews,
     VideoType,
@@ -63,7 +63,7 @@ export default class VideoService {
     public static async getRecommendationsAsync<T>(
         type: VideoType,
         id: number,
-        elementConvertFn: ElementConvertFn<T>,
+        elementConvertFn: ConvertFn<T>,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
         const params = new URLSearchParams({
@@ -80,7 +80,7 @@ export default class VideoService {
      */
     public static async getPopularListAsync<T>(
         type: VideoType,
-        elementConvertFn: ElementConvertFn<T>,
+        elementConvertFn: ConvertFn<T>,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
         const params = new URLSearchParams({
@@ -97,7 +97,7 @@ export default class VideoService {
      */
     public static async getTopRatedAsync<T>(
         type: VideoType,
-        elementConvertFn: ElementConvertFn<T>,
+        elementConvertFn: ConvertFn<T>,
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
         const params = new URLSearchParams({

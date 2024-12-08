@@ -3,7 +3,13 @@ import {
     type PaginationResponseWrapper,
     URLBuilder,
 } from '@services';
-import type { ElementConvertFn, SortBy, VideoType } from '@shared/types';
+import type {
+    ConvertFn,
+    SortBy,
+    TvShowElement,
+    VideoType,
+} from '@shared/types';
+import { toTvShowElement } from '@shared/utils';
 
 export default class VideoDiscoveryService {
     /**
@@ -15,7 +21,7 @@ export default class VideoDiscoveryService {
     public static async getVideoByCompanyAsync<T>(
         type: VideoType,
         companyIds: string,
-        elementConvertFn: ElementConvertFn<T>,
+        elementConvertFn: ConvertFn<T>,
         sortBy: SortBy = 'popularity.desc',
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
@@ -38,7 +44,7 @@ export default class VideoDiscoveryService {
     public static async getVideoByGenreAsync<T>(
         type: VideoType,
         genreIds: string,
-        elementConvertFn: ElementConvertFn<T>,
+        elementConvertFn: ConvertFn<T>,
         sortBy: SortBy = 'popularity.desc',
         page: number = 1,
     ): Promise<PaginationResponseWrapper<T>> {
@@ -50,5 +56,26 @@ export default class VideoDiscoveryService {
 
         const url = URLBuilder.buildDiscoverURL(type, params);
         return await APIUtils.fetchPagination(url, elementConvertFn);
+    }
+
+    /**
+     * Get a list of tv shows by network.
+     * @param type `"movie"` | `"tv"`
+     * @param networkIds genre ids
+     * @param page page number
+     */
+    public static async getTvShowByNetworkAsync(
+        networkIds: string,
+        sortBy: SortBy = 'popularity.desc',
+        page: number = 1,
+    ): Promise<PaginationResponseWrapper<TvShowElement>> {
+        const params = new URLSearchParams({
+            with_networks: networkIds,
+            sort_by: sortBy,
+            page: `${page}`,
+        });
+
+        const url = URLBuilder.buildDiscoverURL('tv', params);
+        return await APIUtils.fetchPagination(url, toTvShowElement);
     }
 }
