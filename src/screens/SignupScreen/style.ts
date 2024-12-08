@@ -130,6 +130,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 13,
     },
+    spinnerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '60%',
+    },
 });
 
 export default styles;

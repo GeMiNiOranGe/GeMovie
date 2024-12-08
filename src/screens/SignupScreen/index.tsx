@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -32,7 +33,7 @@ class SignupScreen extends React.Component<
       username: '',
       email: '',
       secureEntery: true,
-      isLoading: true,
+      isLoading: false,
       password: '',
       passwordErrors: {
         length: false,
@@ -122,6 +123,7 @@ class SignupScreen extends React.Component<
           !updatedErrors.email &&
           !updatedErrors.password
         ) {
+          this.setState({ isLoading: true });
           try {
             const signInMethods = await fetchSignInMethodsForEmail(auth, email);
             if (signInMethods.length > 0) {
@@ -135,6 +137,7 @@ class SignupScreen extends React.Component<
                   ...this.state.errorMessages,
                   email: 'Email is already in use',
                 },
+                isLoading: false,
               });
               return;
             }
@@ -153,10 +156,11 @@ class SignupScreen extends React.Component<
               password: hashedPassword,
               createdAt: new Date().toISOString(),
             });
-
+            this.setState({ isLoading: false });
             this.props.navigation.navigate('LoginScreen');
           } catch (error: any) {
             console.error('Registration failed:', error.message);
+            this.setState({ isLoading: false });
           }
         }
       },
@@ -164,179 +168,196 @@ class SignupScreen extends React.Component<
   };
 
   public override render() {
-    const { secureEntery, showPasswordErrors, passwordErrors } = this.state;
+    const { secureEntery, showPasswordErrors, passwordErrors, isLoading } =
+      this.state;
 
     return (
       <ScrollView style={styles.container}>
-        <TouchableOpacity
-          style={styles.backButtonWrapper}
-          onPress={this.handleGoBack}
-        >
-          <Ionicons
-            name='arrow-back-outline'
-            color={colors.primary}
-            size={25}
-          />
-        </TouchableOpacity>
-
-        <View style={styles.textContainer}>
-          <Text style={styles.headingText}>Let&apos;s get</Text>
-          <Text style={styles.headingText}>started</Text>
-        </View>
-
-        <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <Ionicons
-              name='person-outline'
-              size={30}
-              color={colors.secondary}
-            />
-            <TextInput
-              style={[styles.textInput]}
-              placeholder='Enter your Username'
-              placeholderTextColor={colors.secondary}
-              onChangeText={text =>
-                this.setState({
-                  username: text,
-                  errors: { ...this.state.errors, username: false },
-                  errorMessages: { ...this.state.errorMessages, username: '' },
-                })
-              }
-            />
+        {isLoading && (
+          <View style={styles.spinnerContainer}>
+            <ActivityIndicator size='large' color={colors.secondary} />
           </View>
-          {this.state.errors.username && (
-            <Text style={styles.errorMessage}>
-              {this.state.errorMessages.username}
-            </Text>
-          )}
-          <View style={styles.inputContainer}>
-            <Ionicons name='mail-outline' size={30} color={colors.secondary} />
-            <TextInput
-              style={[styles.textInput]}
-              placeholder='Enter your Email'
-              placeholderTextColor={colors.secondary}
-              keyboardType='email-address'
-              onChangeText={text =>
-                this.setState({
-                  email: text,
-                  errors: { ...this.state.errors, email: false },
-                  errorMessages: { ...this.state.errorMessages, email: '' },
-                })
-              }
-            />
-          </View>
-          {this.state.errors.email && (
-            <Text style={styles.errorMessage}>
-              {this.state.errorMessages.email}
-            </Text>
-          )}
-          <View style={styles.inputContainer}>
-            <Ionicons
-              name='lock-closed-outline'
-              size={30}
-              color={colors.secondary}
-            />
-            <TextInput
-              style={[styles.textInput]}
-              placeholder='Enter your password'
-              placeholderTextColor={colors.secondary}
-              secureTextEntry={secureEntery}
-              onChangeText={text => {
-                this.handlePasswordChange(text);
-                if (text.trim() !== '') {
-                  this.setState(prevState => ({
-                    errors: { ...prevState.errors, password: false },
-                    errorMessages: {
-                      ...this.state.errorMessages,
-                      password: '',
-                    },
-                  }));
-                }
-              }}
-            />
-            <TouchableOpacity onPress={this.togglePasswordVisibility}>
+        )}
+        {!isLoading && (
+          <>
+            <TouchableOpacity
+              style={styles.backButtonWrapper}
+              onPress={this.handleGoBack}
+            >
               <Ionicons
-                name={secureEntery ? 'eye-off-outline' : 'eye-outline'}
-                size={20}
-                color={colors.secondary}
+                name='arrow-back-outline'
+                color={colors.primary}
+                size={25}
               />
             </TouchableOpacity>
-          </View>
-          {this.state.errors.password && (
-            <Text style={styles.errorMessage}>
-              {this.state.errorMessages.password}
-            </Text>
-          )}
-          {showPasswordErrors && (
-            <View style={styles.errorListContainer}>
-              <Text
-                style={{
-                  color: passwordErrors.length ? 'green' : 'red',
-                  ...styles.errorText,
-                }}
-              >
-                * At least 8 characters
-              </Text>
-              <Text
-                style={{
-                  color: passwordErrors.uppercase ? 'green' : 'red',
-                  ...styles.errorText,
-                }}
-              >
-                * At least 1 uppercase letter
-              </Text>
-              <Text
-                style={{
-                  color: passwordErrors.lowercase ? 'green' : 'red',
-                  ...styles.errorText,
-                }}
-              >
-                * At least 1 lowercase letter
-              </Text>
-              <Text
-                style={{
-                  color: passwordErrors.number ? 'green' : 'red',
-                  ...styles.errorText,
-                }}
-              >
-                * At least 1 number
-              </Text>
-              <Text
-                style={{
-                  color: passwordErrors.specialChar ? 'green' : 'red',
-                  ...styles.errorText,
-                }}
-              >
-                - At least 1 special character (@$!%*?&#)
-              </Text>
+
+            <View style={styles.textContainer}>
+              <Text style={styles.headingText}>Let&apos;s get</Text>
+              <Text style={styles.headingText}>started</Text>
             </View>
-          )}
 
-          <TouchableOpacity
-            style={styles.loginButtonWrapper}
-            onPress={this.handleSignup}
-          >
-            <Text style={styles.loginText}>Sign up</Text>
-          </TouchableOpacity>
-          {this.state.emailErrorMessage !== '' && (
-            <Text style={styles.errorMessage}>
-              {this.state.emailErrorMessage}
-            </Text>
-          )}
-          <Text style={styles.continueText}>or continue with</Text>
+            <View style={styles.formContainer}>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name='person-outline'
+                  size={30}
+                  color={colors.secondary}
+                />
+                <TextInput
+                  style={[styles.textInput]}
+                  placeholder='Enter your Username'
+                  placeholderTextColor={colors.secondary}
+                  onChangeText={text =>
+                    this.setState({
+                      username: text,
+                      errors: { ...this.state.errors, username: false },
+                      errorMessages: {
+                        ...this.state.errorMessages,
+                        username: '',
+                      },
+                    })
+                  }
+                />
+              </View>
+              {this.state.errors.username && (
+                <Text style={styles.errorMessage}>
+                  {this.state.errorMessages.username}
+                </Text>
+              )}
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name='mail-outline'
+                  size={30}
+                  color={colors.secondary}
+                />
+                <TextInput
+                  style={[styles.textInput]}
+                  placeholder='Enter your Email'
+                  placeholderTextColor={colors.secondary}
+                  keyboardType='email-address'
+                  onChangeText={text =>
+                    this.setState({
+                      email: text,
+                      errors: { ...this.state.errors, email: false },
+                      errorMessages: { ...this.state.errorMessages, email: '' },
+                    })
+                  }
+                />
+              </View>
+              {this.state.errors.email && (
+                <Text style={styles.errorMessage}>
+                  {this.state.errorMessages.email}
+                </Text>
+              )}
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name='lock-closed-outline'
+                  size={30}
+                  color={colors.secondary}
+                />
+                <TextInput
+                  style={[styles.textInput]}
+                  placeholder='Enter your password'
+                  placeholderTextColor={colors.secondary}
+                  secureTextEntry={secureEntery}
+                  onChangeText={text => {
+                    this.handlePasswordChange(text);
+                    if (text.trim() !== '') {
+                      this.setState(prevState => ({
+                        errors: { ...prevState.errors, password: false },
+                        errorMessages: {
+                          ...this.state.errorMessages,
+                          password: '',
+                        },
+                      }));
+                    }
+                  }}
+                />
+                <TouchableOpacity onPress={this.togglePasswordVisibility}>
+                  <Ionicons
+                    name={secureEntery ? 'eye-off-outline' : 'eye-outline'}
+                    size={20}
+                    color={colors.secondary}
+                  />
+                </TouchableOpacity>
+              </View>
+              {this.state.errors.password && (
+                <Text style={styles.errorMessage}>
+                  {this.state.errorMessages.password}
+                </Text>
+              )}
+              {showPasswordErrors && (
+                <View style={styles.errorListContainer}>
+                  <Text
+                    style={{
+                      color: passwordErrors.length ? 'green' : 'red',
+                      ...styles.errorText,
+                    }}
+                  >
+                    * At least 8 characters
+                  </Text>
+                  <Text
+                    style={{
+                      color: passwordErrors.uppercase ? 'green' : 'red',
+                      ...styles.errorText,
+                    }}
+                  >
+                    * At least 1 uppercase letter
+                  </Text>
+                  <Text
+                    style={{
+                      color: passwordErrors.lowercase ? 'green' : 'red',
+                      ...styles.errorText,
+                    }}
+                  >
+                    * At least 1 lowercase letter
+                  </Text>
+                  <Text
+                    style={{
+                      color: passwordErrors.number ? 'green' : 'red',
+                      ...styles.errorText,
+                    }}
+                  >
+                    * At least 1 number
+                  </Text>
+                  <Text
+                    style={{
+                      color: passwordErrors.specialChar ? 'green' : 'red',
+                      ...styles.errorText,
+                    }}
+                  >
+                    - At least 1 special character (@$!%*?&#)
+                  </Text>
+                </View>
+              )}
 
-          <TouchableOpacity style={styles.googleButtonContainer}>
-            <Google style={styles.googleImage} />
-            <Text style={styles.googleText}>Google</Text>
-          </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.loginButtonWrapper}
+                onPress={this.handleSignup}
+              >
+                <Text style={styles.loginText}>Sign up</Text>
+              </TouchableOpacity>
+              {this.state.emailErrorMessage !== '' && (
+                <Text style={styles.errorMessage}>
+                  {this.state.emailErrorMessage}
+                </Text>
+              )}
+              <Text style={styles.continueText}>or continue with</Text>
 
-          <View style={styles.footerContainer}>
-            <Text style={styles.accountText}>Already have an account!</Text>
-            <TouchableOpacity onPress={this.handleLogin}>
-              <Text style={styles.signupText}>Login</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+              <TouchableOpacity style={styles.googleButtonContainer}>
+                <Google style={styles.googleImage} />
+                <Text style={styles.googleText}>Google</Text>
+              </TouchableOpacity>
+
+              <View style={styles.footerContainer}>
+                <Text style={styles.accountText}>Already have an account!</Text>
+                <TouchableOpacity onPress={this.handleLogin}>
+                  <Text style={styles.signupText}>Login</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </>
+        )}
       </ScrollView>
     );
   }
