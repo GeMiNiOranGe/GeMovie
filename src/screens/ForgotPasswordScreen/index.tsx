@@ -11,12 +11,10 @@ import {
   Keyboard,
 } from 'react-native';
 import React from 'react';
-
 import { colors } from '@shared/themes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ForgotPasswordScreenState, RootScreenProps } from '@shared/types';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from 'firebase.config';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import styles from './style';
 
 class ForgotPassword extends React.Component<
@@ -27,39 +25,47 @@ class ForgotPassword extends React.Component<
     super(props);
     this.state = {
       email: '',
-      emailErrors: false,
+      emailEmptyError: false,
+      emailNotFoundError: false,
+      successMessage: '',
     };
   }
+
   private handleGoBack = () => {
     this.props.navigation.goBack();
   };
 
   private handleReset = async () => {
     const { email } = this.state;
-    if (email.trim() === '') {
-      this.setState({ emailErrors: true });
-    } else {
-      try {
-        const queryEmail = query(
-          collection(db, 'users'),
-          where('email', '==', email.trim()),
-        );
-        const getEmail = await getDocs(queryEmail);
-        if (!getEmail.empty) {
-          this.setState({ emailErrors: false });
-          this.props.navigation.navigate('ResetPasswordScreen', { email });
-        } else {
-          this.setState({ emailErrors: true });
-        }
-      } catch (error) {
-        console.error('Error querying Firestore:', error);
-        this.setState({ emailErrors: true });
-      }
+
+    if (!email.trim()) {
+      this.setState({
+        emailEmptyError: true,
+        emailNotFoundError: false,
+        successMessage: '',
+      });
+      return;
+    }
+
+    const auth = getAuth();
+    try {
+      await sendPasswordResetEmail(auth, email.trim());
+      this.setState({
+        successMessage: 'Password reset email sent. Please check your inbox.',
+        emailEmptyError: false,
+        emailNotFoundError: false,
+      });
+    } catch (error) {
+      console.error('Error sending password reset email:', error);
+      this.setState({
+        emailEmptyError: false,
+        emailNotFoundError: true,
+        successMessage: '',
+      });
     }
   };
 
   public override render() {
-    const { emailErrors } = this.state;
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView
@@ -98,13 +104,24 @@ class ForgotPassword extends React.Component<
                     onChangeText={text =>
                       this.setState({
                         email: text,
-                        emailErrors: text.trim() === '',
+                        emailEmptyError: false,
+                        emailNotFoundError: false,
                       })
                     }
                   />
                 </View>
-                {emailErrors && (
-                  <Text style={styles.errorText}>Please input Username</Text>
+                {this.state.emailEmptyError && (
+                  <Text style={styles.errorText}>Please input your Email</Text>
+                )}
+                {this.state.emailNotFoundError && (
+                  <Text style={styles.errorText}>
+                    Email not found. Please try again.
+                  </Text>
+                )}
+                {this.state.successMessage && (
+                  <Text style={styles.forgotText}>
+                    {this.state.successMessage}
+                  </Text>
                 )}
                 <TouchableOpacity
                   style={styles.loginButtonWrapper}

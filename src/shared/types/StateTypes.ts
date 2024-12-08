@@ -201,11 +201,15 @@ export type ResetPasswordScreenState = {
     showPasswordErrors: boolean;
     matchPassword: boolean;
     resetError: string;
+    confirmPassword: string;
+    passwordMatchError: boolean;
 };
 
 export type ForgotPasswordScreenState = {
     email: string;
-    emailErrors: boolean;
+    emailEmptyError: boolean;
+    emailNotFoundError: boolean;
+    successMessage: string;
 };
 
 export type UserScreenState = {
