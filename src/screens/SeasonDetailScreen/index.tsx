@@ -23,7 +23,7 @@ import {
   TMDBImage,
   VoteLabel,
 } from '@components';
-import { getFormattedFullYear } from '@shared/utils';
+import { getFormattedFullYear, getFormattedRuntime } from '@shared/utils';
 import { spacing } from '@shared/constants';
 import { layout } from '@shared/themes';
 import styles from './style';
@@ -93,8 +93,10 @@ class SeasonDetailScreen extends React.PureComponent<
               />
             </View>
 
-            <Text style={styles.subtext}>
+            <Text style={styles.subtext} numberOfLines={1}>
               {getFormattedFullYear(item.airDate)}
+              {' - '}
+              {getFormattedRuntime(item.runtime, 'minute')}
             </Text>
           </View>
 
@@ -148,7 +150,7 @@ class SeasonDetailScreen extends React.PureComponent<
           <View style={styles.content}>
             <Box title='Overview'>
               <ExpandableText seeButtonPosition='separate'>
-                {this.state.season.overview}
+                {this.state.season.overview || 'No overview available'}
               </ExpandableText>
             </Box>
 
