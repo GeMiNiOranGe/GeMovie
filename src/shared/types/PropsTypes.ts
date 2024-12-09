@@ -112,7 +112,7 @@ export type VideoCardBaseProps<E extends VideoElement> = CardBaseProps<E> & {
     rankType?: 'icon-medal' | 'number';
 };
 
-// TODO: rename `icon` to `Icon`
+// TODO: rename `icon` to `IconComponent`
 export type LabelProps = {
     style?: StyleProp<ViewStyle> | undefined;
     nameStyle?: StyleProp<TextStyle> | undefined;

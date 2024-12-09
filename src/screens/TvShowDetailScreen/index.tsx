@@ -186,7 +186,7 @@ class TvShowDetailScreen extends React.Component<
       <NetworkCard
         item={item}
         index={index}
-        listLength={this.state.tvShow?.seasons.length}
+        listLength={this.state.tvShow?.networks.length}
         onPress={() =>
           this.props.navigation.push('NetworkDetailScreen', {
             networkId: item.id,

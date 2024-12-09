@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, type ListRenderItemInfo } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 
 import type {
   ImageDimensions,
@@ -12,15 +13,16 @@ import { VideoService } from '@services';
 import { calculateImageDimensions } from '@shared/utils';
 import { spacing } from '@shared/constants';
 import styles from './style';
-import { ActivityIndicator } from 'react-native-paper';
 
-const getMinDimension = (
+function getMinDimension(
   previousValue: ImageDimensions,
   currentValue: ImageDimensions,
-) => ({
-  width: Math.min(previousValue.width, currentValue.width),
-  height: Math.min(previousValue.height, currentValue.height),
-});
+) {
+  return {
+    width: Math.min(previousValue.width, currentValue.width),
+    height: Math.min(previousValue.height, currentValue.height),
+  };
+}
 
 class Photo extends React.PureComponent<PhotoProps, PhotoState> {
   private backdropDimensions: ImageDimensions;

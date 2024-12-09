@@ -4,7 +4,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import { EmojiSad } from 'iconsax-react-native';
 
 import { layout } from '@shared/themes';
-import { PaginatedResultsListProps } from '@shared/types';
+import type { PaginatedResultsListProps } from '@shared/types';
 import styles from './style';
 
 class PaginatedResultsList<ItemT = any> extends React.PureComponent<
