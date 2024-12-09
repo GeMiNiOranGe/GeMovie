@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     errorText: {
         fontSize: 14,
         fontWeight: 'bold',
-        marginHorizontal: 10,
+        marginHorizontal: 5,
     },
     errorTextSuccess: {
         color: 'green',

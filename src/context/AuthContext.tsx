@@ -7,20 +7,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [email, setEmail] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
-  const login = (userEmail: string) => {
+  const login = (userName: string) => {
     setIsLoggedIn(true);
-    setEmail(userEmail);
+    setUsername(userName);
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    setEmail(null);
+    setUsername(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, email }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, username }}>
       {children}
     </AuthContext.Provider>
   );

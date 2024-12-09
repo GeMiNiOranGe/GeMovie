@@ -152,11 +152,11 @@ export type LoginScreenState = {
     secureEntery: boolean;
     isLoading: boolean;
     errors: {
-        email: boolean;
+        username: boolean;
         password: boolean;
     };
     errorMessages: {
-        email: string;
+        username: string;
         password: string;
     };
 };
@@ -213,7 +213,6 @@ export type ForgotPasswordScreenState = {
 };
 
 export type UserScreenState = {
-    username: string;
     isLoading: boolean;
 };
 

@@ -15,10 +15,11 @@ import {
   LoginScreenState,
   RootScreenProps,
 } from '@shared/types';
-import { auth } from 'firebase.config';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from 'firebase.config';
 import styles from './style';
 import { AuthContext } from 'src/context/AuthContext';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 class LoginScreen extends React.Component<
   RootScreenProps<'LoginScreen'>,
@@ -36,11 +37,11 @@ class LoginScreen extends React.Component<
       secureEntery: true,
       isLoading: false,
       errors: {
-        email: false,
+        username: false,
         password: false,
       },
       errorMessages: {
-        email: '',
+        username: '',
         password: '',
       },
     };
@@ -65,24 +66,22 @@ class LoginScreen extends React.Component<
   };
 
   private handleLogin = async () => {
-    const { email, password, errorMessages, errors } = this.state;
+    const { username, password, errorMessages, errors } = this.state;
     const { login } = this.context || {};
     let updatedErrors = { ...errors };
     let updatedErrorMessages = { ...errorMessages };
-
-    updatedErrorMessages.email = '';
+    updatedErrorMessages.username = '';
     updatedErrorMessages.password = '';
-
-    if (email.trim() === '') {
-      updatedErrors.email = true;
-      updatedErrorMessages.email = 'Email is required';
+    if (username.trim() === '') {
+      updatedErrors.username = true;
+      updatedErrorMessages.username = 'Username is required';
     }
     if (password.trim() === '') {
       updatedErrors.password = true;
       updatedErrorMessages.password = 'Password is required';
     }
 
-    if (updatedErrorMessages.email || updatedErrorMessages.password) {
+    if (updatedErrorMessages.username || updatedErrorMessages.password) {
       this.setState({
         errors: updatedErrors,
         errorMessages: updatedErrorMessages,
@@ -91,17 +90,45 @@ class LoginScreen extends React.Component<
     }
 
     this.setState({ isLoading: true });
-
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log('Login successful');
-      if (login) {
-        login(email);
+      const loginCollection = collection(db, 'Account');
+      const usernameQuery = query(
+        loginCollection,
+        where('username', '==', username),
+      );
+      const usernameSnapshot = await getDocs(usernameQuery);
+      if (usernameSnapshot.empty) {
+        this.setState({
+          errorMessages: {
+            ...this.state.errorMessages,
+            username: 'Username does not exist',
+          },
+          errors: { ...this.state.errors, username: true },
+          isLoading: false,
+        });
+        return;
       }
+
+      const userDoc = usernameSnapshot.docs[0];
+      const userData = userDoc.data();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        userData.email,
+        password,
+      );
+      if (login) {
+        login(username);
+      }
+
       this.props.navigation.navigate('HomeStack', { screen: 'HomeScreen' });
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Login error:', error);
       this.setState({
+        errorMessages: {
+          ...this.state.errorMessages,
+          password: 'Incorrect username or password',
+        },
+        errors: { ...this.state.errors, password: true },
         isLoading: false,
       });
     }
@@ -135,26 +162,29 @@ class LoginScreen extends React.Component<
 
         <View style={styles.formContainer}>
           <View style={styles.inputContainer}>
-            <Ionicons name='mail-outline' size={30} color={colors.secondary} />
+            <Ionicons
+              name='person-outline'
+              size={30}
+              color={colors.secondary}
+            />
             <TextInput
               style={styles.textInput}
-              placeholder='Enter your Email'
+              placeholder='Enter your Username'
               placeholderTextColor={colors.secondary}
               autoCapitalize='none'
-              keyboardType='email-address'
-              value={this.state.email}
+              value={this.state.username}
               onChangeText={text =>
                 this.setState({
-                  email: text,
-                  errors: { ...this.state.errors, email: false },
-                  errorMessages: { ...this.state.errorMessages, email: '' },
+                  username: text,
+                  errors: { ...this.state.errors, username: false },
+                  errorMessages: { ...this.state.errorMessages, username: '' },
                 })
               }
             />
           </View>
-          {this.state.errors.email && (
+          {this.state.errors.username && (
             <Text style={styles.errorMessage}>
-              {this.state.errorMessages.email}
+              {this.state.errorMessages.username}
             </Text>
           )}
 

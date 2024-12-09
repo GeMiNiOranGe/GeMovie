@@ -13,15 +13,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '@shared/themes';
 import { Google } from 'iconsax-react-native';
 import { RootScreenProps, SignupScreenState } from '@shared/types';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  fetchSignInMethodsForEmail,
-} from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
-import { firebaseapp } from 'firebase.config';
+import { collection, where, query, getDocs, addDoc } from 'firebase/firestore';
+import { auth, db } from 'firebase.config';
 import { hash } from 'bcrypt-ts';
 import styles from './style';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 class SignupScreen extends React.Component<
   RootScreenProps<'SignupScreen'>,
@@ -96,8 +92,6 @@ class SignupScreen extends React.Component<
 
   private handleSignup = async () => {
     const { username, email, password, errors, errorMessages } = this.state;
-    const auth = getAuth(firebaseapp);
-    const firestore = getFirestore(firebaseapp);
 
     let updatedErrors = { ...errors };
     let updatedErrorMessages = { ...errorMessages };
@@ -124,44 +118,39 @@ class SignupScreen extends React.Component<
           !updatedErrors.password
         ) {
           this.setState({ isLoading: true });
-          try {
-            const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-            if (signInMethods.length > 0) {
-              this.setState({
-                emailErrorMessage: 'Email is already in use',
-                errors: {
-                  ...this.state.errors,
-                  email: true,
-                },
-                errorMessages: {
-                  ...this.state.errorMessages,
-                  email: 'Email is already in use',
-                },
-                isLoading: false,
-              });
-              return;
-            }
-
-            const userCredential = await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password,
-            );
-
-            const uid = userCredential.user.uid;
-            const hashedPassword = await hash(password, 10);
-            await setDoc(doc(firestore, 'Account', uid), {
-              username,
-              email,
-              password: hashedPassword,
-              createdAt: new Date().toISOString(),
+          const usersCollection = collection(db, 'Account');
+          const usernameQuery = query(
+            usersCollection,
+            where('username', '==', username),
+          );
+          const usernameSnapshot = await getDocs(usernameQuery);
+          if (!usernameSnapshot.empty) {
+            this.setState({
+              errorMessages: {
+                ...this.state.errorMessages,
+                username: 'Username is already',
+              },
+              errors: { ...this.state.errors, username: true },
+              isLoading: false,
             });
-            this.setState({ isLoading: false });
-            this.props.navigation.navigate('LoginScreen');
-          } catch (error: any) {
-            console.error('Registration failed:', error.message);
-            this.setState({ isLoading: false });
+            return;
           }
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password,
+          );
+          const user = userCredential.user;
+          const hashedPassword = await hash(password, 10);
+          await addDoc(usersCollection, {
+            uid: user.uid,
+            username,
+            email,
+            password: hashedPassword,
+            createdAt: new Date().toISOString(),
+          });
+          this.props.navigation.navigate('LoginScreen');
+          this.setState({ isLoading: false });
         }
       },
     );

@@ -15,17 +15,9 @@ import React from 'react';
 import { colors } from '@shared/themes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ResetPasswordScreenState, RootScreenProps } from '@shared/types';
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from 'firebase/firestore';
-import { auth, db } from 'firebase.config';
+import { auth } from 'firebase.config';
 import styles from './style';
-import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth';
+import { updatePassword } from 'firebase/auth';
 
 class ResetPasswordScreen extends React.Component<
   RootScreenProps<'ResetPasswordScreen'>,
@@ -36,6 +28,7 @@ class ResetPasswordScreen extends React.Component<
     this.state = {
       secureEntery: true,
       password: '',
+      confirmPassword: '',
       passwordErrors: {
         length: false,
         uppercase: false,
@@ -46,6 +39,7 @@ class ResetPasswordScreen extends React.Component<
       showPasswordErrors: false,
       matchPassword: false,
       resetError: '',
+      passwordMatchError: false,
     };
   }
   private handleGoBack = () => {
@@ -53,38 +47,33 @@ class ResetPasswordScreen extends React.Component<
   };
 
   private handleReset = async () => {
-    const { passwordErrors, matchPassword, password } = this.state;
-    const hasErrors =
-      Object.values(passwordErrors).some(error => !error) || matchPassword;
-    if (hasErrors || password.trim() === '') {
+    const { password, passwordErrors, passwordMatchError } = this.state;
+
+    if (
+      password.trim() === '' ||
+      passwordMatchError ||
+      Object.values(passwordErrors).includes(false)
+    ) {
       this.setState({
-        resetError: 'Passwords do not match or are invalid.',
+        resetError: 'Password is invalid or passwords do not match.',
       });
       return;
     }
+
     try {
-      const { email } = this.props.route.params;
-      const queryEmail = query(
-        collection(db, 'users'),
-        where('email', '==', email.trim()),
-      );
-      const querySnapshot = await getDocs(queryEmail);
-      if (!querySnapshot.empty) {
-        const userDocId = querySnapshot.docs[0].id;
-        const userRef = doc(db, 'users', userDocId);
-        await updateDoc(userRef, { password });
-        const user = auth.currentUser;
-        if (user) {
-          await updatePassword(user, password);
-          await signInWithEmailAndPassword(auth, email, password);
-        }
-        this.props.navigation.navigate('LoginScreen');
-      } else {
-        this.setState({ resetError: 'User not found' });
+      const user = auth.currentUser;
+      if (!user) {
+        this.setState({ resetError: 'User not logged in.' });
+        return;
       }
+      await updatePassword(user, password);
+      this.props.navigation.navigate('LoginScreen');
     } catch (error) {
-      console.error('Error updating password:', error);
-      this.setState({ resetError: 'Error occurred. Please try again.' });
+      console.error('Error resetting password:', error);
+      this.setState({
+        resetError:
+          'Error occurred while resetting password. Please try again.',
+      });
     }
   };
 
@@ -248,11 +237,6 @@ class ResetPasswordScreen extends React.Component<
                   >
                     <Text style={styles.loginText}>Reset</Text>
                   </TouchableOpacity>
-                  {this.state.resetError !== '' && (
-                    <Text style={styles.errorReset}>
-                      {this.state.resetError}
-                    </Text>
-                  )}
                 </View>
               </View>
             </View>

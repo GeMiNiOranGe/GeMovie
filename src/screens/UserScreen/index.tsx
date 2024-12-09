@@ -12,8 +12,6 @@ import { colors } from '@shared/themes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from 'src/context/AuthContext';
 import styles from './style';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from 'firebase.config';
 
 class UserScreen extends Component<
   RootScreenProps<'UserScreen'>,
@@ -25,44 +23,9 @@ class UserScreen extends Component<
   public constructor(props: RootScreenProps<'UserScreen'>) {
     super(props);
     this.state = {
-      username: '',
-      isLoading: true,
+      isLoading: false,
     };
   }
-
-  public override componentDidMount() {
-    this.fetchUserData();
-  }
-
-  private fetchUserData = async () => {
-    this.setState({ isLoading: true });
-    const { email } = this.context || {};
-    if (email) {
-      try {
-        const userQuery = query(
-          collection(db, 'Account'),
-          where('email', '==', email.trim()),
-        );
-        const querySnapshot = await getDocs(userQuery);
-        if (!querySnapshot.empty) {
-          const userDoc = querySnapshot.docs[0];
-          const userData = userDoc.data();
-          const username = userData?.username || 'No username';
-
-          this.setState({ username, isLoading: false });
-        } else {
-          console.log('Username not found');
-          this.setState({ username: 'No username', isLoading: false });
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        this.setState({
-          username: 'Error fetching username',
-          isLoading: false,
-        });
-      }
-    }
-  };
 
   private handleGoBack = () => {
     this.props.navigation.navigate('HomeStack', { screen: 'HomeScreen' });
@@ -81,7 +44,8 @@ class UserScreen extends Component<
   };
 
   public override render() {
-    const { username, isLoading } = this.state;
+    const { isLoading } = this.state;
+    const { username } = this.context || {};
     return (
       <View style={styles.container}>
         <View style={styles.head}>

@@ -309,5 +309,5 @@ export type AuthContextProps = {
     isLoggedIn: boolean;
     login: (userEmail: string) => void;
     logout: () => void;
-    email?: string | null;
+    username?: string | null;
 };
