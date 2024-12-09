@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     formContainer: {
-        marginTop: height * 0.03,
+        marginTop: height * 0.04,
     },
     inputContainer: {
         borderWidth: 1,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 5,
-        marginVertical: height * 0.02,
+        marginVertical: height * 0.015,
     },
     textInput: {
         flex: 1,

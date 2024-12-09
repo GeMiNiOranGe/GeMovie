@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'black',
         textAlign: 'center',
-        padding: 10,
+        marginTop: 50,
     },
     inputContainer: {
         borderWidth: 2,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 15,
         marginHorizontal: width * 0.06,
-        marginTop: 35,
+        marginTop: 20,
         marginBottom: 20,
         backgroundColor: 'white',
     },
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'red',
         textAlign: 'left',
-        marginHorizontal: width * 0.05,
-        marginBottom: 10,
+        marginHorizontal: width * 0.08,
+        marginBottom: 15,
     },
     textInput: {
         flex: 1,

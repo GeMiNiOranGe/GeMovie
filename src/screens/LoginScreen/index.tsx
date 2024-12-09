@@ -199,6 +199,7 @@ class LoginScreen extends React.Component<
               placeholder='Enter your password'
               placeholderTextColor={colors.secondary}
               secureTextEntry={secureEntery}
+              autoCapitalize='none'
               onChangeText={text => {
                 this.setState({
                   password: text,

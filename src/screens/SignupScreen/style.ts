@@ -16,9 +16,10 @@ const styles = StyleSheet.create({
         borderRadius: height * 0.025,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: height * 0.02,
     },
     textContainer: {
-        marginVertical: height * 0.02,
+        marginVertical: height * 0.04,
     },
     headingText: {
         fontSize: width * 0.08,
@@ -35,8 +36,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: width * 0.05,
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 2,
-        marginVertical: height * 0.02,
+        marginBottom: height * 0.03,
     },
     textInput: {
         flex: 1,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     loginButtonWrapper: {
         backgroundColor: colors.secondary,
         borderRadius: width * 0.1,
-        marginTop: height * 0.03,
+        marginTop: height * 0.04,
         paddingVertical: height * 0.005,
     },
     loginText: {
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: height * 0.01,
         gap: width * 0.02,
+        marginBottom: height * 0.03,
     },
     googleImage: {
         height: width * 0.05,
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: height * 0.06,
         gap: width * 0.02,
+        marginTop: height * 0.04,
     },
     accountText: {
         color: colors.subtext,

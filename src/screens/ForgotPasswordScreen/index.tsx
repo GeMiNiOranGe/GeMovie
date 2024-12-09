@@ -101,6 +101,7 @@ class ForgotPassword extends React.Component<
                     placeholder='Enter your Email'
                     placeholderTextColor={colors.secondary}
                     keyboardType='email-address'
+                    autoCapitalize='none'
                     onChangeText={text =>
                       this.setState({
                         email: text,

@@ -196,6 +196,7 @@ class SignupScreen extends React.Component<
                   style={[styles.textInput]}
                   placeholder='Enter your Username'
                   placeholderTextColor={colors.secondary}
+                  autoCapitalize='none'
                   onChangeText={text =>
                     this.setState({
                       username: text,
@@ -224,6 +225,7 @@ class SignupScreen extends React.Component<
                   placeholder='Enter your Email'
                   placeholderTextColor={colors.secondary}
                   keyboardType='email-address'
+                  autoCapitalize='none'
                   onChangeText={text =>
                     this.setState({
                       email: text,
@@ -249,6 +251,7 @@ class SignupScreen extends React.Component<
                   placeholder='Enter your password'
                   placeholderTextColor={colors.secondary}
                   secureTextEntry={secureEntery}
+                  autoCapitalize='none'
                   onChangeText={text => {
                     this.handlePasswordChange(text);
                     if (text.trim() !== '') {
