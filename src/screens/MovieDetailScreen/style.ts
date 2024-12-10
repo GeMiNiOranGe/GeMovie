@@ -96,14 +96,6 @@ const styles = StyleSheet.create({
     collectionPoster: {
         ...collectionPosterDimensions,
     },
-    collectionTitleBox: {
-        paddingLeft: spacing.large,
-        paddingRight: spacing.medium,
-    },
-    collectionTitle: {
-        fontSize: 16,
-        color: colors.primary,
-    },
     expandableText: {
         color: colors.subtext,
     },

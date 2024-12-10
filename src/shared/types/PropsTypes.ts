@@ -297,3 +297,15 @@ export type VoteLabelProps = {
     valueType?: 'relative' | 'absolute';
     showThreshold?: boolean | undefined;
 };
+
+export type TouchablePanelProps = {
+    imageStyle?: StyleProp<ImageStyle> | undefined;
+    imageContainerStyle?: StyleProp<ViewStyle> | undefined;
+    name: string | undefined;
+    imagePath: string | undefined;
+    imageSize: keyof typeof imageSize;
+    imageResizeMode?: ImageResizeMode | undefined;
+    backgroundPath: string | undefined;
+    backgroundSize: keyof typeof imageSize;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
+};
