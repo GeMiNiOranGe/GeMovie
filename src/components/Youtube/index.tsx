@@ -1,12 +1,19 @@
-import { Text, View, ActivityIndicator } from 'react-native';
 import React from 'react';
+import { Dimensions, Text } from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import { ActivityIndicator } from 'react-native-paper';
+
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
-import { VideoProps, YoutubeState } from '@shared/types';
+import type { YoutubeProps, YoutubeState } from '@shared/types';
+import { colors } from '@shared/themes';
+import { calculateImageDimensions } from '@shared/utils';
 import styles from './style';
 
-class Youtube extends React.Component<VideoProps, YoutubeState> {
-  public constructor(props: VideoProps) {
+const windowWidth = Dimensions.get('window').width;
+const playerDimension = calculateImageDimensions(windowWidth, 16, 9);
+
+class Youtube extends React.Component<YoutubeProps, YoutubeState> {
+  public constructor(props: YoutubeProps) {
     super(props);
     this.state = {
       videoKey: null,
@@ -18,14 +25,14 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
     this.getVideo();
   }
 
-  public override componentDidUpdate(prevProps: VideoProps): void {
+  public override componentDidUpdate(prevProps: YoutubeProps): void {
     if (prevProps.id !== this.props.id || prevProps.type !== this.props.type) {
       this.setState({ loading: true }, this.getVideo);
     }
   }
 
   private getVideo = async () => {
-    const { type, id, videoType } = this.props; // Add videoType to props
+    const { type, id, videoType } = this.props;
     let endpoint = type === 'movie' ? 'movie' : 'tv';
 
     try {
@@ -57,29 +64,20 @@ class Youtube extends React.Component<VideoProps, YoutubeState> {
 
     if (loading) {
       return (
-        <View style={styles.loaderContainer}>
-          <ActivityIndicator size='large' color='#0000ff' />
-        </View>
+        <ActivityIndicator size='large' color={colors.secondary.toString()} />
       );
     }
 
     if (!videoKey) {
-      return (
-        <View>
-          <Text style={styles.text}>No Video Available</Text>
-        </View>
-      );
+      return <Text style={styles.text}>No Video Available</Text>;
     }
 
     return (
-      <View style={styles.videoContainer}>
-        <YoutubePlayer
-          height={300}
-          width={300}
-          videoId={videoKey}
-          play={false}
-        />
-      </View>
+      <YoutubePlayer
+        {...playerDimension}
+        videoId={videoKey}
+        play={this.props.play}
+      />
     );
   }
 }

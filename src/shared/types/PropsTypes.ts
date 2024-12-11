@@ -250,9 +250,10 @@ export type SlideshowProps = {
     movieIds: number[];
 };
 
-export type VideoProps = {
-    type: 'movie' | 'tv' | 'collection';
+export type YoutubeProps = {
+    type: VideoType;
     id: number | undefined;
+    play?: boolean | undefined;
     videoType?:
         | 'Trailer'
         | 'Teaser'

@@ -2,8 +2,7 @@ import React from 'react';
 import { Alert, Linking } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
 
-import { TouchableRippleLinkProps } from '@shared/types';
-
+import type { TouchableRippleLinkProps } from '@shared/types';
 import styles from './style';
 
 class TouchableRippleLink extends React.PureComponent<TouchableRippleLinkProps> {

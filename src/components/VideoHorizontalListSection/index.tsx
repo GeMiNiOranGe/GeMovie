@@ -13,13 +13,13 @@ import { getFormattedDate } from '@shared/utils';
 import styles from './style';
 
 class VideoHorizontalListSection extends React.PureComponent<VideoHorizontalListSectionProps> {
-  public renderListItem = (
+  public renderListItem(
     type: VideoType,
     item: MovieElement | TvShowElement,
     index: number,
     listLength: number,
     isUpcoming?: boolean,
-  ): React.JSX.Element => {
+  ): React.JSX.Element {
     const isMovie = type === 'movie';
     const id = isMovie ? (item as MovieElement).id : (item as TvShowElement).id;
     const screen = isMovie ? 'MovieDetailScreen' : 'TvShowDetailScreen';
@@ -47,14 +47,14 @@ class VideoHorizontalListSection extends React.PureComponent<VideoHorizontalList
         />
       </View>
     );
-  };
+  }
 
-  public renderSection = (
+  public renderSection(
     data: (MovieElement | TvShowElement)[],
     type: VideoType,
     title: string,
     isUpcoming?: boolean,
-  ): React.ReactNode => {
+  ): React.ReactNode {
     if (!data.length) {
       return null;
     }
@@ -74,7 +74,7 @@ class VideoHorizontalListSection extends React.PureComponent<VideoHorizontalList
         <Section.Separator />
       </>
     );
-  };
+  }
 
   public override render(): React.ReactNode {
     return this.renderSection(
