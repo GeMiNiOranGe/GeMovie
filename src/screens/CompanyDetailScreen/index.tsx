@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import {
   Location,
   VideoPlay,
@@ -7,6 +7,7 @@ import {
   IconProps as IconsaxProps,
   Global,
 } from 'iconsax-react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type {
   CompanyDetailScreenState,
@@ -38,7 +39,7 @@ const labelIconsaxProps: IconsaxProps = {
   variant: 'Bold',
 };
 
-class CompanyDetailScreen extends React.Component<
+class CompanyDetailScreen extends React.PureComponent<
   RootScreenProps<'CompanyDetailScreen'>,
   CompanyDetailScreenState
 > {
@@ -129,7 +130,7 @@ class CompanyDetailScreen extends React.Component<
     ];
   }
 
-  private pushCompanyDetailScreen() {
+  private pushCompanyDetailScreen(): void {
     this.props.navigation.push('CompanyDetailScreen', {
       companyId: this.state.company?.parentCompany?.id as number,
     });

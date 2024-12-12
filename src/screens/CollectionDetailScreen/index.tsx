@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  SafeAreaView,
   Text,
   ScrollView,
   View,
@@ -8,6 +7,7 @@ import {
   type ListRenderItemInfo,
   FlatList,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
 import { Chip } from 'react-native-paper';
 import { flatMap, maxBy, uniq } from 'lodash';
@@ -34,7 +34,7 @@ import { getFormattedGenres } from '@shared/utils';
 import { spacing } from '@shared/constants';
 import styles from './style';
 
-class CollectionDetailScreen extends React.Component<
+class CollectionDetailScreen extends React.PureComponent<
   RootScreenProps<'CollectionDetailScreen'>,
   CollectionDetailState
 > {

@@ -1,29 +1,29 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, type ListRenderItemInfo } from 'react-native';
 
 import type {
-  VideoType,
   MovieElement,
   TvShowElement,
   VideoHorizontalListSectionProps,
 } from '@shared/types';
 import { CompactMovieCard, CompactTvShowCard, Section } from '@components';
 import { getFormattedDate } from '@shared/utils';
-
 import styles from './style';
 
 class VideoHorizontalListSection extends React.PureComponent<VideoHorizontalListSectionProps> {
-  public renderListItem(
-    type: VideoType,
-    item: MovieElement | TvShowElement,
-    index: number,
-    listLength: number,
-    isUpcoming?: boolean,
-  ): React.JSX.Element {
-    const isMovie = type === 'movie';
-    const id = isMovie ? (item as MovieElement).id : (item as TvShowElement).id;
-    const screen = isMovie ? 'MovieDetailScreen' : 'TvShowDetailScreen';
-    const params = isMovie ? { movieId: id } : { tvShowId: id };
+  public constructor(props: VideoHorizontalListSectionProps) {
+    super(props);
+
+    this.renderItem = this.renderItem.bind(this);
+  }
+
+  private renderItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieElement | TvShowElement>): React.JSX.Element {
+    const isMovie = this.props.type === 'movie';
+    const screenName = isMovie ? 'MovieDetailScreen' : 'TvShowDetailScreen';
+    const params = { [isMovie ? 'movieId' : 'tvShowId']: item.id };
     const ItemCard: React.ElementType = isMovie
       ? CompactMovieCard
       : CompactTvShowCard;
@@ -33,7 +33,7 @@ class VideoHorizontalListSection extends React.PureComponent<VideoHorizontalList
 
     return (
       <View>
-        {isUpcoming && (
+        {this.props.isUpcoming && (
           <Text style={styles.onAirText}>
             {getFormattedDate(upcomingDate).slice(4)}
           </Text>
@@ -42,46 +42,30 @@ class VideoHorizontalListSection extends React.PureComponent<VideoHorizontalList
         <ItemCard
           item={item}
           index={index}
-          listLength={listLength}
-          onPress={() => this.props.navigation.push(screen, params)}
+          listLength={this.props.data.length}
+          onPress={() => this.props.navigation.push(screenName, params)}
         />
       </View>
     );
   }
 
-  public renderSection(
-    data: (MovieElement | TvShowElement)[],
-    type: VideoType,
-    title: string,
-    isUpcoming?: boolean,
-  ): React.ReactNode {
-    if (!data.length) {
+  public override render(): React.ReactNode {
+    if (!this.props.data.length) {
       return null;
     }
 
     return (
       <>
-        <Section title={title}>
+        <Section title={this.props.title}>
           <Section.HorizontalList
             keyExtractor={item => item.id.toString()}
-            data={data}
-            renderItem={({ item, index }) =>
-              this.renderListItem(type, item, index, data.length, isUpcoming)
-            }
+            data={this.props.data}
+            renderItem={this.renderItem}
           />
         </Section>
 
         <Section.Separator />
       </>
-    );
-  }
-
-  public override render(): React.ReactNode {
-    return this.renderSection(
-      this.props.data,
-      this.props.type,
-      this.props.title,
-      this.props.isUpcoming,
     );
   }
 }
