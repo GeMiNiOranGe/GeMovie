@@ -37,6 +37,7 @@ import {
   Box,
   Credit,
   ExpandableText,
+  FavoriteList,
   FullScreenLoader,
   Labels,
   NetworkCard,
@@ -294,6 +295,11 @@ class TvShowDetailScreen extends React.Component<
               size='w1280'
               path={this.state.tvShow?.backdropPath}
             />
+            <FavoriteList
+              navigation={this.props.navigation}
+              id={this.state.tvShow?.id}
+              type='tv'
+            />
           </Animated.View>
 
           <View style={styles.bodyOverlay} />
@@ -318,7 +324,6 @@ class TvShowDetailScreen extends React.Component<
                 renderItem={this.renderGenreItem}
               />
             </View>
-
             <View style={[layout.row, layout.center, styles.ratingBox]}>
               <Star1
                 size='14'

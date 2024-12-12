@@ -311,3 +311,9 @@ export type AuthContextProps = {
     logout: () => void;
     username?: string | null;
 };
+
+export type FavoriteListProps = {
+    navigation: any;
+    id: number;
+    type: 'movie' | 'tv' | 'collection';
+};

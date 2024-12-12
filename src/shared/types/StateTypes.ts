@@ -255,3 +255,8 @@ export type PhotoState = {
 export type TopRatedState = {
     movies: MovieElement[];
 };
+
+export type FavoriteListState = {
+    showModal: boolean;
+    isFavorite: boolean;
+};
