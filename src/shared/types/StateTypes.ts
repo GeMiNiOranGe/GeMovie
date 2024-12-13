@@ -214,6 +214,11 @@ export type ForgotPasswordScreenState = {
 
 export type UserScreenState = {
     isLoading: boolean;
+    favoriteTvShows: TvShowElement[];
+    favoriteMovies: MovieElement[];
+    favoritePerson: PersonElement[];
+    username: string;
+    login: boolean;
 };
 
 export type YoutubeState = {

@@ -8,8 +8,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white',
     },
+    scrollContent: {
+        flexGrow: 1,
+        justifyContent: 'space-between',
+        padding: 16,
+    },
     head: {
-        flex: 1,
+        flex: 0.4,
     },
     backButtonWrapper: {
         height: height * 0.05,
@@ -19,7 +24,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10,
-        marginLeft: 10,
     },
     profileHeader: {
         flexDirection: 'row',
@@ -34,10 +38,17 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     body: {
-        flex: 2,
+        flex: 3,
+    },
+    bodyContent: {
+        paddingBottom: 20,
+    },
+    errorText: {
+        fontSize: 15,
+        padding: 10,
     },
     footer: {
-        flex: 0.5,
+        marginTop: 20,
         justifyContent: 'center',
         alignItems: 'center',
     },

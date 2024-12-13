@@ -59,6 +59,7 @@ import {
   Box,
   TMDBImageBackgroundLinearGradient,
   FullScreenLoader,
+  FavoriteList,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -248,6 +249,11 @@ class MovieDetailScreen extends React.Component<
                   <Text style={styles.notFoundText}>Poster not found</Text>
                 </View>
               }
+            />
+            <FavoriteList
+              navigation={this.props.navigation}
+              id={this.state.movie?.id}
+              type='movie'
             />
           </LinearGradient>
 

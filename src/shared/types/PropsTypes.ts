@@ -315,5 +315,5 @@ export type AuthContextProps = {
 export type FavoriteListProps = {
     navigation: any;
     id: number;
-    type: 'movie' | 'tv' | 'collection';
+    type: 'movie' | 'tv' | 'person';
 };

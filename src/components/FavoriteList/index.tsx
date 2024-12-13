@@ -134,7 +134,7 @@ class FavoriteList extends Component<FavoriteListProps, FavoriteListState> {
         >
           <Heart
             size='25'
-            color={isFavorite ? 'red' : 'white'}
+            color={isFavorite ? 'red' : '#FAEBD7'}
             variant='Bold'
           />
         </TouchableOpacity>

@@ -31,6 +31,7 @@ import {
   CompactMovieCard,
   CompactTvShowCard,
   ExpandableText,
+  FavoriteList,
   FullScreenLoader,
   Labels,
   Section,
@@ -222,7 +223,11 @@ class PersonDetailScreen extends React.Component<
           </View>
 
           <Text style={styles.name}>{this.state.person?.name}</Text>
-
+          <FavoriteList
+            navigation={this.props.navigation}
+            id={this.state.person?.id}
+            type='person'
+          />
           <Animated.View
             style={[
               {
