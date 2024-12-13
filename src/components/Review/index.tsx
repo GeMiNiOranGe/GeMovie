@@ -5,7 +5,12 @@ import Markdown, {
   RenderRules,
 } from '@ronradtke/react-native-markdown-display';
 
-import type { ReviewElement, ReviewProps, ReviewState } from '@shared/types';
+import type {
+  DetailsSectionProps,
+  DetailsSectionState,
+  ReviewElement,
+  Reviews,
+} from '@shared/types';
 import { Section, VoteLabel } from '@components';
 import { VideoService } from '@services';
 import { spacing } from '@shared/constants';
@@ -25,11 +30,14 @@ const rules: RenderRules = {
   ),
 };
 
-class Review extends React.PureComponent<ReviewProps, ReviewState> {
-  public constructor(props: ReviewProps) {
+class Review extends React.PureComponent<
+  DetailsSectionProps,
+  DetailsSectionState<Reviews | undefined>
+> {
+  public constructor(props: DetailsSectionProps) {
     super(props);
     this.state = {
-      reviews: undefined,
+      results: undefined,
       isFetching: true,
       error: undefined,
     };
@@ -39,12 +47,12 @@ class Review extends React.PureComponent<ReviewProps, ReviewState> {
 
   public override async componentDidMount(): Promise<void> {
     try {
-      const reviews = await VideoService.getReviewsAsync(
+      const results = await VideoService.getReviewsAsync(
         this.props.type,
         this.props.id,
       );
 
-      this.setState({ reviews, isFetching: false });
+      this.setState({ results, isFetching: false });
     } catch (error: unknown) {
       this.setState({ error: error as Error });
     }
@@ -52,7 +60,7 @@ class Review extends React.PureComponent<ReviewProps, ReviewState> {
 
   public renderItem({ item, index }: ListRenderItemInfo<ReviewElement>) {
     const marginRight: number =
-      index === (this.state.reviews?.results.length || 0) - 1
+      index === (this.state.results?.results.length || 0) - 1
         ? 0
         : spacing.large;
 
@@ -115,7 +123,7 @@ class Review extends React.PureComponent<ReviewProps, ReviewState> {
         loading={this.state.isFetching}
         noResultText='No reviews found.'
         keyExtractor={item => item.id.toString()}
-        data={this.state.reviews?.results}
+        data={this.state.results?.results}
         renderItem={this.renderItem}
       />
     );

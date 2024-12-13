@@ -2,7 +2,12 @@ import React from 'react';
 import { Text, View, type ListRenderItemInfo } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
 
-import type { Cast, CreditProps, CreditState } from '@shared/types';
+import type {
+  Cast,
+  DetailsSectionState,
+  DetailsSectionProps,
+  Credits,
+} from '@shared/types';
 import { Section, TMDBImage } from '@components';
 import { VideoService } from '@services';
 import { spacing } from '@shared/constants';
@@ -11,13 +16,16 @@ import styles from './style';
 
 const numberOfCast = 15;
 
-class Credit extends React.PureComponent<CreditProps, CreditState> {
+class Credit extends React.PureComponent<
+  DetailsSectionProps,
+  DetailsSectionState<Credits | undefined>
+> {
   private cast: Cast[] | undefined;
 
-  public constructor(props: CreditProps) {
+  public constructor(props: DetailsSectionProps) {
     super(props);
     this.state = {
-      credits: undefined,
+      results: undefined,
       isFetching: true,
       error: undefined,
     };
@@ -27,14 +35,14 @@ class Credit extends React.PureComponent<CreditProps, CreditState> {
 
   public override async componentDidMount(): Promise<void> {
     try {
-      const credits = await VideoService.getCreditsAsync(
+      const results = await VideoService.getCreditsAsync(
         this.props.type,
         this.props.id,
       );
 
-      this.cast = credits.cast.slice(0, numberOfCast);
+      this.cast = results.cast.slice(0, numberOfCast);
 
-      this.setState({ credits, isFetching: false });
+      this.setState({ results, isFetching: false });
     } catch (error: unknown) {
       this.setState({ error: error as Error });
     }
@@ -105,7 +113,7 @@ class Credit extends React.PureComponent<CreditProps, CreditState> {
 
             <Section.Label
               name='Director'
-              value={`${this.state.credits?.crew
+              value={`${this.state.results?.crew
                 .filter(element => element.job === 'Director')
                 .map(element => element.name)
                 .join(', ')}`}
@@ -115,7 +123,7 @@ class Credit extends React.PureComponent<CreditProps, CreditState> {
 
             <Section.Label
               name='Writer'
-              value={`${this.state.credits?.crew
+              value={`${this.state.results?.crew
                 .filter(element => element.job === 'Writer')
                 .map(element => element.name)
                 .join(', ')}`}

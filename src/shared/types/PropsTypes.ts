@@ -263,25 +263,7 @@ export type YoutubeProps = {
         | 'Featurette';
 };
 
-export type RecommendationProps = {
-    id: number;
-    type: VideoType;
-    navigation: NativeStackNavigationProp<ParamListBase>;
-};
-
-export type CreditProps = {
-    id: number;
-    type: VideoType;
-    navigation: NativeStackNavigationProp<ParamListBase>;
-};
-
-export type ReviewProps = {
-    id: number;
-    type: VideoType;
-    navigation: NativeStackNavigationProp<ParamListBase>;
-};
-
-export type PhotoProps = {
+export type DetailsSectionProps = {
     id: number;
     type: VideoType;
     navigation: NativeStackNavigationProp<ParamListBase>;

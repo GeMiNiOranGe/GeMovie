@@ -1,10 +1,8 @@
 import type {
     Collection,
     Company,
-    Credits,
     FeaturedMovie,
     FeaturedTvShow,
-    Images,
     MediaElement,
     Movie,
     MovieElement,
@@ -12,7 +10,6 @@ import type {
     Person,
     PersonElement,
     TvShowElement,
-    Reviews,
     Review,
     Genre,
     TvShow,
@@ -157,26 +154,8 @@ export type SlideshowState = {
     selectedMovieId?: number | null;
 };
 
-export type RecommendationState = {
-    recommendItems: MediaElement[];
-    isFetching: boolean;
-    error: Error | undefined;
-};
-
-export type CreditState = {
-    credits: Credits | undefined;
-    isFetching: boolean;
-    error: Error | undefined;
-};
-
-export type ReviewState = {
-    reviews: Reviews | undefined;
-    isFetching: boolean;
-    error: Error | undefined;
-};
-
-export type PhotoState = {
-    images: Images | undefined;
+export type DetailsSectionState<T> = {
+    results: T;
     isFetching: boolean;
     error: Error | undefined;
 };

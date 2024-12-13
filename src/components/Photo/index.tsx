@@ -3,10 +3,11 @@ import { Text, View, type ListRenderItemInfo } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 
 import type {
+  DetailsSectionProps,
+  DetailsSectionState,
   ImageDimensions,
+  Images,
   MediaImage,
-  PhotoProps,
-  PhotoState,
 } from '@shared/types';
 import { Section, TMDBImage } from '@components';
 import { VideoService } from '@services';
@@ -24,14 +25,17 @@ function getMinDimension(
   };
 }
 
-class Photo extends React.PureComponent<PhotoProps, PhotoState> {
+class Photo extends React.PureComponent<
+  DetailsSectionProps,
+  DetailsSectionState<Images | undefined>
+> {
   private backdropDimensions: ImageDimensions;
   private posterDimensions: ImageDimensions;
 
-  public constructor(props: PhotoProps) {
+  public constructor(props: DetailsSectionProps) {
     super(props);
     this.state = {
-      images: undefined,
+      results: undefined,
       isFetching: true,
       error: undefined,
     };
@@ -45,22 +49,22 @@ class Photo extends React.PureComponent<PhotoProps, PhotoState> {
 
   public override async componentDidMount(): Promise<void> {
     try {
-      const images = await VideoService.getImagesAsync(
+      const results = await VideoService.getImagesAsync(
         this.props.type,
         this.props.id,
       );
 
-      this.backdropDimensions = images.backdrops.reduce(getMinDimension, {
+      this.backdropDimensions = results.backdrops.reduce(getMinDimension, {
         width: this.backdropDimensions.width,
         height: this.backdropDimensions.height,
       });
 
-      this.posterDimensions = images.posters.reduce(getMinDimension, {
+      this.posterDimensions = results.posters.reduce(getMinDimension, {
         width: this.posterDimensions.width,
         height: this.posterDimensions.height,
       });
 
-      this.setState({ images, isFetching: false });
+      this.setState({ results, isFetching: false });
     } catch (error: unknown) {
       this.setState({ error: error as Error });
     }
@@ -68,7 +72,7 @@ class Photo extends React.PureComponent<PhotoProps, PhotoState> {
 
   public renderBackdropItem({ item, index }: ListRenderItemInfo<MediaImage>) {
     const marginRight: number =
-      index === (this.state.images?.backdrops.length || 0) - 1
+      index === (this.state.results?.backdrops.length || 0) - 1
         ? 0
         : spacing.small;
 
@@ -85,7 +89,7 @@ class Photo extends React.PureComponent<PhotoProps, PhotoState> {
 
   public renderPosterItem({ item, index }: ListRenderItemInfo<MediaImage>) {
     const marginRight: number =
-      index === (this.state.images?.posters.length || 0) - 1
+      index === (this.state.results?.posters.length || 0) - 1
         ? 0
         : spacing.small;
 
@@ -113,7 +117,7 @@ class Photo extends React.PureComponent<PhotoProps, PhotoState> {
       return this.renderLoading();
     }
 
-    if (!this.state.images) {
+    if (!this.state.results) {
       return this.renderListEmpty();
     }
 
@@ -134,7 +138,7 @@ class Photo extends React.PureComponent<PhotoProps, PhotoState> {
       <Section.Content>
         <Section.Items
           name='Backdrop'
-          data={this.state.images?.backdrops}
+          data={this.state.results?.backdrops}
           renderItem={this.renderBackdropItem}
         />
 
@@ -142,7 +146,7 @@ class Photo extends React.PureComponent<PhotoProps, PhotoState> {
 
         <Section.Items
           name='Poster'
-          data={this.state.images?.posters}
+          data={this.state.results?.posters}
           renderItem={this.renderPosterItem}
         />
       </Section.Content>
