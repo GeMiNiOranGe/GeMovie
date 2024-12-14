@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListRenderItem } from 'react-native';
+import { type ListRenderItem } from 'react-native';
 
 import { SearchResultsTopTabBase } from '@base';
 import { CollectionDetailCard } from '@components';

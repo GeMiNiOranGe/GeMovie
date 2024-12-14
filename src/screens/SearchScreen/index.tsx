@@ -1,5 +1,6 @@
 import React from 'react';
-import { Dimensions, SafeAreaView, View } from 'react-native';
+import { Dimensions, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { IconButton, Searchbar } from 'react-native-paper';
 import { ArrowLeft2, SearchNormal1 } from 'iconsax-react-native';
 import {

@@ -9,6 +9,7 @@ import {
   Modal,
   Pressable,
 } from 'react-native';
+import { Crown, Global, Information, Star } from 'iconsax-react-native';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
@@ -18,7 +19,6 @@ import type {
   RootScreenProps,
   SeeAllPersonState,
 } from '@shared/types';
-import { Crown, Global, Information, Star } from 'iconsax-react-native';
 import { getFormattedGender } from '@shared/utils';
 import styles from './style';
 

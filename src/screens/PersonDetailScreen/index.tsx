@@ -16,6 +16,7 @@ import {
   Cake,
   Global,
 } from 'iconsax-react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { IMDb } from '@assets/icons';
 import { IMDB_BASE_URL } from '@config';
@@ -48,7 +49,6 @@ import {
 import { PersonService } from '@services';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const labelIconsaxProps: IconsaxProps = {
   size: 16,
