@@ -7,7 +7,7 @@ const SilverMedal = ({
   size = 24,
   color = 'silver',
   ...props
-}: SvgIconProps) => (
+}: SvgIconProps): React.JSX.Element => (
   <Svg width={size} height={size} viewBox='0 0 24 24' fill='none' {...props}>
     <Path
       fill={color}

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 30,
         zIndex: 1,
     },
-    backdrop: {
+    poster: {
         height: '100%',
         width: '100%',
         position: 'relative',

@@ -215,7 +215,7 @@ class HomeScreen extends React.PureComponent<
     );
   }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     if (this.state.isLoading) {
       return <FullScreenLoader />;
     }

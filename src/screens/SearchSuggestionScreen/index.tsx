@@ -53,13 +53,13 @@ class SearchSuggestionScreen extends React.Component<
     this.setState({ movieGenres, tvShowGenres, isLoading: false });
   }
 
-  private renderSearchIcon() {
+  private renderSearchIcon(): React.JSX.Element {
     return (
       <SearchNormal1 size={searchIconSize} color={colors.text.toString()} />
     );
   }
 
-  private renderHeaderRight() {
+  private renderHeaderRight(): React.JSX.Element {
     return (
       <IconButton
         style={styles.searchIconButton}
@@ -120,7 +120,7 @@ class SearchSuggestionScreen extends React.Component<
     headerTitle: string,
     data: Genre[],
     renderItem: ListRenderItem<Genre>,
-  ) {
+  ): React.JSX.Element {
     return (
       <FlatList
         contentContainerStyle={styles.genreListContent}

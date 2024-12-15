@@ -70,7 +70,7 @@ class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
     );
   }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     const { images } = this.props;
     const { isModalVisible, selectedMovieId, isAutoplay } = this.state;
 

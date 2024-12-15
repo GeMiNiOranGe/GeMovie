@@ -28,7 +28,7 @@ class SearchResultsTabBar extends React.PureComponent<MaterialTopTabBarProps> {
 
             const isFocused = this.props.state.index === index;
 
-            const onPress = () => {
+            const onPress = (): void => {
               const event = this.props.navigation.emit({
                 type: 'tabPress',
                 target: route.key,
@@ -40,7 +40,7 @@ class SearchResultsTabBar extends React.PureComponent<MaterialTopTabBarProps> {
               }
             };
 
-            const onLongPress = () => {
+            const onLongPress = (): void => {
               this.props.navigation.emit({
                 type: 'tabLongPress',
                 target: route.key,

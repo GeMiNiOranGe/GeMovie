@@ -58,7 +58,10 @@ class Review extends React.PureComponent<
     }
   }
 
-  public renderItem({ item, index }: ListRenderItemInfo<ReviewElement>) {
+  public renderItem({
+    item,
+    index,
+  }: ListRenderItemInfo<ReviewElement>): React.JSX.Element {
     const marginRight: number =
       index === (this.state.results?.results.length || 0) - 1
         ? 0

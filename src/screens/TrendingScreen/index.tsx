@@ -38,7 +38,7 @@ class TrendingScreen extends React.Component<
     };
   }
 
-  public override componentDidMount() {
+  public override componentDidMount(): void {
     const trendUrl = `${TMDB_BASE_URL}/trending/all/day?api_key=${TMDB_API_KEY}&language=en-US`;
     fetch(trendUrl)
       .then(response => response.json())
@@ -62,13 +62,17 @@ class TrendingScreen extends React.Component<
       });
   }
 
-  public override componentWillUnmount() {
+  public override componentWillUnmount(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
   }
 
-  public renderMovieItem = ({ item }: { item: FeaturedMovie }) => {
+  public renderMovieItem = ({
+    item,
+  }: {
+    item: FeaturedMovie;
+  }): React.JSX.Element => {
     const imageUrl = URLBuilder.buildImageURL('w500', item.poster_path);
     return (
       <TouchableOpacity
@@ -93,7 +97,11 @@ class TrendingScreen extends React.Component<
     );
   };
 
-  public renderTvShowItem = ({ item }: { item: FeaturedTvShow }) => {
+  public renderTvShowItem = ({
+    item,
+  }: {
+    item: FeaturedTvShow;
+  }): React.JSX.Element => {
     const imageUrl = URLBuilder.buildImageURL('w500', item.poster_path);
     return (
       <TouchableOpacity
@@ -134,11 +142,11 @@ class TrendingScreen extends React.Component<
     return combined[randomIndex];
   };
 
-  private handleCategory = (category: 'movie' | 'tv') => {
+  private handleCategory = (category: 'movie' | 'tv'): void => {
     this.setState({ selectedCategory: category });
   };
 
-  public override render() {
+  public override render(): React.JSX.Element {
     const { isLoading, trendingMovies, trendingTvShows, selectedCategory } =
       this.state;
 

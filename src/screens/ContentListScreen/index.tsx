@@ -61,7 +61,10 @@ class ContentListScreen extends React.PureComponent<
     }
   }
 
-  public renderItem({ item, index }: ListRenderItemInfo<MediaElement>) {
+  public renderItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MediaElement>): React.JSX.Element {
     if (isMovieElement(item)) {
       return (
         <CompactMovieCard

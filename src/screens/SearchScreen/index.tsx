@@ -37,7 +37,7 @@ class SearchScreen extends React.Component<
     this.handleSearchbarTextChange = this.handleSearchbarTextChange.bind(this);
   }
 
-  private handleSearchbarTextChange(text: string) {
+  private handleSearchbarTextChange(text: string): void {
     if (text.trim() === '') {
       this.setState({ searchContent: text });
       return;
@@ -46,15 +46,15 @@ class SearchScreen extends React.Component<
     this.setState({ searchContent: text });
   }
 
-  private renderReturnIcon() {
+  private renderReturnIcon(): React.JSX.Element {
     return <ArrowLeft2 size='24' color='black' />;
   }
 
-  private renderSearchIcon() {
+  private renderSearchIcon(): React.JSX.Element {
     return <SearchNormal1 size='16' color='black' />;
   }
 
-  private renderTabBar(props: MaterialTopTabBarProps) {
+  private renderTabBar(props: MaterialTopTabBarProps): React.JSX.Element {
     return <SearchResultsTabBar {...props} />;
   }
 

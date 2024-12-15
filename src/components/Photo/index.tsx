@@ -18,7 +18,7 @@ import styles from './style';
 function getMinDimension(
   previousValue: ImageDimensions,
   currentValue: ImageDimensions,
-) {
+): ImageDimensions {
   return {
     width: Math.min(previousValue.width, currentValue.width),
     height: Math.min(previousValue.height, currentValue.height),
@@ -70,7 +70,10 @@ class Photo extends React.PureComponent<
     }
   }
 
-  public renderBackdropItem({ item, index }: ListRenderItemInfo<MediaImage>) {
+  public renderBackdropItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MediaImage>): React.JSX.Element {
     const marginRight: number =
       index === (this.state.results?.backdrops.length || 0) - 1
         ? 0
@@ -87,7 +90,10 @@ class Photo extends React.PureComponent<
     );
   }
 
-  public renderPosterItem({ item, index }: ListRenderItemInfo<MediaImage>) {
+  public renderPosterItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MediaImage>): React.JSX.Element {
     const marginRight: number =
       index === (this.state.results?.posters.length || 0) - 1
         ? 0

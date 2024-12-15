@@ -3,7 +3,11 @@ import Svg, { Path } from 'react-native-svg';
 
 import { SvgIconProps } from '@shared/types';
 
-const GoldMedal = ({ size = 24, color = 'gold', ...props }: SvgIconProps) => (
+const GoldMedal = ({
+  size = 24,
+  color = 'gold',
+  ...props
+}: SvgIconProps): React.JSX.Element => (
   <Svg width={size} height={size} viewBox='0 0 24 24' fill='none' {...props}>
     <Path
       fill={color}

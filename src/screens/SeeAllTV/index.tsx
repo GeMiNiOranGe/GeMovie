@@ -19,7 +19,7 @@ class AllTV extends React.Component<RootScreenProps<'SeeAllTV'>> {
     scaleAnim: new Animated.Value(1),
   };
 
-  public override componentDidMount() {
+  public override componentDidMount(): void {
     const url = `${TMDB_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`;
     fetch(url)
       .then(response => response.json())
@@ -31,7 +31,7 @@ class AllTV extends React.Component<RootScreenProps<'SeeAllTV'>> {
       });
   }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     const { tv } = this.state;
     const { navigation } = this.props;
     return (

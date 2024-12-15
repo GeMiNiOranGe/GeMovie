@@ -19,7 +19,7 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
     scaleAnim: new Animated.Value(1),
   };
 
-  public override componentDidMount() {
+  public override componentDidMount(): void {
     const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
     fetch(url)
       .then(response => response.json())
@@ -31,7 +31,7 @@ class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
       });
   }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     const { movies } = this.state;
     const { navigation } = this.props;
     return (

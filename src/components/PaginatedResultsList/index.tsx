@@ -16,7 +16,7 @@ class PaginatedResultsList<ItemT = any> extends React.PureComponent<
     this.renderListHeader = this.renderListHeader.bind(this);
   }
 
-  private renderListHeader() {
+  private renderListHeader(): React.JSX.Element {
     return (
       <Text style={styles.headerText}>
         {this.props.totalResults} result{this.props.totalResults !== 1 && 's'}
@@ -24,7 +24,7 @@ class PaginatedResultsList<ItemT = any> extends React.PureComponent<
     );
   }
 
-  private renderListFooter() {
+  private renderListFooter(): React.JSX.Element {
     return <ActivityIndicator size='small' />;
   }
 

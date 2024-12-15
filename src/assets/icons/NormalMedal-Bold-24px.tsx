@@ -20,7 +20,7 @@ const NormalMedal = ({
   value = undefined,
   fontColor = 'transparent',
   ...props
-}: NormalMedalProps & SvgIconProps) => (
+}: NormalMedalProps & SvgIconProps): React.JSX.Element => (
   <Svg width={size} height={size} viewBox='0 0 24 24' fill='none' {...props}>
     <Path
       fill={color}

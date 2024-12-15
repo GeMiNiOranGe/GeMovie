@@ -62,19 +62,19 @@ class ExpandableText extends React.PureComponent<
     );
   }
 
-  private onReady({ canExpand }: { canExpand: boolean }) {
+  private onReady({ canExpand }: { canExpand: boolean }): void {
     canExpand && this.setState({ isShowReadButton: true });
   }
 
-  private onPress() {
+  private onPress(): void {
     this.setState({ isExpand: !this.state.isExpand });
   }
 
-  private onSeeMore() {
+  private onSeeMore(): void {
     this.setState({ isExpand: false });
   }
 
-  private onSeeLess() {
+  private onSeeLess(): void {
     this.setState({ isExpand: true });
   }
 

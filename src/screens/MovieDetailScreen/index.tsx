@@ -125,7 +125,7 @@ class MovieDetailScreen extends React.Component<
   private renderCompanyItem({
     item,
     index,
-  }: ListRenderItemInfo<CompanyElement>) {
+  }: ListRenderItemInfo<CompanyElement>): React.JSX.Element {
     return (
       <SimpleCompanyCard
         item={item}
@@ -168,7 +168,7 @@ class MovieDetailScreen extends React.Component<
     });
   }
 
-  public toggleModal = () => {
+  public toggleModal = (): void => {
     this.setState(prevState => ({
       modalVisible: !prevState.modalVisible,
     }));
@@ -177,7 +177,7 @@ class MovieDetailScreen extends React.Component<
     }, 1000);
   };
 
-  public closemodal = () => {
+  public closemodal = (): void => {
     this.setState({ modalVisible: false });
   };
 

@@ -67,7 +67,7 @@ class CollectionDetailScreen extends React.PureComponent<
     const genreIds = uniq(flatMap(collection.parts, 'genreIds'));
     this.genreNames = getFormattedGenres(genreIds, movieGenres);
 
-    this.voteAverage = (() => {
+    this.voteAverage = ((): number => {
       let totalVoteAverage = 0;
       let numberOfMoviesWithVotes = 0;
 
@@ -85,7 +85,7 @@ class CollectionDetailScreen extends React.PureComponent<
 
     this.latestMovie = maxBy(collection.parts, 'releaseDate');
 
-    this.topRated = (() => {
+    this.topRated = ((): (MovieElement & Media) | undefined => {
       if (collection.parts.length < 10) {
         return undefined;
       }

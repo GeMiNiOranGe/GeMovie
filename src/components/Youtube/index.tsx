@@ -31,7 +31,7 @@ class Youtube extends React.Component<YoutubeProps, YoutubeState> {
     }
   }
 
-  private getVideo = async () => {
+  private getVideo = async (): Promise<void> => {
     const { type, id, videoType } = this.props;
     let endpoint = type === 'movie' ? 'movie' : 'tv';
 
@@ -59,7 +59,7 @@ class Youtube extends React.Component<YoutubeProps, YoutubeState> {
     }
   };
 
-  public override render() {
+  public override render(): React.JSX.Element {
     const { videoKey, loading } = this.state;
 
     if (loading) {

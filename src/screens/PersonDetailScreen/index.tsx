@@ -98,11 +98,11 @@ class PersonDetailScreen extends React.Component<
     );
   }
 
-  private openModal() {
+  private openModal(): void {
     this.setState({ isModalVisible: true });
   }
 
-  private closeModal() {
+  private closeModal(): void {
     this.setState({ isModalVisible: false });
   }
 
@@ -139,7 +139,7 @@ class PersonDetailScreen extends React.Component<
     return labels;
   }
 
-  private runEntranceAnimations() {
+  private runEntranceAnimations(): void {
     const { animations, introAnim, labelsAnim } = this.state;
     const labelsAnimation = Animated.timing(labelsAnim, {
       toValue: 1,
@@ -169,7 +169,7 @@ class PersonDetailScreen extends React.Component<
   private renderMovieCreditsCast({
     item,
     index,
-  }: ListRenderItemInfo<MovieCreditsCast>) {
+  }: ListRenderItemInfo<MovieCreditsCast>): React.JSX.Element {
     return (
       <CompactMovieCard
         item={item}
@@ -187,7 +187,7 @@ class PersonDetailScreen extends React.Component<
   private renderTvShowCreditsCast({
     item,
     index,
-  }: ListRenderItemInfo<TvShowCreditsCast>) {
+  }: ListRenderItemInfo<TvShowCreditsCast>): React.JSX.Element {
     return (
       <CompactTvShowCard
         item={item}

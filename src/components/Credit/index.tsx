@@ -48,7 +48,10 @@ class Credit extends React.PureComponent<
     }
   }
 
-  public renderItem({ item, index }: ListRenderItemInfo<Cast>) {
+  public renderItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Cast>): React.JSX.Element {
     const marginRight: number =
       index === (this.cast?.length || 0) - 1 ? 0 : spacing.large;
 
