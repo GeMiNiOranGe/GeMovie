@@ -38,11 +38,6 @@ class SearchScreen extends React.Component<
   }
 
   private handleSearchbarTextChange(text: string): void {
-    if (text.trim() === '') {
-      this.setState({ searchContent: text });
-      return;
-    }
-
     this.setState({ searchContent: text });
   }
 
