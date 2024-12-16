@@ -3,7 +3,6 @@ import type {
     Company,
     Credits,
     FeaturedMovie,
-    FeaturedTvShow,
     Images,
     MediaElement,
     Movie,
@@ -138,8 +137,7 @@ export type HomeScreenState = {
 };
 
 export type TrendScreenState = {
-    trendingMovies: FeaturedMovie[];
-    trendingTvShows: FeaturedTvShow[];
+    trend: MultiMediaElement[];
     isLoading: boolean;
     backgroundImage: { uri: string } | undefined;
     selectedCategory: string;
