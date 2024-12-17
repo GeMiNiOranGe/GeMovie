@@ -258,7 +258,7 @@ class PersonDetailScreen extends React.Component<
           >
             <Box title='Biography'>
               <ExpandableText seeButtonPosition='separate'>
-                {`${this.state.person?.biography}`}
+                {`${this.state.person?.biography || 'No biography available'}`}
               </ExpandableText>
             </Box>
 

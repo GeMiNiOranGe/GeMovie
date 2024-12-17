@@ -76,6 +76,7 @@ class SearchScreen extends React.Component<
             icon={this.renderSearchIcon}
             autoFocus
             placeholder='Search for shows, movies,...'
+            autoCapitalize='none'
             value={this.state.searchContent}
             onChangeText={this.handleSearchbarTextChange}
           />
