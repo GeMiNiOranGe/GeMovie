@@ -26,7 +26,7 @@ import {
   CompactTvShowCard,
   Section,
 } from '@components';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from 'firebase.config';
 import { MovieService, PersonService, TvShowService } from '@services';
 import styles from './style';
@@ -57,21 +57,20 @@ class UserScreen extends Component<
       this.fetchFavoriteTvShows();
       this.fetchFavoriteMovie();
       this.fetchFavoritePerson();
+
+      const userRef = doc(db, 'users', 'favorites');
+      onSnapshot(userRef, this.handleFirestoreUpdate);
     }
   }
 
-  public override componentDidUpdate(
-    prevProps: RootScreenProps<'UserScreen'>,
-    prevState: UserScreenState,
-  ) {
-    const { login: prevLogin } = prevState;
-    const { isLoggedIn } = this.context || {};
-    if (prevLogin !== isLoggedIn && isLoggedIn) {
+  private handleFirestoreUpdate = async () => {
+    const { username } = this.context || {};
+    if (username) {
       this.fetchFavoriteTvShows();
       this.fetchFavoriteMovie();
       this.fetchFavoritePerson();
     }
-  }
+  };
 
   private fetchFavoriteTvShows = async () => {
     this.setState({ isLoading: true });
