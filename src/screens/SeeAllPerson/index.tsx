@@ -7,9 +7,14 @@ import {
   FlatList,
   Animated,
   Modal,
-  Pressable,
 } from 'react-native';
-import { Crown, Global, Information, Star } from 'iconsax-react-native';
+import {
+  CloseCircle,
+  Crown,
+  Global,
+  Information,
+  Star,
+} from 'iconsax-react-native';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
@@ -143,6 +148,7 @@ class AllPerson extends React.Component<
           onPress={() => {
             this.setState({ selectedPerson: item.name });
             this.fetchPersonMovies(item.id);
+            this.setState({ isModalVisible: true });
           }}
         >
           <Information size={15} color='gray' variant='Linear' />
@@ -177,12 +183,26 @@ class AllPerson extends React.Component<
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={this.closeModal}
+              >
+                <CloseCircle fontSize='15' color='red' />
+              </TouchableOpacity>
               <Text style={styles.modalTitle}>Movies by {selectedPerson}</Text>
               <FlatList
                 data={movies}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => (
-                  <View style={styles.movieListItem}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.setState({ isModalVisible: false });
+                      this.props.navigation.navigate('MovieDetailScreen', {
+                        movieId: item.id,
+                      });
+                    }}
+                    style={styles.movieListItem}
+                  >
                     <Image
                       source={{
                         uri: URLBuilder.buildImageURL('w185', item.poster_path),
@@ -196,13 +216,10 @@ class AllPerson extends React.Component<
                     >
                       {item.title}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 )}
                 numColumns={2}
               />
-              <Pressable onPress={this.closeModal} style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>Close</Text>
-              </Pressable>
             </View>
           </View>
         </Modal>

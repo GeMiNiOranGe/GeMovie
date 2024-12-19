@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.large,
     },
     movieList: {
+        flex: 1,
+        marginTop: spacing.medium,
         paddingVertical: spacing.medium,
     },
     containerItem: {
@@ -59,6 +61,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         width: '85%',
+        maxHeight: '90%',
         padding: spacing.large,
         borderRadius: outerRadius,
         backgroundColor: colors.background,
@@ -68,6 +71,9 @@ const styles = StyleSheet.create({
         color: colors.text,
         marginBottom: spacing.medium,
         textAlign: 'center',
+    },
+    modalBackground: {
+        flex: 1,
     },
     movieListItem: {
         width: '50%',
@@ -85,15 +91,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     closeButton: {
-        marginTop: spacing.large,
-        borderRadius: innerRadius,
-        padding: spacing.small,
-        backgroundColor: colors.accent.dark,
-        alignItems: 'center',
-    },
-    closeButtonText: {
-        fontSize: 14,
-        color: colors.text,
+        alignItems: 'flex-end',
     },
     globalIcon: {
         marginTop: 3,
