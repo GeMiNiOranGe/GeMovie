@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: colors.text,
     },
+    watchlist: {
+        padding: spacing.small,
+    },
     content: {
         paddingHorizontal: spacing.small,
         paddingBottom: spacing.small,

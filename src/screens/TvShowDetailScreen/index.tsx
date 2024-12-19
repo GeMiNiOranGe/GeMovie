@@ -49,6 +49,7 @@ import {
   SimpleCompanyCard,
   TMDBImage,
   TouchableRippleLink,
+  WatchList,
   Youtube,
 } from '@components';
 import { TvShowService } from '@services';
@@ -301,6 +302,10 @@ class TvShowDetailScreen extends React.Component<
               type='tv'
             />
           </Animated.View>
+
+          <View style={styles.watchlistBox}>
+            <WatchList />
+          </View>
 
           <View style={styles.bodyOverlay} />
 

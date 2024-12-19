@@ -120,6 +120,10 @@ const styles = StyleSheet.create({
     expandableText: {
         color: colors.subtext,
     },
+    watchlistBox: {
+        top: -287,
+        right: -7,
+    },
 });
 
 export default styles;

@@ -93,6 +93,7 @@ class HomeScreen extends React.Component<
   }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
     return (
       <CompactMovieCard
+        showWatchList
         item={item}
         index={index}
         listLength={this.state.movies.length}
@@ -111,6 +112,7 @@ class HomeScreen extends React.Component<
   }: ListRenderItemInfo<TvShowElement>): React.JSX.Element {
     return (
       <CompactTvShowCard
+        showWatchList
         item={item}
         index={index}
         listLength={this.state.tvShows.length}
@@ -148,6 +150,7 @@ class HomeScreen extends React.Component<
     if (isMovieElement(item)) {
       return (
         <CompactMovieCard
+          showWatchList
           showRank
           showMediaType
           item={item}
@@ -165,6 +168,7 @@ class HomeScreen extends React.Component<
     if (isTvShowElement(item)) {
       return (
         <CompactTvShowCard
+          showWatchList
           showRank
           showMediaType
           item={item}
@@ -203,6 +207,7 @@ class HomeScreen extends React.Component<
   }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
     return (
       <CompactMovieCard
+        showWatchList
         item={item}
         index={index}
         listLength={this.state.topRated.length}

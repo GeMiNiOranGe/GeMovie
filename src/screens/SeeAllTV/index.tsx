@@ -1,70 +1,82 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  Animated,
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { View, FlatList, ListRenderItemInfo } from 'react-native';
 
-import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
-import { URLBuilder } from '@services';
-import type { FeaturedTvShow, RootScreenProps } from '@shared/types';
+import { VideoService } from '@services';
+import type {
+  RootScreenProps,
+  SeeAllTVState,
+  TvShowElement,
+} from '@shared/types';
+import { toTvShowElement } from '@shared/utils';
+import { CompactTvShowCard, FullScreenLoader } from '@components';
 import styles from './style';
 
-class AllTV extends React.Component<RootScreenProps<'SeeAllTV'>> {
-  public override state = {
-    tv: [] as FeaturedTvShow[],
-    scaleAnim: new Animated.Value(1),
-  };
+class AllTV extends React.Component<
+  RootScreenProps<'SeeAllTV'>,
+  SeeAllTVState
+> {
+  public constructor(props: RootScreenProps<'SeeAllTV'>) {
+    super(props);
+    this.state = {
+      tv: [],
+      isLoading: true,
+    };
+  }
 
   public override componentDidMount() {
-    const url = `${TMDB_BASE_URL}/tv/popular?api_key=${TMDB_API_KEY}`;
-    fetch(url)
-      .then(response => response.json())
-      .then(tvData => {
-        this.setState({ tv: tvData.results });
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+    try {
+      const getTv = VideoService.getPopularListAsync('tv', toTvShowElement);
+      getTv.then(tv => {
+        this.setState({ tv: tv.getResults(), isLoading: false });
       });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      this.setState({ isLoading: false });
+    }
+  }
+
+  private renderPopularMovieItem({
+    item,
+    index,
+  }: ListRenderItemInfo<TvShowElement>): React.JSX.Element {
+    return (
+      <CompactTvShowCard
+        showWatchList
+        item={item}
+        index={index}
+        listLength={this.state.tv.length}
+        onPress={() =>
+          this.props.navigation.navigate('TvShowDetailScreen', {
+            tvShowId: item.id,
+          })
+        }
+      />
+    );
   }
 
   public override render() {
-    const { tv } = this.state;
-    const { navigation } = this.props;
+    if (this.state.isLoading) {
+      return <FullScreenLoader />;
+    }
+
     return (
-      <LinearGradient
-        style={styles.container}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        colors={['#0F2027', '#203A43']}
-      >
+      <View style={styles.container}>
         <View style={styles.movieList}>
           <FlatList
-            data={tv}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                key={item.id}
-                onPress={() =>
-                  navigation.navigate('TvShowDetailScreen', {
-                    tvShowId: item.id,
-                  })
-                }
-              >
-                <Image
-                  source={{
-                    uri: URLBuilder.buildImageURL('w185', item.poster_path),
-                  }}
-                  style={styles.movieThumbnail}
-                />
-              </TouchableOpacity>
-            )}
-            numColumns={3}
+            data={this.state.tv}
+            renderItem={this.renderPopularMovieItem.bind(this)}
+            keyExtractor={item => item.id.toString()}
+            numColumns={2}
+            columnWrapperStyle={styles.movieCard}
+            contentContainerStyle={{
+              paddingHorizontal: 20,
+            }}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           />
         </View>
-      </LinearGradient>
+      </View>
     );
   }
 }

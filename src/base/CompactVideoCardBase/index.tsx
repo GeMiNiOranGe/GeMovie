@@ -4,7 +4,7 @@ import { Card, IconButton } from 'react-native-paper';
 import { ArrowRight2, Star1 } from 'iconsax-react-native';
 
 import type { VideoElement } from '@shared/types';
-import { RankText, TMDBImage, VoteLabel } from '@components';
+import { RankText, TMDBImage, VoteLabel, WatchList } from '@components';
 import { getFormattedFullYear, getFormattedVoteAverage } from '@shared/utils';
 import { colors, layout } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -76,6 +76,18 @@ abstract class CompactVideoCardBase<
             rippleColor={colors.accent.light}
           />
         </View>
+
+        {this.props.showWatchList && (
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              layout.itemsStart,
+              styles.watchlist,
+            ]}
+          >
+            <WatchList />
+          </View>
+        )}
       </Card>
     );
   }
@@ -99,6 +111,18 @@ abstract class CompactVideoCardBase<
             path={this.props.item.posterPath}
             size='w342'
           />
+
+          {this.props.showWatchList && (
+            <View
+              style={[
+                StyleSheet.absoluteFill,
+                layout.itemsStart,
+                styles.watchlist,
+              ]}
+            >
+              <WatchList />
+            </View>
+          )}
 
           {this.props.showMediaType && (
             <View style={[layout.itemsEnd, StyleSheet.absoluteFill]}>

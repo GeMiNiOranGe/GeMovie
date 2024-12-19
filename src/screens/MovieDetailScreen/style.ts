@@ -120,6 +120,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         padding: 20,
     },
+    watchlistBox: {
+        top: -245,
+        left: -175,
+    },
 });
 
 export default styles;

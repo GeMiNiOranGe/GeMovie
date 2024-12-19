@@ -65,6 +65,7 @@ class TrendingScreen extends React.Component<
       return (
         <View style={styles.cardSpacing}>
           <CompactMovieCard
+            showWatchList
             showRank
             showMediaType
             item={item}
@@ -83,6 +84,7 @@ class TrendingScreen extends React.Component<
       return (
         <View style={styles.cardSpacing}>
           <CompactTvShowCard
+            showWatchList
             showRank
             showMediaType
             item={item}

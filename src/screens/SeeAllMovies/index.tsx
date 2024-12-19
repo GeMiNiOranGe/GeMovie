@@ -1,70 +1,82 @@
 import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  Animated,
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { View, FlatList, ListRenderItemInfo } from 'react-native';
 
-import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
-import { URLBuilder } from '@services';
-import type { FeaturedMovie, RootScreenProps } from '@shared/types';
+import { VideoService } from '@services';
+import type {
+  MovieElement,
+  RootScreenProps,
+  SeeAllMoviesState,
+} from '@shared/types';
+import { CompactMovieCard, FullScreenLoader } from '@components';
+import { toMovieElement } from '@shared/utils';
 import styles from './style';
 
-class AllMovies extends React.Component<RootScreenProps<'SeeAllMovieScreen'>> {
-  public override state = {
-    movies: [] as FeaturedMovie[],
-    scaleAnim: new Animated.Value(1),
-  };
+class AllMovies extends React.Component<
+  RootScreenProps<'SeeAllMovieScreen'>,
+  SeeAllMoviesState
+> {
+  public constructor(props: RootScreenProps<'SeeAllMovieScreen'>) {
+    super(props);
+    this.state = {
+      movies: [],
+      isLoading: true,
+    };
+  }
 
   public override componentDidMount() {
-    const url = `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
-    fetch(url)
-      .then(response => response.json())
-      .then(movieData => {
-        this.setState({ movies: movieData.results });
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+    try {
+      const getMovies = VideoService.getPopularListAsync(
+        'movie',
+        toMovieElement,
+      );
+      getMovies.then(movies => {
+        this.setState({ movies: movies.getResults(), isLoading: false });
       });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      this.setState({ isLoading: false });
+    }
+  }
+
+  private renderPopularMovieItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieElement>): React.JSX.Element {
+    return (
+      <CompactMovieCard
+        showWatchList
+        item={item}
+        index={index}
+        listLength={this.state.movies.length}
+        onPress={() =>
+          this.props.navigation.navigate('MovieDetailScreen', {
+            movieId: item.id,
+          })
+        }
+      />
+    );
   }
 
   public override render() {
+    if (this.state.isLoading) {
+      return <FullScreenLoader />;
+    }
     const { movies } = this.state;
-    const { navigation } = this.props;
+
     return (
-      <LinearGradient
-        style={styles.container}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        colors={['#0F2027', '#203A43']}
-      >
+      <View style={styles.container}>
         <View style={styles.movieList}>
           <FlatList
             data={movies}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                key={item.id}
-                onPress={() =>
-                  navigation.navigate('MovieDetailScreen', {
-                    movieId: item.id,
-                  })
-                }
-              >
-                <Image
-                  source={{
-                    uri: URLBuilder.buildImageURL('w185', item.poster_path),
-                  }}
-                  style={styles.movieThumbnail}
-                />
-              </TouchableOpacity>
-            )}
-            numColumns={3}
+            renderItem={this.renderPopularMovieItem.bind(this)}
+            keyExtractor={item => item.id.toString()}
+            numColumns={2}
+            columnWrapperStyle={styles.movieCard}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
           />
         </View>
-      </LinearGradient>
+      </View>
     );
   }
 }

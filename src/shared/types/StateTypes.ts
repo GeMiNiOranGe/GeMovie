@@ -263,3 +263,13 @@ export type FavoriteListState = {
     showModal: boolean;
     isFavorite: boolean;
 };
+
+export type SeeAllMoviesState = {
+    movies: MovieElement[];
+    isLoading: boolean;
+};
+
+export type SeeAllTVState = {
+    tv: TvShowElement[];
+    isLoading: boolean;
+};

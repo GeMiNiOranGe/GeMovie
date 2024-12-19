@@ -60,6 +60,7 @@ import {
   TMDBImageBackgroundLinearGradient,
   FullScreenLoader,
   FavoriteList,
+  WatchList,
 } from '@components';
 import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
@@ -250,6 +251,9 @@ class MovieDetailScreen extends React.Component<
                 </View>
               }
             />
+            <View style={styles.watchlistBox}>
+              <WatchList />
+            </View>
             <FavoriteList
               navigation={this.props.navigation}
               id={this.state.movie?.id}

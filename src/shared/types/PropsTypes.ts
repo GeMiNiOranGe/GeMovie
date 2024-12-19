@@ -116,6 +116,7 @@ export type SimpleCardProps<E extends CardElement> = CardBaseProps<E>;
 export type VideoCardBaseProps<E extends VideoElement> = CardBaseProps<E> & {
     showMediaType?: boolean | undefined;
     showRank?: boolean | undefined;
+    showWatchList?: boolean | undefined;
     rankType?: 'icon-medal' | 'number';
 };
 
