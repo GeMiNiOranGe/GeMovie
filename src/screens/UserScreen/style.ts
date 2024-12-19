@@ -6,12 +6,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: 'white',
     },
     scrollContent: {
         flexGrow: 1,
         justifyContent: 'space-between',
         padding: 16,
+        backgroundColor: 'white',
     },
     head: {
         flex: 0.4,

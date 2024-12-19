@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   ForgotPassword,
   LoginScreen,
-  ResetPasswordScreen,
+  SeeAllFavoriteScreen,
   SignupScreen,
   UserScreen,
 } from '@screens';
@@ -42,15 +42,18 @@ class UserStack extends React.Component {
                     component={ForgotPassword}
                     options={{ headerShown: false }}
                   />
-                  <Stack.Screen
-                    name='ResetPasswordScreen'
-                    component={ResetPasswordScreen}
-                    options={{ headerShown: false }}
-                  />
                 </>
               ) : (
                 <>
                   <Stack.Screen name='UserScreen' component={UserScreen} />
+                  <Stack.Screen
+                    name='SeeAllFavoriteScreen'
+                    component={SeeAllFavoriteScreen}
+                    options={{
+                      title: 'Favorites',
+                      headerShown: true,
+                    }}
+                  />
                 </>
               )}
             </Stack.Navigator>

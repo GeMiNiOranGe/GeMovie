@@ -1,11 +1,4 @@
-import {
-  ActivityIndicator,
-  ListRenderItemInfo,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, ListRenderItemInfo, View } from 'react-native';
 import React, { Component } from 'react';
 
 import {
@@ -13,67 +6,55 @@ import {
   MovieElement,
   PersonElement,
   RootScreenProps,
+  SeeAllFavoriteState,
   TvShowElement,
-  UserScreenState,
 } from '@shared/types';
-import { LogoutCurve, ProfileCircle } from 'iconsax-react-native';
-import { colors } from '@shared/themes';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { AuthContext } from 'src/context/AuthContext';
 import {
   CompactMovieCard,
   CompactPersonCard,
   CompactTvShowCard,
-  Section,
+  FullScreenLoader,
 } from '@components';
+import styles from './style';
+import { MovieService, PersonService, TvShowService } from '@services';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from 'firebase.config';
-import { MovieService, PersonService, TvShowService } from '@services';
-import styles from './style';
+import { AuthContext } from 'src/context/AuthContext';
 
-class UserScreen extends Component<
-  RootScreenProps<'UserScreen'>,
-  UserScreenState
+class SeeAllFavoriteScreen extends Component<
+  RootScreenProps<'SeeAllFavoriteScreen'>,
+  SeeAllFavoriteState
 > {
   public static override contextType = AuthContext;
   public override context: AuthContextProps | null = null;
 
-  public constructor(props: RootScreenProps<'UserScreen'>) {
+  public constructor(props: RootScreenProps<'SeeAllFavoriteScreen'>) {
     super(props);
-    this.state = {
-      isLoading: false,
+    this.setState({
       favoriteTvShows: [],
       favoriteMovies: [],
       favoritePerson: [],
-      username: '',
-      login: false,
-    };
+      isLoading: true,
+    });
   }
 
   public override async componentDidMount() {
     const { isLoggedIn } = this.context || {};
     if (isLoggedIn) {
-      await this.setState({ login: true });
-      this.fetchFavoriteTvShows();
-      this.fetchFavoriteMovie();
-      this.fetchFavoritePerson();
+      await this.fetchFavoriteData();
 
       const userRef = doc(db, 'users', 'favorites');
-      onSnapshot(userRef, this.handleFirestoreUpdate);
+      onSnapshot(userRef, this.fetchFavoriteData);
     }
   }
 
-  private handleFirestoreUpdate = async () => {
-    const { username } = this.context || {};
-    if (username) {
-      this.fetchFavoriteTvShows();
-      this.fetchFavoriteMovie();
-      this.fetchFavoritePerson();
-    }
+  private fetchFavoriteData = async () => {
+    this.fetchFavoriteTvShows();
+    this.fetchFavoriteMovie();
+    this.fetchFavoritePerson();
   };
 
   private fetchFavoriteTvShows = async () => {
-    this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
 
     if (!isLoggedIn || !username) {
@@ -109,7 +90,6 @@ class UserScreen extends Component<
   };
 
   private fetchFavoriteMovie = async () => {
-    this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
 
     if (!isLoggedIn || !username) {
@@ -145,7 +125,6 @@ class UserScreen extends Component<
   };
 
   private fetchFavoritePerson = async () => {
-    this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
 
     if (!isLoggedIn || !username) {
@@ -178,22 +157,6 @@ class UserScreen extends Component<
       console.error('Error fetching favorite People:', error);
       this.setState({ isLoading: false });
     }
-  };
-
-  private handleGoBack = () => {
-    this.props.navigation.navigate('HomeStack', { screen: 'HomeScreen' });
-  };
-
-  private handleLogout = () => {
-    const { logout } = this.context || {};
-    if (logout) {
-      logout();
-    }
-
-    this.props.navigation.reset({
-      index: 0,
-      routes: [{ name: 'UserStack', params: { screen: 'LoginScreen' } }],
-    });
   };
 
   private renderFavoriteTvShowItem = ({
@@ -253,116 +216,55 @@ class UserScreen extends Component<
   };
 
   public override render() {
-    const { isLoading, favoriteTvShows, favoriteMovies, favoritePerson } =
-      this.state;
-    const { username } = this.context || {};
+    const { type } = this.props.route.params;
+
+    if (!this.state) {
+      return <FullScreenLoader />;
+    }
+
+    if (this.state.isLoading) {
+      return <FullScreenLoader />;
+    }
+
+    const { favoriteTvShows, favoriteMovies, favoritePerson } = this.state;
 
     return (
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.head}>
-          <TouchableOpacity
-            style={styles.backButtonWrapper}
-            onPress={this.handleGoBack}
-          >
-            <Ionicons
-              name='arrow-back-outline'
-              color={colors.primary}
-              size={25}
-            />
-          </TouchableOpacity>
-          <View style={styles.profileHeader}>
-            <ProfileCircle size={60} />
-            {isLoading ? (
-              <ActivityIndicator size='large' color={colors.secondary} />
-            ) : (
-              <Text style={styles.textProfile}>{username}</Text>
-            )}
-          </View>
-        </View>
-        <Section.Separator />
+      <View style={styles.container}>
+        {type === 'tv' && (
+          <FlatList
+            data={favoriteTvShows}
+            renderItem={this.renderFavoriteTvShowItem}
+            keyExtractor={item => item.id.toString()}
+            numColumns={2}
+            columnWrapperStyle={styles.movieCard}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
 
-        <View style={styles.body}>
-          <Section
-            title='Favorite TV Shows'
-            moreButtonText='See all'
-            onMoreButtonPress={() => {
-              this.props.navigation.navigate('SeeAllFavoriteScreen', {
-                type: 'tv',
-              });
-            }}
-          >
-            {isLoading ? (
-              <ActivityIndicator size='large' color={colors.secondary} />
-            ) : favoriteTvShows.length > 0 ? (
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={favoriteTvShows}
-                renderItem={this.renderFavoriteTvShowItem}
-              />
-            ) : (
-              <Text style={styles.errorText}>No favorite TV found</Text>
-            )}
-          </Section>
+        {type === 'movie' && (
+          <FlatList
+            data={favoriteMovies}
+            renderItem={this.renderFavoriteMovieItem}
+            keyExtractor={item => item.id.toString()}
+            numColumns={2}
+            columnWrapperStyle={styles.movieCard}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
 
-          <Section
-            title='Favorite Movies'
-            moreButtonText='See all'
-            onMoreButtonPress={() => {
-              this.props.navigation.navigate('SeeAllFavoriteScreen', {
-                type: 'movie',
-              });
-            }}
-          >
-            {isLoading ? (
-              <ActivityIndicator size='large' color={colors.secondary} />
-            ) : favoriteTvShows.length > 0 ? (
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={favoriteMovies}
-                renderItem={this.renderFavoriteMovieItem}
-              />
-            ) : (
-              <Text style={styles.errorText}>No favorite Movies found</Text>
-            )}
-          </Section>
-
-          <Section
-            title='Favorite Celebrities'
-            moreButtonText='See all'
-            onMoreButtonPress={() => {
-              this.props.navigation.navigate('SeeAllFavoriteScreen', {
-                type: 'person',
-              });
-            }}
-          >
-            {isLoading ? (
-              <ActivityIndicator size='large' color={colors.secondary} />
-            ) : favoriteTvShows.length > 0 ? (
-              <Section.HorizontalList
-                keyExtractor={item => item.id.toString()}
-                data={favoritePerson}
-                renderItem={this.renderFavoritePersonItem}
-              />
-            ) : (
-              <Text style={styles.errorText}>
-                No favorite Celebrities found
-              </Text>
-            )}
-          </Section>
-        </View>
-
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={styles.buttonLogout}
-            onPress={this.handleLogout}
-          >
-            <LogoutCurve size={25} color='red' />
-            <Text style={styles.textLogout}>Log out</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+        {type === 'person' && (
+          <FlatList
+            data={favoritePerson}
+            renderItem={this.renderFavoritePersonItem}
+            keyExtractor={item => item.id.toString()}
+            numColumns={2}
+            columnWrapperStyle={styles.movieCard}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+      </View>
     );
   }
 }
 
-export default UserScreen;
+export default SeeAllFavoriteScreen;

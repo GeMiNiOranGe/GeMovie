@@ -24,3 +24,4 @@ export { default as SignupScreen } from './SignupScreen';
 export { default as ForgotPassword } from './ForgotPasswordScreen';
 export { default as ResetPasswordScreen } from './ResetPasswordScreen';
 export { default as UserScreen } from './UserScreen';
+export { default as SeeAllFavoriteScreen } from './SeeAllFavoriteScreen';

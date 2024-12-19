@@ -273,3 +273,10 @@ export type SeeAllTVState = {
     tv: TvShowElement[];
     isLoading: boolean;
 };
+
+export type SeeAllFavoriteState = {
+    favoriteTvShows: TvShowElement[];
+    favoriteMovies: MovieElement[];
+    favoritePerson: PersonElement[];
+    isLoading: boolean;
+};
