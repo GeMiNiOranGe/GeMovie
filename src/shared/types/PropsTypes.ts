@@ -321,3 +321,9 @@ export type FavoriteListProps = {
     id: number;
     type: 'movie' | 'tv' | 'person';
 };
+
+export type WatchListProps = {
+    navigation?: any;
+    id: number;
+    type: string;
+};

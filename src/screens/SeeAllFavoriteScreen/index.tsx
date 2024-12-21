@@ -28,15 +28,12 @@ class SeeAllFavoriteScreen extends Component<
   public static override contextType = AuthContext;
   public override context: AuthContextProps | null = null;
 
-  public constructor(props: RootScreenProps<'SeeAllFavoriteScreen'>) {
-    super(props);
-    this.setState({
-      favoriteTvShows: [],
-      favoriteMovies: [],
-      favoritePerson: [],
-      isLoading: true,
-    });
-  }
+  public override state: SeeAllFavoriteState = {
+    favoriteTvShows: [],
+    favoriteMovies: [],
+    favoritePerson: [],
+    isLoading: true,
+  };
 
   public override async componentDidMount() {
     const { isLoggedIn } = this.context || {};

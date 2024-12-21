@@ -14,9 +14,9 @@ import {
   FavoriteListProps,
   FavoriteListState,
 } from '@shared/types';
-import styles from './style';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from 'firebase.config';
+import styles from './style';
 
 class FavoriteList extends Component<FavoriteListProps, FavoriteListState> {
   public static override contextType = AuthContext;

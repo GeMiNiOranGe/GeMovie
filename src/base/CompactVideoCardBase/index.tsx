@@ -85,7 +85,7 @@ abstract class CompactVideoCardBase<
               styles.watchlist,
             ]}
           >
-            <WatchList />
+            <WatchList id={this.props.item.id} type={this.mediaType} />
           </View>
         )}
       </Card>
@@ -120,7 +120,7 @@ abstract class CompactVideoCardBase<
                 styles.watchlist,
               ]}
             >
-              <WatchList />
+              <WatchList id={this.props.item.id} type={this.mediaType} />
             </View>
           )}
 

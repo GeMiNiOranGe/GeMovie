@@ -45,6 +45,8 @@ class UserScreen extends Component<
       favoriteTvShows: [],
       favoriteMovies: [],
       favoritePerson: [],
+      watchListMovies: [],
+      watchListTvShows: [],
       username: '',
       login: false,
     };
@@ -57,18 +59,103 @@ class UserScreen extends Component<
       this.fetchFavoriteTvShows();
       this.fetchFavoriteMovie();
       this.fetchFavoritePerson();
+      this.fetchWatchListMovies();
+      this.fetchWatchListTv();
 
       const userRef = doc(db, 'users', 'favorites');
-      onSnapshot(userRef, this.handleFirestoreUpdate);
+      onSnapshot(userRef, this.handleUpdateFavorites);
+
+      const watchlistRef = doc(db, 'users', 'watchlist');
+      onSnapshot(watchlistRef, this.handleUpdateWatchlist);
     }
   }
 
-  private handleFirestoreUpdate = async () => {
+  private handleUpdateFavorites = async () => {
     const { username } = this.context || {};
     if (username) {
       this.fetchFavoriteTvShows();
       this.fetchFavoriteMovie();
       this.fetchFavoritePerson();
+    }
+  };
+
+  private handleUpdateWatchlist = async () => {
+    const { username } = this.context || {};
+    if (username) {
+      await this.fetchWatchListMovies();
+      await this.fetchWatchListTv();
+    }
+  };
+
+  private fetchWatchListMovies = async () => {
+    this.setState({ isLoading: true });
+    const { isLoggedIn, username } = this.context || {};
+
+    if (!isLoggedIn || !username) {
+      this.setState({ isLoading: false });
+      return;
+    }
+
+    try {
+      const userRef = doc(db, 'users', 'watchlist');
+      const userDoc = await getDoc(userRef);
+      const watchlistData = userDoc.exists()
+        ? userDoc.data()?.username || {}
+        : {};
+
+      const watchlistIds = watchlistData[username]?.filter(
+        (watchlist: { type: string }) => watchlist.type === 'Movie',
+      );
+
+      if (watchlistIds) {
+        const Movies = await Promise.all(
+          watchlistIds.map(async ({ id }: { id: number }) =>
+            MovieService.getDetailAsync(id),
+          ),
+        );
+        this.setState({ watchListMovies: Movies, isLoading: false });
+      } else {
+        this.setState({ watchListMovies: [], isLoading: false });
+      }
+    } catch (error) {
+      console.error('Error fetching watchlist Movies:', error);
+      this.setState({ isLoading: false });
+    }
+  };
+
+  private fetchWatchListTv = async () => {
+    this.setState({ isLoading: true });
+    const { isLoggedIn, username } = this.context || {};
+
+    if (!isLoggedIn || !username) {
+      this.setState({ isLoading: false });
+      return;
+    }
+
+    try {
+      const userRef = doc(db, 'users', 'watchlist');
+      const userDoc = await getDoc(userRef);
+      const watchlistData = userDoc.exists()
+        ? userDoc.data()?.username || {}
+        : {};
+
+      const watchlistIds = watchlistData[username]?.filter(
+        (watchlist: { type: string }) => watchlist.type === 'Tv series',
+      );
+
+      if (watchlistIds) {
+        const tvShows = await Promise.all(
+          watchlistIds.map(async ({ id }: { id: number }) =>
+            TvShowService.getDetailAsync(id),
+          ),
+        );
+        this.setState({ watchListTvShows: tvShows, isLoading: false });
+      } else {
+        this.setState({ watchListTvShows: [], isLoading: false });
+      }
+    } catch (error) {
+      console.error('Error fetching watchlist TV shows:', error);
+      this.setState({ isLoading: false });
     }
   };
 
@@ -252,11 +339,54 @@ class UserScreen extends Component<
     );
   };
 
-  public override render() {
-    const { isLoading, favoriteTvShows, favoriteMovies, favoritePerson } =
-      this.state;
-    const { username } = this.context || {};
+  private renderWatchlistTvShowItem = ({
+    item,
+    index,
+  }: ListRenderItemInfo<TvShowElement>): React.JSX.Element => {
+    return (
+      <CompactTvShowCard
+        showMediaType
+        item={item}
+        index={index}
+        listLength={this.state.watchListTvShows.length}
+        onPress={() =>
+          this.props.navigation.navigate('TvShowDetailScreen', {
+            tvShowId: item.id,
+          })
+        }
+      />
+    );
+  };
 
+  private renderWatchlistMovieItem = ({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieElement>): React.JSX.Element => {
+    return (
+      <CompactMovieCard
+        showMediaType
+        item={item}
+        index={index}
+        listLength={this.state.watchListMovies.length}
+        onPress={() =>
+          this.props.navigation.navigate('MovieDetailScreen', {
+            movieId: item.id,
+          })
+        }
+      />
+    );
+  };
+
+  public override render() {
+    const {
+      isLoading,
+      favoriteTvShows,
+      favoriteMovies,
+      favoritePerson,
+      watchListMovies,
+      watchListTvShows,
+    } = this.state;
+    const { username } = this.context || {};
     return (
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.head}>
@@ -282,6 +412,35 @@ class UserScreen extends Component<
         <Section.Separator />
 
         <View style={styles.body}>
+          <Section title='Watchlist TV Shows' moreButtonText='See all'>
+            {isLoading ? (
+              <ActivityIndicator size='large' color={colors.secondary} />
+            ) : watchListTvShows.length > 0 ? (
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={watchListTvShows}
+                renderItem={this.renderWatchlistTvShowItem}
+              />
+            ) : (
+              <Text style={styles.errorText}>No watchlist TV found</Text>
+            )}
+          </Section>
+
+          <Section title='Watchlist Movies' moreButtonText='See all'>
+            {isLoading ? (
+              <ActivityIndicator size='large' color={colors.secondary} />
+            ) : watchListMovies.length > 0 ? (
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={watchListMovies}
+                renderItem={this.renderWatchlistMovieItem}
+              />
+            ) : (
+              <Text style={styles.errorText}>No watchlist Movies found</Text>
+            )}
+          </Section>
+          <Section.Separator />
+
           <Section
             title='Favorite TV Shows'
             moreButtonText='See all'
@@ -349,6 +508,8 @@ class UserScreen extends Component<
               </Text>
             )}
           </Section>
+
+          <Section.Separator />
         </View>
 
         <View style={styles.footer}>

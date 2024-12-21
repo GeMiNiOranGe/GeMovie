@@ -3,8 +3,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   ForgotPassword,
   LoginScreen,
+  MovieDetailScreen,
+  PersonDetailScreen,
   SeeAllFavoriteScreen,
   SignupScreen,
+  TvShowDetailScreen,
   UserScreen,
 } from '@screens';
 import { RootStackParamList } from '@shared/types';
@@ -46,11 +49,39 @@ class UserStack extends React.Component {
               ) : (
                 <>
                   <Stack.Screen name='UserScreen' component={UserScreen} />
+
                   <Stack.Screen
                     name='SeeAllFavoriteScreen'
                     component={SeeAllFavoriteScreen}
                     options={{
                       title: 'Favorites',
+                      headerShown: true,
+                    }}
+                  />
+
+                  <Stack.Screen
+                    name='MovieDetailScreen'
+                    component={MovieDetailScreen}
+                    options={{
+                      title: 'Detail',
+                      headerShown: true,
+                    }}
+                  />
+
+                  <Stack.Screen
+                    name='PersonDetailScreen'
+                    component={PersonDetailScreen}
+                    options={{
+                      title: 'Detail',
+                      headerShown: true,
+                    }}
+                  />
+
+                  <Stack.Screen
+                    name='TvShowDetailScreen'
+                    component={TvShowDetailScreen}
+                    options={{
+                      title: 'Detail',
                       headerShown: true,
                     }}
                   />

@@ -215,6 +215,8 @@ export type UserScreenState = {
     favoriteTvShows: TvShowElement[];
     favoriteMovies: MovieElement[];
     favoritePerson: PersonElement[];
+    watchListMovies: MovieElement[];
+    watchListTvShows: TvShowElement[];
     username: string;
     login: boolean;
 };
@@ -262,6 +264,11 @@ export type TopRatedState = {
 export type FavoriteListState = {
     showModal: boolean;
     isFavorite: boolean;
+};
+
+export type WatchListState = {
+    showModal: boolean;
+    isWatchList: boolean;
 };
 
 export type SeeAllMoviesState = {
