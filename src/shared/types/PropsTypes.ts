@@ -327,3 +327,7 @@ export type WatchListProps = {
     id: number;
     type: string;
 };
+
+export type CommentProps = {
+    id?: number;
+};

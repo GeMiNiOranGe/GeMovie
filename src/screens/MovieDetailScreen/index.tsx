@@ -65,6 +65,7 @@ import { layout, colors } from '@shared/themes';
 import { spacing } from '@shared/constants';
 import { IMDB_BASE_URL } from '@config';
 import styles from './style';
+import Comment from 'src/components/Comment';
 
 const labelIconsaxProps: IconsaxProps = {
   size: 16,
@@ -564,6 +565,11 @@ class MovieDetailScreen extends React.Component<
                   value={getFormattedMoney(this.state.movie?.revenue)}
                 />
               </Section.Content>
+            </Section>
+
+            <Section.Separator />
+            <Section title='Comments'>
+              <Comment id={this.state.movie.id} />
             </Section>
 
             <Modal

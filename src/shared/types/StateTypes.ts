@@ -287,3 +287,11 @@ export type SeeAllFavoriteState = {
     favoritePerson: PersonElement[];
     isLoading: boolean;
 };
+
+export type CommentState = {
+    comment: string;
+    comments: { username: string; comment: string; timestamp: string }[];
+    isCommenting: boolean;
+    messages: string;
+    loadingComments: boolean;
+};

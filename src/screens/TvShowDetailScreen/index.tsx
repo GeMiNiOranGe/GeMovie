@@ -61,6 +61,7 @@ import {
 import { spacing } from '@shared/constants';
 import { colors, layout } from '@shared/themes';
 import styles from './style';
+import Comment from 'src/components/Comment';
 
 const labelIconsaxProps: IconsaxProps = {
   size: 16,
@@ -560,6 +561,10 @@ class TvShowDetailScreen extends React.Component<
                   renderItem={this.renderNetworkItem}
                 />
               </Section.Content>
+            </Section>
+            <Section.Separator />
+            <Section title='Comments'>
+              <Comment id={this.state.tvShow?.id} />
             </Section>
           </Animated.View>
 
