@@ -53,43 +53,34 @@ class LoginScreen extends React.Component<
     }));
   };
 
-  private handleGoBack = () => {
-    this.props.navigation.goBack();
+  private handleNavigation = (screen: string) => {
+    this.props.navigation.navigate(screen);
   };
 
-  private handleSignup = () => {
-    this.props.navigation.navigate('SignupScreen');
-  };
+  private validateInputs = (): boolean => {
+    const { username, password } = this.state;
+    const errors = {
+      username: username.trim() === '',
+      password: password.trim() === '',
+    };
+    const errorMessages = {
+      username: errors.username ? 'Username is required' : '',
+      password: errors.password ? 'Password is required' : '',
+    };
 
-  private handleForgot = () => {
-    this.props.navigation.navigate('ForgotPasswordScreen');
+    this.setState({ errors, errorMessages });
+    return !errors.username && !errors.password;
   };
 
   private handleLogin = async () => {
-    const { username, password, errorMessages, errors } = this.state;
-    const { login } = this.context || {};
-    let updatedErrors = { ...errors };
-    let updatedErrorMessages = { ...errorMessages };
-    updatedErrorMessages.username = '';
-    updatedErrorMessages.password = '';
-    if (username.trim() === '') {
-      updatedErrors.username = true;
-      updatedErrorMessages.username = 'Username is required';
-    }
-    if (password.trim() === '') {
-      updatedErrors.password = true;
-      updatedErrorMessages.password = 'Password is required';
-    }
-
-    if (updatedErrorMessages.username || updatedErrorMessages.password) {
-      this.setState({
-        errors: updatedErrors,
-        errorMessages: updatedErrorMessages,
-      });
+    if (!this.validateInputs()) {
       return;
     }
 
+    const { username, password } = this.state;
+    const { login } = this.context || {};
     this.setState({ isLoading: true });
+
     try {
       const loginCollection = collection(db, 'Account');
       const usernameQuery = query(
@@ -97,45 +88,41 @@ class LoginScreen extends React.Component<
         where('username', '==', username),
       );
       const usernameSnapshot = await getDocs(usernameQuery);
+
       if (usernameSnapshot.empty) {
         this.setState({
+          errors: { ...this.state.errors, username: true },
           errorMessages: {
             ...this.state.errorMessages,
             username: 'Username does not exist',
           },
-          errors: { ...this.state.errors, username: true },
           isLoading: false,
         });
         return;
       }
-
       const userDoc = usernameSnapshot.docs[0];
       const userData = userDoc.data();
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        userData.email,
-        password,
-      );
+      await signInWithEmailAndPassword(auth, userData.email, password);
+
       if (login) {
         login(username);
       }
 
-      this.props.navigation.navigate('HomeStack', { screen: 'HomeScreen' });
+      this.handleNavigation('HomeStack');
     } catch (error) {
-      console.error('Login error:', error);
       this.setState({
+        errors: { ...this.state.errors, password: true },
         errorMessages: {
           ...this.state.errorMessages,
           password: 'Incorrect username or password',
         },
-        errors: { ...this.state.errors, password: true },
         isLoading: false,
       });
     }
   };
 
   public override render() {
-    const { secureEntery, isLoading } = this.state;
+    const { secureEntery, isLoading, errors, errorMessages } = this.state;
 
     if (isLoading) {
       return <FullScreenLoader />;
@@ -143,9 +130,10 @@ class LoginScreen extends React.Component<
 
     return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        {/* Back Button */}
         <TouchableOpacity
           style={styles.backButtonWrapper}
-          onPress={this.handleGoBack}
+          onPress={() => this.props.navigation.goBack()}
         >
           <Ionicons
             name='arrow-back-outline'
@@ -176,16 +164,14 @@ class LoginScreen extends React.Component<
               onChangeText={text =>
                 this.setState({
                   username: text,
-                  errors: { ...this.state.errors, username: false },
-                  errorMessages: { ...this.state.errorMessages, username: '' },
+                  errors: { ...errors, username: false },
+                  errorMessages: { ...errorMessages, username: '' },
                 })
               }
             />
           </View>
-          {this.state.errors.username && (
-            <Text style={styles.errorMessage}>
-              {this.state.errorMessages.username}
-            </Text>
+          {errors.username && (
+            <Text style={styles.errorMessage}>{errorMessages.username}</Text>
           )}
 
           <View style={styles.inputContainer}>
@@ -200,13 +186,13 @@ class LoginScreen extends React.Component<
               placeholderTextColor={colors.secondary}
               secureTextEntry={secureEntery}
               autoCapitalize='none'
-              onChangeText={text => {
+              onChangeText={text =>
                 this.setState({
                   password: text,
-                  errors: { ...this.state.errors, password: false },
-                  errorMessages: { ...this.state.errorMessages, password: '' },
-                });
-              }}
+                  errors: { ...errors, password: false },
+                  errorMessages: { ...errorMessages, password: '' },
+                })
+              }
             />
             <TouchableOpacity onPress={this.togglePasswordVisibility}>
               <Ionicons
@@ -216,13 +202,13 @@ class LoginScreen extends React.Component<
               />
             </TouchableOpacity>
           </View>
-          {this.state.errors.password && (
-            <Text style={styles.errorMessage}>
-              {this.state.errorMessages.password}
-            </Text>
+          {errors.password && (
+            <Text style={styles.errorMessage}>{errorMessages.password}</Text>
           )}
 
-          <TouchableOpacity onPress={this.handleForgot}>
+          <TouchableOpacity
+            onPress={() => this.handleNavigation('ForgotPasswordScreen')}
+          >
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
 
@@ -241,7 +227,9 @@ class LoginScreen extends React.Component<
 
           <View style={styles.footerContainer}>
             <Text style={styles.accountText}>Don’t have an account?</Text>
-            <TouchableOpacity onPress={this.handleSignup}>
+            <TouchableOpacity
+              onPress={() => this.handleNavigation('SignupScreen')}
+            >
               <Text style={styles.signupText}>Sign up</Text>
             </TouchableOpacity>
           </View>

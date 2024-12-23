@@ -16,8 +16,8 @@ import { RootScreenProps, SignupScreenState } from '@shared/types';
 import { collection, where, query, getDocs, addDoc } from 'firebase/firestore';
 import { auth, db } from 'firebase.config';
 import { hash } from 'bcrypt-ts';
-import styles from './style';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import styles from './style';
 
 class SignupScreen extends React.Component<
   RootScreenProps<'SignupScreen'>,
@@ -92,68 +92,79 @@ class SignupScreen extends React.Component<
 
   private handleSignup = async () => {
     const { username, email, password, errors, errorMessages } = this.state;
+    const updatedErrors = {
+      username: username.trim() === '',
+      email: email.trim() === '',
+      password: password.trim() === '',
+    };
+    const updatedErrorMessages = {
+      username: updatedErrors.username ? 'Username is required' : '',
+      email: updatedErrors.email ? 'Email is required' : '',
+      password: updatedErrors.password ? 'Password is required' : '',
+    };
 
-    let updatedErrors = { ...errors };
-    let updatedErrorMessages = { ...errorMessages };
+    this.setState({
+      errors: updatedErrors,
+      errorMessages: updatedErrorMessages,
+    });
 
-    if (username.trim() === '') {
-      updatedErrors.username = true;
-      updatedErrorMessages.username = 'Username is required';
-    }
-    if (email.trim() === '') {
-      updatedErrors.email = true;
-      updatedErrorMessages.email = 'Email is required';
-    }
-    if (password.trim() === '') {
-      updatedErrors.password = true;
-      updatedErrorMessages.password = 'Password is required';
+    if (Object.values(updatedErrors).some(error => error)) {
+      return;
     }
 
-    this.setState(
-      { errors: updatedErrors, errorMessages: updatedErrorMessages },
-      async () => {
-        if (
-          !updatedErrors.username &&
-          !updatedErrors.email &&
-          !updatedErrors.password
-        ) {
-          this.setState({ isLoading: true });
-          const usersCollection = collection(db, 'Account');
-          const usernameQuery = query(
-            usersCollection,
-            where('username', '==', username),
-          );
-          const usernameSnapshot = await getDocs(usernameQuery);
-          if (!usernameSnapshot.empty) {
-            this.setState({
-              errorMessages: {
-                ...this.state.errorMessages,
-                username: 'Username is already',
-              },
-              errors: { ...this.state.errors, username: true },
-              isLoading: false,
-            });
-            return;
-          }
-          const userCredential = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password,
-          );
-          const user = userCredential.user;
-          const hashedPassword = await hash(password, 10);
-          await addDoc(usersCollection, {
-            uid: user.uid,
-            username,
-            email,
-            password: hashedPassword,
-            createdAt: new Date().toISOString(),
-          });
-          this.props.navigation.navigate('LoginScreen');
-          this.setState({ isLoading: false });
-        }
-      },
-    );
+    try {
+      this.setState({ isLoading: true });
+      const usersCollection = collection(db, 'Account');
+      const usernameQuery = query(
+        usersCollection,
+        where('username', '==', username),
+      );
+      const usernameSnapshot = await getDocs(usernameQuery);
+
+      if (!usernameSnapshot.empty) {
+        this.setState({
+          errors: { ...errors, username: true },
+          errorMessages: {
+            ...errorMessages,
+            username: 'Username is already taken',
+          },
+          isLoading: false,
+        });
+        return;
+      }
+
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+      const hashedPassword = await hash(password, 10);
+      await addDoc(usersCollection, {
+        uid: user.uid,
+        username,
+        email,
+        password: hashedPassword,
+        createdAt: new Date().toISOString(),
+      });
+
+      this.props.navigation.navigate('LoginScreen');
+    } catch (error) {
+      console.error('Error signing up:', error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  private getPasswordErrorMessage = (key: string): string => {
+    const messages: Record<string, string> = {
+      length: 'At least 8 characters',
+      uppercase: 'At least 1 uppercase letter',
+      lowercase: 'At least 1 lowercase letter',
+      number: 'At least 1 number',
+      specialChar: 'At least 1 special character (@$!%*?&#)',
+    };
+    return messages[key] || '';
   };
 
   public override render() {
@@ -280,46 +291,17 @@ class SignupScreen extends React.Component<
               )}
               {showPasswordErrors && (
                 <View style={styles.errorListContainer}>
-                  <Text
-                    style={{
-                      color: passwordErrors.length ? 'green' : 'red',
-                      ...styles.errorText,
-                    }}
-                  >
-                    * At least 8 characters
-                  </Text>
-                  <Text
-                    style={{
-                      color: passwordErrors.uppercase ? 'green' : 'red',
-                      ...styles.errorText,
-                    }}
-                  >
-                    * At least 1 uppercase letter
-                  </Text>
-                  <Text
-                    style={{
-                      color: passwordErrors.lowercase ? 'green' : 'red',
-                      ...styles.errorText,
-                    }}
-                  >
-                    * At least 1 lowercase letter
-                  </Text>
-                  <Text
-                    style={{
-                      color: passwordErrors.number ? 'green' : 'red',
-                      ...styles.errorText,
-                    }}
-                  >
-                    * At least 1 number
-                  </Text>
-                  <Text
-                    style={{
-                      color: passwordErrors.specialChar ? 'green' : 'red',
-                      ...styles.errorText,
-                    }}
-                  >
-                    - At least 1 special character (@$!%*?&#)
-                  </Text>
+                  {Object.entries(passwordErrors).map(([key, isValid]) => (
+                    <Text
+                      key={key}
+                      style={{
+                        color: isValid ? 'green' : 'red',
+                        ...styles.errorText,
+                      }}
+                    >
+                      * {this.getPasswordErrorMessage(key)}
+                    </Text>
+                  ))}
                 </View>
               )}
 

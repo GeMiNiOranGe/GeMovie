@@ -81,6 +81,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         padding: 20,
     },
+    watchlistContainer: {
+        right: '50%',
+        top: 3,
+    },
 });
 
 export default styles;

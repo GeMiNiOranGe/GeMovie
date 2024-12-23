@@ -40,6 +40,18 @@ class WatchList extends Component<WatchListProps, WatchListState> {
     }
   }
 
+  public override shouldComponentUpdate(
+    nextProps: WatchListProps,
+    nextState: WatchListState,
+  ) {
+    return (
+      nextState.showModal !== this.state.showModal ||
+      nextState.isWatchList !== this.state.isWatchList ||
+      nextProps.id !== this.props.id ||
+      nextProps.type !== this.props.type
+    );
+  }
+
   private handleWatchList = async () => {
     const { login, username } = this.context || {};
     const { id, type } = this.props;

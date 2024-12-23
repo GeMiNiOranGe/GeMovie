@@ -12,6 +12,7 @@ import Carousel from 'react-native-reanimated-carousel';
 import { SlideshowProps, SlideshowState } from '@shared/types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles, { itemWidth } from '../SlideShow/style';
+import WatchList from '../WatchList';
 
 class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
   public constructor(props: SlideshowProps) {
@@ -36,7 +37,16 @@ class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
     const { props } = this;
 
     return (
-      <View style={styles.slide}>
+      <TouchableOpacity
+        style={styles.slide}
+        onPress={() =>
+          props.navigateToMovieDetail &&
+          props.navigateToMovieDetail(props.movieIds[index])
+        }
+      >
+        <View style={styles.watchlistContainer}>
+          <WatchList id={this.props.movieIds[index]} type='Movie' />
+        </View>
         <Image source={{ uri: props.images[index] }} style={styles.image} />
         <View style={styles.contentContainer}>
           <View style={styles.textContainer}>
@@ -61,7 +71,7 @@ class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
