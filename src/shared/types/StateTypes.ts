@@ -288,6 +288,31 @@ export type SeeAllFavoriteState = {
     isLoading: boolean;
 };
 
+export type SeeAllFavoriteMoviesState = {
+    favoriteMovies: MovieElement[];
+    isLoading: boolean;
+};
+
+export type SeeAllFavoriteTVState = {
+    favoriteTvShows: TvShowElement[];
+    isLoading: boolean;
+};
+
+export type SeeAllFavoritePersonState = {
+    favoritePerson: PersonElement[];
+    isLoading: boolean;
+};
+
+export type SeeAllWatchListMovieState = {
+    watchListMovies: MovieElement[];
+    isLoading: boolean;
+};
+
+export type SeeAllWatchListTVState = {
+    watchListTV: TvShowElement[];
+    isLoading: boolean;
+};
+
 export type CommentState = {
     comment: string;
     comments: { username: string; comment: string; timestamp: string }[];

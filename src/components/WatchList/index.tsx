@@ -49,12 +49,15 @@ class WatchList extends Component<WatchListProps, WatchListState> {
       return;
     } else {
       this.setState({ showModal: false });
+
       try {
         const userRef = doc(db, 'users', 'watchlist');
         const userDoc = await getDoc(userRef);
+
         let watchlistData = userDoc.exists()
           ? userDoc.data()?.username || {}
           : {};
+
         if (!watchlistData[username]) {
           watchlistData[username] = [];
         }
@@ -66,18 +69,18 @@ class WatchList extends Component<WatchListProps, WatchListState> {
             watchlist.id === id && watchlist.type === type,
         );
 
+        this.setState({ isWatchList: !isWatchlistExists });
+
         if (!isWatchlistExists) {
           watchlistData[username] = [...currentWatchlist, newWatchlist];
-          await setDoc(userRef, { username: watchlistData });
-          this.setState({ isWatchList: true });
         } else {
           watchlistData[username] = currentWatchlist.filter(
             (watchlist: { id: number; type: string }) =>
               watchlist.id !== id || watchlist.type !== type,
           );
-          await setDoc(userRef, { username: watchlistData });
-          this.setState({ isWatchList: false });
         }
+
+        await setDoc(userRef, { username: watchlistData });
       } catch (error) {
         console.error('Error saving favorite to Firestore:', error);
       }

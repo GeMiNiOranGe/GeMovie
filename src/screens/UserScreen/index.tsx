@@ -412,7 +412,13 @@ class UserScreen extends Component<
         <Section.Separator />
 
         <View style={styles.body}>
-          <Section title='Watchlist TV Shows' moreButtonText='See all'>
+          <Section
+            title='Watchlist TV Shows'
+            moreButtonText='See all'
+            onMoreButtonPress={() =>
+              this.props.navigation.navigate('SeeAllWatchListTV')
+            }
+          >
             {isLoading ? (
               <ActivityIndicator size='large' color={colors.secondary} />
             ) : watchListTvShows.length > 0 ? (
@@ -426,7 +432,13 @@ class UserScreen extends Component<
             )}
           </Section>
 
-          <Section title='Watchlist Movies' moreButtonText='See all'>
+          <Section
+            title='Watchlist Movies'
+            moreButtonText='See all'
+            onMoreButtonPress={() =>
+              this.props.navigation.navigate('SeeAllWatchListTV')
+            }
+          >
             {isLoading ? (
               <ActivityIndicator size='large' color={colors.secondary} />
             ) : watchListMovies.length > 0 ? (
@@ -445,9 +457,7 @@ class UserScreen extends Component<
             title='Favorite TV Shows'
             moreButtonText='See all'
             onMoreButtonPress={() => {
-              this.props.navigation.navigate('SeeAllFavoriteScreen', {
-                type: 'tv',
-              });
+              this.props.navigation.navigate('SeeAllFavoriteTV');
             }}
           >
             {isLoading ? (
@@ -467,9 +477,7 @@ class UserScreen extends Component<
             title='Favorite Movies'
             moreButtonText='See all'
             onMoreButtonPress={() => {
-              this.props.navigation.navigate('SeeAllFavoriteScreen', {
-                type: 'movie',
-              });
+              this.props.navigation.navigate('SeeAllFavoriteMovie');
             }}
           >
             {isLoading ? (
@@ -489,9 +497,7 @@ class UserScreen extends Component<
             title='Favorite Celebrities'
             moreButtonText='See all'
             onMoreButtonPress={() => {
-              this.props.navigation.navigate('SeeAllFavoriteScreen', {
-                type: 'person',
-              });
+              this.props.navigation.navigate('SeeAllFavoritePerson');
             }}
           >
             {isLoading ? (

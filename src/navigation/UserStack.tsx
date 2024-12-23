@@ -5,7 +5,9 @@ import {
   LoginScreen,
   MovieDetailScreen,
   PersonDetailScreen,
-  SeeAllFavoriteScreen,
+  SeeAllFavoritePerson,
+  SeeAllWatchListMovie,
+  SeeAllWatchListTV,
   SignupScreen,
   TvShowDetailScreen,
   UserScreen,
@@ -13,6 +15,8 @@ import {
 import { RootStackParamList } from '@shared/types';
 import { AuthContext } from 'src/context/AuthContext';
 import { Text } from 'react-native';
+import SeeAllFavoriteMovie from 'src/screens/SeeAllFavoriteMovies';
+import SeeAllFavoriteTV from 'src/screens/SeeAllFavoriteTV';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -51,10 +55,46 @@ class UserStack extends React.Component {
                   <Stack.Screen name='UserScreen' component={UserScreen} />
 
                   <Stack.Screen
-                    name='SeeAllFavoriteScreen'
-                    component={SeeAllFavoriteScreen}
+                    name='SeeAllFavoriteMovie'
+                    component={SeeAllFavoriteMovie}
                     options={{
                       title: 'Favorites',
+                      headerShown: true,
+                    }}
+                  />
+
+                  <Stack.Screen
+                    name='SeeAllFavoriteTV'
+                    component={SeeAllFavoriteTV}
+                    options={{
+                      title: 'Favorites',
+                      headerShown: true,
+                    }}
+                  />
+
+                  <Stack.Screen
+                    name='SeeAllFavoritePerson'
+                    component={SeeAllFavoritePerson}
+                    options={{
+                      title: 'Favorites',
+                      headerShown: true,
+                    }}
+                  />
+
+                  <Stack.Screen
+                    name='SeeAllWatchListMovie'
+                    component={SeeAllWatchListMovie}
+                    options={{
+                      title: 'WatchList',
+                      headerShown: true,
+                    }}
+                  />
+
+                  <Stack.Screen
+                    name='SeeAllWatchListTV'
+                    component={SeeAllWatchListTV}
+                    options={{
+                      title: 'WatchList',
                       headerShown: true,
                     }}
                   />

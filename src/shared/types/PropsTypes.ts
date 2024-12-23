@@ -77,9 +77,11 @@ export type RootStackParamList = ParamListBase & {
     };
     SeeAllMovieScreen: undefined;
     SeeAllPersonScreen: undefined;
-    SeeAllFavoriteScreen: {
-        type: 'movie' | 'tv' | 'person';
-    };
+    SeeAllFavoriteMovies: undefined;
+    SeeAllFavoriteTV: undefined;
+    SeeAllFavoritePerson: undefined;
+    SeeAllWatchListMovie: undefined;
+    SeeAllWatchListTV: undefined;
     UserScreen: undefined;
 };
 

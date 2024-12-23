@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white',
     },
     movieCard: {
         justifyContent: 'space-between',
@@ -11,5 +12,4 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
 });
-
 export default styles;
