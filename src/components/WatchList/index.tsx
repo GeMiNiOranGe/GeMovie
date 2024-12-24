@@ -40,6 +40,14 @@ class WatchList extends Component<WatchListProps, WatchListState> {
     }
   }
 
+  public override componentDidUpdate() {
+    const { username, isLoggedIn } = this.context || {};
+    const { id, type } = this.props;
+    if (isLoggedIn && username) {
+      this.checkWatchList(username, id, type);
+    }
+  }
+
   public override shouldComponentUpdate(
     nextProps: WatchListProps,
     nextState: WatchListState,

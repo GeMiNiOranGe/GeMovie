@@ -100,10 +100,14 @@ class Comment extends Component<CommentProps, CommentState> {
     const commentDate = new Date(timestamp);
     const now = new Date();
     const timeDifference = now.getTime() - commentDate.getTime();
+    const minutesDifference = timeDifference / (1000 * 60);
     const hoursDifference = timeDifference / (1000 * 3600);
     const daysDifference = timeDifference / (1000 * 3600 * 24);
 
-    if (hoursDifference < 24) {
+    if (minutesDifference < 60) {
+      const minutes = Math.floor(minutesDifference);
+      return `${minutes} minutes ago`;
+    } else if (hoursDifference < 24) {
       const hours = Math.floor(hoursDifference);
       return `${hours} hours ago`;
     } else {
