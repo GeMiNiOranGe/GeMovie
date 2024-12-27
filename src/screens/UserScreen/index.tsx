@@ -432,6 +432,8 @@ class UserScreen extends Component<
             )}
           </Section>
 
+          <Section.Separator />
+
           <Section
             title='Watchlist Movies'
             moreButtonText='See all'
@@ -473,6 +475,8 @@ class UserScreen extends Component<
             )}
           </Section>
 
+          <Section.Separator />
+
           <Section
             title='Favorite Movies'
             moreButtonText='See all'
@@ -492,6 +496,8 @@ class UserScreen extends Component<
               <Text style={styles.errorText}>No favorite Movies found</Text>
             )}
           </Section>
+
+          <Section.Separator />
 
           <Section
             title='Favorite Celebrities'

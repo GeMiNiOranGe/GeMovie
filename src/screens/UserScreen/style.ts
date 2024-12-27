@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
     scrollContent: {
         flexGrow: 1,
         justifyContent: 'space-between',
-        padding: 16,
         backgroundColor: 'white',
     },
     head: {
         flex: 0.4,
+        paddingBottom: 24,
     },
     backButtonWrapper: {
         height: height * 0.05,
@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
         borderRadius: height * 0.025,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 16,
+        marginLeft: 16,
     },
     profileHeader: {
         flexDirection: 'row',
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
-        marginLeft: 5,
+        marginLeft: 16,
     },
     body: {
         flex: 3,
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingBottom: 16,
     },
     textLogout: {
         fontSize: 15,
