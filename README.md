@@ -3,6 +3,9 @@ a React Native movie app
 
 >**More info**: This project uses api key from [TMDB](https://www.themoviedb.org/)
 
+## Docs
+You are looking for documentation about this project, please [check this out](docs)
+
 ## How to run
 >**Note**: Make sure you have installed the [`environment`](https://reactnative.dev/docs/set-up-your-environment).
 * Step 1: clone this repo.
