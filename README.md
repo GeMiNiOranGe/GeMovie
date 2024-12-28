@@ -10,6 +10,9 @@ You are looking for documentation about this project, please [check this out](do
 >**Note**: Make sure you have installed the [`environment`](https://reactnative.dev/docs/set-up-your-environment).
 * Step 1: clone this repo.
 * Step 2: move to project directory and create a `.env` file as following [example](.env.example).
+```
+copy .\.env.example .\.env
+```
 * Step 3: intall library.
 ```
 npm install
