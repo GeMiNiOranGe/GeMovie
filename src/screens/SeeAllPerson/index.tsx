@@ -8,6 +8,13 @@ import {
   Animated,
   Modal,
 } from 'react-native';
+import {
+  CloseCircle,
+  Crown,
+  Global,
+  Information,
+  Star,
+} from 'iconsax-react-native';
 
 import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
 import { URLBuilder } from '@services';
@@ -17,13 +24,6 @@ import type {
   RootScreenProps,
   SeeAllPersonState,
 } from '@shared/types';
-import {
-  CloseCircle,
-  Crown,
-  Global,
-  Information,
-  Star,
-} from 'iconsax-react-native';
 import { getFormattedGender } from '@shared/utils';
 import styles from './style';
 
@@ -44,7 +44,7 @@ class AllPerson extends React.Component<
     };
   }
 
-  public fetchPersonMovies = (personId: number) => {
+  public fetchPersonMovies = (personId: number): void => {
     const moviesUrl = `${TMDB_BASE_URL}/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}`;
     fetch(moviesUrl)
       .then(response => response.json())
@@ -59,7 +59,7 @@ class AllPerson extends React.Component<
       });
   };
 
-  public override componentDidMount() {
+  public override componentDidMount(): void {
     const personUrl = `${TMDB_BASE_URL}/person/popular?api_key=${TMDB_API_KEY}`;
     fetch(personUrl)
       .then(response => response.json())
@@ -72,11 +72,17 @@ class AllPerson extends React.Component<
       });
   }
 
-  private closeModal = () => {
+  protected closeModal = (): void => {
     this.setState({ isModalVisible: false });
   };
 
-  public renderItem = ({ item, index }: { item: Person; index: number }) => {
+  public renderItem = ({
+    item,
+    index,
+  }: {
+    item: Person;
+    index: number;
+  }): React.JSX.Element => {
     const CARD_HEIGHT = 120;
     const inputRange = [
       (index - 1) * CARD_HEIGHT,
@@ -151,7 +157,7 @@ class AllPerson extends React.Component<
     );
   };
 
-  public override render() {
+  public override render(): React.JSX.Element {
     const { people, movies, isModalVisible, selectedPerson } = this.state;
 
     return (

@@ -54,7 +54,10 @@ class EpisodeDetailScreen extends React.PureComponent<
     this.props.navigation.setOptions({ title: episode.name });
   }
 
-  public renderGuestStarItem({ item, index }: ListRenderItemInfo<CastBase>) {
+  private renderGuestStarItem({
+    item,
+    index,
+  }: ListRenderItemInfo<CastBase>): React.JSX.Element {
     const marginRight: number =
       index === (this.state.episode?.guestStars.length || 0) - 1
         ? 0
@@ -91,7 +94,10 @@ class EpisodeDetailScreen extends React.PureComponent<
     );
   }
 
-  public renderCrewItem({ item, index }: ListRenderItemInfo<Crew>) {
+  private renderCrewItem({
+    item,
+    index,
+  }: ListRenderItemInfo<Crew>): React.JSX.Element {
     const marginRight: number =
       index === (this.state.episode?.crew.length || 0) - 1 ? 0 : spacing.large;
 

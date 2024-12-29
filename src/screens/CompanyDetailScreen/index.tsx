@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import {
   Location,
   VideoPlay,
@@ -13,6 +7,7 @@ import {
   IconProps as IconsaxProps,
   Global,
 } from 'iconsax-react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type {
   CompanyDetailScreenState,
@@ -28,6 +23,7 @@ import {
   Section,
   TMDBImage,
   TMDBImageBackgroundLinearGradient,
+  TouchablePanel,
   TouchableRippleLink,
   VideoHorizontalListSection,
 } from '@components';
@@ -43,7 +39,7 @@ const labelIconsaxProps: IconsaxProps = {
   variant: 'Bold',
 };
 
-class CompanyDetailScreen extends React.Component<
+class CompanyDetailScreen extends React.PureComponent<
   RootScreenProps<'CompanyDetailScreen'>,
   CompanyDetailScreenState
 > {
@@ -134,7 +130,7 @@ class CompanyDetailScreen extends React.Component<
     ];
   }
 
-  private pushCompanyDetailScreen() {
+  private pushCompanyDetailScreen(): void {
     this.props.navigation.push('CompanyDetailScreen', {
       companyId: this.state.company?.parentCompany?.id as number,
     });
@@ -207,37 +203,17 @@ class CompanyDetailScreen extends React.Component<
 
             {this.state.company?.parentCompany && (
               <Box title='Parent company'>
-                <TouchableOpacity
-                  style={layout.row}
-                  activeOpacity={0.85}
+                <TouchablePanel
+                  name={this.state.company?.parentCompany.name}
+                  imageStyle={styles.parentLogo}
+                  imageContainerStyle={styles.parentLogoBox}
+                  imagePath={this.state.company?.parentCompany.logoPath}
+                  imageSize='w300'
+                  imageResizeMode='contain'
+                  backgroundPath={this.state.company?.parentCompany.logoPath}
+                  backgroundSize='w300'
                   onPress={this.pushCompanyDetailScreen}
-                >
-                  <>
-                    <View style={styles.parentLogoBox}>
-                      <TMDBImage
-                        style={styles.parentLogo}
-                        resizeMode='contain'
-                        path={this.state.company?.parentCompany.logoPath}
-                        size='w300'
-                      />
-                    </View>
-
-                    <TMDBImageBackgroundLinearGradient
-                      contentContainerStyle={[
-                        layout.justifyCenter,
-                        styles.parentNameBox,
-                      ]}
-                      path={this.state.company?.parentCompany.logoPath}
-                      size='w300'
-                      blurRadius={4}
-                      colors={['transparent', colors.secondary.toString()]}
-                    >
-                      <Text style={styles.parentName} numberOfLines={2}>
-                        {this.state.company?.parentCompany.name}
-                      </Text>
-                    </TMDBImageBackgroundLinearGradient>
-                  </>
-                </TouchableOpacity>
+                />
               </Box>
             )}
 

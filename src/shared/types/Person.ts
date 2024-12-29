@@ -47,21 +47,14 @@ export type Credits = {
     crew: Crew[];
 };
 
-export type TPerson = {
-    adult: boolean;
+export type TPerson = PersonBase & {
     alsoKnownAs: string[];
     biography: string;
     birthday: Date;
     deathday: Date;
-    gender: number;
     homepage: Optional<string>;
-    id: number;
     imdbId: Optional<string>;
-    knownForDepartment: string;
-    name: string;
     placeOfBirth: string;
-    popularity: number;
-    profilePath: string;
     // movieCredits: Omit<MovieCredits, 'id'>;
     // tvCredits: Omit<TvCredits, 'id'>;
 };

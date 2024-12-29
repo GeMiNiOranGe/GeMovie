@@ -36,7 +36,7 @@ import {
 } from '@shared/utils';
 import styles from './style';
 
-class HomeScreen extends React.Component<
+class HomeScreen extends React.PureComponent<
   RootScreenProps<'HomeScreen'>,
   HomeScreenState
 > {
@@ -60,7 +60,7 @@ class HomeScreen extends React.Component<
     this.renderTopRatedItem = this.renderTopRatedItem.bind(this);
   }
 
-  public override async componentDidMount() {
+  public override async componentDidMount(): Promise<void> {
     try {
       const [movies, tvShows, people, topRated, trend, upcomingMovies] =
         await Promise.all([
@@ -220,7 +220,7 @@ class HomeScreen extends React.Component<
     );
   }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     if (this.state.isLoading) {
       return <FullScreenLoader />;
     }

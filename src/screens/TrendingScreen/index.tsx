@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   View,
   Text,
@@ -5,7 +6,7 @@ import {
   ListRenderItemInfo,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
   TrendScreenState,
@@ -18,7 +19,6 @@ import {
   isTvShowElement,
   toMultiMediaElement,
 } from '@shared/utils';
-import LinearGradient from 'react-native-linear-gradient';
 import {
   CompactMovieCard,
   CompactPersonCard,
@@ -42,7 +42,7 @@ class TrendingScreen extends React.Component<
     };
   }
 
-  public override async componentDidMount() {
+  public override async componentDidMount(): Promise<void> {
     try {
       const trendData = await MediaService.getTrendingAsync(
         'all',
@@ -129,7 +129,7 @@ class TrendingScreen extends React.Component<
     this.setState({ selectedCategory: category });
   };
 
-  public override render() {
+  public override render(): React.JSX.Element {
     const { isLoading, trend, selectedCategory } = this.state;
 
     if (isLoading) {

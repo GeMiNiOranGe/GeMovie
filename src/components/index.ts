@@ -32,3 +32,4 @@ export { default as NetworkCard } from './NetworkCard';
 export { default as SeasonCard } from './SeasonCard';
 export { default as FavoriteList } from './FavoriteList';
 export { default as WatchList } from './WatchList';
+export { default as TouchablePanel } from './TouchablePanel';

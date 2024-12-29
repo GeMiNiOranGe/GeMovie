@@ -2,22 +2,22 @@ import React from 'react';
 import { type ListRenderItemInfo } from 'react-native';
 
 import type {
+  DetailsSectionProps,
+  DetailsSectionState,
   MediaElement,
-  RecommendationProps,
-  RecommendationState,
 } from '@shared/types';
 import { VideoService } from '@services';
 import { isMovieElement, toMediaElement } from '@shared/utils';
 import { CompactMovieCard, CompactTvShowCard, Section } from '@components';
 
 class Recommendation extends React.PureComponent<
-  RecommendationProps,
-  RecommendationState
+  DetailsSectionProps,
+  DetailsSectionState<MediaElement[]>
 > {
-  public constructor(props: RecommendationProps) {
+  public constructor(props: DetailsSectionProps) {
     super(props);
     this.state = {
-      recommendItems: [],
+      results: [],
       isFetching: true,
       error: undefined,
     };
@@ -33,21 +33,24 @@ class Recommendation extends React.PureComponent<
         toMediaElement,
       );
 
-      const recommendItems = response.getResults();
+      const results = response.getResults();
 
-      this.setState({ recommendItems, isFetching: false });
+      this.setState({ results, isFetching: false });
     } catch (error: unknown) {
       this.setState({ error: error as Error });
     }
   }
 
-  public renderItem({ item, index }: ListRenderItemInfo<MediaElement>) {
+  public renderItem({
+    item,
+    index,
+  }: ListRenderItemInfo<MediaElement>): React.JSX.Element {
     if (isMovieElement(item)) {
       return (
         <CompactMovieCard
           item={item}
           index={index}
-          listLength={this.state.recommendItems.length}
+          listLength={this.state.results.length}
           onPress={() => {
             this.props.navigation.push('MovieDetailScreen', {
               movieId: item.id,
@@ -61,7 +64,7 @@ class Recommendation extends React.PureComponent<
       <CompactTvShowCard
         item={item}
         index={index}
-        listLength={this.state.recommendItems.length}
+        listLength={this.state.results.length}
         onPress={() => {
           this.props.navigation.push('TvShowDetailScreen', {
             tvShowId: item.id,
@@ -88,7 +91,7 @@ class Recommendation extends React.PureComponent<
         loading={this.state.isFetching}
         noResultText='No recommendations available.'
         keyExtractor={item => item.id.toString()}
-        data={this.state.recommendItems}
+        data={this.state.results}
         renderItem={this.renderItem}
       />
     );

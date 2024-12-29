@@ -38,19 +38,10 @@ const styles = StyleSheet.create({
     },
     parentLogoBox: {
         padding: 8,
-        backgroundColor: colors.background,
     },
     parentLogo: {
         width: parentLogoSize,
         height: parentLogoSize,
-    },
-    parentNameBox: {
-        paddingLeft: spacing.medium,
-        paddingRight: spacing.large,
-    },
-    parentName: {
-        fontSize: 16,
-        color: colors.primary,
     },
     labelBox: {
         marginBottom: spacing.huge,

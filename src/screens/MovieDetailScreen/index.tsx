@@ -57,8 +57,8 @@ import {
   Photo,
   Review,
   Box,
-  TMDBImageBackgroundLinearGradient,
   FullScreenLoader,
+  TouchablePanel,
   FavoriteList,
 } from '@components';
 import { layout, colors } from '@shared/themes';
@@ -127,7 +127,7 @@ class MovieDetailScreen extends React.Component<
   private renderCompanyItem({
     item,
     index,
-  }: ListRenderItemInfo<CompanyElement>) {
+  }: ListRenderItemInfo<CompanyElement>): React.JSX.Element {
     return (
       <SimpleCompanyCard
         item={item}
@@ -170,7 +170,7 @@ class MovieDetailScreen extends React.Component<
     });
   }
 
-  public toggleModal = () => {
+  public toggleModal = (): void => {
     this.setState(prevState => ({
       modalVisible: !prevState.modalVisible,
     }));
@@ -179,7 +179,7 @@ class MovieDetailScreen extends React.Component<
     }, 1000);
   };
 
-  public closemodal = () => {
+  public closemodal = (): void => {
     this.setState({ modalVisible: false });
   };
 
@@ -334,34 +334,17 @@ class MovieDetailScreen extends React.Component<
 
             {this.state.movie?.belongsToCollection && (
               <Box title='Belongs to collection'>
-                <TouchableOpacity
-                  style={layout.row}
-                  activeOpacity={0.85}
+                <TouchablePanel
+                  name={this.state.movie?.belongsToCollection?.name}
+                  imageStyle={styles.collectionPoster}
+                  imagePath={this.state.movie?.belongsToCollection?.posterPath}
+                  imageSize='w154'
+                  backgroundPath={
+                    this.state.movie?.belongsToCollection?.backdropPath
+                  }
+                  backgroundSize='w300'
                   onPress={this.pushCollectionDetailScreen}
-                >
-                  <>
-                    <TMDBImage
-                      style={styles.collectionPoster}
-                      path={this.state.movie?.belongsToCollection?.posterPath}
-                      size='w154'
-                    />
-
-                    <TMDBImageBackgroundLinearGradient
-                      contentContainerStyle={[
-                        layout.justifyCenter,
-                        styles.collectionTitleBox,
-                      ]}
-                      path={this.state.movie?.belongsToCollection?.backdropPath}
-                      size='w300'
-                      blurRadius={4}
-                      colors={['transparent', colors.secondary.toString()]}
-                    >
-                      <Text style={styles.collectionTitle} numberOfLines={2}>
-                        {this.state.movie?.belongsToCollection?.name}
-                      </Text>
-                    </TMDBImageBackgroundLinearGradient>
-                  </>
-                </TouchableOpacity>
+                />
               </Box>
             )}
 

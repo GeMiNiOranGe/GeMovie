@@ -16,7 +16,7 @@ const navigationIconSize = 20;
 abstract class CompactVideoCardBase<
   E extends VideoElement,
 > extends VideoCardBase<E> {
-  private renderNavigationIcon() {
+  private renderNavigationIcon(): React.JSX.Element {
     return (
       <ArrowRight2 size={navigationIconSize} color='white' variant='Bold' />
     );

@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import Youtube from '../Youtube';
 import Carousel from 'react-native-reanimated-carousel';
-import { SlideshowProps, SlideshowState } from '@shared/types';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles, { itemWidth } from '../SlideShow/style';
+
+import type { SlideshowProps, SlideshowState } from '@shared/types';
+import { Youtube } from '@components';
 import WatchList from '../WatchList';
+import styles, { itemWidth } from './style';
 
 class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
   public constructor(props: SlideshowProps) {
@@ -23,17 +24,21 @@ class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
       isModalVisible: false,
       selectedMovieId: null,
     };
+
+    this.handleSnapToItem = this.handleSnapToItem.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.renderItem = this.renderItem.bind(this);
   }
 
-  public handleSnapToItem = (index: number) => {
+  private handleSnapToItem(index: number): void {
     this.setState({ currentIndex: index });
-  };
+  }
 
-  public closeModal = () => {
+  private closeModal(): void {
     this.setState({ isModalVisible: false, selectedMovieId: null });
-  };
+  }
 
-  public renderItem = ({ index }: { index: number }) => {
+  public renderItem({ index }: { index: number }): React.JSX.Element {
     const { props } = this;
 
     return (
@@ -73,9 +78,9 @@ class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
         </View>
       </TouchableOpacity>
     );
-  };
+  }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     const { images } = this.props;
     const { isModalVisible, selectedMovieId, isAutoplay } = this.state;
 

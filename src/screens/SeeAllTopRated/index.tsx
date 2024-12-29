@@ -2,15 +2,15 @@ import React from 'react';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TMDB_API_KEY, TMDB_BASE_URL } from '@config';
-import { GenreService } from '@services';
-import { MovieDetailCard } from '@components';
-import { toMovieElement } from '@shared/utils';
 import type {
   MovieElement,
   RootScreenProps,
   TopRatedState,
 } from '@shared/types';
+import { GenreService, VideoService } from '@services';
+import { FullScreenLoader, MovieDetailCard } from '@components';
+import { toMovieElement } from '@shared/utils';
+import { layout } from '@shared/themes';
 import styles from './style';
 
 class TopRated extends React.Component<
@@ -27,21 +27,12 @@ class TopRated extends React.Component<
   }
 
   public override async componentDidMount(): Promise<void> {
-    await GenreService.instance.fetchGenres();
+    const [moviesResponse] = await Promise.all([
+      VideoService.getTopRatedAsync('movie', toMovieElement),
+      GenreService.instance.fetchGenres(),
+    ]);
 
-    const topRatedUrl = `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}`;
-    fetch(topRatedUrl)
-      .then(response => response.json())
-      .then(movieData => {
-        this.setState({
-          movies: movieData.results.map((element: any) =>
-            toMovieElement(element),
-          ),
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    this.setState({ movies: moviesResponse.getResults() });
   }
 
   private renderItem({
@@ -64,8 +55,12 @@ class TopRated extends React.Component<
   }
 
   public override render(): React.JSX.Element {
+    if (this.state.movies.length === 0) {
+      return <FullScreenLoader />;
+    }
+
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={layout.flex1}>
         <FlatList
           contentContainerStyle={styles.contentList}
           data={this.state.movies}

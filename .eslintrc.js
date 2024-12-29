@@ -35,6 +35,7 @@ module.exports = {
         'jsx-quotes': ['error', 'prefer-single'],
         '@typescript-eslint/no-unused-vars': ['warn'],
         '@typescript-eslint/explicit-member-accessibility': 'error',
+        '@typescript-eslint/explicit-function-return-type': 'error',
         'react/jsx-curly-brace-presence': ['error', 'never'],
     },
     overrides: [

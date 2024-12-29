@@ -96,14 +96,6 @@ const styles = StyleSheet.create({
     collectionPoster: {
         ...collectionPosterDimensions,
     },
-    collectionTitleBox: {
-        paddingLeft: spacing.large,
-        paddingRight: spacing.medium,
-    },
-    collectionTitle: {
-        fontSize: 16,
-        color: colors.primary,
-    },
     expandableText: {
         color: colors.subtext,
     },
@@ -118,7 +110,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        padding: 20,
     },
     watchlistBox: {
         top: -245,

@@ -101,7 +101,7 @@ class TvShowDetailScreen extends React.Component<
     this.setState({ tvShow }, this.initializeAnimation);
   }
 
-  private initializeAnimation() {
+  private initializeAnimation(): void {
     this.state.animatedTranslateYImage.setValue(30);
 
     Animated.parallel([
@@ -128,7 +128,7 @@ class TvShowDetailScreen extends React.Component<
     ]).start();
   }
 
-  public toggleModal = () => {
+  public toggleModal = (): void => {
     this.setState(prevState => ({
       modalVisible: !prevState.modalVisible,
       isloading: true,
@@ -138,7 +138,7 @@ class TvShowDetailScreen extends React.Component<
     }, 1000);
   };
 
-  public closemodal = () => {
+  public closemodal = (): void => {
     this.setState({ modalVisible: false });
   };
 
@@ -164,7 +164,10 @@ class TvShowDetailScreen extends React.Component<
     );
   }
 
-  private renderSeasonItem({ item, index }: ListRenderItemInfo<SeasonElement>) {
+  private renderSeasonItem({
+    item,
+    index,
+  }: ListRenderItemInfo<SeasonElement>): React.JSX.Element {
     return (
       <SeasonCard
         item={item}
@@ -183,12 +186,12 @@ class TvShowDetailScreen extends React.Component<
   private renderNetworkItem({
     item,
     index,
-  }: ListRenderItemInfo<NetworkElement>) {
+  }: ListRenderItemInfo<NetworkElement>): React.JSX.Element {
     return (
       <NetworkCard
         item={item}
         index={index}
-        listLength={this.state.tvShow?.seasons.length}
+        listLength={this.state.tvShow?.networks.length}
         onPress={() =>
           this.props.navigation.push('NetworkDetailScreen', {
             networkId: item.id,
@@ -201,7 +204,7 @@ class TvShowDetailScreen extends React.Component<
   private renderCompanyItem({
     item,
     index,
-  }: ListRenderItemInfo<CompanyElement>) {
+  }: ListRenderItemInfo<CompanyElement>): React.JSX.Element {
     return (
       <SimpleCompanyCard
         item={item}
@@ -235,7 +238,7 @@ class TvShowDetailScreen extends React.Component<
   private getLabels(): LabelProps[] {
     const firstYear = getFormattedFullYear(this.state.tvShow?.firstAirDate);
     const lastYear = getFormattedFullYear(this.state.tvShow?.lastAirDate);
-    const averageLength = (() => {
+    const averageLength = ((): number => {
       if (
         !this.state.tvShow?.episodeRunTime ||
         !this.state.tvShow?.episodeRunTime.length
@@ -274,7 +277,7 @@ class TvShowDetailScreen extends React.Component<
     ];
   }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     if (!this.state.tvShow) {
       return <FullScreenLoader />;
     }
@@ -292,9 +295,9 @@ class TvShowDetailScreen extends React.Component<
             ]}
           >
             <TMDBImage
-              style={styles.backdrop}
+              style={styles.poster}
               size='w1280'
-              path={this.state.tvShow?.backdropPath}
+              path={this.state.tvShow?.posterPath}
             />
             <FavoriteList
               navigation={this.props.navigation}

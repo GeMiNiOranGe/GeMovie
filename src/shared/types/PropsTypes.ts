@@ -125,7 +125,7 @@ export type VideoCardBaseProps<E extends VideoElement> = CardBaseProps<E> & {
     rankType?: 'icon-medal' | 'number';
 };
 
-// TODO: rename `icon` to `Icon`
+// TODO: rename `icon` to `IconComponent`
 export type LabelProps = {
     style?: StyleProp<ViewStyle> | undefined;
     nameStyle?: StyleProp<TextStyle> | undefined;
@@ -263,9 +263,10 @@ export type SlideshowProps = {
     movieIds: number[];
 };
 
-export type VideoProps = {
-    type: 'movie' | 'tv' | 'collection';
+export type YoutubeProps = {
+    type: VideoType;
     id: number | undefined;
+    play?: boolean | undefined;
     videoType?:
         | 'Trailer'
         | 'Teaser'
@@ -275,25 +276,7 @@ export type VideoProps = {
         | 'Featurette';
 };
 
-export type RecommendationProps = {
-    id: number;
-    type: VideoType;
-    navigation: NativeStackNavigationProp<ParamListBase>;
-};
-
-export type CreditProps = {
-    id: number;
-    type: VideoType;
-    navigation: NativeStackNavigationProp<ParamListBase>;
-};
-
-export type ReviewProps = {
-    id: number;
-    type: VideoType;
-    navigation: NativeStackNavigationProp<ParamListBase>;
-};
-
-export type PhotoProps = {
+export type DetailsSectionProps = {
     id: number;
     type: VideoType;
     navigation: NativeStackNavigationProp<ParamListBase>;
@@ -309,6 +292,18 @@ export type VoteLabelProps = {
     value: number;
     valueType?: 'relative' | 'absolute';
     showThreshold?: boolean | undefined;
+};
+
+export type TouchablePanelProps = {
+    imageStyle?: StyleProp<ImageStyle> | undefined;
+    imageContainerStyle?: StyleProp<ViewStyle> | undefined;
+    name: string | undefined;
+    imagePath: string | undefined;
+    imageSize: keyof typeof imageSize;
+    imageResizeMode?: ImageResizeMode | undefined;
+    backgroundPath: string | undefined;
+    backgroundSize: keyof typeof imageSize;
+    onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
 export type AuthContextProps = {

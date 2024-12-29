@@ -14,7 +14,7 @@ const navigationIconSize = 20;
 class CompanyDetailCard extends React.PureComponent<
   DetailCardProps<CompanyElement>
 > {
-  private renderNavigationIcon() {
+  private renderNavigationIcon(): React.JSX.Element {
     return (
       <ArrowRight2 size={navigationIconSize} color='white' variant='Bold' />
     );
