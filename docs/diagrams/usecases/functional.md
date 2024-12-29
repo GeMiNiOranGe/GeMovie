@@ -17,6 +17,7 @@ flowchart LR
         uc7([7.View popular movie])
         uc8([8.View genre list])
         uc9([9.Remove movie from favorites list])
+        uc10([10.Remove movie from watchlist])
     end
 
     actor1 --> uc1
@@ -26,10 +27,12 @@ flowchart LR
     actor1 --> uc7
     actor1 --> uc8
     actor1 --> uc9
+    actor1 --> uc10
 
     uc2 -->|«extend»| uc1
     uc3 -->|«include»| uc1
     uc9 -->|«include»| uc1
+    uc10 -->|«include»| uc1
     uc5 -->|«include»| uc1
     uc5 -->|«extend»| uc4
     uc4 -->|«extend»| uc6
