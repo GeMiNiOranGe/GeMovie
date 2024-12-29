@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Add, Star1 } from 'iconsax-react-native';
+import { Add, TickCircle } from 'iconsax-react-native';
 import {
   AuthContextProps,
   WatchListProps,
@@ -157,13 +157,13 @@ class WatchList extends Component<WatchListProps, WatchListState> {
               <Icon
                 name='bookmark'
                 size={40}
-                color={isWatchList ? 'red' : 'rgba(0,0,0,0.5)'}
+                color={isWatchList ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.5)'}
                 style={styles.bookmarkIcon}
               />
               {isWatchList ? (
-                <Star1
-                  size='16'
-                  color='yellow'
+                <TickCircle
+                  size='17'
+                  color='#7CFC00'
                   style={styles.starIcon}
                   variant='Bold'
                 />

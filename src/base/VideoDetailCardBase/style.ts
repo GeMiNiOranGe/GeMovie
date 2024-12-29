@@ -94,6 +94,12 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: colors.text,
     },
+    watchlist: {
+        position: 'absolute',
+        top: 2,
+        left: 0,
+        zIndex: 10,
+    },
 });
 
 export default styles;

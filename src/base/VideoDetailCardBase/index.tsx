@@ -22,6 +22,7 @@ import {
 import type { VideoElement, VideoCardBaseProps } from '@shared/types';
 import VideoCardBase from '../VideoCardBase';
 import styles from './style';
+import { WatchList } from '@components';
 
 const medalIconSize = 32;
 const navigationIconSize = 20;
@@ -78,6 +79,11 @@ abstract class VideoDetailCardBase<
         onPress={this.props.onPress}
       >
         <View style={[styles.image, styles.imageBox, layout.center]}>
+          {this.props.showWatchList && (
+            <View style={[styles.watchlist]}>
+              <WatchList id={this.props.item.id} type={this.mediaType} />
+            </View>
+          )}
           {this.props.item.posterPath ? (
             <Image
               style={styles.image}

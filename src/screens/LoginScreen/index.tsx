@@ -5,10 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Animated,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FullScreenLoader } from '@components';
-import { Google } from 'iconsax-react-native';
 import { colors } from '@shared/themes';
 import {
   AuthContextProps,
@@ -16,10 +16,10 @@ import {
   RootScreenProps,
 } from '@shared/types';
 import { auth, db } from 'firebase.config';
-import styles from './style';
 import { AuthContext } from 'src/context/AuthContext';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import styles from './style';
 
 class LoginScreen extends React.Component<
   RootScreenProps<'LoginScreen'>,
@@ -44,8 +44,49 @@ class LoginScreen extends React.Component<
         username: '',
         password: '',
       },
+      usernameFocus: false,
+      passwordFocus: false,
+      animatedUsername: new Animated.Value(0),
+      animatedPassword: new Animated.Value(0),
     };
   }
+
+  private focusTextInput = (field: 'username' | 'password') => {
+    const isFocusedKey = `${field}Focus` as const;
+    const animatedValueKey =
+      field === 'username' ? 'animatedUsername' : 'animatedPassword';
+
+    this.setState(
+      { [isFocusedKey]: true } as Pick<typeof this.state, typeof isFocusedKey>,
+      () => {
+        Animated.timing(this.state[animatedValueKey], {
+          toValue: -29,
+          duration: 200,
+          useNativeDriver: false,
+        }).start();
+      },
+    );
+  };
+
+  private blurTextInput = (field: 'username' | 'password') => {
+    const isFocusedKey = `${field}Focus` as const;
+    const animatedValueKey =
+      field === 'username' ? 'animatedUsername' : 'animatedPassword';
+
+    this.setState(
+      { [isFocusedKey]: false } as Pick<typeof this.state, typeof isFocusedKey>,
+      () => {
+        const value = this.state[field];
+        if (!value) {
+          Animated.timing(this.state[animatedValueKey], {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: false,
+          }).start();
+        }
+      },
+    );
+  };
 
   private togglePasswordVisibility = () => {
     this.setState(prevState => ({
@@ -122,7 +163,18 @@ class LoginScreen extends React.Component<
   };
 
   public override render() {
-    const { secureEntery, isLoading, errors, errorMessages } = this.state;
+    const {
+      username,
+      password,
+      secureEntery,
+      isLoading,
+      errors,
+      errorMessages,
+      animatedUsername,
+      animatedPassword,
+      usernameFocus,
+      passwordFocus,
+    } = this.state;
 
     if (isLoading) {
       return <FullScreenLoader />;
@@ -130,7 +182,6 @@ class LoginScreen extends React.Component<
 
     return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        {/* Back Button */}
         <TouchableOpacity
           style={styles.backButtonWrapper}
           onPress={() => this.props.navigation.goBack()}
@@ -143,7 +194,6 @@ class LoginScreen extends React.Component<
         </TouchableOpacity>
 
         <View style={styles.textContainer}>
-          <Text style={styles.headingText}>Hey,</Text>
           <Text style={styles.headingText}>Welcome</Text>
           <Text style={styles.headingText}>GeMovie</Text>
         </View>
@@ -153,22 +203,30 @@ class LoginScreen extends React.Component<
             <Ionicons
               name='person-outline'
               size={30}
-              color={colors.secondary}
+              color={colors.accent.dark}
             />
-            <TextInput
-              style={styles.textInput}
-              placeholder='Enter your Username'
-              placeholderTextColor={colors.secondary}
-              autoCapitalize='none'
-              value={this.state.username}
-              onChangeText={text =>
-                this.setState({
-                  username: text,
-                  errors: { ...errors, username: false },
-                  errorMessages: { ...errorMessages, username: '' },
-                })
-              }
-            />
+            <View style={styles.containerplaceholder}>
+              {username || usernameFocus ? (
+                <Animated.Text
+                  style={[
+                    styles.placeholder,
+                    {
+                      top: animatedUsername,
+                    },
+                  ]}
+                >
+                  Username
+                </Animated.Text>
+              ) : null}
+              <TextInput
+                style={styles.textInput}
+                value={username}
+                onFocus={() => this.focusTextInput('username')}
+                onBlur={() => this.blurTextInput('username')}
+                onChangeText={text => this.setState({ username: text })}
+                placeholder={!username && !usernameFocus ? 'Username' : ''}
+              />
+            </View>
           </View>
           {errors.username && (
             <Text style={styles.errorMessage}>{errorMessages.username}</Text>
@@ -178,27 +236,36 @@ class LoginScreen extends React.Component<
             <Ionicons
               name='lock-closed-outline'
               size={30}
-              color={colors.secondary}
+              color={colors.accent.dark}
             />
-            <TextInput
-              style={styles.textInput}
-              placeholder='Enter your password'
-              placeholderTextColor={colors.secondary}
-              secureTextEntry={secureEntery}
-              autoCapitalize='none'
-              onChangeText={text =>
-                this.setState({
-                  password: text,
-                  errors: { ...errors, password: false },
-                  errorMessages: { ...errorMessages, password: '' },
-                })
-              }
-            />
+            <View style={styles.containerplaceholder}>
+              {password || passwordFocus ? (
+                <Animated.Text
+                  style={[
+                    styles.placeholder,
+                    {
+                      top: animatedPassword,
+                    },
+                  ]}
+                >
+                  Password
+                </Animated.Text>
+              ) : null}
+              <TextInput
+                style={styles.textInput}
+                secureTextEntry={secureEntery}
+                value={password}
+                onFocus={() => this.focusTextInput('password')}
+                onBlur={() => this.blurTextInput('password')}
+                onChangeText={text => this.setState({ password: text })}
+                placeholder={!password && !passwordFocus ? 'Password' : ''}
+              />
+            </View>
             <TouchableOpacity onPress={this.togglePasswordVisibility}>
               <Ionicons
                 name={secureEntery ? 'eye-off-outline' : 'eye-outline'}
                 size={20}
-                color={colors.secondary}
+                color={colors.accent.dark}
               />
             </TouchableOpacity>
           </View>
@@ -219,18 +286,12 @@ class LoginScreen extends React.Component<
             <Text style={styles.loginText}>Login</Text>
           </TouchableOpacity>
 
-          <Text style={styles.continueText}>or continue with</Text>
-          <TouchableOpacity style={styles.googleButtonContainer}>
-            <Google style={styles.googleImage} />
-            <Text style={styles.googleText}>Google</Text>
-          </TouchableOpacity>
-
           <View style={styles.footerContainer}>
             <Text style={styles.accountText}>Don’t have an account?</Text>
             <TouchableOpacity
               onPress={() => this.handleNavigation('SignupScreen')}
             >
-              <Text style={styles.signupText}>Sign up</Text>
+              <Text style={styles.signupText}>Register</Text>
             </TouchableOpacity>
           </View>
         </View>

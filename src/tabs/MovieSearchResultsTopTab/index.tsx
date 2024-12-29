@@ -24,6 +24,7 @@ class MovieSearchResultsTopTab extends SearchResultsTopTabBase<MovieElement> {
     index,
   }) => (
     <MovieDetailCard
+      showWatchList
       item={item}
       index={index}
       listLength={this.state.results?.length}

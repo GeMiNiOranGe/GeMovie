@@ -346,6 +346,7 @@ class UserScreen extends Component<
     return (
       <CompactTvShowCard
         showMediaType
+        showWatchList
         item={item}
         index={index}
         listLength={this.state.watchListTvShows.length}
@@ -365,6 +366,7 @@ class UserScreen extends Component<
     return (
       <CompactMovieCard
         showMediaType
+        showWatchList
         item={item}
         index={index}
         listLength={this.state.watchListMovies.length}

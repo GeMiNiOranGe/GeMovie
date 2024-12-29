@@ -157,6 +157,10 @@ export type LoginScreenState = {
         username: string;
         password: string;
     };
+    usernameFocus: boolean;
+    passwordFocus: boolean;
+    animatedUsername: Animated.Value;
+    animatedPassword: Animated.Value;
 };
 
 export type SignupScreenState = {
@@ -184,6 +188,12 @@ export type SignupScreenState = {
         password: string;
     };
     emailErrorMessage: string;
+    usernameFocus: boolean;
+    passwordFocus: boolean;
+    emailFocus: boolean;
+    animatedUsername: Animated.Value;
+    animatedPassword: Animated.Value;
+    animatedEmail: Animated.Value;
 };
 
 export type ResetPasswordScreenState = {
@@ -208,6 +218,8 @@ export type ForgotPasswordScreenState = {
     emailEmptyError: boolean;
     emailNotFoundError: boolean;
     successMessage: string;
+    emailFocus: boolean;
+    animatedEmail: Animated.Value;
 };
 
 export type UserScreenState = {

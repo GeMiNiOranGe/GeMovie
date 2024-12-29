@@ -25,18 +25,19 @@ const styles = StyleSheet.create({
         fontSize: width * 0.08,
         color: 'black',
         fontWeight: '600',
+        marginTop: -10,
     },
     formContainer: {
-        marginTop: height * 0.03,
+        marginTop: height * 0.01,
     },
     inputContainer: {
         borderWidth: 1,
-        borderColor: colors.secondary,
+        borderColor: 'lightgray',
         borderRadius: width * 0.1,
         paddingHorizontal: width * 0.05,
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: height * 0.03,
+        marginBottom: height * 0.04,
     },
     textInput: {
         flex: 1,
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     loginButtonWrapper: {
-        backgroundColor: colors.secondary,
+        backgroundColor: colors.accent.light,
         borderRadius: width * 0.1,
         marginTop: height * 0.04,
         paddingVertical: height * 0.005,
@@ -66,26 +67,6 @@ const styles = StyleSheet.create({
         fontSize: width * 0.035,
         color: 'black',
     },
-    googleButtonContainer: {
-        flexDirection: 'row',
-        borderWidth: 2,
-        borderColor: colors.secondary,
-        borderRadius: width * 0.1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: height * 0.01,
-        gap: width * 0.02,
-        marginBottom: height * 0.03,
-    },
-    googleImage: {
-        height: width * 0.05,
-        width: width * 0.05,
-    },
-    googleText: {
-        fontSize: width * 0.045,
-        fontWeight: '500',
-        color: colors.text,
-    },
     footerContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -99,9 +80,18 @@ const styles = StyleSheet.create({
         fontSize: width * 0.035,
     },
     signupText: {
-        color: colors.secondary,
+        color: colors.accent.dark,
         fontSize: width * 0.035,
         fontWeight: '700',
+    },
+    placeholder: {
+        position: 'absolute',
+        fontSize: 14,
+        marginTop: 15,
+        marginLeft: 60,
+        fontWeight: 'bold',
+        color: '#2c3e50',
+        backgroundColor: colors.white,
     },
     errorListContainer: {
         marginTop: 10,
@@ -131,6 +121,8 @@ const styles = StyleSheet.create({
         color: 'red',
         fontWeight: 'bold',
         fontSize: 13,
+        bottom: 20,
+        left: 10,
     },
     spinnerContainer: {
         flex: 1,

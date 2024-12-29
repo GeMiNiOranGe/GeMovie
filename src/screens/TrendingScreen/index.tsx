@@ -14,12 +14,14 @@ import {
 } from '@shared/types';
 import {
   isMovieElement,
+  isPersonElement,
   isTvShowElement,
   toMultiMediaElement,
 } from '@shared/utils';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   CompactMovieCard,
+  CompactPersonCard,
   CompactTvShowCard,
   FullScreenLoader,
 } from '@components';
@@ -65,6 +67,7 @@ class TrendingScreen extends React.Component<
       return (
         <View style={styles.cardSpacing}>
           <CompactMovieCard
+            horizontal
             showWatchList
             showRank
             showMediaType
@@ -80,10 +83,12 @@ class TrendingScreen extends React.Component<
         </View>
       );
     }
+
     if (isTvShowElement(item)) {
       return (
         <View style={styles.cardSpacing}>
           <CompactTvShowCard
+            horizontal
             showWatchList
             showRank
             showMediaType
@@ -99,10 +104,28 @@ class TrendingScreen extends React.Component<
         </View>
       );
     }
+
+    if (isPersonElement(item)) {
+      return (
+        <View style={styles.cardSpacing}>
+          <CompactPersonCard
+            horizontal
+            item={item}
+            index={index}
+            listLength={this.state.trend.length}
+            onPress={() =>
+              this.props.navigation.navigate('PersonDetailScreen', {
+                personId: item.id,
+              })
+            }
+          />
+        </View>
+      );
+    }
     return <Text style={styles.textCategory}>No matching element</Text>;
   };
 
-  private handleCategory = (category: 'all' | 'movie' | 'tv') => {
+  private handleCategory = (category: 'all' | 'movie' | 'tv' | 'person') => {
     this.setState({ selectedCategory: category });
   };
 
@@ -144,6 +167,7 @@ class TrendingScreen extends React.Component<
               All
             </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.btnCategory}
             onPress={() => this.handleCategory('movie')}
@@ -158,6 +182,7 @@ class TrendingScreen extends React.Component<
               Movies
             </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.btnCategory}
             onPress={() => this.handleCategory('tv')}
@@ -172,6 +197,21 @@ class TrendingScreen extends React.Component<
               TV
             </Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.btnCategory}
+            onPress={() => this.handleCategory('person')}
+          >
+            <Text
+              style={[
+                selectedCategory === 'person'
+                  ? styles.btnActive
+                  : styles.textCategory,
+              ]}
+            >
+              Person
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <FlatList
@@ -179,7 +219,6 @@ class TrendingScreen extends React.Component<
           keyExtractor={item => item.id.toString()}
           data={filterData}
           renderItem={this.renderTrendingItem}
-          numColumns={2}
         />
       </LinearGradient>
     );

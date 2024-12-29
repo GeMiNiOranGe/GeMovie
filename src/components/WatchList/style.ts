@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         padding: 5,
         zIndex: 10,
-        left: -7,
+        left: -8,
         top: -5,
     },
     bookmarkIcon: {

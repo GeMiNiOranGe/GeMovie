@@ -27,6 +27,7 @@ class TvShowSearchResultsTopTab extends SearchResultsTopTabBase<TvShowElement> {
     index,
   }) => (
     <TvShowDetailCard
+      showWatchList
       item={item}
       index={index}
       listLength={this.state.results?.length}

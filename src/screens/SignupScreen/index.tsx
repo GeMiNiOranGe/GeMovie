@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Animated,
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '@shared/themes';
-import { Google } from 'iconsax-react-native';
 import { RootScreenProps, SignupScreenState } from '@shared/types';
 import { collection, where, query, getDocs, addDoc } from 'firebase/firestore';
 import { auth, db } from 'firebase.config';
@@ -50,8 +50,69 @@ class SignupScreen extends React.Component<
         password: '',
       },
       emailErrorMessage: '',
+      usernameFocus: false,
+      passwordFocus: false,
+      emailFocus: false,
+      animatedUsername: new Animated.Value(0),
+      animatedPassword: new Animated.Value(0),
+      animatedEmail: new Animated.Value(0),
     };
   }
+
+  private focusTextInput = (field: 'username' | 'password' | 'email') => {
+    const isFocusedKey = `${field}Focus` as const;
+    let animatedValueKey:
+      | 'animatedUsername'
+      | 'animatedPassword'
+      | 'animatedEmail' = 'animatedUsername';
+    if (field === 'username') {
+      animatedValueKey;
+    } else if (field === 'email') {
+      animatedValueKey = 'animatedEmail';
+    } else {
+      animatedValueKey = 'animatedPassword';
+    }
+
+    this.setState(
+      { [isFocusedKey]: true } as Pick<typeof this.state, typeof isFocusedKey>,
+      () => {
+        Animated.timing(this.state[animatedValueKey], {
+          toValue: -25,
+          duration: 200,
+          useNativeDriver: false,
+        }).start();
+      },
+    );
+  };
+
+  private blurTextInput = (field: 'username' | 'password' | 'email') => {
+    const isFocusedKey = `${field}Focus` as const;
+    let animatedValueKey:
+      | 'animatedUsername'
+      | 'animatedPassword'
+      | 'animatedEmail' = 'animatedUsername';
+    if (field === 'username') {
+      animatedValueKey;
+    } else if (field === 'email') {
+      animatedValueKey = 'animatedEmail';
+    } else {
+      animatedValueKey = 'animatedPassword';
+    }
+
+    this.setState(
+      { [isFocusedKey]: false } as Pick<typeof this.state, typeof isFocusedKey>,
+      () => {
+        const value = this.state[field];
+        if (!value) {
+          Animated.timing(this.state[animatedValueKey], {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: false,
+          }).start();
+        }
+      },
+    );
+  };
 
   private togglePasswordVisibility = () => {
     this.setState(prevState => ({
@@ -168,8 +229,21 @@ class SignupScreen extends React.Component<
   };
 
   public override render() {
-    const { secureEntery, showPasswordErrors, passwordErrors, isLoading } =
-      this.state;
+    const {
+      username,
+      password,
+      email,
+      secureEntery,
+      showPasswordErrors,
+      passwordErrors,
+      isLoading,
+      usernameFocus,
+      animatedUsername,
+      passwordFocus,
+      animatedPassword,
+      emailFocus,
+      animatedEmail,
+    } = this.state;
 
     return (
       <ScrollView style={styles.container}>
@@ -201,12 +275,22 @@ class SignupScreen extends React.Component<
                 <Ionicons
                   name='person-outline'
                   size={30}
-                  color={colors.secondary}
+                  color={colors.accent.dark}
                 />
+                {username || usernameFocus ? (
+                  <Animated.Text
+                    style={[
+                      styles.placeholder,
+                      {
+                        top: animatedUsername,
+                      },
+                    ]}
+                  >
+                    Username
+                  </Animated.Text>
+                ) : null}
                 <TextInput
                   style={[styles.textInput]}
-                  placeholder='Enter your Username'
-                  placeholderTextColor={colors.secondary}
                   autoCapitalize='none'
                   onChangeText={text =>
                     this.setState({
@@ -218,6 +302,9 @@ class SignupScreen extends React.Component<
                       },
                     })
                   }
+                  onFocus={() => this.focusTextInput('username')}
+                  onBlur={() => this.blurTextInput('username')}
+                  placeholder={!username && !usernameFocus ? 'Username' : ''}
                 />
               </View>
               {this.state.errors.username && (
@@ -229,12 +316,22 @@ class SignupScreen extends React.Component<
                 <Ionicons
                   name='mail-outline'
                   size={30}
-                  color={colors.secondary}
+                  color={colors.accent.dark}
                 />
+                {email || emailFocus ? (
+                  <Animated.Text
+                    style={[
+                      styles.placeholder,
+                      {
+                        top: animatedEmail,
+                      },
+                    ]}
+                  >
+                    Email
+                  </Animated.Text>
+                ) : null}
                 <TextInput
                   style={[styles.textInput]}
-                  placeholder='Enter your Email'
-                  placeholderTextColor={colors.secondary}
                   keyboardType='email-address'
                   autoCapitalize='none'
                   onChangeText={text =>
@@ -244,6 +341,9 @@ class SignupScreen extends React.Component<
                       errorMessages: { ...this.state.errorMessages, email: '' },
                     })
                   }
+                  onFocus={() => this.focusTextInput('email')}
+                  onBlur={() => this.blurTextInput('email')}
+                  placeholder={!email && !emailFocus ? 'Email' : ''}
                 />
               </View>
               {this.state.errors.email && (
@@ -255,12 +355,22 @@ class SignupScreen extends React.Component<
                 <Ionicons
                   name='lock-closed-outline'
                   size={30}
-                  color={colors.secondary}
+                  color={colors.accent.dark}
                 />
+                {password || passwordFocus ? (
+                  <Animated.Text
+                    style={[
+                      styles.placeholder,
+                      {
+                        top: animatedPassword,
+                      },
+                    ]}
+                  >
+                    Password
+                  </Animated.Text>
+                ) : null}
                 <TextInput
                   style={[styles.textInput]}
-                  placeholder='Enter your password'
-                  placeholderTextColor={colors.secondary}
                   secureTextEntry={secureEntery}
                   autoCapitalize='none'
                   onChangeText={text => {
@@ -275,12 +385,15 @@ class SignupScreen extends React.Component<
                       }));
                     }
                   }}
+                  onFocus={() => this.focusTextInput('password')}
+                  onBlur={() => this.blurTextInput('password')}
+                  placeholder={!password && !passwordFocus ? 'Password' : ''}
                 />
                 <TouchableOpacity onPress={this.togglePasswordVisibility}>
                   <Ionicons
                     name={secureEntery ? 'eye-off-outline' : 'eye-outline'}
                     size={20}
-                    color={colors.secondary}
+                    color={colors.accent.dark}
                   />
                 </TouchableOpacity>
               </View>
@@ -316,12 +429,6 @@ class SignupScreen extends React.Component<
                   {this.state.emailErrorMessage}
                 </Text>
               )}
-              <Text style={styles.continueText}>or continue with</Text>
-
-              <TouchableOpacity style={styles.googleButtonContainer}>
-                <Google style={styles.googleImage} />
-                <Text style={styles.googleText}>Google</Text>
-              </TouchableOpacity>
 
               <View style={styles.footerContainer}>
                 <Text style={styles.accountText}>Already have an account!</Text>

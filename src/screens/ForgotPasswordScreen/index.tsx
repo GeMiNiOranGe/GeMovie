@@ -9,6 +9,7 @@ import {
   ScrollView,
   Platform,
   Keyboard,
+  Animated,
 } from 'react-native';
 import React from 'react';
 import { colors } from '@shared/themes';
@@ -28,8 +29,28 @@ class ForgotPassword extends React.Component<
       emailEmptyError: false,
       emailNotFoundError: false,
       successMessage: '',
+      emailFocus: false,
+      animatedEmail: new Animated.Value(0),
     };
   }
+
+  private focusTextInput = () => {
+    Animated.timing(this.state.animatedEmail, {
+      toValue: -13,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  private blurTextInput = () => {
+    if (!this.state.email.trim()) {
+      Animated.timing(this.state.animatedEmail, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: false,
+      }).start();
+    }
+  };
 
   private handleGoBack = () => {
     this.props.navigation.goBack();
@@ -66,6 +87,7 @@ class ForgotPassword extends React.Component<
   };
 
   public override render() {
+    const { email, animatedEmail, emailFocus } = this.state;
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView
@@ -94,14 +116,36 @@ class ForgotPassword extends React.Component<
                   <Ionicons
                     name='mail-outline'
                     size={30}
-                    color={colors.secondary}
+                    color={colors.accent.dark}
                   />
+                  {email || emailFocus ? (
+                    <Animated.Text
+                      style={{
+                        position: 'absolute',
+                        left: 55,
+                        top: animatedEmail,
+                        fontSize: 14,
+                        color: '#2c3e50',
+                        fontWeight: 'bold',
+                        backgroundColor: 'white',
+                      }}
+                    >
+                      Email
+                    </Animated.Text>
+                  ) : null}
                   <TextInput
                     style={styles.textInput}
-                    placeholder='Enter your Email'
-                    placeholderTextColor={colors.secondary}
+                    placeholder={email || emailFocus ? '' : 'example@gmail.com'}
                     keyboardType='email-address'
                     autoCapitalize='none'
+                    onFocus={() => {
+                      this.setState({ emailFocus: true });
+                      this.focusTextInput();
+                    }}
+                    onBlur={() => {
+                      this.setState({ emailFocus: false });
+                      this.blurTextInput();
+                    }}
                     onChangeText={text =>
                       this.setState({
                         email: text,

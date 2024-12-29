@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textContainer: {
-        marginVertical: height * 0.02,
+        marginVertical: height * 0.03,
     },
     headingText: {
         fontSize: width * 0.08,
@@ -26,17 +26,29 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     formContainer: {
-        marginTop: height * 0.04,
+        marginTop: height * 0.02,
+    },
+    containerplaceholder: {
+        flex: 1,
+    },
+    placeholder: {
+        position: 'absolute',
+        fontSize: 13,
+        marginTop: 15,
+        marginLeft: 10,
+        fontWeight: 'bold',
+        color: '#2c3e50',
+        backgroundColor: colors.white,
     },
     inputContainer: {
         borderWidth: 1,
-        borderColor: colors.secondary,
+        borderColor: 'lightgray',
         borderRadius: width * 0.1,
         paddingHorizontal: width * 0.05,
         flexDirection: 'row',
         alignItems: 'center',
         padding: 5,
-        marginVertical: height * 0.015,
+        marginVertical: height * 0.03,
     },
     textInput: {
         flex: 1,
@@ -45,12 +57,12 @@ const styles = StyleSheet.create({
     },
     forgotPasswordText: {
         textAlign: 'right',
-        color: colors.secondary,
+        color: 'gray',
         fontWeight: '500',
         marginVertical: height * 0.01,
     },
     loginButtonWrapper: {
-        backgroundColor: colors.secondary,
+        backgroundColor: colors.accent.light,
         borderRadius: width * 0.1,
         marginTop: height * 0.03,
         paddingVertical: height * 0.015,
@@ -67,25 +79,6 @@ const styles = StyleSheet.create({
         fontSize: width * 0.035,
         color: colors.subtext,
     },
-    googleButtonContainer: {
-        flexDirection: 'row',
-        borderWidth: 2,
-        borderColor: colors.secondary,
-        borderRadius: width * 0.1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: height * 0.015,
-        gap: width * 0.02,
-    },
-    googleImage: {
-        height: width * 0.05,
-        width: width * 0.05,
-    },
-    googleText: {
-        fontSize: width * 0.045,
-        fontWeight: '500',
-        color: colors.text,
-    },
     footerContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -98,7 +91,7 @@ const styles = StyleSheet.create({
         fontSize: width * 0.035,
     },
     signupText: {
-        color: colors.secondary,
+        color: colors.accent.dark,
         fontSize: width * 0.035,
         fontWeight: '700',
     },
@@ -106,6 +99,7 @@ const styles = StyleSheet.create({
         color: 'red',
         fontWeight: 'bold',
         fontSize: 13,
+        left: 15,
     },
 });
 

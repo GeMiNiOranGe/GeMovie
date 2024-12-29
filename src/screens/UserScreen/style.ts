@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     buttonLogout: {
         flexDirection: 'row',
         width: height * 0.2,
-        height: height * 0.05,
+        height: height * 0.07,
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',

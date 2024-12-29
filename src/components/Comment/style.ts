@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     commentText: {
         fontSize: 14,
         marginLeft: 40,
+        color: 'black',
     },
     commentTimestamp: {
         color: 'gray',

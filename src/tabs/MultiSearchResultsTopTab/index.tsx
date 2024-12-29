@@ -51,6 +51,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiMediaElement
     if (isMovieElement(item)) {
       return (
         <MovieDetailCard
+          showWatchList
           item={item}
           index={index}
           listLength={this.state.results?.length}
@@ -66,6 +67,7 @@ class MultiSearchResultsTopTab extends SearchResultsTopTabBase<MultiMediaElement
     if (isTvShowElement(item)) {
       return (
         <TvShowDetailCard
+          showWatchList
           item={item}
           index={index}
           listLength={this.state.results?.length}
