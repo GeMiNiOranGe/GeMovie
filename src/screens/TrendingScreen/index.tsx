@@ -125,7 +125,9 @@ class TrendingScreen extends React.Component<
     return <Text style={styles.textCategory}>No matching element</Text>;
   };
 
-  private handleCategory = (category: 'all' | 'movie' | 'tv' | 'person') => {
+  private handleCategory = (
+    category: 'all' | 'movie' | 'tv' | 'person',
+  ): void => {
     this.setState({ selectedCategory: category });
   };
 

@@ -24,7 +24,7 @@ class AllTV extends React.Component<
     };
   }
 
-  public override componentDidMount() {
+  public override componentDidMount(): void {
     try {
       const getTv = VideoService.getPopularListAsync('tv', toTvShowElement);
       getTv.then(tv => {
@@ -55,7 +55,7 @@ class AllTV extends React.Component<
     );
   }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     if (this.state.isLoading) {
       return <FullScreenLoader />;
     }

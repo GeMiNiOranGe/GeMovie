@@ -23,7 +23,7 @@ class AllMovies extends React.Component<
     };
   }
 
-  public override componentDidMount() {
+  public override componentDidMount(): void {
     try {
       const getMovies = VideoService.getPopularListAsync(
         'movie',
@@ -57,7 +57,7 @@ class AllMovies extends React.Component<
     );
   }
 
-  public override render() {
+  public override render(): React.JSX.Element {
     if (this.state.isLoading) {
       return <FullScreenLoader />;
     }
