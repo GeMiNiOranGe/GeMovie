@@ -29,7 +29,7 @@ class FavoriteList extends Component<FavoriteListProps, FavoriteListState> {
     };
   }
 
-  public override async componentDidMount() {
+  public override async componentDidMount(): Promise<void> {
     const { username } = this.context || {};
     const { id, type } = this.props;
 
@@ -38,7 +38,7 @@ class FavoriteList extends Component<FavoriteListProps, FavoriteListState> {
     }
   }
 
-  private handleFavoriteItems = async () => {
+  private handleFavoriteItems = async (): Promise<void> => {
     const { login, username } = this.context || {};
     const { id, type } = this.props;
 
@@ -86,7 +86,7 @@ class FavoriteList extends Component<FavoriteListProps, FavoriteListState> {
     username: string | null,
     id: number,
     type: string,
-  ) => {
+  ): Promise<void> => {
     if (!username) {
       return;
     }
@@ -114,17 +114,17 @@ class FavoriteList extends Component<FavoriteListProps, FavoriteListState> {
     }
   };
 
-  private handleCloseModal = () => {
+  private handleCloseModal = (): void => {
     this.setState({ showModal: false });
   };
 
-  private navigateToLoginScreen = () => {
+  private navigateToLoginScreen = (): void => {
     const { navigation } = this.props;
     this.handleCloseModal();
     navigation.navigate('UserStack', { screen: 'LoginScreen' });
   };
 
-  public override render() {
+  public override render(): JSX.Element {
     const { isFavorite } = this.state;
     return (
       <>

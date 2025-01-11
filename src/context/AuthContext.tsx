@@ -9,12 +9,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string | null>(null);
 
-  const login = (userName: string) => {
+  const login = (userName: string): void => {
     setIsLoggedIn(true);
     setUsername(userName);
   };
 
-  const logout = () => {
+  const logout = (): void => {
     setIsLoggedIn(false);
     setUsername(null);
   };

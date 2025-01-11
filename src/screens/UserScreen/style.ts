@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 5,
+        marginBottom: 40,
     },
     textProfile: {
         fontSize: 20,

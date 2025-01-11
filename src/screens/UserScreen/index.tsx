@@ -10,20 +10,27 @@ import React, { Component } from 'react';
 
 import {
   AuthContextProps,
+  LabelProps,
   MovieElement,
   PersonElement,
   RootScreenProps,
   TvShowElement,
   UserScreenState,
 } from '@shared/types';
-import { LogoutCurve, ProfileCircle } from 'iconsax-react-native';
-import { colors } from '@shared/themes';
+import {
+  Bookmark,
+  Heart,
+  LogoutCurve,
+  ProfileCircle,
+} from 'iconsax-react-native';
+import { colors, layout } from '@shared/themes';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from 'src/context/AuthContext';
 import {
   CompactMovieCard,
   CompactPersonCard,
   CompactTvShowCard,
+  Labels,
   Section,
 } from '@components';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
@@ -52,7 +59,7 @@ class UserScreen extends Component<
     };
   }
 
-  public override async componentDidMount() {
+  public override async componentDidMount(): Promise<void> {
     const { isLoggedIn } = this.context || {};
     if (isLoggedIn) {
       await this.setState({ login: true });
@@ -70,7 +77,7 @@ class UserScreen extends Component<
     }
   }
 
-  private handleUpdateFavorites = async () => {
+  private handleUpdateFavorites = async (): Promise<void> => {
     const { username } = this.context || {};
     if (username) {
       this.fetchFavoriteTvShows();
@@ -79,7 +86,7 @@ class UserScreen extends Component<
     }
   };
 
-  private handleUpdateWatchlist = async () => {
+  private handleUpdateWatchlist = async (): Promise<void> => {
     const { username } = this.context || {};
     if (username) {
       await this.fetchWatchListMovies();
@@ -87,7 +94,7 @@ class UserScreen extends Component<
     }
   };
 
-  private fetchWatchListMovies = async () => {
+  private fetchWatchListMovies = async (): Promise<void> => {
     this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
 
@@ -123,7 +130,7 @@ class UserScreen extends Component<
     }
   };
 
-  private fetchWatchListTv = async () => {
+  private fetchWatchListTv = async (): Promise<void> => {
     this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
 
@@ -159,7 +166,7 @@ class UserScreen extends Component<
     }
   };
 
-  private fetchFavoriteTvShows = async () => {
+  private fetchFavoriteTvShows = async (): Promise<void> => {
     this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
 
@@ -195,7 +202,7 @@ class UserScreen extends Component<
     }
   };
 
-  private fetchFavoriteMovie = async () => {
+  private fetchFavoriteMovie = async (): Promise<void> => {
     this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
 
@@ -231,7 +238,7 @@ class UserScreen extends Component<
     }
   };
 
-  private fetchFavoritePerson = async () => {
+  private fetchFavoritePerson = async (): Promise<void> => {
     this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
 
@@ -267,11 +274,11 @@ class UserScreen extends Component<
     }
   };
 
-  private handleGoBack = () => {
+  private handleGoBack = (): void => {
     this.props.navigation.navigate('HomeStack', { screen: 'HomeScreen' });
   };
 
-  private handleLogout = () => {
+  private handleLogout = (): void => {
     const { logout } = this.context || {};
     if (logout) {
       logout();
@@ -379,7 +386,37 @@ class UserScreen extends Component<
     );
   };
 
-  public override render() {
+  private getLabels(): LabelProps[] {
+    return [
+      {
+        icon: <Heart size={15} color={colors.accent.dark.toString()} />,
+        name: 'Favorite Movies',
+        value: this.state.favoriteMovies.length.toString(),
+      },
+      {
+        icon: <Heart size={15} color={colors.accent.dark.toString()} />,
+        name: 'Favorite TV',
+        value: this.state.favoriteTvShows.length.toString(),
+      },
+      {
+        icon: <Heart size={15} color={colors.accent.dark.toString()} />,
+        name: 'Favorite People',
+        value: this.state.favoritePerson.length.toString(),
+      },
+      {
+        icon: <Bookmark size={15} color={colors.accent.dark.toString()} />,
+        name: 'Watchlist Movies',
+        value: this.state.watchListMovies.length.toString(),
+      },
+      {
+        icon: <Bookmark size={15} color={colors.accent.dark.toString()} />,
+        name: 'Watchlist TV',
+        value: this.state.watchListTvShows.length.toString(),
+      },
+    ];
+  }
+
+  public override render(): React.JSX.Element {
     const {
       isLoading,
       favoriteTvShows,
@@ -409,6 +446,9 @@ class UserScreen extends Component<
             ) : (
               <Text style={styles.textProfile}>{username}</Text>
             )}
+          </View>
+          <View style={[layout.itemsCenter]}>
+            <Labels data={this.getLabels()} />
           </View>
         </View>
         <Section.Separator />
