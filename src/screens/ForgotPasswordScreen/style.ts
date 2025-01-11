@@ -5,8 +5,7 @@ const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.background,
-        padding: width * 0.05,
+        backgroundColor: 'white',
     },
     backButtonWrapper: {
         height: height * 0.05,
@@ -15,38 +14,31 @@ const styles = StyleSheet.create({
         borderRadius: height * 0.025,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 10,
+        marginLeft: 10,
     },
     formContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    boxContainer: {
-        height: height * 0.45,
-        width: width * 0.8,
-        backgroundColor: 'white',
-        borderRadius: 10,
-    },
+
     forgotText: {
         fontSize: 20,
         fontWeight: 'bold',
         color: 'black',
         textAlign: 'center',
-        marginTop: 30,
     },
     inputContainer: {
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: 'lightgray',
-        borderRadius: 20,
-        width: width * 0.7,
-        height: height * 0.08,
+        borderRadius: width * 0.1,
+        paddingHorizontal: width * 0.05,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 15,
-        marginHorizontal: width * 0.06,
-        marginTop: 40,
-        marginBottom: 30,
-        backgroundColor: 'white',
+        padding: 5,
+        marginVertical: height * 0.04,
+        width: width * 0.9,
     },
     loginButtonWrapper: {
         backgroundColor: colors.accent.light,
@@ -71,7 +63,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 1,
-        paddingHorizontal: width * 0.03,
+        paddingHorizontal: width * 0.04,
         color: colors.text,
     },
 });

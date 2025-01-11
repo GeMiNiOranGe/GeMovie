@@ -34,7 +34,7 @@ class ForgotPassword extends React.Component<
     };
   }
 
-  private focusTextInput = () => {
+  private focusTextInput = (): void => {
     Animated.timing(this.state.animatedEmail, {
       toValue: -13,
       duration: 200,
@@ -42,7 +42,7 @@ class ForgotPassword extends React.Component<
     }).start();
   };
 
-  private blurTextInput = () => {
+  private blurTextInput = (): void => {
     if (!this.state.email.trim()) {
       Animated.timing(this.state.animatedEmail, {
         toValue: 0,
@@ -52,11 +52,11 @@ class ForgotPassword extends React.Component<
     }
   };
 
-  private handleGoBack = () => {
+  private handleGoBack = (): void => {
     this.props.navigation.goBack();
   };
 
-  private handleReset = async () => {
+  private handleReset = async (): Promise<void> => {
     const { email } = this.state;
 
     if (!email.trim()) {
@@ -86,7 +86,7 @@ class ForgotPassword extends React.Component<
     }
   };
 
-  public override render() {
+  public override render(): JSX.Element {
     const { email, animatedEmail, emailFocus } = this.state;
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -110,71 +110,69 @@ class ForgotPassword extends React.Component<
             </TouchableOpacity>
 
             <View style={styles.formContainer}>
-              <View style={styles.boxContainer}>
-                <Text style={styles.forgotText}>Forgot Password</Text>
-                <View style={styles.inputContainer}>
-                  <Ionicons
-                    name='mail-outline'
-                    size={30}
-                    color={colors.accent.dark}
-                  />
-                  {email || emailFocus ? (
-                    <Animated.Text
-                      style={{
-                        position: 'absolute',
-                        left: 55,
-                        top: animatedEmail,
-                        fontSize: 14,
-                        color: '#2c3e50',
-                        fontWeight: 'bold',
-                        backgroundColor: 'white',
-                      }}
-                    >
-                      Email
-                    </Animated.Text>
-                  ) : null}
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder={email || emailFocus ? '' : 'example@gmail.com'}
-                    keyboardType='email-address'
-                    autoCapitalize='none'
-                    onFocus={() => {
-                      this.setState({ emailFocus: true });
-                      this.focusTextInput();
+              <Text style={styles.forgotText}>Forgot Password</Text>
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name='mail-outline'
+                  size={30}
+                  color={colors.accent.dark}
+                />
+                {email || emailFocus ? (
+                  <Animated.Text
+                    style={{
+                      position: 'absolute',
+                      left: 55,
+                      top: animatedEmail,
+                      fontSize: 14,
+                      color: '#2c3e50',
+                      fontWeight: 'bold',
+                      backgroundColor: 'white',
                     }}
-                    onBlur={() => {
-                      this.setState({ emailFocus: false });
-                      this.blurTextInput();
-                    }}
-                    onChangeText={text =>
-                      this.setState({
-                        email: text,
-                        emailEmptyError: false,
-                        emailNotFoundError: false,
-                      })
-                    }
-                  />
-                </View>
-                {this.state.emailEmptyError && (
-                  <Text style={styles.errorText}>Please input your Email</Text>
-                )}
-                {this.state.emailNotFoundError && (
-                  <Text style={styles.errorText}>
-                    Email not found. Please try again.
-                  </Text>
-                )}
-                {this.state.successMessage && (
-                  <Text style={styles.forgotText}>
-                    {this.state.successMessage}
-                  </Text>
-                )}
-                <TouchableOpacity
-                  style={styles.loginButtonWrapper}
-                  onPress={this.handleReset}
-                >
-                  <Text style={styles.loginText}>Confirm</Text>
-                </TouchableOpacity>
+                  >
+                    Email
+                  </Animated.Text>
+                ) : null}
+                <TextInput
+                  style={styles.textInput}
+                  placeholder={email || emailFocus ? '' : 'example@gmail.com'}
+                  keyboardType='email-address'
+                  autoCapitalize='none'
+                  onFocus={() => {
+                    this.setState({ emailFocus: true });
+                    this.focusTextInput();
+                  }}
+                  onBlur={() => {
+                    this.setState({ emailFocus: false });
+                    this.blurTextInput();
+                  }}
+                  onChangeText={text =>
+                    this.setState({
+                      email: text,
+                      emailEmptyError: false,
+                      emailNotFoundError: false,
+                    })
+                  }
+                />
               </View>
+              {this.state.emailEmptyError && (
+                <Text style={styles.errorText}>Please input your Email</Text>
+              )}
+              {this.state.emailNotFoundError && (
+                <Text style={styles.errorText}>
+                  Email not found. Please try again.
+                </Text>
+              )}
+              {this.state.successMessage && (
+                <Text style={styles.forgotText}>
+                  {this.state.successMessage}
+                </Text>
+              )}
+              <TouchableOpacity
+                style={styles.loginButtonWrapper}
+                onPress={this.handleReset}
+              >
+                <Text style={styles.loginText}>Confirm</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

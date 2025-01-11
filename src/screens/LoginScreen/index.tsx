@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React from 'react';
 import {
   View,
@@ -94,7 +95,7 @@ class LoginScreen extends React.Component<
     }));
   };
 
-  private handleNavigation = (screen: string) => {
+  private handleNavigation = (screen: string): void => {
     this.props.navigation.navigate(screen);
   };
 
@@ -123,6 +124,7 @@ class LoginScreen extends React.Component<
     this.setState({ isLoading: true });
 
     try {
+      // Tìm tài khoản có username phù hợp
       const loginCollection = collection(db, 'Account');
       const usernameQuery = query(
         loginCollection,
@@ -141,16 +143,35 @@ class LoginScreen extends React.Component<
         });
         return;
       }
+
+      // Lấy thông tin user
       const userDoc = usernameSnapshot.docs[0];
       const userData = userDoc.data();
+
+      // Kiểm tra email có tồn tại hay không
+      if (!userData.email) {
+        this.setState({
+          errors: { ...this.state.errors, username: true },
+          errorMessages: {
+            ...this.state.errorMessages,
+            username: 'Invalid username',
+          },
+          isLoading: false,
+        });
+        return;
+      }
+
+      // Đăng nhập bằng Firebase Authentication
       await signInWithEmailAndPassword(auth, userData.email, password);
 
+      // Cập nhật trạng thái khi đăng nhập thành công
       if (login) {
         login(username);
       }
 
       this.handleNavigation('HomeStack');
     } catch (error) {
+      console.error('Login error:', error);
       this.setState({
         errors: { ...this.state.errors, password: true },
         errorMessages: {
@@ -162,7 +183,7 @@ class LoginScreen extends React.Component<
     }
   };
 
-  public override render() {
+  public override render(): JSX.Element {
     const {
       username,
       password,
