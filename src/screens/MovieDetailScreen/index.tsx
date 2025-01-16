@@ -552,7 +552,7 @@ class MovieDetailScreen extends React.Component<
 
             <Section.Separator />
             <Section title='Comments'>
-              <Comment id={this.state.movie.id} />
+              <Comment id={this.state.movie.id} type='movie' />
             </Section>
 
             <Modal

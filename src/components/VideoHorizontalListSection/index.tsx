@@ -1,13 +1,19 @@
 import React from 'react';
-import { View, Text, type ListRenderItemInfo } from 'react-native';
+import { View, Text, type ListRenderItemInfo, StyleSheet } from 'react-native';
 
 import type {
   MovieElement,
   TvShowElement,
   VideoHorizontalListSectionProps,
 } from '@shared/types';
-import { CompactMovieCard, CompactTvShowCard, Section } from '@components';
+import {
+  CompactMovieCard,
+  CompactTvShowCard,
+  Section,
+  WatchList,
+} from '@components';
 import { getFormattedDate } from '@shared/utils';
+import { layout } from '@shared/themes';
 import styles from './style';
 
 class VideoHorizontalListSection extends React.PureComponent<VideoHorizontalListSectionProps> {
@@ -37,6 +43,18 @@ class VideoHorizontalListSection extends React.PureComponent<VideoHorizontalList
           <Text style={styles.onAirText}>
             {getFormattedDate(upcomingDate).slice(4)}
           </Text>
+        )}
+
+        {this.props.WatchList && (
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              layout.itemsStart,
+              styles.watchlist,
+            ]}
+          >
+            <WatchList id={item.id} type={this.props.type} />
+          </View>
         )}
 
         <ItemCard

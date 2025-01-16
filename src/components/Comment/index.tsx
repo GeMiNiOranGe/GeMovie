@@ -24,7 +24,7 @@ class Comment extends Component<CommentProps, CommentState> {
     };
   }
 
-  public override async componentDidMount() {
+  public override async componentDidMount(): Promise<void> {
     const { id } = this.props;
     if (id) {
       try {
@@ -46,9 +46,10 @@ class Comment extends Component<CommentProps, CommentState> {
 
   private saveComment = async (
     id: number,
+    type: string,
     comment: string,
     username: string,
-  ) => {
+  ): Promise<void> => {
     try {
       const commentsDocRef = doc(db, 'users', 'comments');
       const commentsDoc = await getDoc(commentsDocRef);
@@ -59,6 +60,7 @@ class Comment extends Component<CommentProps, CommentState> {
       commentsData[id].push({
         comment,
         username,
+        type,
         timestamp: new Date().toISOString(),
       });
       await setDoc(commentsDocRef, commentsData, { merge: true });
@@ -67,12 +69,12 @@ class Comment extends Component<CommentProps, CommentState> {
     }
   };
 
-  private handlePostComment = async () => {
-    const { id } = this.props;
+  private handlePostComment = async (): Promise<void> => {
+    const { id, type } = this.props;
     const { username } = this.context || {};
     if (id !== undefined && username) {
       this.setState({ isCommenting: true });
-      await this.saveComment(id, this.state.comment, username);
+      await this.saveComment(id, type, this.state.comment, username);
       this.setState(
         prevState => ({
           comments: [
@@ -80,6 +82,7 @@ class Comment extends Component<CommentProps, CommentState> {
             {
               comment: prevState.comment,
               username,
+              type,
               timestamp: new Date().toISOString(),
             },
           ],
@@ -96,7 +99,7 @@ class Comment extends Component<CommentProps, CommentState> {
     }
   };
 
-  private formatTimestamp = (timestamp: string) => {
+  private formatTimestamp = (timestamp: string): string => {
     const commentDate = new Date(timestamp);
     const now = new Date();
     const timeDifference = now.getTime() - commentDate.getTime();
@@ -116,11 +119,11 @@ class Comment extends Component<CommentProps, CommentState> {
     }
   };
 
-  private handleChangeText = (text: string) => {
+  private handleChangeText = (text: string): void => {
     this.setState({ comment: text });
   };
 
-  public override render() {
+  public override render(): JSX.Element {
     const { id } = this.props;
     const { username } = this.context || {};
     const isCommentValid =

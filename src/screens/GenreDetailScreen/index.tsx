@@ -92,6 +92,7 @@ class GenreDetailScreen extends React.PureComponent<
           </View>
 
           <VideoHorizontalListSection
+            WatchList
             data={this.state.popularMovies}
             type='movie'
             title='Popular movies'
@@ -99,6 +100,7 @@ class GenreDetailScreen extends React.PureComponent<
           />
 
           <VideoHorizontalListSection
+            WatchList
             data={this.state.topRatedMovies}
             type='movie'
             title='Top rated movies'
@@ -114,6 +116,7 @@ class GenreDetailScreen extends React.PureComponent<
           />
 
           <VideoHorizontalListSection
+            WatchList
             data={this.state.popularTvShows}
             type='tv'
             title='Popular TV series'
@@ -121,6 +124,7 @@ class GenreDetailScreen extends React.PureComponent<
           />
 
           <VideoHorizontalListSection
+            WatchList
             data={this.state.topRatedTvShows}
             type='tv'
             title='Top rated TV series'
@@ -128,6 +132,7 @@ class GenreDetailScreen extends React.PureComponent<
           />
 
           <VideoHorizontalListSection
+            WatchList
             data={this.state.onTheAirTvShow}
             type='tv'
             title='Upcoming TV series'

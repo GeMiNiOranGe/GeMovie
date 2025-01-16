@@ -85,7 +85,10 @@ abstract class CompactVideoCardBase<
               styles.watchlist,
             ]}
           >
-            <WatchList id={this.props.item.id} type={this.mediaType} />
+            <WatchList
+              id={this.props.item.id}
+              type={this.mediaType === 'Movie' ? 'movie' : 'tv'}
+            />
           </View>
         )}
       </Card>
@@ -120,7 +123,10 @@ abstract class CompactVideoCardBase<
                 styles.watchlist,
               ]}
             >
-              <WatchList id={this.props.item.id} type={this.mediaType} />
+              <WatchList
+                id={this.props.item.id}
+                type={this.mediaType === 'Movie' ? 'movie' : 'tv'}
+              />
             </View>
           )}
 

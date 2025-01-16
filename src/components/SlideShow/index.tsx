@@ -50,7 +50,7 @@ class Slideshow extends PureComponent<SlideshowProps, SlideshowState> {
         }
       >
         <View style={styles.watchlistContainer}>
-          <WatchList id={this.props.movieIds[index]} type='Movie' />
+          <WatchList id={this.props.movieIds[index]} type='movie' />
         </View>
         <Image source={{ uri: props.images[index] }} style={styles.image} />
         <View style={styles.contentContainer}>

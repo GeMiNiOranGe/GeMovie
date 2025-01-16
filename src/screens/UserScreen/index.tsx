@@ -54,6 +54,7 @@ class UserScreen extends Component<
       favoritePerson: [],
       watchListMovies: [],
       watchListTvShows: [],
+      reviews: [],
       username: '',
       login: false,
     };
@@ -68,12 +69,16 @@ class UserScreen extends Component<
       this.fetchFavoritePerson();
       this.fetchWatchListMovies();
       this.fetchWatchListTv();
+      this.fetchComment();
 
       const userRef = doc(db, 'users', 'favorites');
       onSnapshot(userRef, this.handleUpdateFavorites);
 
       const watchlistRef = doc(db, 'users', 'watchlist');
       onSnapshot(watchlistRef, this.handleUpdateWatchlist);
+
+      const commentRef = doc(db, 'users', 'comments');
+      onSnapshot(commentRef, this.handleUpdateComment);
     }
   }
 
@@ -94,6 +99,13 @@ class UserScreen extends Component<
     }
   };
 
+  private handleUpdateComment = async (): Promise<void> => {
+    const { username } = this.context || {};
+    if (username) {
+      await this.fetchComment();
+    }
+  };
+
   private fetchWatchListMovies = async (): Promise<void> => {
     this.setState({ isLoading: true });
     const { isLoggedIn, username } = this.context || {};
@@ -111,7 +123,7 @@ class UserScreen extends Component<
         : {};
 
       const watchlistIds = watchlistData[username]?.filter(
-        (watchlist: { type: string }) => watchlist.type === 'Movie',
+        (watchlist: { type: string }) => watchlist.type === 'movie',
       );
 
       if (watchlistIds) {
@@ -147,7 +159,7 @@ class UserScreen extends Component<
         : {};
 
       const watchlistIds = watchlistData[username]?.filter(
-        (watchlist: { type: string }) => watchlist.type === 'Tv series',
+        (watchlist: { type: string }) => watchlist.type === 'tv',
       );
 
       if (watchlistIds) {
@@ -274,6 +286,60 @@ class UserScreen extends Component<
     }
   };
 
+  private fetchComment = async (): Promise<void> => {
+    this.setState({ isLoading: true });
+    const { username } = this.context || {};
+    if (!username) {
+      this.setState({ isLoading: false });
+      return;
+    }
+
+    try {
+      const commentsDocRef = doc(db, 'users', 'comments');
+      const commentsDoc = await getDoc(commentsDocRef);
+      const commentsData = commentsDoc.exists() ? commentsDoc.data() : {};
+
+      const commentDetails: any[] = [];
+
+      for (const [movieId, commentsArray] of Object.entries(commentsData)) {
+        if (Array.isArray(commentsArray)) {
+          const hasUserComment = commentsArray.some(
+            (comment: { username: string; type: string }) =>
+              comment.username === username &&
+              (comment.type === 'movie' || comment.type === 'tv'),
+          );
+
+          if (hasUserComment) {
+            const firstComment = commentsArray.find(
+              (comment: { username: string; type: string }) =>
+                comment.username === username,
+            );
+
+            if (firstComment?.type === 'movie') {
+              const movieDetail = await MovieService.getDetailAsync(
+                Number(movieId),
+              );
+              commentDetails.push(movieDetail);
+            } else if (firstComment?.type === 'tv') {
+              const tvShowDetail = await TvShowService.getDetailAsync(
+                Number(movieId),
+              );
+              commentDetails.push(tvShowDetail);
+            }
+          }
+        }
+      }
+
+      this.setState({
+        reviews: commentDetails.filter(Boolean),
+        isLoading: false,
+      });
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      this.setState({ isLoading: false });
+    }
+  };
+
   private handleGoBack = (): void => {
     this.props.navigation.navigate('HomeStack', { screen: 'HomeScreen' });
   };
@@ -384,6 +450,56 @@ class UserScreen extends Component<
         }
       />
     );
+  };
+
+  private renderCommentMovieItem = ({
+    item,
+    index,
+  }: ListRenderItemInfo<MovieElement>): React.JSX.Element => {
+    if (item.releaseDate) {
+      return (
+        <View style={styles.cardSpacing}>
+          <CompactMovieCard
+            showWatchList
+            showMediaType
+            item={item}
+            index={index}
+            listLength={this.state.reviews.length}
+            onPress={() =>
+              this.props.navigation.navigate('MovieDetailScreen', {
+                movieId: item.id,
+              })
+            }
+          />
+        </View>
+      );
+    }
+    return <View />;
+  };
+
+  private renderCommentTVItem = ({
+    item,
+    index,
+  }: ListRenderItemInfo<TvShowElement>): React.JSX.Element => {
+    if (item.firstAirDate) {
+      return (
+        <View style={styles.cardSpacing}>
+          <CompactTvShowCard
+            showWatchList
+            showMediaType
+            item={item}
+            index={index}
+            listLength={this.state.reviews.length}
+            onPress={() =>
+              this.props.navigation.navigate('TvShowDetailScreen', {
+                tvShowId: item.id,
+              })
+            }
+          />
+        </View>
+      );
+    }
+    return <View />;
   };
 
   private getLabels(): LabelProps[] {
@@ -560,6 +676,52 @@ class UserScreen extends Component<
               <Text style={styles.errorText}>
                 No favorite Celebrities found
               </Text>
+            )}
+          </Section>
+
+          <Section.Separator />
+          <Section
+            title='Review Movie'
+            moreButtonText='See all'
+            onMoreButtonPress={() => {
+              this.props.navigation.navigate('');
+            }}
+          >
+            {isLoading ? (
+              <ActivityIndicator size='large' color={colors.secondary} />
+            ) : this.state.reviews.length > 0 ? (
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={this.state.reviews.filter(
+                  (review): review is MovieElement => 'releaseDate' in review,
+                )}
+                renderItem={this.renderCommentMovieItem}
+              />
+            ) : (
+              <Text style={styles.errorText}>No Reviews found</Text>
+            )}
+          </Section>
+          <Section.Separator />
+
+          <Section
+            title='Review TV'
+            moreButtonText='See all'
+            onMoreButtonPress={() => {
+              this.props.navigation.navigate('');
+            }}
+          >
+            {isLoading ? (
+              <ActivityIndicator size='large' color={colors.secondary} />
+            ) : this.state.reviews.length > 0 ? (
+              <Section.HorizontalList
+                keyExtractor={item => item.id.toString()}
+                data={this.state.reviews.filter(
+                  (review): review is TvShowElement => 'firstAirDate' in review,
+                )}
+                renderItem={this.renderCommentTVItem}
+              />
+            ) : (
+              <Text style={styles.errorText}>No Reviews found</Text>
             )}
           </Section>
 

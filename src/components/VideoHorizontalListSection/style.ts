@@ -10,6 +10,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: spacing.small,
     },
+    watchlist: {
+        marginTop: 3,
+    },
 });
 
 export default styles;

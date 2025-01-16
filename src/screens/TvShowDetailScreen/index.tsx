@@ -567,7 +567,7 @@ class TvShowDetailScreen extends React.Component<
             </Section>
             <Section.Separator />
             <Section title='Comments'>
-              <Comment id={this.state.tvShow?.id} />
+              <Comment id={this.state.tvShow?.id} type='tv' />
             </Section>
           </Animated.View>
 

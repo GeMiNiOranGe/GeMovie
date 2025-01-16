@@ -1,3 +1,4 @@
+import { spacing } from '@shared/constants';
 import { colors } from '@shared/themes';
 import { Dimensions, StyleSheet } from 'react-native';
 
@@ -68,6 +69,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 5,
         color: 'red',
+    },
+    cardSpacing: {
+        marginHorizontal: spacing.small,
+        marginVertical: spacing.medium,
     },
 });
 export default styles;

@@ -100,6 +100,7 @@ export type VideoHorizontalListSectionProps = {
     type: VideoType;
     title: string;
     isUpcoming?: boolean;
+    WatchList?: boolean | undefined;
 };
 
 // TODO: remove `E extends CardElement`
@@ -322,9 +323,10 @@ export type FavoriteListProps = {
 export type WatchListProps = {
     navigation?: any;
     id: number;
-    type: string;
+    type: 'movie' | 'tv';
 };
 
 export type CommentProps = {
     id?: number;
+    type: 'movie' | 'tv';
 };

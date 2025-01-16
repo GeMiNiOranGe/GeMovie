@@ -226,6 +226,7 @@ export type UserScreenState = {
     favoritePerson: PersonElement[];
     watchListMovies: MovieElement[];
     watchListTvShows: TvShowElement[];
+    reviews: MovieElement[] | TvShowElement[];
     username: string;
     login: boolean;
 };

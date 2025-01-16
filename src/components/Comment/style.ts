@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
         marginLeft: 40,
     },
     commentContainer: {
-        height: 28,
         marginVertical: 5,
         marginRight: 20,
+        flexWrap: 'wrap',
     },
     commentUsername: {
         fontWeight: 'bold',
@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginLeft: 40,
         color: 'black',
+        flexWrap: 'wrap',
+        width: '100%',
+        flexShrink: 1,
+        maxWidth: '60%',
     },
     commentTimestamp: {
         color: 'gray',
