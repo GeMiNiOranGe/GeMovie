@@ -49,9 +49,9 @@ flowchart LR
     BackButton(User presses<br/>back button)
     EnterAccount(User enters<br/>account information)
     RegisterButton(User presses<br/>the register button)
-    Validate{System<br/>validates<br/>account}
-    ValidCase(System displays<br/>the home screen)
-    InvalidCase(System displays<br/>an error message)
+    CreationState{System<br/>creates<br/>account}
+    SuccessCase(System displays<br/>the home screen)
+    FailCase(System displays<br/>an error message)
 
     Start --> LoginScreenButton
     LoginScreenButton --> LoginScreen
@@ -62,11 +62,11 @@ flowchart LR
         BackButton --> EndFork
     Fork --> EnterAccount
         EnterAccount --> RegisterButton
-        RegisterButton --> Validate
-        Validate -->|Valid| ValidCase
-            ValidCase --> EndFork
-        Validate -->|Invalid| InvalidCase
-            InvalidCase --> RegisterScreen
+        RegisterButton --> CreationState
+        CreationState -->|Success| SuccessCase
+            SuccessCase --> EndFork
+        CreationState -->|Fail| FailCase
+            FailCase --> RegisterScreen
     EndFork --> End
 ```
 
@@ -83,8 +83,8 @@ flowchart LR
     EditAccountButton(User presses<br/>the edit account button)
     EditAccount(User edit account)
     SaveButton(User presses<br/>the save button)
-    Validate{System<br/>validates<br/>account}
-    InvalidCase(System displays<br/>an error message)
+    UpdateState{System<br/>updates<br/>account}
+    FailCase(System displays<br/>an error message)
 
     Start --> ManageAccountScreenButton
     ManageAccountScreenButton --> ManageAccountScreen
@@ -94,10 +94,10 @@ flowchart LR
     Fork --> EditAccountButton
         EditAccountButton --> EditAccount
         EditAccount --> SaveButton
-        SaveButton --> Validate
-        Validate -->|Valid| EndFork
-        Validate -->|Invalid| InvalidCase
-            InvalidCase --> ManageAccountScreen
+        SaveButton --> UpdateState
+        UpdateState -->|Success| EndFork
+        UpdateState -->|Fail| FailCase
+            FailCase --> ManageAccountScreen
     EndFork --> End
 ```
 
